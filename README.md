@@ -1,5 +1,7 @@
 # How to use MicroPython and ESP32/ESP8266
 
+## Installation
+
 There are several very good tutorials how to instanll and use MicroPython on an ESP microcontroller, such as [this one for Windows](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html). The following text was tested under Linux-based operation system.
 
 1. Install [Python](https://www.python.org/downloads/).
@@ -10,19 +12,20 @@ There are several very good tutorials how to instanll and use MicroPython on an 
     pip install esptool
     ```
 
-    Connect your ESP board and test the `esptool`:
+    Connect your ESP board and test the [`esptool`](https://docs.espressif.com/projects/esptool/en/latest/esp32/esptool/basic-commands.html#):
 
     ```shell
     # Get the version
     esptool.py version
 
-    # Read flash chip manufacturer name, port, and other usefull info
+    # Read chip info, serial port, MAC address, and others
     esptool.py flash_id
 
+    # Read all eFuses from the chip
     espefuse.py --port /dev/ttyUSB0 summary
     ```
 
-## ESP32
+### ESP32 microcontrollers
 
 1. [Download MicroPython](http://micropython.org/download/) for target device. For Espressif ESP32, the latest version is [esp32-20230426-v1.20.0.bin](https://micropython.org/resources/firmware/esp32-20230426-v1.20.0.bin).
 
@@ -59,7 +62,7 @@ There are several very good tutorials how to instanll and use MicroPython on an 
     >>> led.off()
     ```
 
-## ESP8266
+### ESP8266 microcontrollers
 
 1. [Download the firmware](https://micropython.org/download/esp8266/)
 
@@ -75,7 +78,7 @@ There are several very good tutorials how to instanll and use MicroPython on an 
     esptool.py -chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
     ```
 
-## ESP32-CAM
+### ESP32-CAM
 
 - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
 - [ ] Rts/Dtr handshake signals must be disabled?!
@@ -87,6 +90,31 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 
 - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
 
+## PyCharm IDE
+
+There are several IDEs (Integrated Development Environments) available for MicroPython programming, each with its own unique features and benefits. The most popular IDEs for MicroPython programming are:
+
+    * [Thonny](https://thonny.org/) is a popular IDE for MicroPython programming beginners. It has a simple and user-friendly interface and includes a MicroPython REPL (Read-Eval-Print Loop) that allows you to interact with the MicroPython interpreter and test your code in real-time. Thonny is free and open-source, and it runs on Windows, macOS, and Linux.
+
+    * [Mu](https://codewith.mu/) is another popular IDE for MicroPython programming that is designed for beginners. It has a built-in MicroPython REPL and includes a tool for flashing firmware onto your board. Mu is free and open-source, and it runs on Windows, macOS, and Linux.
+
+    * [PyCharm](https://www.jetbrains.com/pycharm/) is a powerful IDE that provides advanced features such as code completion, debugging, and version control integration. PyCharm also includes a MicroPython debugger that allows you to step through your code and set breakpoints. PyCharm is a commercial product, but has a Community Edition free version. It runs on Windows, macOS, and Linux.
+
+    * [Visual Studio Code](https://code.visualstudio.com/) is a popular and versatile IDE that supports multiple programming languages, including MicroPython. It provides many useful features such as syntax highlighting, code completion, and debugging. Visual Studio Code is free and open-source, and it runs on Windows, macOS, and Linux.
+
+In the next, the PyCharm IDE is used, mainly because it provides advanced features and can be especially helpful for larger and more complex Python/MicroPython projects.
+
+1. Download and install [Community edition PyCharm](https://www.jetbrains.com/pycharm/download/).
+
+2. Run the PyCharm and install MicroPython plugin for PyCharm. Go to **File > Settings > Plugins > Marketplace**, search for `MicroPython` and install it.
+
+3. Create a new project, name and locate it wherever you want.
+
+    TBD.
+
+    > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples.
+    > Description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine)
+
 ### References
 
 1. [How to install MicroPython on an ESP32 microcontroller ](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html)
@@ -97,4 +125,6 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 
 4. [Web Serial ESPTool] (in Chrome)(https://learn.adafruit.com/adafruit-magtag/web-serial-esptool)
 
-5. [PyCharm](https://www.youtube.com/watch?v=nnKyBhFzTmk)
+5. [Getting Started with the MicroPython in PyCharm for Raspberry Pi Pico](https://community.element14.com/products/raspberry-pi/raspberrypi_projects/b/blog/posts/getting-started-with-the-micropython-in-pycharm-for-raspberry-pi-pico)
+
+6. Video tutorial: [How to Get Started with MicroPython](https://www.youtube.com/watch?v=elBtWZ_fOZU&list=PLw0SimokefZ3uWQoRsyf-gKNSs4Td-0k6)
