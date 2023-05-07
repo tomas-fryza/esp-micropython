@@ -25,7 +25,7 @@ There are several very good tutorials how to instanll and use MicroPython on an 
     espefuse.py --port /dev/ttyUSB0 summary
     ```
 
-### ESP32 microcontrollers
+### ESP32
 
 1. [Download MicroPython](http://micropython.org/download/) for target device. For Espressif ESP32, the latest version is [esp32-20230426-v1.20.0.bin](https://micropython.org/resources/firmware/esp32-20230426-v1.20.0.bin).
 
@@ -62,7 +62,7 @@ There are several very good tutorials how to instanll and use MicroPython on an 
     >>> led.off()
     ```
 
-### ESP8266 microcontrollers
+### ESP8266
 
 1. [Download the firmware](https://micropython.org/download/esp8266/)
 
@@ -78,17 +78,11 @@ There are several very good tutorials how to instanll and use MicroPython on an 
     esptool.py -chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
     ```
 
-### ESP32-CAM
-
-- [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
-- [ ] Rts/Dtr handshake signals must be disabled?!
-
-    ```shell
-    monitor_rts = 0
-    monitor_dtr = 0
-    ```
-
-- [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
+> TODO: ESP32-CAM
+>
+> - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
+> - [ ] Rts/Dtr handshake signals must be disabled?!
+> - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
 
 ## PyCharm IDE
 
@@ -108,9 +102,48 @@ In the next, the PyCharm IDE is used, mainly because it provides advanced featur
 
 2. Run the PyCharm and install MicroPython plugin for PyCharm. Go to **File > Settings > Plugins > Marketplace**, search for `MicroPython` and install it.
 
-3. Create a new project, name and locate it wherever you want.
+3. Create a new project, name and locate it wherever you want. Connect your ESP32/ESP8266 board vie USB.
 
-    TBD.
+4. Go to **File > Settings > Languages & Frameworks > MicroPython** and:
+    -- check `Enable MicroPython support`
+    -- select `ESP8266` device type (it works also for ESP32)
+    -- set `Device path` for your board, such as `/dev/ttyUS0`
+
+    Test REPL in **File > Tools > MicroPython > MicroPython REPL**
+
+    ```python
+    >>> from machine import Pin
+
+    # Check the LED pin on your board, usually it is `2`
+    >>> led = Pin(2, Pin.OUT)
+    >>> led.on()
+    >>> led.off()
+    ```
+
+5. Add a file to the project. Select **File > New... > Python file** and name it `main.py`. The missing packages will be installed to work with the ESP32/8266. Copy/paste the following code to `main.py` file:
+
+    ```python
+    from machine import Pin
+    from time import sleep
+
+    PIN_LED = 2
+
+
+    def main():
+        led = Pin(PIN_LED, Pin.OUT)
+
+        while True:
+            led.value(1)
+            sleep(0.75)
+            led(False)
+            sleep(0.25)
+
+
+    if __name__ == "__main__":
+        main()
+    ````
+
+6. Upload a program. Right-click the `main.py` file in the project browser on the left side and select **Run 'Flash main.py'**.
 
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples.
     > Description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine)
