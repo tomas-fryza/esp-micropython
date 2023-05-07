@@ -33,21 +33,21 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 
 ### ESP32
 
-1. [Download MicroPython](http://micropython.org/download/) for target device. For Espressif ESP32, the latest version is [esp32-20230426-v1.20.0.bin](https://micropython.org/resources/firmware/esp32-20230426-v1.20.0.bin).
+3. [Download MicroPython](http://micropython.org/download/) for target device. For Espressif ESP32, the latest version is [esp32-20230426-v1.20.0.bin](https://micropython.org/resources/firmware/esp32-20230426-v1.20.0.bin).
 
-2. Erase flash of target device (use your port name):
+4. Erase flash of target device (use your port name):
 
     ```shell
     esptool.py --chip eps32 --port /dev/ttyUSB0 erase_flash
     ```
 
-3. Deploy the new firmware:
+5. Deploy the new firmware:
 
     ```shell
     esptool.py --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 esp32-20230426-v1.20.0.bin
     ```
 
-4. Test it via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press the reset button:
+6. Test it via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press the reset button:
 
     ```shaell
     screen /dev/ttyUSB0 115200 
@@ -70,15 +70,15 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 
 ### ESP8266
 
-1. [Download the firmware](https://micropython.org/download/esp8266/)
+3. [Download the firmware](https://micropython.org/download/esp8266/)
 
-2. Erase the Flash:
+4. Erase the Flash:
     
     ```shell
     esptool.py --chip eps8266 --port /dev/ttyUSB0 erase_flash
     ```
     
-3. Deploy the firmware:
+5. Deploy the firmware:
     
     ```shell
     esptool.py -chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
