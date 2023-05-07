@@ -10,17 +10,17 @@ There are several very good tutorials how to instanll and use MicroPython on an 
     pip install esptool
     ```
 
-  Connect your ESP board and test the `esptool`:
+    Connect your ESP board and test the `esptool`:
 
-  ```shell
-  # Get the version
-  esptool.py version
+    ```shell
+    # Get the version
+    esptool.py version
 
-  # Read flash chip manufacturer name, port, and other usefull info
-  esptool.py flash_id
+    # Read flash chip manufacturer name, port, and other usefull info
+    esptool.py flash_id
 
-  espefuse.py --port /dev/ttyUSB0 summary
-  ```
+    espefuse.py --port /dev/ttyUSB0 summary
+    ```
 
 ## ESP32
 
@@ -28,36 +28,36 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 
 2. Erase flash of target device (use your port name):
 
-  ```shell
-  esptool.py --chip eps32 --port /dev/ttyUSB0 erase_flash
-  ```
+    ```shell
+    esptool.py --chip eps32 --port /dev/ttyUSB0 erase_flash
+    ```
 
 3. Deploy the new firmware:
 
-  ```shell
-  esptool.py --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 esp32-20230426-v1.20.0.bin
-  ```
+    ```shell
+    esptool.py --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 esp32-20230426-v1.20.0.bin
+    ```
 
 4. Test it via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press the reset button:
 
-  ```shaell
-  screen /dev/ttyUSB0 115200 
-  ```
+    ```shaell
+    screen /dev/ttyUSB0 115200 
+    ```
 
-  > **Note:** To exit the screen, press `Ctrl+A`, followed by `K` and `Y`.
+    > **Note:** To exit the screen, press `Ctrl+A`, followed by `K` and `Y`.
 
-  ```python
-  >>> from machine import Pin
+    ```python
+    >>> from machine import Pin
 
-  # Check the LED pin on your board, usually it is `2`
-  >>> led = Pin(2, Pin.OUT)
-  >>> led.value(1)
-  >>> led.value(0)
-  >>> led(True)
-  >>> led(False)
-  >>> led.on()
-  >>> led.off()
-  ```
+    # Check the LED pin on your board, usually it is `2`
+    >>> led = Pin(2, Pin.OUT)
+    >>> led.value(1)
+    >>> led.value(0)
+    >>> led(True)
+    >>> led(False)
+    >>> led.on()
+    >>> led.off()
+    ```
 
 ## ESP8266
 
@@ -65,25 +65,25 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 
 2. Erase the Flash:
     
-  ```shell
-  esptool.py --chip eps8266 --port /dev/ttyUSB0 erase_flash
-  ```
+    ```shell
+    esptool.py --chip eps8266 --port /dev/ttyUSB0 erase_flash
+    ```
     
 3. Deploy the firmware:
     
-  ```shell
-  esptool.py -chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
-  ```
+    ```shell
+    esptool.py -chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
+    ```
 
 ## ESP32-CAM
 
 - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
 - [ ] Rts/Dtr handshake signals must be disabled?!
 
-  ```shell
-  monitor_rts = 0
-  monitor_dtr = 0
-  ```
+    ```shell
+    monitor_rts = 0
+    monitor_dtr = 0
+    ```
 
 - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
 
