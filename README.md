@@ -109,7 +109,7 @@ In the next, the PyCharm IDE is used, mainly because it provides advanced featur
     -- select `ESP8266` device type (it works also for ESP32)
     -- set `Device path` for your board, such as `/dev/ttyUS0`
 
-    Test REPL in **File > Tools > MicroPython > MicroPython REPL**
+    Test REPL in **File > Tools > MicroPython > MicroPython REPL**:
 
     ```python
     >>> from machine import Pin
@@ -145,8 +145,7 @@ In the next, the PyCharm IDE is used, mainly because it provides advanced featur
 
 6. Upload a program. Right-click the `main.py` file in the project browser on the left side and select **Run 'Flash main.py'**.
 
-    > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples.
-    > Description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine)
+    > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
 ### References
 
