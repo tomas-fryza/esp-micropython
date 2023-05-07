@@ -6,9 +6,9 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 
 2. Open terminal (typically `Ctrl+Alt+T`) and install `esptool`:
 
-  ```shell
-  pip install esptool
-  ```
+    ```shell
+    pip install esptool
+    ```
 
   Connect your ESP board and test the `esptool`:
 
