@@ -94,13 +94,13 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 
 There are several IDEs (Integrated Development Environments) available for MicroPython programming, each with its own unique features and benefits. The most popular IDEs for MicroPython programming are:
 
-    * [Thonny](https://thonny.org/) is a popular IDE for MicroPython programming beginners. It has a simple and user-friendly interface and includes a MicroPython REPL (Read-Eval-Print Loop) that allows you to interact with the MicroPython interpreter and test your code in real-time. Thonny is free and open-source, and it runs on Windows, macOS, and Linux.
+* [Thonny](https://thonny.org/) is a popular IDE for MicroPython programming beginners. It has a simple and user-friendly interface and includes a MicroPython REPL (Read-Eval-Print Loop) that allows you to interact with the MicroPython interpreter and test your code in real-time. Thonny is free and open-source, and it runs on Windows, macOS, and Linux.
 
-    * [Mu](https://codewith.mu/) is another popular IDE for MicroPython programming that is designed for beginners. It has a built-in MicroPython REPL and includes a tool for flashing firmware onto your board. Mu is free and open-source, and it runs on Windows, macOS, and Linux.
+* [Mu](https://codewith.mu/) is another popular IDE for MicroPython programming that is designed for beginners. It has a built-in MicroPython REPL and includes a tool for flashing firmware onto your board. Mu is free and open-source, and it runs on Windows, macOS, and Linux.
 
-    * [PyCharm](https://www.jetbrains.com/pycharm/) is a powerful IDE that provides advanced features such as code completion, debugging, and version control integration. PyCharm also includes a MicroPython debugger that allows you to step through your code and set breakpoints. PyCharm is a commercial product, but has a Community Edition free version. It runs on Windows, macOS, and Linux.
+* [PyCharm](https://www.jetbrains.com/pycharm/) is a powerful IDE that provides advanced features such as code completion, debugging, and version control integration. PyCharm also includes a MicroPython debugger that allows you to step through your code and set breakpoints. PyCharm is a commercial product, but has a Community Edition free version. It runs on Windows, macOS, and Linux.
 
-    * [Visual Studio Code](https://code.visualstudio.com/) is a popular and versatile IDE that supports multiple programming languages, including MicroPython. It provides many useful features such as syntax highlighting, code completion, and debugging. Visual Studio Code is free and open-source, and it runs on Windows, macOS, and Linux.
+* [Visual Studio Code](https://code.visualstudio.com/) is a popular and versatile IDE that supports multiple programming languages, including MicroPython. It provides many useful features such as syntax highlighting, code completion, and debugging. Visual Studio Code is free and open-source, and it runs on Windows, macOS, and Linux.
 
 In the next, the PyCharm IDE is used, mainly because it provides advanced features and can be especially helpful for larger and more complex Python/MicroPython projects.
 
