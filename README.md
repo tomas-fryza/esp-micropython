@@ -4,6 +4,7 @@
   * [ESP32](#ESP32)
   * [ESP8266](#ESP8266)
 * [PyCharm IDE](#PyCharm-IDE)
+* [MicroPython Jupyter](#MicroPython-Jupyter)
 * [References](#References)
 
 ## Installation
@@ -153,6 +154,10 @@ In the next, the PyCharm IDE is used, mainly because it provides advanced featur
 
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
+## MicroPython Jupyter
+
+TBD
+
 ## References
 
 1. [How to install MicroPython on an ESP32 microcontroller ](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html)
@@ -166,3 +171,7 @@ In the next, the PyCharm IDE is used, mainly because it provides advanced featur
 5. [Getting Started with the MicroPython in PyCharm for Raspberry Pi Pico](https://community.element14.com/products/raspberry-pi/raspberrypi_projects/b/blog/posts/getting-started-with-the-micropython-in-pycharm-for-raspberry-pi-pico)
 
 6. Video tutorial: [How to Get Started with MicroPython](https://www.youtube.com/watch?v=elBtWZ_fOZU&list=PLw0SimokefZ3uWQoRsyf-gKNSs4Td-0k6)
+
+7. https://github.com/goatchurchprime/jupyter_micropython_kernel/tree/master
+
+8. https://lemariva.com/blog/2019/01/micropython-programming-an-esp-using-jupyter-notebook
