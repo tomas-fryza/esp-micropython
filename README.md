@@ -2,7 +2,7 @@
 
 There are several very good tutorials how to instanll and use MicroPython on an ESP microcontroller, such as [this one for Windows](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html). The following text was tested under Linux-based operation system.
 
-1. Install [Python](https://www.python.org/downloads/)
+1. Install [Python](https://www.python.org/downloads/).
 
 2. Open terminal (typically `Ctrl+Alt+T`) and install `esptool`:
 
