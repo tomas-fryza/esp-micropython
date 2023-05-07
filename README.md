@@ -1,5 +1,11 @@
 # How to use MicroPython and ESP32/ESP8266
 
+* [Installation](#Installation)
+  * [ESP32](#ESP32)
+  * [ESP8266](#ESP8266)
+* [PyCharm IDE](#PyCharm-IDE)
+* [References](#References)
+
 ## Installation
 
 There are several very good tutorials how to instanll and use MicroPython on an ESP microcontroller, such as [this one for Windows](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html). The following text was tested under Linux-based operation system.
@@ -147,7 +153,7 @@ In the next, the PyCharm IDE is used, mainly because it provides advanced featur
 
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
-### References
+## References
 
 1. [How to install MicroPython on an ESP32 microcontroller ](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html)
 
