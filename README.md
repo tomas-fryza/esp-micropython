@@ -3,7 +3,7 @@
 * [Installation](#Installation)
   * [ESP32](#ESP32)
   * [ESP8266](#ESP8266)
-* [PyCharm IDE](#PyCharm-IDE)
+* [IDEs](#IDEs)
 * [MicroPython Jupyter](#MicroPython-Jupyter)
 * [References](#References)
 
@@ -91,7 +91,7 @@ There are several very good tutorials how to instanll and use MicroPython on an 
 > - [ ] Rts/Dtr handshake signals must be disabled?!
 > - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
 
-## PyCharm IDE
+## IDEs
 
 There are several IDEs (Integrated Development Environments) available for MicroPython programming, each with its own unique features and benefits. The most popular IDEs for MicroPython programming are:
 
@@ -103,7 +103,7 @@ There are several IDEs (Integrated Development Environments) available for Micro
 
 * [Visual Studio Code](https://code.visualstudio.com/) is a popular and versatile IDE that supports multiple programming languages, including MicroPython. It provides many useful features such as syntax highlighting, code completion, and debugging. Visual Studio Code is free and open-source, and it runs on Windows, macOS, and Linux.
 
-In the next, the PyCharm IDE is used, mainly because it provides advanced features and can be especially helpful for larger and more complex Python/MicroPython projects.
+In the next, the **PyCharm IDE** is used, mainly because it provides advanced features and can be especially helpful for larger and more complex Python/MicroPython projects.
 
 1. Download and install [Community edition PyCharm](https://www.jetbrains.com/pycharm/download/).
 
