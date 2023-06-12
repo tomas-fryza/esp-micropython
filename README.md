@@ -72,9 +72,9 @@ There are several very good tutorials how to install and use MicroPython on an E
 
 ### ESP8266
 
-3. [Download the firmware](https://micropython.org/download/esp8266/)
+3. [Download](https://micropython.org/download/esp8266/) the latest firmware, such as `esp8266-20230426-v1.20.0.bin`.
 
-4. Erase the Flash:
+4. Erase the Flash before deploying the firmware:
     
     ```shell
     esptool.py --chip eps8266 --port /dev/ttyUSB0 erase_flash
