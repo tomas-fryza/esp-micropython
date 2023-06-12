@@ -146,6 +146,30 @@ There are several IDEs (Integrated Development Environments) available for Micro
     >>> led.off()
     ```
 
+3. Copy/paste the following code to the upper window, save it to **This computer** as `01-blink.py`, and run the application by **Run > Run current script F5**.
+
+    ```python
+    from machine import Pin
+    from time import sleep
+
+    # Check the LED pin on your board, usually it is `2`
+    PIN_LED = 2
+
+
+    def main():
+        led = Pin(PIN_LED, Pin.OUT)
+
+        while True:
+            led.value(1)
+            sleep(0.75)
+            led(False)
+            sleep(0.25)
+
+
+    if __name__ == "__main__":
+        main()
+    ```
+
 ### PyCharm IDE
 
 In the next, the **PyCharm IDE** is used, mainly because it provides advanced features and can be especially helpful for larger and more complex Python/MicroPython projects.
@@ -166,8 +190,15 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
     ```python
     >>> from machine import Pin
 
+    # Display help for `machine` package
+    >>> help(machine)
+
     # Check the LED pin on your board, usually it is `2`
+    # Create a `led` object
     >>> led = Pin(2, Pin.OUT)
+    >>> help(led)
+
+    # Change output values
     >>> led.on()
     >>> led.off()
     ```
@@ -178,6 +209,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
     from machine import Pin
     from time import sleep
 
+    # Check the LED pin on your board, usually it is `2`
     PIN_LED = 2
 
 
@@ -193,7 +225,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
     if __name__ == "__main__":
         main()
-    ````
+    ```
 
 6. Upload a program. Right-click the `main.py` file in the project browser on the left side and select **Run 'Flash main.py'**.
 
