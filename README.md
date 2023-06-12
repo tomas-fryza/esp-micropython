@@ -87,6 +87,7 @@ There are several very good tutorials how to install and use MicroPython on an E
     # Check the LED pin on your board, usually it is `2`
     # Create a `led` object
     >>> led = Pin(2, Pin.OUT)
+    >>> help(led)
 
     # Change output values
     >>> led.value(1)
@@ -138,6 +139,7 @@ There are several IDEs (Integrated Development Environments) available for Micro
     # Check the LED pin on your board, usually it is `2`
     # Create a `led` object
     >>> led = Pin(2, Pin.OUT)
+    >>> help(led)
 
     # Change output values
     >>> led.on()
