@@ -26,7 +26,8 @@ There are several very good tutorials how to install and use MicroPython on an E
     esptool.py version
 
     # Read chip info, serial port, MAC address, and others
-    esptool.py flash_id
+    # Note: Use `dmesg` command to find your USB port
+    esptool.py --port /dev/ttyUSB0 flash_id
 
     # Read all eFuses from the chip
     espefuse.py --port /dev/ttyUSB0 summary
