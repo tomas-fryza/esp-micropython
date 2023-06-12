@@ -5,6 +5,8 @@
   * [ESP8266](#ESP8266)
   * [Both](#Both)
 * [IDEs](#IDEs)
+  * [Thonny IDE](#Thonny-IDE)
+  * [PyCharm IDE](#PyCharm-IDE)
 * [MicroPython Jupyter](#MicroPython-Jupyter)
 * [References](#References)
 
