@@ -3,6 +3,7 @@
 * [Installation](#Installation)
   * [ESP32](#ESP32)
   * [ESP8266](#ESP8266)
+  * [Both](#Both)
 * [IDEs](#IDEs)
 * [MicroPython Jupyter](#MicroPython-Jupyter)
 * [References](#References)
