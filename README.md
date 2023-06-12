@@ -123,7 +123,24 @@ There are several IDEs (Integrated Development Environments) available for Micro
     sudo apt install thonny
     ```
 
-2. TBD
+2. Run the Thonny and select on-board interpreter. Go to **Run > Select interpreter...** and select `ESP32` or `ESP8266`.
+
+    Test the board in **Shell**:
+
+    ```python
+    >>> from machine import Pin
+
+    # Display help for `machine` package
+    >>> help(machine)
+
+    # Check the LED pin on your board, usually it is `2`
+    # Create a `led` object
+    >>> led = Pin(2, Pin.OUT)
+
+    # Change output values
+    >>> led.on()
+    >>> led.off()
+    ```
 
 ### PyCharm IDE
 
