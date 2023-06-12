@@ -75,13 +75,13 @@ There are several very good tutorials how to install and use MicroPython on an E
 3. [Download](https://micropython.org/download/esp8266/) the latest firmware, such as `esp8266-20230426-v1.20.0.bin`.
 
 4. Erase the Flash before deploying the firmware:
-    
+
     ```shell
     esptool.py --chip esp8266 --port /dev/ttyUSB0 erase_flash
     ```
-    
+
 5. Deploy the firmware:
-    
+
     ```shell
     esptool.py --chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
     ```
@@ -103,6 +103,18 @@ There are several IDEs (Integrated Development Environments) available for Micro
 * [PyCharm](https://www.jetbrains.com/pycharm/) is a powerful IDE that provides advanced features such as code completion, debugging, and version control integration. PyCharm also includes a MicroPython debugger that allows you to step through your code and set breakpoints. PyCharm is a commercial product, but has a Community Edition free version. It runs on Windows, macOS, and Linux.
 
 * [Visual Studio Code](https://code.visualstudio.com/) is a popular and versatile IDE that supports multiple programming languages, including MicroPython. It provides many useful features such as syntax highlighting, code completion, and debugging. Visual Studio Code is free and open-source, and it runs on Windows, macOS, and Linux.
+
+### Thonny IDE
+
+1. Download and install Thonny IDE from [webpage](https://thonny.org/) or directly in terminal:
+
+    ```shell
+    sudo apt install thonny
+    ```
+
+2. TBD
+
+### PyCharm IDE
 
 In the next, the **PyCharm IDE** is used, mainly because it provides advanced features and can be especially helpful for larger and more complex Python/MicroPython projects.
 
