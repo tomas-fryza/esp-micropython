@@ -49,27 +49,6 @@ There are several very good tutorials how to install and use MicroPython on an E
     esptool.py --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 esp32-20230426-v1.20.0.bin
     ```
 
-6. Test it via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press the reset button:
-
-    ```shaell
-    screen /dev/ttyUSB0 115200 
-    ```
-
-    > **Note:** To exit the screen, press `Ctrl+A`, followed by `K` and `Y`.
-
-    ```python
-    >>> from machine import Pin
-
-    # Check the LED pin on your board, usually it is `2`
-    >>> led = Pin(2, Pin.OUT)
-    >>> led.value(1)
-    >>> led.value(0)
-    >>> led(True)
-    >>> led(False)
-    >>> led.on()
-    >>> led.off()
-    ```
-
 ### ESP8266
 
 3. [Download](https://micropython.org/download/esp8266/) the latest firmware, such as `esp8266-20230426-v1.20.0.bin`.
@@ -84,6 +63,37 @@ There are several very good tutorials how to install and use MicroPython on an E
 
     ```shell
     esptool.py --chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
+    ```
+
+### Both
+
+6. Test MicroPython via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press onboard reset button:
+
+    ```shaell
+    screen /dev/ttyUSB0 115200 
+    ```
+
+    > **Note:** To exit the screen, press `Ctrl+A`, followed by `K` and `Y`.
+
+    ```python
+    >>> from machine import Pin
+    
+    # Display help for `machine` package
+    >>> help(machine)
+
+    # Check the LED pin on your board, usually it is `2`
+    # Create a `led` object
+    >>> led = Pin(2, Pin.OUT)
+
+    # Change output values
+    >>> led.value(1)
+    >>> led.value(0)
+
+    >>> led(True)
+    >>> led(False)
+
+    >>> led.on()
+    >>> led.off()
     ```
 
 > TODO: ESP32-CAM
