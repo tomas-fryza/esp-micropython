@@ -4,10 +4,10 @@
   * [ESP32](#ESP32)
   * [ESP8266](#ESP8266)
   * [Both](#Both)
-* [IDEs](#IDEs)
+* [How to use](#How-to-use)
   * [Thonny IDE](#Thonny-IDE)
   * [PyCharm IDE](#PyCharm-IDE)
-* [MicroPython Jupyter](#MicroPython-Jupyter)
+  * [MicroPython Jupyter](#MicroPython-Jupyter)
 * [References](#References)
 
 ## Installation
@@ -106,7 +106,7 @@ There are several very good tutorials how to install and use MicroPython on an E
 > - [ ] Rts/Dtr handshake signals must be disabled?!
 > - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
 
-## IDEs
+## How to use
 
 There are several IDEs (Integrated Development Environments) available for MicroPython programming, each with its own unique features and benefits. The most popular IDEs for MicroPython programming are:
 
@@ -231,7 +231,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
-## MicroPython Jupyter
+### MicroPython Jupyter
 
 TBD
 
