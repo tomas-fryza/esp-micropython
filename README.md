@@ -40,7 +40,7 @@ There are several very good tutorials how to install and use MicroPython on an E
 4. Erase flash of target device (use your port name):
 
     ```shell
-    esptool.py --chip eps32 --port /dev/ttyUSB0 erase_flash
+    esptool.py --chip esp32 --port /dev/ttyUSB0 erase_flash
     ```
 
 5. Deploy the new firmware:
@@ -77,7 +77,7 @@ There are several very good tutorials how to install and use MicroPython on an E
 4. Erase the Flash before deploying the firmware:
     
     ```shell
-    esptool.py --chip eps8266 --port /dev/ttyUSB0 erase_flash
+    esptool.py --chip esp8266 --port /dev/ttyUSB0 erase_flash
     ```
     
 5. Deploy the firmware:
