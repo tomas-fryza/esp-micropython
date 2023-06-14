@@ -81,8 +81,8 @@ There are several very good tutorials how to install and use MicroPython on an E
     ```python
     >>> from machine import Pin
     
-    # Display help for `machine` package
-    >>> help(machine)
+    # Display help for `Pin` class from `machine` package
+    >>> help(Pin)
 
     # Check the LED pin on your board, usually it is `2`
     # Create a `led` object
@@ -133,8 +133,8 @@ There are several IDEs (Integrated Development Environments) available for Micro
     ```python
     >>> from machine import Pin
 
-    # Display help for `machine` package
-    >>> help(machine)
+    # Display help for `Pin` class from `machine` package
+    >>> help(Pin)
 
     # Check the LED pin on your board, usually it is `2`
     # Create a `led` object
@@ -190,8 +190,8 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
     ```python
     >>> from machine import Pin
 
-    # Display help for `machine` package
-    >>> help(machine)
+    # Display help for `Pin` class from `machine` package
+    >>> help(Pin)
 
     # Check the LED pin on your board, usually it is `2`
     # Create a `led` object
