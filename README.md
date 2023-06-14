@@ -149,6 +149,8 @@ There are several IDEs (Integrated Development Environments) available for Micro
 3. Copy/paste the following code to the upper window, save it to **This computer** as `01-blink.py`, and run the application by **Run > Run current script F5**.
 
     ```python
+    # Complete project details at https://RandomNerdTutorials.com
+
     from machine import Pin
     from time import sleep
 
@@ -157,12 +159,17 @@ There are several IDEs (Integrated Development Environments) available for Micro
 
 
     def main():
+        print("Configure output pin...", end="")
         led = Pin(PIN_LED, Pin.OUT)
+        print("Done")
 
+        # Forever loop
         while True:
             led.value(1)
+            print("ON")
             sleep(0.75)
             led(False)
+            print("OFF")
             sleep(0.25)
 
 
