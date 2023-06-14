@@ -38,7 +38,7 @@ There are several very good tutorials how to install and use MicroPython on an E
 
 ### ESP32
 
-3. [Download MicroPython](http://micropython.org/download/) for target device. For Espressif ESP32, the latest version is [esp32-20230426-v1.20.0.bin](https://micropython.org/resources/firmware/esp32-20230426-v1.20.0.bin).
+3. [Download](http://micropython.org/download/) the latest firmware for your target device, such as `esp32-20230426-v1.20.0.bin` for Espressif ESP32.
 
 4. Erase flash of target device (use your port name):
 
