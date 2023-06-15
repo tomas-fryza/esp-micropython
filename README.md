@@ -72,7 +72,7 @@ There are several very good tutorials how to install and use MicroPython on an E
 
 6. Test MicroPython via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press onboard reset button:
 
-    ```shaell
+    ```shell
     screen /dev/ttyUSB0 115200 
     ```
 
@@ -85,11 +85,11 @@ There are several very good tutorials how to install and use MicroPython on an E
     >>> help(Pin)
 
     # Check the LED pin on your board, usually it is `2`
-    # Create a `led` object
+    # Create output pin on GPIO2
     >>> led = Pin(2, Pin.OUT)
     >>> help(led)
 
-    # Change output values
+    # Set pin to "on" (high) and "off" (low) levels
     >>> led.value(1)
     >>> led.value(0)
 
@@ -100,11 +100,23 @@ There are several very good tutorials how to install and use MicroPython on an E
     >>> led.off()
     ```
 
-> TODO: ESP32-CAM
->
-> - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
-> - [ ] Rts/Dtr handshake signals must be disabled?!
-> - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
+    Test some other usefull commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
+
+    ```python
+    # Get the current frequency of the CPU
+    >>> import machine
+    >>> machine.freq()
+
+    # Get Flash size in Bytes
+    >>> import esp
+    >>> esp.flash_size()
+
+    # Read the internal hall and temperature (in Fahrenheit) sensors
+    >>> import esp32
+    >>> esp32.hall_sensor()
+    >>> esp32.raw_temperature()
+    # In Celsius: (F-32)*5/9
+    ```
 
 ## How to use
 
@@ -126,56 +138,9 @@ There are several IDEs (Integrated Development Environments) available for Micro
     sudo apt install thonny
     ```
 
-2. Run the Thonny and select on-board interpreter. Go to **Run > Select interpreter...** and select `ESP32` or `ESP8266`.
+2. Run the Thonny and select on-board interpreter. Go to **Run > Select interpreter...** and select `ESP32` or `ESP8266`. Test the [board](#Both) in **Shell**.
 
-    Test the board in **Shell**:
-
-    ```python
-    >>> from machine import Pin
-
-    # Display help for `Pin` class from `machine` package
-    >>> help(Pin)
-
-    # Check the LED pin on your board, usually it is `2`
-    # Create a `led` object
-    >>> led = Pin(2, Pin.OUT)
-    >>> help(led)
-
-    # Change output values
-    >>> led.on()
-    >>> led.off()
-    ```
-
-3. Copy/paste the following code to the upper window, save it to **This computer** as `01-blink.py`, and run the application by **Run > Run current script F5**.
-
-    ```python
-    # Complete project details at https://RandomNerdTutorials.com
-
-    from machine import Pin
-    from time import sleep
-
-    # Check the LED pin on your board, usually it is `2`
-    PIN_LED = 2
-
-
-    def main():
-        print("Configure output pin...", end="")
-        led = Pin(PIN_LED, Pin.OUT)
-        print("Done")
-
-        # Forever loop
-        while True:
-            led.value(1)
-            print("ON")
-            sleep(0.75)
-            led(False)
-            print("OFF")
-            sleep(0.25)
-
-
-    if __name__ == "__main__":
-        main()
-    ```
+3. Copy/paste the [example blink](examples/01-blink/main.py) code and run the application by **Run > Run current script F5**.
 
 ### PyCharm IDE
 
@@ -192,55 +157,22 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
     -- select `ESP8266` device type (it works also for ESP32)
     -- set `Device path` for your board, such as `/dev/ttyUS0`
 
-    Test REPL in **File > Tools > MicroPython > MicroPython REPL**:
+    Test [REPL](#Both) in **File > Tools > MicroPython > MicroPython REPL**.
 
-    ```python
-    >>> from machine import Pin
-
-    # Display help for `Pin` class from `machine` package
-    >>> help(Pin)
-
-    # Check the LED pin on your board, usually it is `2`
-    # Create a `led` object
-    >>> led = Pin(2, Pin.OUT)
-    >>> help(led)
-
-    # Change output values
-    >>> led.on()
-    >>> led.off()
-    ```
-
-5. Add a file to the project. Select **File > New... > Python file** and name it `main.py`. The missing packages will be installed to work with the ESP32/8266. Copy/paste the following code to `main.py` file:
-
-    ```python
-    from machine import Pin
-    from time import sleep
-
-    # Check the LED pin on your board, usually it is `2`
-    PIN_LED = 2
-
-
-    def main():
-        led = Pin(PIN_LED, Pin.OUT)
-
-        while True:
-            led.value(1)
-            sleep(0.75)
-            led(False)
-            sleep(0.25)
-
-
-    if __name__ == "__main__":
-        main()
-    ```
+5. Add a file to the project. Select **File > New... > Python file** and name it `main.py`. The missing packages will be installed to work with the ESP32/8266. Copy/paste the [example blink](examples/01-blink/main.py) code to `main.py` file.
 
 6. Upload a program. Right-click the `main.py` file in the project browser on the left side and select **Run 'Flash main.py'**.
 
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
-### MicroPython Jupyter
-
-TBD
+## TODO
+> ESP32-CAM
+>
+> - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
+> - [ ] Rts/Dtr handshake signals must be disabled?!
+> - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
+>
+> MicroPython in Jupyter
 
 ## References
 
@@ -250,12 +182,14 @@ TBD
 
 3. [Video tutorial about ESP32 MicroPython](https://www.youtube.com/playlist?list=PLw0SimokefZ3uWQoRsyf-gKNSs4Td-0k6)
 
-4. [Web Serial ESPTool] (in Chrome)(https://learn.adafruit.com/adafruit-magtag/web-serial-esptool)
+4. [Web Serial ESPTool (in Chrome)](https://learn.adafruit.com/adafruit-magtag/web-serial-esptool)
 
 5. [Getting Started with the MicroPython in PyCharm for Raspberry Pi Pico](https://community.element14.com/products/raspberry-pi/raspberrypi_projects/b/blog/posts/getting-started-with-the-micropython-in-pycharm-for-raspberry-pi-pico)
 
-6. Video tutorial: [How to Get Started with MicroPython](https://www.youtube.com/watch?v=elBtWZ_fOZU&list=PLw0SimokefZ3uWQoRsyf-gKNSs4Td-0k6)
+6. [Jupyter MicroPython Kernel](https://github.com/goatchurchprime/jupyter_micropython_kernel/tree/master)
 
-7. https://github.com/goatchurchprime/jupyter_micropython_kernel/tree/master
+7. [MicroPython: Programming an ESP using Jupyter Notebook](https://lemariva.com/blog/2019/01/micropython-programming-an-esp-using-jupyter-notebook)
 
-8. https://lemariva.com/blog/2019/01/micropython-programming-an-esp-using-jupyter-notebook
+8. MicroPython Documentation. [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html)
+
+9. [40+ MicroPython Projects, Tutorial and Guides with ESP32 / ESP8266](https://randomnerdtutorials.com/projects-esp32-esp8266-micropython/)
