@@ -1,7 +1,7 @@
 """Scan Wi-Fi access points.
 
 Activate the WLAN interface and scan for nearby access points (AP).
-Display  the main parameters of APs.
+Display the main parameters of APs.
 
 See also:
     https://wokwi.com/projects/305570169692881473
