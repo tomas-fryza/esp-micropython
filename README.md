@@ -8,9 +8,7 @@
   * [Thonny IDE](#Thonny-IDE)
   * [PyCharm IDE](#PyCharm-IDE)
   * [MicroPython Jupyter](#MicroPython-Jupyter)
-* [Examples](examples)
-  * [Blink](examples/01-blink)
-  * [Wi-Fi scan](examples/03-wifi_scan)
+* [Examples](#examples)
 * [References](#References)
 
 ## Installation
@@ -168,6 +166,10 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 6. Upload a program. Right-click the `main.py` file in the project browser on the left side and select **Run 'Flash main.py'**.
 
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
+
+## Examples
+  * [Blink](examples/01-blink)
+  * [Wi-Fi scan](examples/03-wifi_scan)
 
 ## TODO
 * [ ] Howto Use MicroPython in Jupyter
