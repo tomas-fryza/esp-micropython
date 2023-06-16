@@ -1,5 +1,6 @@
 # How to use MicroPython and ESP32/ESP8266
 
+* [Wokwi simulator](#Wokwi-Simulator)
 * [Installation](#Installation)
   * [ESP32](#ESP32)
   * [ESP8266](#ESP8266)
@@ -11,7 +12,18 @@
 * [Examples](#examples)
 * [References](#References)
 
+## Wokwi simulator
+
+The easiest way to try MicroPython is in the [Wokwi](https://wokwi.com/micropython) online electronics simulator right in your web browser. You can use it to simulate Arduino, ESP32, STM32, and many other popular boards, parts and sensors in C, MicroPython or Rust.
+
 ## Installation
+
+To use MicroPython with a real ESP32 board, you will need to follow these steps:
+
+* Iinstall MicroPython firmware
+* Flash the firmware
+* Connect to the Board's Serial REPL and interact with MicroPython
+* Transfer files to the ESP32 board
 
 There are several very good tutorials how to install and use MicroPython on an ESP microcontroller, such as [this one](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html) for Windows. The following text was tested under Linux-based operation system.
 
@@ -168,14 +180,18 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
 ## Examples
-  * [Blink](examples/01-blink/main.py)
-  * [Wi-Fi scan](examples/03-wifi_scan/main.py)
+
+* [Blink](examples/01-blink/main.py)
+* [Wi-Fi scan](examples/03-wifi-scan/main.py)
+* [Wi-Fi connection](examples/04-wifi-connection/main.py)
 
 ## TODO
+
 * [ ] Howto Use MicroPython in Jupyter
 * [ ] MicroPython Programming Basics, https://randomnerdtutorials.com/micropython-programming-basics-esp32-esp8266/
 * [ ] Example: Button, LED, PWM, https://randomnerdtutorials.com/micropython-gpios-esp32-esp8266/
 * [x] Example: Wi-Fi scan
+* [x] Example: Connect to a Wi-Fi
 * [ ] Example: I2C sensor, https://randomnerdtutorials.com/esp32-esp8266-dht11-dht22-micropython-temperature-humidity-sensor/
 * [ ] Example: Simple web server, https://randomnerdtutorials.com/esp32-esp8266-micropython-web-server/
 * [ ] Example: Sensor + Wi-Fi + Cloud
@@ -183,6 +199,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 * [ ] Example: Relay + Wi-Fi server + smart phone, https://randomnerdtutorials.com/micropython-relay-module-esp32-esp8266/
 * [ ] Example: Bluetooth
 * [ ] Howto Use MicroPython on ESP32-CAM
+
 > - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
 > - [ ] Rts/Dtr handshake signals must be disabled?!
 > - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
