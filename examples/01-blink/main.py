@@ -9,7 +9,7 @@ See also:
 """
 
 from machine import Pin
-from utime import sleep_ms
+from time import sleep_ms
 
 # Check the LED pin on your board, usually it is GPIO2
 PIN_LED = 2
