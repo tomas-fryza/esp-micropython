@@ -20,7 +20,7 @@ The easiest way to try MicroPython is in the [Wokwi](https://wokwi.com/micropyth
 
 To use MicroPython with a real ESP32 board, you will need to follow these steps:
 
-* Iinstall MicroPython firmware
+* Install MicroPython firmware
 * Flash the firmware
 * Connect to the Board's Serial REPL and interact with MicroPython
 * Transfer files to the ESP32 board
