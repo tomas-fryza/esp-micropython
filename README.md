@@ -168,8 +168,8 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
 ## Examples
-  * [Blink](examples/01-blink)
-  * [Wi-Fi scan](examples/03-wifi_scan)
+  * [Blink](examples/01-blink/main.py)
+  * [Wi-Fi scan](examples/03-wifi_scan/main.py)
 
 ## TODO
 * [ ] Howto Use MicroPython in Jupyter
