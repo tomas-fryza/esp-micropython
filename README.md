@@ -115,7 +115,8 @@ There are several very good tutorials how to install and use MicroPython on an E
     >>> import esp32
     >>> esp32.hall_sensor()
     >>> esp32.raw_temperature()
-    # In Celsius: (F-32)*5/9
+    # FYI: temp_c = (temp_f-32.0) * (5/9)
+    #      temp_f = temp_c * (9/5) + 32.0
     ```
 
 ## How to use
@@ -166,13 +167,20 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
 ## TODO
-> ESP32-CAM
->
+* [ ] Howto Use MicroPython in Jupyter
+* [ ] MicroPython Programming Basics, https://randomnerdtutorials.com/micropython-programming-basics-esp32-esp8266/
+* [ ] Example: Button, LED, PWM, https://randomnerdtutorials.com/micropython-gpios-esp32-esp8266/
+* [x] Example: Wi-Fi scan
+* [ ] Example: I2C sensor, https://randomnerdtutorials.com/esp32-esp8266-dht11-dht22-micropython-temperature-humidity-sensor/
+* [ ] Example: Simple web server, https://randomnerdtutorials.com/esp32-esp8266-micropython-web-server/
+* [ ] Example: Sensor + Wi-Fi + Cloud
+* [ ] Example: Sensor + Wi-Fi + smart phone, https://randomnerdtutorials.com/micropython-esp32-esp8266-dht11-dht22-web-server/
+* [ ] Example: Relay + Wi-Fi server + smart phone, https://randomnerdtutorials.com/micropython-relay-module-esp32-esp8266/
+* [ ] Example: Bluetooth
+* [ ] Howto Use MicroPython on ESP32-CAM
 > - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
 > - [ ] Rts/Dtr handshake signals must be disabled?!
 > - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
->
-> MicroPython in Jupyter
 
 ## References
 
