@@ -8,6 +8,9 @@
   * [Thonny IDE](#Thonny-IDE)
   * [PyCharm IDE](#PyCharm-IDE)
   * [MicroPython Jupyter](#MicroPython-Jupyter)
+* [Examples](examples)
+  * [Blink](examples/01-blink)
+  * [Wi-Fi scan](examples/03-wifi_scan)
 * [References](#References)
 
 ## Installation
