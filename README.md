@@ -113,7 +113,7 @@ There are several very good tutorials how to install and use MicroPython on an E
     >>> led.off()
     ```
 
-    Test some other usefull commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
+    Test some other useful commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
 
     ```python
     # Get the current frequency of the CPU
