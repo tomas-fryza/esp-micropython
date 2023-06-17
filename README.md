@@ -20,7 +20,7 @@ The easiest way to try MicroPython is in the [Wokwi](https://wokwi.com/micropyth
 
 To use MicroPython with a real ESP32 board, you will need to follow these steps:
 
-* Iinstall MicroPython firmware
+* Install MicroPython firmware
 * Flash the firmware
 * Connect to the Board's Serial REPL and interact with MicroPython
 * Transfer files to the ESP32 board
@@ -113,7 +113,7 @@ There are several very good tutorials how to install and use MicroPython on an E
     >>> led.off()
     ```
 
-    Test some other usefull commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
+    Test some other useful commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
 
     ```python
     # Get the current frequency of the CPU
