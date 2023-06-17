@@ -12,13 +12,9 @@ from machine import Pin
 from time import sleep_ms
 
 # Check the LED pin on your board, usually it is GPIO2
-PIN_LED = 2
-
 print("Configure output pin...", end="")
-led = Pin(PIN_LED, Pin.OUT)
+led = Pin(2, Pin.OUT)
 print("Done")
-
-print(f"Start blinking pin {PIN_LED}")
 
 # Forever loop
 while True:
