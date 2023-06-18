@@ -136,6 +136,8 @@ There are several very good tutorials how to install and use MicroPython on an E
     53
     ```
 
+    See MicroPython tutorials, such as [MicroPython Programming Basics with ESP32 and ESP8266](https://randomnerdtutorials.com/micropython-programming-basics-esp32-esp8266/) for detailed explanation.
+
     Test some other useful commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
 
     ```python
@@ -224,13 +226,12 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 ## TODO
 
 * [ ] Howto Use MicroPython in Jupyter
-* [ ] MicroPython Programming Basics, https://randomnerdtutorials.com/micropython-programming-basics-esp32-esp8266/
 * [ ] Example: Button, LED, PWM, https://randomnerdtutorials.com/micropython-gpios-esp32-esp8266/
 * [x] Example: Wi-Fi scan
 * [x] Example: Connect to a Wi-Fi
-* [ ] Example: I2C sensor, https://randomnerdtutorials.com/esp32-esp8266-dht11-dht22-micropython-temperature-humidity-sensor/
+* [x] Example: I2C sensor
+* [x] Example: Sensor + Wi-Fi + Cloud
 * [ ] Example: Simple web server, https://randomnerdtutorials.com/esp32-esp8266-micropython-web-server/
-* [ ] Example: Sensor + Wi-Fi + Cloud
 * [ ] Example: Sensor + Wi-Fi + smart phone, https://randomnerdtutorials.com/micropython-esp32-esp8266-dht11-dht22-web-server/
 * [ ] Example: Relay + Wi-Fi server + smart phone, https://randomnerdtutorials.com/micropython-relay-module-esp32-esp8266/
 * [ ] Example: Bluetooth
