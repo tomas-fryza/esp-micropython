@@ -11,17 +11,17 @@ See also:
 import network
 import ubinascii
 
-# Initialize wlan object
-wlan = network.WLAN(network.STA_IF)
-# Activate wlan interface
-wlan.active(True)
+# Create Station interface
+sta_if = network.WLAN(network.STA_IF)
+# Activate station/Wi-Fi client interface
+sta_if.active(True)
 
 
 def scan():
     print("Scanning for Wi-Fi networks, please wait...", end="")
 
     # Perform a Wi-Fi APs scan
-    accessPoints = wlan.scan()
+    accessPoints = sta_if.scan()
 
     print("Done")
     print("")
@@ -29,12 +29,14 @@ def scan():
     print("SSID             | MAC               | Ch.| RSSI| AuthMode")
     print("-----------------+-------------------+----+-----+------------")
 
-    authmodes = ["Open", "WEP", "WPA-PSK", "WPA2-PSK4", "WPA/WPA2-PSK", "other"]
+    authmodes = ["Open", "WEP", "WPA-PSK", "WPA2-PSK4",
+                 "WPA/WPA2-PSK", "other"]
 
-    # Print each AP found in a single row
+    # Print each AP params in a single row
     for (ssid, bssidap, channel, rssi, authmode, vis) in accessPoints:
-        bssid =  ubinascii.hexlify(bssidap,":").decode()
+        bssid = ubinascii.hexlify(bssidap, ":").decode()
         print(f"{ssid:16s} | {bssid:s} | {channel:2d} | {rssi:3d} | {authmodes[authmode]:s}")
+
 
 # Call scanning function
 scan()
