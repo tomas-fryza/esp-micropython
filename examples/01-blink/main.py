@@ -12,7 +12,7 @@ from machine import Pin
 from time import sleep_ms
 
 # Check the LED pin on your board, usually it is GPIO2
-print("Configure output pin...", end="")
+print("Configure output pin... ", end="")
 led = Pin(2, Pin.OUT)
 print("Done")
 

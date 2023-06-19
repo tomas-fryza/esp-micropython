@@ -18,7 +18,7 @@ sta_if.active(True)
 
 
 def scan():
-    print("Scanning for Wi-Fi networks, please wait...", end="")
+    print("Scanning for Wi-Fi networks, please wait... ", end="")
 
     # Perform a Wi-Fi APs scan
     accessPoints = sta_if.scan()
