@@ -227,7 +227,6 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
 ## TODO
 
-* [ ] Example: Get real time from Wi-Fi + RTC, https://forum.micropython.org/viewtopic.php?t=2440 https://www.engineersgarage.com/micropython-esp8266-esp32-rtc-utc-local-time/
 * [ ] Howto Use MicroPython in Jupyter
 * [ ] Example: Button, LED, PWM, https://randomnerdtutorials.com/micropython-gpios-esp32-esp8266/
 * [ ] Example: Simple web server, https://randomnerdtutorials.com/esp32-esp8266-micropython-web-server/
@@ -235,6 +234,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 * [ ] Example: Relay + Wi-Fi server + smart phone, https://randomnerdtutorials.com/micropython-relay-module-esp32-esp8266/
 * [ ] Example: Bluetooth
 * [ ] Example: Timers, interrupts
+* [ ] Example: Deep sleep
 * [ ] Howto Use MicroPython on ESP32-CAM
 
 > - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
@@ -243,7 +243,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
 ## References
 
-1. [How to install MicroPython on an ESP32 microcontroller ](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html)
+1. [How to install MicroPython on an ESP32 microcontroller](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html)
 
 2. [Getting started with MicroPython on the ESP32](https://docs.micropython.org/en/latest/esp32/tutorial/intro.html)
 
