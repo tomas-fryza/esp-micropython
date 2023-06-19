@@ -12,24 +12,25 @@ See also:
 import network
 
 
-def connect():
+def connect_wifi():
     from time import sleep_ms
     import ubinascii
 
     if not sta_if.isconnected():
-        print("Connecting to network...")
+        print("Connecting to Wi-Fi", end="")
 
         # Activate station/Wi-Fi client interface
         sta_if.active(True)
 
         # Connect
-        sta_if.connect(YOUR_WIFI_SSID, YOUR_WIFI_PSWD)
+        sta_if.connect(WIFI_SSID, WIFI_PSWD)
 
         # Wait untill the connection is estalished
         while not sta_if.isconnected():
-            sleep_ms(250)
+            print(".", end="")
+            sleep_ms(100)
 
-        print("Connection successful")
+        print("Connected")
 
     else:
         print("Already connected")
@@ -48,7 +49,7 @@ def connect():
     print(f"MAC: {macAddr} --> {binaryToAscii} --> {binaryToAscii.decode()}")
 
 
-def disconnect():
+def disconnect_wifi():
     if sta_if.active():
         sta_if.active(False)
 
@@ -56,11 +57,12 @@ def disconnect():
         print("Disconnected")
 
 
-YOUR_WIFI_SSID = "ssid"
-YOUR_WIFI_PSWD = "pswd"
+# Network settings
+WIFI_SSID = "<YOUR WIFI SSID>"
+WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 
 # Create Station interface
 sta_if = network.WLAN(network.STA_IF)
 
-connect()
-# disconnect()
+connect_wifi()
+disconnect_wifi()

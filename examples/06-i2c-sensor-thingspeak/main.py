@@ -3,6 +3,16 @@
 Read data from DHT12 humidity & temperature I2C sensor, and send them
 to ThingSpeak.com server via Wi-Fi.
 
+NOTE:
+    * Set your Wi-Fi SSID and password
+    * Set your ThingSpeak Write API key
+    * Connect DHT12 sensor to I2C pins
+        DHT12  ESP32 ESP8266 ESP32-CAM
+        SCL     22      5       15
+        SDA     21      4       13
+        +      3.3V    3.3V    3.3V
+        -      GND     GND     GND
+
 See also:
     https://microcontrollerslab.com/esp32-micropython-bme280-sensor-thingspeak/
 """
@@ -14,24 +24,27 @@ import urequests
 from time import sleep
 
 
-def connect():
+def connect_wifi():
     from time import sleep_ms
 
     if not sta_if.isconnected():
-        print("Connecting to network...")
+        print("Connecting to Wi-Fi", end="")
 
         # Activate station/Wi-Fi client interface
         sta_if.active(True)
 
         # Connect
-        sta_if.connect(YOUR_WIFI_SSID, YOUR_WIFI_PSWD)
+        sta_if.connect(WIFI_SSID, WIFI_PSWD)
 
         # Wait untill the connection is estalished
         while not sta_if.isconnected():
-            sleep_ms(250)
+            print(".", end="")
+            sleep_ms(100)
+
+        print("Connected")
 
 
-def disconnect():
+def disconnect_wifi():
     if sta_if.active():
         sta_if.active(False)
 
@@ -50,15 +63,16 @@ def dht_get_values():
         raise Exception("checksum error")
 
 
-YOUR_WIFI_SSID = "ssid"
-YOUR_WIFI_PSWD = "pswd"
-THINGSPEAK_WRITE_API_KEY = "api_key"
+# Network settings
+# WIFI_SSID = "<YOUR WIFI SSID>"
+# WIFI_PSWD = "<YOUR WIFI PASSWORD>"
+# THINGSPEAK_API_KEY = "<THINGSPEAK WRITE API KEY>"
 
 # Create Station interface
 sta_if = network.WLAN(network.STA_IF)
 
-# Create I2C peripheral at frequency of 400kHz
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400000)
+# Create I2C peripheral at frequency of 100 kHz
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100000)
 
 led = Pin(2, Pin.OUT)
 
@@ -67,7 +81,7 @@ buf = bytearray(5)
 
 # Forever loop
 while True:
-    connect()
+    connect_wifi()
     dht_get_values()
 
     # Display data
@@ -75,12 +89,14 @@ while True:
     temp = buf[2] + (buf[3]*0.1)
     print(f"Temperature: {temp} C\tHumidity: {humi} %")
 
-    # Send data
-    request = urequests.post('http://api.thingspeak.com/update?api_key=' + THINGSPEAK_WRITE_API_KEY,
+    # Send data using a POST request
+    request = urequests.post('http://api.thingspeak.com/update?api_key=' + THINGSPEAK_API_KEY,
                              json={"field1":temp, "field2":humi},
                              headers={"Content-Type": "application/json"})
+    print(f"Request #{request.text}")
     request.close()
-    disconnect()
+
+    disconnect_wifi()
 
     # Delay 30 seconds
     sleep(30)
