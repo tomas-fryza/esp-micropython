@@ -219,6 +219,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 * [Wi-Fi connection](examples/04-wifi-connection/main.py)
 * [I2C humidity & temperature sensor](examples/05-i2c-sensor/main.py)
 * [I2C sensor & ThingSpeak](examples/06-i2c-sensor-thingspeak/main.py)
+* [RTC & NTP times](examples/07-rtc/main.py)
 
 ## Useful information
 
