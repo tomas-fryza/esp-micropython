@@ -141,18 +141,18 @@ There are several very good tutorials how to install and use MicroPython on an E
     Test some other useful commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
 
     ```python
-    # Get the current frequency of the CPU
+    # Get the current frequency of the CPU and RTC time
     >>> import machine
     >>> help(machine)
     >>> machine.freq()
+    >>> machine.RTC().datetime()
 
     # Get Flash size in Bytes
     >>> import esp
     >>> esp.flash_size()
 
-    # Read the internal hall and temperature (in Fahrenheit) sensors
+    # Read the internal temperature (in Fahrenheit)
     >>> import esp32
-    >>> esp32.hall_sensor()
     >>> esp32.raw_temperature()
     # FYI: temp_c = (temp_f-32) * (5/9)
     #      temp_f = temp_c * (9/5) + 32
