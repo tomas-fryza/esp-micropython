@@ -9,7 +9,7 @@ Inspired by:
 """
 
 import network
-import ubinascii
+import ubinascii  # Conversions between binary data and ASCII
 
 # Create Station interface
 sta_if = network.WLAN(network.STA_IF)
@@ -17,7 +17,7 @@ sta_if = network.WLAN(network.STA_IF)
 sta_if.active(True)
 
 
-def scan():
+def scan_wifi():
     print("Scanning for Wi-Fi networks, please wait... ", end="")
 
     # Perform a Wi-Fi APs scan
@@ -39,4 +39,4 @@ def scan():
 
 
 # Call scanning function
-scan()
+scan_wifi()
