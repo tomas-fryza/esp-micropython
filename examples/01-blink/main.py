@@ -4,8 +4,8 @@ A simple example of how to control one output pin of
 a microcontroller. An LED is connected to the GPIO pin,
 which is repeatedly switched on and off.
 
-See also:
-    https://wokwi.com/projects/359801682833812481
+Inspired by:
+    * https://wokwi.com/projects/359801682833812481
 """
 
 from machine import Pin

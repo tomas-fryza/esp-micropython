@@ -3,9 +3,9 @@
 Use hardware I2C bus and read temperature and humidity values
 from DHT12 sensor with SLA = 0x5c (92).
 
-See also:
-    https://docs.micropython.org/en/latest/library/machine.I2C.html#machine-i2c
-    https://github.com/mcauser/micropython-dht12/blob/master/dht12.py
+Inspired by:
+    * https://docs.micropython.org/en/latest/library/machine.I2C.html#machine-i2c
+    * https://github.com/mcauser/micropython-dht12/blob/master/dht12.py
 """
 
 from machine import Pin, I2C

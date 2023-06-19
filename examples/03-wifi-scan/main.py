@@ -3,9 +3,9 @@
 Activate the WLAN interface and scan for nearby access points (AP).
 Display the main parameters of APs.
 
-See also:
-    https://wokwi.com/projects/305570169692881473
-    https://github.com/micropython/micropython/issues/10017
+Inspired by:
+    * https://wokwi.com/projects/305570169692881473
+    * https://github.com/micropython/micropython/issues/10017
 """
 
 import network
