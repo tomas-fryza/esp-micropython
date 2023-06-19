@@ -217,6 +217,8 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 * [Blink](examples/01-blink/main.py)
 * [Wi-Fi scan](examples/03-wifi-scan/main.py)
 * [Wi-Fi connection](examples/04-wifi-connection/main.py)
+* [I2C humidity & temperature sensor](examples/05-i2c-sensor/main.py)
+* [I2C sensor & ThingSpeak](examples/06-i2c-sensor-thingspeak/main.py)
 
 ## Useful information
 
@@ -225,16 +227,14 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
 ## TODO
 
+* [ ] Example: Get real time from Wi-Fi + RTC, https://forum.micropython.org/viewtopic.php?t=2440 https://www.engineersgarage.com/micropython-esp8266-esp32-rtc-utc-local-time/
 * [ ] Howto Use MicroPython in Jupyter
 * [ ] Example: Button, LED, PWM, https://randomnerdtutorials.com/micropython-gpios-esp32-esp8266/
-* [x] Example: Wi-Fi scan
-* [x] Example: Connect to a Wi-Fi
-* [x] Example: I2C sensor
-* [x] Example: Sensor + Wi-Fi + Cloud
 * [ ] Example: Simple web server, https://randomnerdtutorials.com/esp32-esp8266-micropython-web-server/
 * [ ] Example: Sensor + Wi-Fi + smart phone, https://randomnerdtutorials.com/micropython-esp32-esp8266-dht11-dht22-web-server/
 * [ ] Example: Relay + Wi-Fi server + smart phone, https://randomnerdtutorials.com/micropython-relay-module-esp32-esp8266/
 * [ ] Example: Bluetooth
+* [ ] Example: Timers, interrupts
 * [ ] Howto Use MicroPython on ESP32-CAM
 
 > - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
