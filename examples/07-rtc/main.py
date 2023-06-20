@@ -66,15 +66,17 @@ ntptime.settime()
 (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
 print(f"UTC Time: {year}-{month}-{day} {hrs}:{mins}:{secs}")
 
-# Get epoch time in seconds (for timezone modif)
+# Get epoch time in seconds (for timezone update)
 sec = ntptime.time()
+
+disconnect_wifi()
 
 # Update your epoch time in seconds and store in to internal RTC
 sec = int(sec + UTC_OFFSET * 60 * 60)
 (year, month, day, hrs, mins, secs, wday, yday) = time.localtime(sec)
 rtc.datetime((year, month, day, wday, hrs, mins, secs, 0))
 
-disconnect_wifi()
+print(f"Local RTC time: UTC+{UTC_OFFSET}:00")
 
 # Forever loop
 while True:
@@ -82,5 +84,5 @@ while True:
     (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
     print(f"{year}-{month}-{day} {hrs}:{mins}:{secs}")
 
-    # Delay 5 seconds
-    time.sleep(5)
+    # Delay 30 seconds
+    time.sleep(30)
