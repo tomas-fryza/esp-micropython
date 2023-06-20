@@ -17,7 +17,7 @@ Inspired by:
 from machine import RTC
 import network
 import ntptime
-import time
+from time import localtime, sleep
 
 
 def connect_wifi():
@@ -53,9 +53,11 @@ WIFI_SSID = "<YOUR WIFI SSID>"
 WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 UTC_OFFSET = 2  # CEST is UTC+2:00
 
-sta_if = network.WLAN(network.STA_IF)
+# Create an independent clock object
 rtc = RTC()
 
+# Create Station interface
+sta_if = network.WLAN(network.STA_IF)
 connect_wifi()
 
 # Get UTC time from NTP server (pool.ntp.org) and store it
@@ -73,7 +75,7 @@ disconnect_wifi()
 
 # Update your epoch time in seconds and store in to internal RTC
 sec = int(sec + UTC_OFFSET * 60 * 60)
-(year, month, day, hrs, mins, secs, wday, yday) = time.localtime(sec)
+(year, month, day, hrs, mins, secs, wday, yday) = localtime(sec)
 rtc.datetime((year, month, day, wday, hrs, mins, secs, 0))
 
 print(f"Local RTC time: UTC+{UTC_OFFSET}:00")
@@ -85,4 +87,4 @@ while True:
     print(f"{year}-{month}-{day} {hrs}:{mins}:{secs}")
 
     # Delay 30 seconds
-    time.sleep(30)
+    sleep(30)
