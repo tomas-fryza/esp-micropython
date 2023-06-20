@@ -220,6 +220,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 * [I2C humidity & temperature sensor](examples/05-i2c-sensor/main.py)
 * [I2C sensor & ThingSpeak](examples/06-i2c-sensor-thingspeak/main.py)
 * [RTC & NTP times](examples/07-rtc/main.py)
+* [Wi-Fi access point](examples/08-access-point/boot.py)
 
 ## Useful information
 
@@ -228,11 +229,9 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
 ## TODO
 
-* [ ] Howto Use MicroPython in Jupyter
-* [ ] Example: Button, LED, PWM, https://randomnerdtutorials.com/micropython-gpios-esp32-esp8266/
-* [ ] Example: Simple web server, https://randomnerdtutorials.com/esp32-esp8266-micropython-web-server/
+* [ ] Example: Button, LED, Relay
 * [ ] Example: Sensor + Wi-Fi + smart phone, https://randomnerdtutorials.com/micropython-esp32-esp8266-dht11-dht22-web-server/
-* [ ] Example: Relay + Wi-Fi server + smart phone, https://randomnerdtutorials.com/micropython-relay-module-esp32-esp8266/
+* [ ] Howto Use MicroPython in Jupyter
 * [ ] Example: Bluetooth
 * [ ] Example: Timers, interrupts
 * [ ] Example: Deep sleep
