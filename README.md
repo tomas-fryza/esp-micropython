@@ -229,9 +229,9 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
 ## TODO
 
-* [ ] Example: Button, LED, Relay
 * [ ] Example: Sensor + Wi-Fi + smart phone, https://randomnerdtutorials.com/micropython-esp32-esp8266-dht11-dht22-web-server/
 * [ ] Howto Use MicroPython in Jupyter
+* [ ] Example for Wokwi: Button, LED, Relay
 * [ ] Example: Bluetooth
 * [ ] Example: Timers, interrupts
 * [ ] Example: Deep sleep
