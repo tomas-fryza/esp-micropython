@@ -1,10 +1,11 @@
-"""TBD.
+"""Example of Wi-Fi access point.
 
-TBD.
+Wi-Fi access point hosting a static webpage. Use a smartphon
+to access web application.
 
 Inspired by:
     * https://www.engineersgarage.com/esp8266-esp32-based-wifi-access-point-using-micropython/
-    * https://randomnerdtutorials.com/micropython-esp32-esp8266-dht11-dht22-web-server/
+    * https://www.engineersgarage.com/micropython-sockets-esp8266-esp32-tcp-server-tcp-client/
 """
 
 # Web server using sockets and Python socket API
@@ -26,7 +27,9 @@ gc.collect()
 
 
 def web_page():
-    html = """<!DOCTYPE HTML><html>
+    """Static web page to be trasmited by AP
+    """
+    html_code = """<!DOCTYPE HTML><html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
@@ -46,7 +49,7 @@ def web_page():
     <p>Hello World!</p>
 </body>
 </html>"""
-    return html
+    return html_code
 
 
 # Set Access Point name and password
@@ -58,21 +61,35 @@ ap_if.active(True)
 ap_if.config(essid=SSID, password=PSWD)
 
 while not ap_if.active():
-  pass
+    pass
 
 print("Connection successful")
 print(ap_if.ifconfig())
+print("")
 
-# Create socket object
+# Create TCP/IP socket object
+# AF_INET == IPv4 internet protocols
+# AF_INET6 == IPv6 internet protocols
+# SOCK_STREAM == TCP type of socket
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+# Bind socket to a port
+# port number 80 == HTTP network service
 s.bind(("", 80))
+# Queue of 5 for incoming connections
 s.listen(5)
 
 while True:
-  conn, addr = s.accept()
-  print("Got a connection from %s" % str(addr))
-  request = conn.recv(1024)
-  print("Content = %s" % str(request))
-  response = web_page()
-  conn.send(response)
-  conn.close()
+    # Accept a new connection
+    # conn: a new socket object that's used to transmit and receive data
+    # address: IP address of the device
+    conn, address = s.accept()
+    print(f"Connection from {address} has been established.")
+
+    # Receive data from the remote socket; maximum size is 512 bytes
+    request = conn.recv(512)
+    print(f"Request content ({len(request)} bytes):")
+    print(request.decode())
+
+    response = web_page()
+    conn.send(response)
+    conn.close()
