@@ -20,15 +20,11 @@ Inspired by:
 from machine import Pin, I2C
 from time import sleep
 
+# Status LED
 led = Pin(2, Pin.OUT)
 
 # Create I2C peripheral at frequency of 100 kHz
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100000)
-# DHT12  ESP32 ESP8266 ESP32-CAM
-# SCL     22      5       15
-# SDA     21      4       13
-# +      3.3V    3.3V    3.3V
-# -      GND     GND     GND
 
 # Scan for peripherals, returning a list of 7-bit addresses
 # between 0x08 and 0x77 inclusive
