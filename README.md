@@ -230,6 +230,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 * [I2C sensor & ThingSpeak](examples/06-i2c-sensor-thingspeak/main.py)
 * [RTC & NTP times](examples/07-rtc/main.py)
 * [Wi-Fi access point](examples/08-access-point/boot.py)
+* [Web server & I2C sensor](examples/09-web-server-i2c-sensor/)
 
 ## Useful information
 
