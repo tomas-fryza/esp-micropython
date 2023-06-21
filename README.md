@@ -94,6 +94,9 @@ There are several very good tutorials how to install and use MicroPython on an E
     > **Note:** To exit the screen, press `Ctrl+A`, followed by `K` and `Y`.
 
     ```python
+    >>> print("Hi there!")
+    Hi there!
+
     # Operators used for the different functions like division,
     # multiply, addition and subtraction
     >>> 10/3
@@ -141,6 +144,10 @@ There are several very good tutorials how to install and use MicroPython on an E
     Test some other useful commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
 
     ```python
+    >>> import sys
+    >>> sys.platform
+    'esp32'
+
     # Get the current frequency of the CPU and RTC time
     >>> import machine
     >>> help(machine)
