@@ -94,6 +94,7 @@ There are several very good tutorials how to install and use MicroPython on an E
     > **Note:** To exit the screen, press `Ctrl+A`, followed by `K` and `Y`.
 
     ```python
+    # Print string to a Shell
     >>> print("Hi there!")
     Hi there!
 
@@ -144,6 +145,7 @@ There are several very good tutorials how to install and use MicroPython on an E
     Test some other useful commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
 
     ```python
+    # A platform identifier
     >>> import sys
     >>> sys.platform
     'esp32'
