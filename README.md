@@ -1,7 +1,7 @@
 # How to use MicroPython and ESP32/ESP8266
 
 * [Wokwi simulator](#Wokwi-Simulator)
-* [Installation](#Installation)
+* [MicroPython installation](#MicroPython-installation)
   * [ESP32](#ESP32)
   * [ESP8266](#ESP8266)
   * [Both](#Both)
@@ -18,7 +18,7 @@ The easiest way to try MicroPython is in the [Wokwi](https://wokwi.com/micropyth
 
    ![wokwi_blink](images/wokwi_blink.png)
 
-## Installation
+## MicroPython installation
 
 To use MicroPython with a real ESP32 board, you will need to follow these steps:
 
