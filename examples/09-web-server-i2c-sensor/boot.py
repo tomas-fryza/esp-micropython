@@ -1,3 +1,4 @@
+
 """Boot file of the web server for the DHT12 sensor data.
 
 File contains the code that only needs to run once on boot and
@@ -17,6 +18,7 @@ try:
 except:
     import socket
 
+from machine import Pin, I2C
 import network
 from time import sleep_ms
 
@@ -30,18 +32,23 @@ import gc
 gc.collect()
 
 # Network settings
-WIFI_SSID = "<YOUR WIFI SSID>"
-WIFI_PSWD = "<YOUR WIFI PASSWORD>"
+# WIFI_SSID = "<YOUR WIFI SSID>"
+# WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 
 # Create Station interface
 sta_if = network.WLAN(network.STA_IF)
 
-# Activate station/Wi-Fi client interface
-sta_if.active(True)
+if not sta_if.isconnected():
+    print("Connecting to Wi-Fi", end="")
 
-# Connect
-sta_if.connect(WIFI_SSID, WIFI_PSWD)
+    # Activate station/Wi-Fi client interface and connect
+    sta_if.active(True)
+    sta_if.connect(WIFI_SSID, WIFI_PSWD)
 
-# Wait untill the connection is estalished
-while not sta_if.isconnected():
-    sleep_ms(100)
+    # Wait untill the connection is estalished
+    while not sta_if.isconnected():
+        print(".", end="")
+        sleep_ms(100)
+
+    print("Connected")
+    print(f"Network config: {sta_if.ifconfig()}")
