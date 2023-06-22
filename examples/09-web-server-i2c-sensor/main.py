@@ -64,6 +64,7 @@ def web_page():
 </head>
 <body>
     <h2>ESP DHT Server</h2>
+
     <p><i class="fas fa-thermometer-quarter" style="color:#008000;"></i> 
     <span class="dht-labels">Temperature</span> 
     <span>"""+str(temp)+"""</span>
