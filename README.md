@@ -88,7 +88,7 @@ There are several very good tutorials how to install and use MicroPython on an E
 6. Test MicroPython via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press onboard reset button:
 
     ```shell
-    screen /dev/ttyUSB0 115200 
+    screen /dev/ttyUSB0 115200
     ```
 
     > **Note:** To exit the screen, press `Ctrl+A`, followed by `K` and `Y`.
