@@ -30,7 +30,7 @@ def read_dht12_sensor():
 
     # Checksum
     if (buf[0] + buf[1] + buf[2] + buf[3]) & 0xff != buf[4]:
-        raise Exception("checksum error")
+        raise Exception("Checksum error")
 
 
 def read_raw_temperature():

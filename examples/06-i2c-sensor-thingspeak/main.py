@@ -42,7 +42,7 @@ def connect_wifi():
             print(".", end="")
             sleep_ms(100)
 
-        print("Connected")
+        print(" Connected")
 
 
 def disconnect_wifi():

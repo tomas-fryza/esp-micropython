@@ -50,5 +50,5 @@ if not sta_if.isconnected():
         print(".", end="")
         sleep_ms(100)
 
-    print("Connected")
+    print(" Connected")
     print(f"Network config: {sta_if.ifconfig()}")
