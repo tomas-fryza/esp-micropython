@@ -241,9 +241,11 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
 * [ ] Howto Use MicroPython in Jupyter
 * [ ] Example for Wokwi: Button, LED, Relay
-* [ ] Example: Bluetooth
-* [ ] Example: Timers, interrupts
+* [ ] Example: Timers, interrupts, ADC
+* [ ] Example: Displays (LCD, OLED, ...)
+* [ ] Example: Comms (SPI, ...)
 * [ ] Example: Deep sleep
+* [ ] Example: Bluetooth
 * [ ] Howto Use MicroPython on ESP32-CAM
 
 > - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
