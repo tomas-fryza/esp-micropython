@@ -224,6 +224,7 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 ## Examples
 
 * [Blink](examples/01-blink/main.py)
+* [Timer blink](examples/02-timers/main.py)
 * [Wi-Fi scan](examples/03-wifi-scan/main.py)
 * [Wi-Fi connection](examples/04-wifi-connection/main.py)
 * [I2C humidity & temperature sensor](examples/05-i2c-sensor/main.py)
@@ -241,7 +242,6 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
 * [ ] Howto Use MicroPython in Jupyter
 * [ ] Example for Wokwi: Button, LED, Relay
-* [ ] Example: Timers, interrupts, ADC
 * [ ] Example: Displays (LCD, OLED, ...)
 * [ ] Example: Comms (SPI, ...)
 * [ ] Example: Deep sleep
