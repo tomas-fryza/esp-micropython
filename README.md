@@ -4,7 +4,7 @@
 * [MicroPython installation](#MicroPython-installation)
   * [ESP32](#ESP32)
   * [ESP8266](#ESP8266)
-  * [Both](#Both)
+  * [Both ESP32 and ESP8266](#Both-ESP32-and-ESP8266)
 * [How to use](#How-to-use)
   * [Thonny IDE](#Thonny-IDE)
   * [PyCharm IDE](#PyCharm-IDE)
