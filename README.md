@@ -171,11 +171,11 @@ There are several very good tutorials how to install and use MicroPython on an E
 
 There are several IDEs (Integrated Development Environments) available for MicroPython programming, each with its own unique features and benefits. The most popular IDEs for MicroPython programming are:
 
-* Thonny
+* [Thonny](#Thonny-IDE)
 
-* PyCharm
+* [PyCharm](#PyCharm-IDE)
 
-* Jupyter
+* [Jupyter](#MicroPython-in-Jupyter)
 
 * [Mu](https://codewith.mu/) is another multiplatform IDE for MicroPython programming that is designed for beginners. It has a built-in MicroPython REPL and includes a tool for flashing firmware onto your board. It runs on Windows, macOS, and Linux.
 
