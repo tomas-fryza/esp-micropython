@@ -260,7 +260,7 @@ PyCharm is a powerful IDE that provides advanced features such as code completio
 * [RTC & NTP times](examples/07-rtc/main.py)
 * [Wi-Fi access point](examples/08-access-point/boot.py)
 * [Web server & I2C sensor](examples/09-web-server-i2c-sensor/)
-* [Jupyter example](examples/99-jupyter/test__micropython.py)
+* [Jupyter example](examples/99-jupyter/test_micropython.py)
 
 ## Useful information
 
