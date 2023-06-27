@@ -1,9 +1,8 @@
-
 """Boot file of the web server for the DHT12 sensor data.
 
-File contains the code that only needs to run once on boot and
-imports libraries, network credentials, and connecting to your 
-Wi-Fi network.
+This is script that run when device boot up or wake from sleep.
+It contains the code that imports libraries, network credentials,
+and connecting to your Wi-Fi network.
 
 NOTES:
     * Set your Wi-Fi SSID and password
