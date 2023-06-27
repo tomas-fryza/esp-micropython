@@ -27,7 +27,7 @@ To use MicroPython with a real ESP32 board, you will need to follow these steps:
 * Connect to the Board's Serial REPL and interact with MicroPython
 * Transfer files to the ESP32 board
 
-There are several very good tutorials how to install and use MicroPython on an ESP microcontroller, such as [this one](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html) for Windows. The following text was tested under Linux-based operation system.
+There are several very good tutorials how to install and use MicroPython on an ESP microcontroller, such as [this one](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html) for Windows. The following text was tested under Linux-based operating system.
 
 1. Install [Python](https://www.python.org/downloads/).
 
@@ -55,7 +55,7 @@ There are several very good tutorials how to install and use MicroPython on an E
 
 3. [Download](http://micropython.org/download/) the latest firmware for your target device, such as `esp32-20230426-v1.20.0.bin` for Espressif ESP32.
 
-4. Erase flash of target device (use your port name):
+4. Erase the Flash of target device (use your port name):
 
     ```shell
     esptool.py --chip esp32 --port /dev/ttyUSB0 erase_flash
@@ -85,13 +85,13 @@ There are several very good tutorials how to install and use MicroPython on an E
 
 ### Both
 
-6. Test MicroPython via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press onboard reset button:
+6. Test MicroPython via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press on-board reset button:
 
     ```shell
     screen /dev/ttyUSB0 115200
     ```
 
-    > **Note:** To exit the screen, press `Ctrl+A`, followed by `K` and `Y`.
+    > **Note:** To exit the `screen`, press `Ctrl+A`, followed by `K` and `Y`.
 
     ```python
     # Print string to a Shell
@@ -99,7 +99,7 @@ There are several very good tutorials how to install and use MicroPython on an E
     Hi there!
 
     # Operators used for the different functions like division,
-    # multiply, addition and subtraction
+    # multiplication, addition, subtraction, ...
     >>> 10/3
     3.333333
     >>> 10//3
@@ -177,13 +177,13 @@ There are several IDEs (Integrated Development Environments) available for Micro
 
 * Jupyter
 
-* [Mu](https://codewith.mu/) is another popular IDE for MicroPython programming that is designed for beginners. It has a built-in MicroPython REPL and includes a tool for flashing firmware onto your board. Mu is free and open-source, and it runs on Windows, macOS, and Linux.
+* [Mu](https://codewith.mu/) is another multiplatform IDE for MicroPython programming that is designed for beginners. It has a built-in MicroPython REPL and includes a tool for flashing firmware onto your board. It runs on Windows, macOS, and Linux.
 
-* [Visual Studio Code](https://code.visualstudio.com/) is a popular and versatile IDE that supports multiple programming languages, including MicroPython. It provides many useful features such as syntax highlighting, code completion, and debugging. Visual Studio Code is free and open-source, and it runs on Windows, macOS, and Linux.
+* [Visual Studio Code](https://code.visualstudio.com/) is a popular and versatile IDE that supports multiple programming languages, including MicroPython. It provides many useful features such as syntax highlighting, code completion, and debugging. It runs on Windows, macOS, and Linux.
 
 ### Thonny IDE
 
-Thonny is a popular IDE for MicroPython programming beginners. It has a simple and user-friendly interface and includes a MicroPython REPL (Read-Eval-Print Loop) that allows you to interact with the MicroPython interpreter and test your code in real-time. Thonny is free and open-source, and it runs on Windows, macOS, and Linux.
+Thonny is a multiplatform IDE for MicroPython programming beginners. It has a simple and user-friendly interface and includes a MicroPython REPL (Read-Eval-Print Loop) that allows you to interact with the MicroPython interpreter and test your code in real-time.
 
 1. Download and install Thonny IDE from [webpage](https://thonny.org/) or directly in terminal:
 
@@ -210,7 +210,7 @@ PyCharm is a powerful IDE that provides advanced features such as code completio
 4. Go to **File > Settings > Languages & Frameworks > MicroPython** and:
     -- check `Enable MicroPython support`
     -- select `ESP8266` device type (it works also for ESP32)
-    -- set `Device path` for your board, such as `/dev/ttyUS0`
+    -- set `Device path` for your board, such as `/dev/ttyUSB0`
     -- click on `OK` button
 
     Test [REPL](#Both) in **File > Tools > MicroPython > MicroPython REPL Alt+Shift+R**. Press on-board reset button if necesary.
@@ -260,6 +260,7 @@ PyCharm is a powerful IDE that provides advanced features such as code completio
 * [RTC & NTP times](examples/07-rtc/main.py)
 * [Wi-Fi access point](examples/08-access-point/boot.py)
 * [Web server & I2C sensor](examples/09-web-server-i2c-sensor/)
+* [Jupyter example](examples/99-jupyter/test__micropython.py)
 
 ## Useful information
 
