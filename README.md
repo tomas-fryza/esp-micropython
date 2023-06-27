@@ -83,7 +83,7 @@ There are several very good tutorials how to install and use MicroPython on an E
     esptool.py --chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
     ```
 
-### Both
+### Both ESP32 and ESP266
 
 6. Test MicroPython via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press on-board reset button:
 
