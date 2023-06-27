@@ -260,24 +260,24 @@ PyCharm is a powerful IDE that provides advanced features such as code completio
 * [RTC & NTP times](examples/07-rtc/main.py)
 * [Wi-Fi access point](examples/08-access-point/boot.py)
 * [Web server & I2C sensor](examples/09-web-server-i2c-sensor/)
-* [Jupyter example](examples/99-jupyter/test_micropython.py)
+* [Jupyter example](examples/99-jupyter/test_micropython.ipynb)
+
+> ### TODO
+>
+> * [ ] Example: Displays (LCD, OLED, ...)
+> * [ ] Example: Comms (SPI, ...)
+> * [ ] Example: Deep sleep
+> * [ ] Example: Bluetooth
+> * [ ] Howto Use MicroPython on ESP32-CAM
+>
+> - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
+> - [ ] Rts/Dtr handshake signals must be disabled?!
+> - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
 
 ## Useful information
 
 * [ESP32 brief overview](https://www.youtube.com/watch?v=DoctWoxIaH8) (YouTube video)
 * [FireBeetle board](docs/firebeetle.md)
-
-## TODO
-
-* [ ] Example: Displays (LCD, OLED, ...)
-* [ ] Example: Comms (SPI, ...)
-* [ ] Example: Deep sleep
-* [ ] Example: Bluetooth
-* [ ] Howto Use MicroPython on ESP32-CAM
-
-> - [ ] Online tool: [https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
-> - [ ] Rts/Dtr handshake signals must be disabled?!
-> - [ ] [https://forum.micropython.org/viewtopic.php?t=10151&start=10](https://forum.micropython.org/viewtopic.php?t=10151&start=10)
 
 ## References
 
