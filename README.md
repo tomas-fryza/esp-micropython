@@ -171,15 +171,19 @@ There are several very good tutorials how to install and use MicroPython on an E
 
 There are several IDEs (Integrated Development Environments) available for MicroPython programming, each with its own unique features and benefits. The most popular IDEs for MicroPython programming are:
 
-* [Thonny](https://thonny.org/) is a popular IDE for MicroPython programming beginners. It has a simple and user-friendly interface and includes a MicroPython REPL (Read-Eval-Print Loop) that allows you to interact with the MicroPython interpreter and test your code in real-time. Thonny is free and open-source, and it runs on Windows, macOS, and Linux.
+* Thonny
+
+* PyCharm
+
+* Jupyter
 
 * [Mu](https://codewith.mu/) is another popular IDE for MicroPython programming that is designed for beginners. It has a built-in MicroPython REPL and includes a tool for flashing firmware onto your board. Mu is free and open-source, and it runs on Windows, macOS, and Linux.
-
-* [PyCharm](https://www.jetbrains.com/pycharm/) is a powerful IDE that provides advanced features such as code completion, debugging, and version control integration. PyCharm also includes a MicroPython debugger that allows you to step through your code and set breakpoints. PyCharm is a commercial product, but has a Community Edition free version. It runs on Windows, macOS, and Linux.
 
 * [Visual Studio Code](https://code.visualstudio.com/) is a popular and versatile IDE that supports multiple programming languages, including MicroPython. It provides many useful features such as syntax highlighting, code completion, and debugging. Visual Studio Code is free and open-source, and it runs on Windows, macOS, and Linux.
 
 ### Thonny IDE
+
+Thonny is a popular IDE for MicroPython programming beginners. It has a simple and user-friendly interface and includes a MicroPython REPL (Read-Eval-Print Loop) that allows you to interact with the MicroPython interpreter and test your code in real-time. Thonny is free and open-source, and it runs on Windows, macOS, and Linux.
 
 1. Download and install Thonny IDE from [webpage](https://thonny.org/) or directly in terminal:
 
@@ -195,7 +199,7 @@ There are several IDEs (Integrated Development Environments) available for Micro
 
 ### PyCharm IDE
 
-In the next, the **PyCharm IDE** is used, mainly because it provides advanced features and can be especially helpful for larger and more complex Python/MicroPython projects.
+PyCharm is a powerful IDE that provides advanced features such as code completion, debugging, and version control integration. PyCharm also includes a MicroPython debugger that allows you to step through your code and set breakpoints. PyCharm is a commercial product, but has a Community Edition free version. It runs on Windows, macOS, and Linux and it can be especially helpful for larger and more complex Python/MicroPython projects.
 
 1. Download and install [Community edition PyCharm](https://www.jetbrains.com/pycharm/download/).
 
@@ -221,6 +225,30 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
     > **Note:** Check [MicroPython Tutorial](http://mpy-tut.zoic.org/tut/input-and-output.html) for other simple examples and see description of [machine module](https://docs.micropython.org/en/latest/library/machine.html?highlight=machine).
 
+### MicroPython in Jupyter
+
+1. Open Terminal and install Jupyter notebook and/or lab:
+
+    ```shell
+    pip install notebook
+    pip install jupyterlab
+    ```
+
+2. Install MicroPython kernel:
+
+    ```shell
+    pip install jupyter_micropython_kernel
+    python3 -m jupyter_micropython_kernel.install
+    ```
+
+3. Run Jupyter notebook and open [example](examples/99-jupyter/test_micropython.ipynb):
+
+    ```shell
+    jupyter-notebook
+    ```
+
+   ![jupyter_basics](images/jupyter_basics.png)
+
 ## Examples
 
 * [Blink](examples/01-blink/main.py)
@@ -240,8 +268,6 @@ In the next, the **PyCharm IDE** is used, mainly because it provides advanced fe
 
 ## TODO
 
-* [ ] Howto Use MicroPython in Jupyter
-* [ ] Example for Wokwi: Button, LED, Relay
 * [ ] Example: Displays (LCD, OLED, ...)
 * [ ] Example: Comms (SPI, ...)
 * [ ] Example: Deep sleep
