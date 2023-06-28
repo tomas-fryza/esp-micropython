@@ -28,8 +28,16 @@ i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100000)
 
 # Scan for peripherals, returning a list of 7-bit addresses
 # between 0x08 and 0x77 inclusive
-print("Scanning for I2C devices... ")
-print(i2c.scan())
+print("Scanning for I2C devices... ", end="")
+devices = i2c.scan()
+device_count = len(devices)
+
+if device_count == 0:
+    print("No I2C devices found")
+else:
+    print(f"{device_count} found")
+    for device in devices:
+        print(f"Dec address: {device},\tHex address: {hex(device)}")
 print("")
 
 # Create an array of 5 bytes
@@ -42,19 +50,20 @@ buf = bytearray(5)
 
 # Forever loop
 while True:
-    # Read 5 bytes from addr. 0 from peripheral with 7-bit address 0x5c
-    led.on()
-    i2c.readfrom_mem_into(0x5c, 0, buf)
-    led.off()
+    if device_count != 0:
+        # Read 5 bytes from addr. 0 from peripheral with 7-bit address 0x5c
+        led.on()
+        i2c.readfrom_mem_into(0x5c, 0, buf)
+        led.off()
 
-    # Checksum
-    if (buf[0] + buf[1] + buf[2] + buf[3]) & 0xff != buf[4]:
-        raise Exception("checksum error")
+        # Checksum
+        if (buf[0] + buf[1] + buf[2] + buf[3]) & 0xff != buf[4]:
+            raise Exception("checksum error")
 
-    # Display data
-    humi = buf[0] + (buf[1]*0.1)
-    temp = buf[2] + (buf[3]*0.1)
-    print(f"Temperature: {temp} C\tHumidity: {humi} %")
+        # Display data
+        humi = buf[0] + (buf[1]*0.1)
+        temp = buf[2] + (buf[3]*0.1)
+        print(f"Temperature: {temp} C\tHumidity: {humi} %")
 
     # Delay 5 seconds
     sleep(5)
