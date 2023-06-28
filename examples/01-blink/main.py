@@ -8,6 +8,7 @@ Inspired by:
     * https://wokwi.com/projects/359801682833812481
 """
 
+# Load `Pin` class from `machine` module in order to access the hardware
 from machine import Pin
 from time import sleep_ms
 
