@@ -50,13 +50,14 @@ buf = bytearray(5)
 
 # Forever loop
 while True:
-    if device_count != 0:
-        # Read 5 bytes from addr. 0 from peripheral with 7-bit address 0x5c
+    # Read values from device with 7-bit address `0x5c`
+    if 0x5c in devices:
+        # Read 5 bytes from addr. 0 into `buf` array
         led.on()
         i2c.readfrom_mem_into(0x5c, 0, buf)
         led.off()
 
-        # Checksum
+        # Test checksum of received data
         if (buf[0] + buf[1] + buf[2] + buf[3]) & 0xff != buf[4]:
             raise Exception("checksum error")
 
