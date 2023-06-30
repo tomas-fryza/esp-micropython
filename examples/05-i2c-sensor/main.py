@@ -6,11 +6,11 @@ from DHT12 sensor with SLA = 0x5c (92).
 NOTES:
     * Connect DHT12 sensor to I2C pins:
 
-        DHT12  ESP32 ESP8266 ESP32-CAM
-        SCL     22      5       15
-        SDA     21      4       13
-        +      3.3V    3.3V    3.3V
-        -      GND     GND     GND
+        DHT12  ESP32 ESP8266 ESP32-CAM ESP32C3
+        SCL     22      5       15        8
+        SDA     21      4       13       10
+        +      3.3V    3.3V    3.3V     3.3V
+        -      GND     GND     GND      GND
 
 Inspired by:
     * https://docs.micropython.org/en/latest/library/machine.I2C.html#machine-i2c
@@ -20,8 +20,9 @@ Inspired by:
 from machine import Pin, I2C
 from time import sleep
 
-# Status LED
+# Status LED at GPIO2
 led = Pin(2, Pin.OUT)
+led.off()
 
 # Create I2C peripheral at frequency of 100 kHz
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100000)
