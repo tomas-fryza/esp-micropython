@@ -5,7 +5,6 @@ from DHT12 sensor with SLA = 0x5c (92).
 
 NOTES:
     * Connect DHT12 sensor to I2C pins:
-
         DHT12  ESP32 ESP8266 ESP32-CAM ESP32C3
         SCL     22      5       15        8
         SDA     21      4       13       10

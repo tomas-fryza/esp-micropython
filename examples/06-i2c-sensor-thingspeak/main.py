@@ -1,18 +1,17 @@
 """Send I2C sensor data to ThingSpeak cloud.
 
-Read data from DHT12 humidity & temperature I2C sensor, and send them
+Read data from DHT12 humidity & temperature I2C sensor and send them
 to ThingSpeak.com server via Wi-Fi.
 
 NOTES:
     * Set your Wi-Fi SSID and password
     * Set your ThingSpeak Write API key
     * Connect DHT12 sensor to I2C pins:
-
-        DHT12  ESP32 ESP8266 ESP32-CAM
-        SCL     22      5       15
-        SDA     21      4       13
-        +      3.3V    3.3V    3.3V
-        -      GND     GND     GND
+        DHT12  ESP32 ESP8266 ESP32-CAM ESP32C3
+        SCL     22      5       15        8
+        SDA     21      4       13       10
+        +      3.3V    3.3V    3.3V     3.3V
+        -      GND     GND     GND      GND
 
 Inspired by:
     * https://microcontrollerslab.com/esp32-micropython-bme280-sensor-thingspeak/
@@ -30,14 +29,8 @@ def connect_wifi():
 
     if not sta_if.isconnected():
         print("Connecting to Wi-Fi", end="")
-
-        # Activate station/Wi-Fi client interface
         sta_if.active(True)
-
-        # Connect
         sta_if.connect(WIFI_SSID, WIFI_PSWD)
-
-        # Wait untill the connection is estalished
         while not sta_if.isconnected():
             print(".", end="")
             sleep_ms(100)
@@ -59,9 +52,9 @@ def read_dht12_sensor():
     i2c.readfrom_mem_into(0x5c, 0, buf)
     led.off()
 
-    # Checksum
+    # Check the checksum
     if (buf[0] + buf[1] + buf[2] + buf[3]) & 0xff != buf[4]:
-        raise Exception("checksum error")
+        raise Exception("Checksum error")
 
 
 # Network settings
@@ -85,7 +78,7 @@ buf = bytearray(5)
 while True:
     read_dht12_sensor()
 
-    # Display data
+    # Put data together
     humi = buf[0] + (buf[1]*0.1)
     temp = buf[2] + (buf[3]*0.1)
     print(f"Temperature: {temp} C\tHumidity: {humi} %")
@@ -101,5 +94,5 @@ while True:
 
     disconnect_wifi()
 
-    # Delay 30 seconds
-    sleep(30)
+    # Put device to sleep for 60 seconds
+    sleep(60)

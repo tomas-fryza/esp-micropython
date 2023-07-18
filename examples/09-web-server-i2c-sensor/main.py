@@ -5,12 +5,11 @@ File contains web server sending DHT12 sensor data to web page.
 NOTES:
     * Set your Wi-Fi SSID and password in `boot.py`
     * Connect DHT12 sensor to I2C pins:
-
-        DHT12  ESP32 ESP8266 ESP32-CAM
-        SCL     22      5       15
-        SDA     21      4       13
-        +      3.3V    3.3V    3.3V
-        -      GND     GND     GND
+        DHT12  ESP32 ESP8266 ESP32-CAM ESP32C3
+        SCL     22      5       15        8
+        SDA     21      4       13       10
+        +      3.3V    3.3V    3.3V     3.3V
+        -      GND     GND     GND      GND
 
     * Save copy of both files (`boot.py` and `main.py`) to
       ESP device and press on-board reset button
@@ -86,12 +85,11 @@ def web_page():
 
 # Create I2C peripheral at frequency of 100 kHz
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100000)
+# Create an array of 5 bytes (2x humidity, 2x temperature, 1x checksum)
+buf = bytearray(5)
 
 # Status LED
 led = Pin(2, Pin.OUT)
-
-# Create an array of 5 bytes (2x humidity, 2x temperature, 1x checksum)
-buf = bytearray(5)
 
 # Create TCP/IP socket object
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
