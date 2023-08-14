@@ -7,7 +7,7 @@
   * [Both ESP32 and ESP8266](#Both-ESP32-and-ESP8266)
 * [How to use](#How-to-use)
   * [Thonny IDE](#Thonny-IDE)
-  * [PyCharm IDE](#PyCharm-IDE)
+  * [PyCharm](#PyCharm)
   * [MicroPython Jupyter](#MicroPython-Jupyter)
 * [Examples](#examples)
 * [References](#References)
@@ -173,7 +173,7 @@ There are several IDEs (Integrated Development Environments) available for Micro
 
 * [Thonny](#Thonny-IDE)
 
-* [PyCharm](#PyCharm-IDE)
+* [PyCharm](#PyCharm)
 
 * [Jupyter](#MicroPython-in-Jupyter)
 
@@ -197,7 +197,7 @@ Thonny is a multiplatform IDE for MicroPython programming beginners. It has a si
 
    ![thonny_blink](images/thonny_blink.png)
 
-### PyCharm IDE
+### PyCharm
 
 PyCharm is a powerful IDE that provides advanced features such as code completion, debugging, and version control integration. PyCharm also includes a MicroPython debugger that allows you to step through your code and set breakpoints. PyCharm is a commercial product, but has a Community Edition free version. It runs on Windows, macOS, and Linux and it can be especially helpful for larger and more complex Python/MicroPython projects.
 
