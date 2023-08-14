@@ -1,16 +1,16 @@
 # How to use MicroPython and ESP32/ESP8266
 
-* [Wokwi simulator](#Wokwi-Simulator)
-* [MicroPython installation](#MicroPython-installation)
-  * [ESP32](#ESP32)
-  * [ESP8266](#ESP8266)
-  * [Both ESP32 and ESP8266](#Both-ESP32-and-ESP8266)
-* [How to use](#How-to-use)
-  * [Thonny IDE](#Thonny-IDE)
-  * [PyCharm](#PyCharm)
-  * [MicroPython Jupyter](#MicroPython-Jupyter)
+* [Wokwi simulator](#wokwi-simulator)
+* [MicroPython installation](#micropython-installation)
+  * [ESP32](#esp32)
+  * [ESP8266](#esp8266)
+  * [Both ESP32 and ESP8266](#both-esp32-and-esp8266)
+* [How to use](#how-to-use)
+  * [Thonny IDE](#thonny-ide)
+  * [PyCharm](#pycharm)
+  * [MicroPython Jupyter](#micropython-jupyter)
 * [Examples](#examples)
-* [References](#References)
+* [References](#references)
 
 ## Wokwi simulator
 
@@ -171,11 +171,11 @@ There are several very good tutorials how to install and use MicroPython on an E
 
 There are several IDEs (Integrated Development Environments) available for MicroPython programming, each with its own unique features and benefits. The most popular IDEs for MicroPython programming are:
 
-* [Thonny](#Thonny-IDE)
+* [Thonny](#thonny-ide)
 
-* [PyCharm](#PyCharm)
+* [PyCharm](#pycharm)
 
-* [Jupyter](#MicroPython-in-Jupyter)
+* [Jupyter](#micropython-in-jupyter)
 
 * [Mu](https://codewith.mu/) is another multiplatform IDE for MicroPython programming that is designed for beginners. It has a built-in MicroPython REPL and includes a tool for flashing firmware onto your board. It runs on Windows, macOS, and Linux.
 
