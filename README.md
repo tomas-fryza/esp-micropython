@@ -213,9 +213,9 @@ PyCharm is a powerful IDE that provides advanced features such as code completio
     * set `Device path` for your board, such as `/dev/ttyUSB0` in Linux
     * click on `OK` button
 
-    Test [REPL](#Both) in **File > Tools > MicroPython > MicroPython REPL Alt+Shift+R**. Press on-board reset button if necesary.
+    Test [REPL](#Both) in **Tools > MicroPython > MicroPython REPL Alt+Shift+R**. Press on-board reset button if necesary.
 
-    > **Note:** Sometimes, there is a useful function to clear all files store in device's memory. Select **File > Tools > MicroPython > Remove All Files from MicroPython Device**.
+    > **Note:** Sometimes, there is a useful function to clear all files store in device's memory. Select **Tools > MicroPython > Remove All Files from MicroPython Device**.
 
 5. Add a file to the project. Select **File > New... > Python file** and name it `main.py`. The missing packages will be installed to work with the ESP32/8266. Copy/paste the [example blink](examples/01-blink/main.py) code to `main.py` file.
 
