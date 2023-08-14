@@ -203,14 +203,14 @@ PyCharm is a powerful IDE that provides advanced features such as code completio
 
 1. Download and install [Community edition PyCharm](https://www.jetbrains.com/pycharm/download/).
 
-2. Run the PyCharm and install MicroPython plugin for PyCharm. Go to **File > Settings > Plugins > Marketplace**, search for `MicroPython` and install it.
+2. Run the PyCharm and install MicroPython plugin for PyCharm. Go to **File > Settings... > Plugins > Marketplace**, search for `MicroPython` and install it. Restart the IDE.
 
 3. Create a new project, name and locate it wherever you want. Connect your ESP32/ESP8266 board vie USB.
 
-4. Go to **File > Settings > Languages & Frameworks > MicroPython** and:
+4. Go to **File > Settings... > Languages & Frameworks > MicroPython** and:
     -- check `Enable MicroPython support`
     -- select `ESP8266` device type (it works also for ESP32)
-    -- set `Device path` for your board, such as `/dev/ttyUSB0`
+    -- set `Device path` for your board, such as `/dev/ttyUSB0` in Linux
     -- click on `OK` button
 
     Test [REPL](#Both) in **File > Tools > MicroPython > MicroPython REPL Alt+Shift+R**. Press on-board reset button if necesary.
