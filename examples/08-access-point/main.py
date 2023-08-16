@@ -28,6 +28,8 @@ gc.collect()
 
 def web_page():
     """Static web page to be trasmited by AP
+
+    :return:  HTML code to be displayed
     """
     html_code = """<!DOCTYPE HTML><html>
 <head>

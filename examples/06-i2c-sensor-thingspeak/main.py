@@ -6,12 +6,16 @@ to ThingSpeak.com server via Wi-Fi.
 NOTES:
     * Set your Wi-Fi SSID and password
     * Set your ThingSpeak Write API key
-    * Connect DHT12 sensor to I2C pins:
-        DHT12  ESP32 ESP8266 ESP32-CAM ESP32C3
-        SCL     22      5       15        8
-        SDA     21      4       13       10
-        +      3.3V    3.3V    3.3V     3.3V
-        -      GND     GND     GND      GND
+    * Connect DHT12 sensor to on-board pins:
+        DHT12 | ESP32 | ESP8266 | ESP32-CAM | ESP32C3
+       -------+-------+---------+-----------+---------
+        SCL   |    22 |       5 |        15 |       8
+        SDA   |    21 |       4 |        13 |      10
+        +     |  3.3V |    3.3V |      3.3V |    3.3V
+        -     |   GND |     GND |       GND |     GND
+
+TODOs:
+    * Add comments to all functions
 
 Inspired by:
     * https://microcontrollerslab.com/esp32-micropython-bme280-sensor-thingspeak/
@@ -86,9 +90,10 @@ while True:
     connect_wifi()
 
     # Send data using a POST request
-    request = urequests.post('http://api.thingspeak.com/update?api_key=' + THINGSPEAK_API_KEY,
-                             json={"field1": temp, "field2": humi},
-                             headers={"Content-Type": "application/json"})
+    request = urequests.post(
+        'http://api.thingspeak.com/update?api_key=' + THINGSPEAK_API_KEY,
+        json={"field1": temp, "field2": humi},
+        headers={"Content-Type": "application/json"})
     print(f"Request #{request.text} sent")
     request.close()
 

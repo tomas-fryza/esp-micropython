@@ -7,6 +7,9 @@ NOTES:
     * Set your Wi-Fi SSID and password
     * Set your time zone
 
+TODOs:
+    * Add comments to all functions
+
 Inspired by:
     * https://www.engineersgarage.com/micropython-esp8266-esp32-rtc-utc-local-time/
     * https://github.com/micropython/micropython-lib/blob/master/micropython/net/ntptime/ntptime.py

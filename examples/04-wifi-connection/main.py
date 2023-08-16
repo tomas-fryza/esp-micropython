@@ -3,6 +3,9 @@
 Use `network` module to establish the connection to the Wi-Fi
 network.
 
+TODOs:
+    * Add comments to all functions
+
 Inspired by:
     * https://www.srccodes.com/configuration-sta-if-interface-esp8266-mycro-python-firmware-connect-wifi-networkk-automatically-boot/
     * https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/

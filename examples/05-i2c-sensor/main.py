@@ -4,12 +4,16 @@ Use hardware I2C bus and read temperature and humidity values
 from DHT12 sensor with SLA = 0x5c (92).
 
 NOTES:
-    * Connect DHT12 sensor to I2C pins:
-        DHT12  ESP32 ESP8266 ESP32-CAM ESP32C3
-        SCL     22      5       15        8
-        SDA     21      4       13       10
-        +      3.3V    3.3V    3.3V     3.3V
-        -      GND     GND     GND      GND
+    * Connect DHT12 sensor to on-board pins:
+        DHT12 | ESP32 | ESP8266 | ESP32-CAM | ESP32C3
+       -------+-------+---------+-----------+---------
+        SCL   |    22 |       5 |        15 |       8
+        SDA   |    21 |       4 |        13 |      10
+        +     |  3.3V |    3.3V |      3.3V |    3.3V
+        -     |   GND |     GND |       GND |     GND
+
+TODOs:
+    * Add comments to all functions
 
 Inspired by:
     * https://docs.micropython.org/en/latest/library/machine.I2C.html#machine-i2c

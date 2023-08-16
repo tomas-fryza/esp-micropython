@@ -4,6 +4,9 @@ ESP32 has four 64-bit hardware timers (Timer0, Timer1, Timer2,
 and Timer3) based on 16-bit pre-scalers. Init all timers and
 wait for interrupt signals.
 
+TODOs:
+    * Add comments to all functions
+
 Inspired by:
     * https://www.upesy.com/blogs/tutorials/timer-esp32-with-micro-python-scripts#
     * https://microcontrollerslab.com/micropython-timers-esp32-esp8266-generate-delay/
