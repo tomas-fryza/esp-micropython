@@ -33,7 +33,7 @@ def scan_wifi():
     print("-----------------+-------------------+----+-----+------------")
 
     authmodes = ["Open", "WEP", "WPA-PSK", "WPA2-PSK4",
-                 "WPA/WPA2-PSK", "other"]
+                 "WPA/WPA2-PSK", "other", "other", "other"]
 
     # Print each AP params in a single row
     for (ssid, bssidap, channel, rssi, authmode, vis) in accessPoints:
