@@ -106,10 +106,49 @@ Thonny is an integrated development environment (IDE) designed primarily for Pyt
 
     Write code to read the ESP core temperature and print it in both Fahrenheit and Celsius.
 
-3. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, copy/paste the [example blink](examples/01-blink/main.py) code and run the application by **Run > Run current script F5**. Seve the code as `01-blibk.py` to your local folder.
+3. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, copy/paste the [example blink](examples/01-blink/main.py) code and run the application by **Run > Run current script F5**. Save the code as `01-blink.py` to your local folder.
 
 <a name="part3"></a>
 
 ## Part 3: Wi-Fi scanner
 
-TBD
+Because ESP32 microcontroller consists of Wi-Fi module, you can use MicroPython's `network` module to perform a simple Wi-Fi scan.
+
+1. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, copy/paste the [example](examples/03-wifi-scan/main.py) code and run the application. Save the code as `01-wifi-scan.py` to your local folder.
+
+    ```python
+    import network
+
+    wlan = network.WLAN(network.STA_IF)  # Initialize the WLAN (Station mode)
+    wlan.active(True)  # Activate the WLAN interface
+
+    # Perform the Wi-Fi scan
+    available_networks = wlan.scan()
+
+    # Print the list of available Wi-Fi networks
+    for network in available_networks:
+        print("SSID:", network[0].decode("utf-8"))
+        print("Signal Strength (dBm):", network[3])
+    ```
+
+    This code initializes the WLAN interface in Station mode, performs a Wi-Fi scan, and then prints the SSID and signal strength (in dBm) of each available network.
+
+2. Start a new access point on your smartphone and repeat the application. Try several distances between the phone and ESP32 board and observe the RSSI parameter.
+
+<a name="experiments"></a>
+
+## (Optional) Experiments on your own
+
+1. Modify the Wokwi example and build an application that will repeatedly trasnmit the string `PARIS` on a LED in the Morse code. Choose the duration of "dot" and "dash" so that they are visible during the simulation and/or implementation. Note that the proper Morse code timing is explained [here](https://morsecode.world/international/timing.html).
+
+2. If you have your own ESP32/ESP8266 board, follow the [instructions](README.md) and install the MicroPython interpreter on it.
+
+<a name="references"></a>
+
+## References
+
+1. [Getting started with MicroPython on the ESP32](https://docs.micropython.org/en/latest/esp32/tutorial/intro.html)
+
+2. MicroPython Documentation. [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html)
+
+3. Stephen C. Phillips. [Morse Code Timing](https://morsecode.world/international/timing.html)
