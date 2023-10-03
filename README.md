@@ -36,6 +36,7 @@ The following hardware and software components are mainly used in the lab.
 
 * Sensors and modules:
   * [DHT12](https://arduino-shop.cz/arduino/1977-i2c-teplomer-a-vlhkomer-dht12-digitalni.html) I2C humidity and temperature sensor: [data sheet](docs/dht12_manual.pdf)
+  * MPU6050 gyroscope and accelerometer: [data sheet](docs/dht12_manual.pdf)
   * [DS3231](https://arduino-shop.cz/hledani.php?q=DS3231&n_q=) I2C real time clock: [data sheet](docs/ds3231_manual.pdf)
   * [HC-SR04](https://components101.com/ultrasonic-sensor-working-pinout-datasheet) ultrasonic sensor
   * Analog [joystick PS2](https://arduino-shop.cz/arduino/884-arduino-joystick-ps2.html)
