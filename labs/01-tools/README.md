@@ -39,9 +39,11 @@ Wokwi is a web-based platform for simulating and visualizing electronics project
 
 1. Open your web browser, visit the [Wokwi](https://wokwi.com/micropython) website, and select **ESP32 Blink** starter template. Wokwi provides a work area with the circuit on the right where you can add and connect components like LEDs, sensors, or other peripherals and a code editor on the left. Here, you can write MicroPython code that will run on the virtual ESP32 microcontroller.
 
+   ![wokwi_blink](images/wokwi_blink.png)
+
 2. The Blink template consists of ESP32 microcontroller, LED, and resistor. Simulate the circuit by clicking on a **Star the simulation** button. This will start the simulation, and you will see how your code interacts with the virtual components.
 
-3. Go through each line of the source code and clarify its function. Change the duration of the sleep() function and observe the changes during simulation.
+3. Go through each line of the source code and clarify its function. Change the duration of the `sleep()`` function and observe the changes during simulation.
 
 4. Incorporate an additional LED and resistor into the circuit, designate an available GPIO pin, establish the LED connection using an active-low configuration, and develop the code to achieve alternating blinking of two LEDs.
 
