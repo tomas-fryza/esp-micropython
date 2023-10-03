@@ -110,6 +110,8 @@ Thonny is an integrated development environment (IDE) designed primarily for Pyt
 
 3. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, copy/paste the [example blink](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/examples/01-blink/main.py) code and run the application by **Run > Run current script F5**. Save the code as `01-blink.py` to your local folder.
 
+   ![thonny_blink](images/thonny_blink.png)
+
 <a name="part3"></a>
 
 ## Part 3: Wi-Fi scanner
