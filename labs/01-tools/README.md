@@ -106,7 +106,7 @@ Thonny is an integrated development environment (IDE) designed primarily for Pyt
 
     Write code to read the ESP core temperature and print it in both Fahrenheit and Celsius.
 
-3. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, copy/paste the [example blink](examples/01-blink/main.py) code and run the application by **Run > Run current script F5**. Save the code as `01-blink.py` to your local folder.
+3. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, copy/paste the [example blink](../../examples/01-blink/main.py) code and run the application by **Run > Run current script F5**. Save the code as `01-blink.py` to your local folder.
 
 <a name="part3"></a>
 
@@ -114,7 +114,7 @@ Thonny is an integrated development environment (IDE) designed primarily for Pyt
 
 Because ESP32 microcontroller consists of Wi-Fi module, you can use MicroPython's `network` module to perform a simple Wi-Fi scan.
 
-1. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, copy/paste the [example](examples/03-wifi-scan/main.py) code and run the application. Save the code as `01-wifi-scan.py` to your local folder.
+1. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, copy/paste the [example](../../examples/03-wifi-scan/main.py) code and run the application. Save the code as `01-wifi-scan.py` to your local folder.
 
     ```python
     import network
@@ -141,7 +141,7 @@ Because ESP32 microcontroller consists of Wi-Fi module, you can use MicroPython'
 
 1. Modify the Wokwi example and build an application that will repeatedly trasnmit the string `PARIS` on a LED in the Morse code. Choose the duration of "dot" and "dash" so that they are visible during the simulation and/or implementation. Note that the proper Morse code timing is explained [here](https://morsecode.world/international/timing.html).
 
-2. If you have your own ESP32/ESP8266 board, follow the [instructions](README.md) and install the MicroPython interpreter on it.
+2. If you have your own ESP32/ESP8266 board, follow the [instructions](../../README.md) and install the MicroPython interpreter on it.
 
 <a name="references"></a>
 
