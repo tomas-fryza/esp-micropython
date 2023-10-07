@@ -1,6 +1,6 @@
 def print_arrow(width, symbol):
     """Print an arrow of symbols with a defined width,
-       such as width=5:
+       such as `width=5`:
        *
        **
        ***
@@ -27,7 +27,7 @@ def print_arrow(width, symbol):
         print(arrow_part)
 
 
-# Example usage with a width of 5
+# Example usage
 arrow_width = 5
 print_arrow(arrow_width, "*")
 
@@ -58,9 +58,8 @@ import cmath  # Complex numbers' math
 def solve_quadratic_eq(a, b, c):
     """Solve a quadratic equation of the form ax^2 + bx + c = 0 using
     the quadratic formula:
-    
-        x = (-b +- sqrt(b^2 - 4ac)) / (2a)
 
+        x = (-b +- sqrt(b^2 - 4ac)) / (2a)
     """
 
     # Calculate the discriminant
@@ -70,7 +69,7 @@ def solve_quadratic_eq(a, b, c):
     if disc == 0:
         x1 = -b / (2*a)
         x2 = x1  # One real root (repeated)
-    
+
     elif disc > 0:
         x1 = (-b + math.sqrt(disc)) / (2*a)  # Root square of real value
         x2 = (-b - math.sqrt(disc)) / (2*a)

@@ -1,4 +1,4 @@
-# Lab 1: Programming in MicroPython
+# Lab 1: ESP32 tools
 
 ### Learning objectives
 
@@ -53,7 +53,7 @@ Wokwi is a web-based platform for simulating and visualizing electronics project
 
 Thonny is an integrated development environment (IDE) designed primarily for Python programming. It provides a user-friendly and beginner-friendly environment for writing, running, and debugging Python code. It can also be used with MicroPython for programming microcontrollers like the ESP8266 and ESP32. Thonny is available for multiple platforms, including Windows, macOS, and Linux.
 
-1. Use micro USB cable and connect the ESP32 board to your computer Run Thonny IDE and select on-board interpreter. Go to **Run > Select interpreter... > Interpreter** and select `ESP32` or `ESP8266`. Click on red **Stop/Restart** button or press the on-board reset button if necesary.
+1. Use micro USB cable and connect the ESP32 board to your computer. Run Thonny IDE and go to menu **Run > Select interpreter... > Interpreter** and select `ESP32` or `ESP8266`. Click on red **Stop/Restart** button or press the on-board reset button if necesary.
 
 2. In MicroPython programming, REPL stands for `Read-Eval-Print Loop`. It is an interactive mode that allows you to enter and execute Python code commands directly, one at a time, without the need to write and upload entire scripts or programs. Use the following commands in **Shell**.
 
