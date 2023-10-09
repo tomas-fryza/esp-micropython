@@ -4,9 +4,9 @@ The repository contains MicroPython lab exercises for [*Digital Electronics*](ht
 
 ## Exercises
 
-1. [Programming in MicroPython](labs/01-tools)
-2. [Control of GPIO pins](labs/02-gpio)
-3. tbd
+1. [Tools for programming and debugging ESP32 microcontrollers](labs/01-tools)
+2. [Programming in Python, Git version-control system ](labs/02-python)
+3. [Control of GPIO pins](labs/03-gpio)
 4. tbd
 5. tbd
 6. tbd

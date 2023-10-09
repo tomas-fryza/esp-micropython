@@ -52,7 +52,7 @@ result = my_factorial(n)
 print(f"The factorial of {n} is {result}")
 
 
-import math   # Import mathematical modul
+import math   # Import mathematical module
 import cmath  # Complex numbers' math
 
 def solve_quadratic_eq(a, b, c):
