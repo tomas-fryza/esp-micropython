@@ -1,4 +1,4 @@
-# Lab 1: ESP32 tools
+# Lab 1: Tools for programming and debugging ESP32 microcontrollers
 
 ### Learning objectives
 
@@ -62,21 +62,8 @@ Thonny is an integrated development environment (IDE) designed primarily for Pyt
     >>> print("Hi there!")
     Hi there!
 
-    # Operators used for the different functions like division,
-    # multiplication, addition, subtraction, ...
-    >>> 10/3
-    3.333333
-    >>> 10//3
-    3
-    >>> 10%3
-    1
-    >>> 10*3
-    30
-    >>> 10**3
-    1000
-    >>> pi = 3.1415
-    >>> print(pi)
-    3.1415
+    >>> print(f"add: {a+b}, sub: {a-b}, div: {a/3}, div_int: {a//3}")
+    >>> print(f"rem: {a%b}, mul: {a*b}, exp: {a**b}")
     ```
 
     See MicroPython tutorials, such as [MicroPython Programming Basics with ESP32 and ESP8266](https://randomnerdtutorials.com/micropython-programming-basics-esp32-esp8266/) for detailed explanation.
