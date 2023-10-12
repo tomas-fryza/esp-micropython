@@ -1,6 +1,10 @@
-# Lab 2: Programming in Python, Git version-control system
+# Lab 3: Control of GPIO pins
 
 TBD
+
+![firebeetle_pinout](../../images/firebeetle-pinout.jpg)
+
+![keypad_pinouts](images/keypad_pinouts.png)
 
 ### Learning objectives
 
