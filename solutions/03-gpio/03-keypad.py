@@ -1,6 +1,6 @@
-"""Program 3-2: Non-blocking function `getkey()` detects
-   key press. When a key is pressed, return the key id.
-   If no key is pressed, return 0.
+"""Program 3-2: Non-blocking function `get_key()` detects
+   key press. When a key is pressed, return the key Id.
+   If no key is pressed, return None.
    
    Wiring of the keypad to FireBeetle ESP32 GPIO pins:
    row 1 - 19  OUTs
@@ -21,14 +21,7 @@ import time
 row_pins = [Pin(pin, Pin.OUT) for pin in (19, 21, 22, 14)]
 col_pins = [Pin(pin, Pin.IN, Pin.PULL_UP) for pin in (12, 4, 16, 17)]
 
-# Define the keypad matrix layout
-# keys = [
-#    ['1', '2', '3', 'A'],
-#    ['4', '5', '6', 'B'],
-#    ['7', '8', '9', 'C'],
-#    ['*', '0', '#', 'D']
-#]
-# Make a tuple of keys by row
+# Make a tuple of keys and dfine the keypad matrix layout
 keys = "123A", "456B", "789C", "*0#D"
 
 print(f"rows: {row_pins}")
@@ -36,8 +29,9 @@ print(f"cols: {col_pins}")
 print(keys)
 
 
-def scan_keypad():
-    key = 0
+def get_key():
+    key = None  # Default key Id
+
     for row_num in range(4):
         # Set the current row LOW and the rest HIGH
         for r in range(4):
@@ -48,17 +42,21 @@ def scan_keypad():
 
         for col_num in range(4):
             # Read the column input
-            if not col_pins[col_num].value():
+            if col_pins[col_num].value() == 0:
+                # If a column is low, a key is pressed                
                 key = keys[row_num][col_num]
+    
     return key
 
 
+# Code to test `get_key()` function
 while True:
-    key = scan_keypad()
+    key = get_key()
 
-    if key != 0:
+    if key != None:
         print(key, end="")
-        # time.sleep_ms(10)
-        while scan_keypad() != 0:
+        time.sleep_ms(10)
+
+        while get_key() != None:
             pass
-        # time.sleep_ms(10)
+        time.sleep_ms(10)

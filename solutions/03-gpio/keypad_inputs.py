@@ -1,6 +1,6 @@
-"""Program 3-2: Non-blocking function `getkey()` detects
-   key press. When a key is pressed, return the key id.
-   If no key is pressed, return 0.
+"""Program 3-2: Non-blocking function `get_key()` detects
+   key press. When a key is pressed, return the key Id.
+   If no key is pressed, return `None`.
    
    Wiring of the keypad to FireBeetle ESP32 GPIO pins:
    row 1 - 19
@@ -53,21 +53,23 @@ def get_key():
 
         # Scan one column at a time
         for col in colPins:
-            if col.value() == 0:  # If a column is low, a key is pressed
+            if col.value() == 0:
+                # If a column is low, a key is pressed
                 row.init(Pin.IN)
                 return keys[rowPins.index(row)][colPins.index(col)]
         row.init(Pin.IN)
         
-    return 0  # If no key was pressed
+    return None  # If no key was pressed
 
 
 # Code to test `get_key()` function
 while True:
     key = get_key()
     
-    if key != 0:
+    if key != None:
         print(key, end="")
         time.sleep_ms(10)
-        while get_key() != 0:
+
+        while get_key() != None:
             pass
         time.sleep_ms(10)
