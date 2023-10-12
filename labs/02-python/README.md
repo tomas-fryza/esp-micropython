@@ -83,28 +83,32 @@ GitHub serves as a platform for hosting code, facilitating collaboration, and ma
 6. (Optional) Using branches in Git is a fundamental concept that allows you to work on different features or aspects of a project simultaneously without affecting the main codebase. Using branches in Git allows for efficient code management, parallel development, and collaboration in a team setting. It helps prevent conflicts between different features or bug fixes being worked on simultaneously. Here is the basic way to use branches in Git.
 
    a. **Create a New Branch:** To create a new branch, use the following command:
-      ```
+
+      ```bash
       git branch branch_name
       ```
 
    Replace `branch_name` with the name you want to give to your new branch. This command creates a new branch but doesn't switch to it yet.
 
    b. **Switch to a Branch:** To switch to a branch, use the following command:
-      ```
+
+      ```bash
       git checkout branch_name
       ```
 
    Replace `branch_name` with the name of the branch you want to switch to. After executing this command, you're working in the context of the chosen branch.
 
    Alternatively, you can use a single command to create and switch to a new branch:
-      ```
+
+      ```bash
       git checkout -b new_branch_name
       ```
 
    c. **Make Changes:** Now that you're on the new branch, you can make changes to your project. These changes are isolated to this branch and won't affect the main or other branches.
 
    d. **Commit Changes:** After making changes, commit them to your branch using the following commands:
-      ```
+
+      ```bash
       git add .
       git commit -m "Descriptive commit message"
       ```
@@ -112,14 +116,16 @@ GitHub serves as a platform for hosting code, facilitating collaboration, and ma
       The `git add .` command stages your changes, and `git commit` records them with a meaningful commit message.
 
    e. **Push Branch (Optional):** If you want to share your branch and collaborate with others, you can push it to a remote repository:
-      ```
+
+      ```bash
       git push origin branch_name
       ```
 
    f. **Merge or Rebase (Optional):** Once your changes on the branch are complete, you can merge the branch back into the main branch or another target branch using commands like `git merge` or `git rebase`.
 
    g. **Delete Branch (Optional):** After the branch's changes have been merged or are no longer needed, you can delete it:
-      ```
+
+      ```bash
       git branch -d branch_name
       ```
 
@@ -194,17 +200,24 @@ GitHub serves as a platform for hosting code, facilitating collaboration, and ma
 
     ```python
     def print_arrow(width, symbol):
-        """Print an arrow of symbols with a defined width,
-           such as `width=5`:
-           *
-           **
-           ***
-           ****
-           *****
-           ****
-           ***
-           **
-           *
+        """
+        Print an arrow made of symbols with a defined width.
+
+        Args:
+            width (int): The width of the arrow.
+            symbol (str): The symbol used to create the arrow.
+
+        Example:
+            print_arrow(5, "*") would print:
+            *
+            **
+            ***
+            ****
+            *****
+            ****
+            ***
+            **
+            *
         """
         # Complete the code
 
@@ -219,11 +232,29 @@ GitHub serves as a platform for hosting code, facilitating collaboration, and ma
 
     ```python
     def solve_quadratic_eq(a, b, c):
-        """Solve a quadratic equation of the form ax^2 + bx + c = 0 using the quadratic formula:
+        """
+        Solve a quadratic equation of the form ax^2 + bx + c = 0.
 
-            x = (-b +- sqrt(b^2 - 4ac)) / (2a)
+        Args:
+            a (float): Coefficient of x^2.
+            b (float): Coefficient of x.
+            c (float): Constant term.
+
+        Returns:
+            tuple: A tuple containing the real or complex roots.
+
+        Example:
+            solve_quadratic_eq(1, 5, 1) returns the roots (approximately):
+            (-0.2087, -4.7912)
         """
         # Complete the code
+
+    # Example usage
+    a = 1
+    b = 5
+    c = 1
+    roots = solve_quadratic_eq(a, b, c)
+    print(f"Roots: {roots}")
     ```
 
     If you require a library function in Python, you need to import the module that contains it.
@@ -256,9 +287,9 @@ GitHub serves as a platform for hosting code, facilitating collaboration, and ma
 
 ## (Optional) Experiments on your own
 
-1. Complete the functions with docstrings and make sure you are using meaningful names for variables.
+1. Write a Python function that determines whether a given number is prime or not and generate all prime numbers up to 1000.
 
-2. Write a Python function that determines whether a given number is prime or not and generate all prime numbers up to 1000.
+2. Implement a function to generate Fibonacci numbers. This is a classic sequence where each number is the sum of the two preceding ones (0, 1, 1, 2, 3, 5, 8, ...).
 
 <a name="references"></a>
 
