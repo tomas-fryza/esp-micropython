@@ -1,17 +1,22 @@
-"""Program 3-2: Non-blocking function `get_key()` detects
-   key press. When a key is pressed, return the key Id.
-   If no key is pressed, return None.
-   
-   Wiring of the keypad to FireBeetle ESP32 GPIO pins:
-   row 1 - 19  OUTs
-   row 2 - 21
-   row 3 - 22
-   row 4 - 14
-   
-   col 1 - 12  INs
-   col 2 - 4
-   col 3 - 16
-   col 4 - 17
+"""
+MicroPython Keypad Scanning
+
+This MicroPython script scans a 4x4 keypad with rows as outputs
+and columns as input pins with pull-up resistors. It detects
+key presses and prints the pressed key.
+
+Hardware Configuration:
+- Connect the keypad to your ESP32 as follows:
+  - Rows (R1-R4): GPIO pins 19, 21, 22, 14 (set as Pin.OUT)
+  - Columns (C1-C4): GPIO pins 12, 4, 16, 17 (set as Pin.IN with Pin.PULL_UP)
+
+Operation:
+- The script continuously scans the keypad for keypresses.
+- When a key is pressed, it prints the pressed key.
+- The key detection includes debouncing to avoid false keypresses.
+
+Author: Tomas Fryza
+Date: 2023-11-12
 """
 
 from machine import Pin
@@ -19,18 +24,23 @@ import time
 
 # Define the GPIO pins for rows (outputs) and columns (inputs with pull-ups)
 row_pins = [Pin(pin, Pin.OUT) for pin in (19, 21, 22, 14)]
-col_pins = [Pin(pin, Pin.IN, Pin.PULL_UP) for pin in (12, 4, 16, 17)]
+col_pins = [Pin(pin, Pin.IN, Pin.PULL_UP) for pin in (12, 4, 16, 1)]
 
-# Make a tuple of keys and dfine the keypad matrix layout
-keys = "123A", "456B", "789C", "*0#D"
-
+# Print info about pins
 print(f"rows: {row_pins}")
 print(f"cols: {col_pins}")
-print(keys)
+
+# Define the keypad matrix layout
+keypad = [
+    ['1', '2', '3', 'A'],
+    ['4', '5', '6', 'B'],
+    ['7', '8', '9', 'C'],
+    ['*', '0', '#', 'D']
+]
 
 
-def get_key():
-    key = None  # Default key Id
+def scan_keypad():
+    key = None
 
     for row_num in range(4):
         # Set the current row LOW and the rest HIGH
@@ -43,20 +53,16 @@ def get_key():
         for col_num in range(4):
             # Read the column input
             if col_pins[col_num].value() == 0:
-                # If a column is low, a key is pressed                
-                key = keys[row_num][col_num]
-    
+                key = keypad[row_num][col_num]
+                while not col_pins[col_num].value():
+                    pass  # Wait for key release
+
     return key
 
 
-# Code to test `get_key()` function
+# Test the code
 while True:
-    key = get_key()
-
-    if key != None:
-        print(key, end="")
-        time.sleep_ms(10)
-
-        while get_key() != None:
-            pass
-        time.sleep_ms(10)
+    key_pressed = scan_keypad()
+    if key_pressed:
+        print(f"Key pressed: {key_pressed}")
+        time.sleep_ms(10)  # Debounce delay
