@@ -19,6 +19,7 @@ import time
 # Define the GPIO pin for the button
 button = Pin(26, Pin.IN, Pin.PULL_UP)
 
+# Forever loop
 while True:
     # Check if the button is pressed (active LOW)
     if button.value() == 0:

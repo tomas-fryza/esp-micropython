@@ -8,7 +8,8 @@ in a sequence.
 - LED1 is connected to GPIO Pin 1.
 - LED2 is connected to GPIO Pin 25.
 
-Replace the GPIO pin numbers with the actual pin connections on your hardware.
+Replace the GPIO pin numbers with the actual pin connections on
+your hardware.
 
 Author: Tomas Fryza
 Date: 2023-10-12
