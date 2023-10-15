@@ -32,7 +32,7 @@ The following hardware and software components are mainly used in the lab.
   * [ESP32](https://www.espressif.com/en/products/socs/esp32)
 
 * Boards:
-  * FireBeetle ESP32 board: [Schematic](firebeetle_esp32_board_user_manual.pdf) & manual, [pinout](labs/03-gpio/images/DFR0478_pinout.png)
+  * FireBeetle ESP32 board: [Schematic](docs/firebeetle_esp32_board_user_manual.pdf) & manual, [pinout](labs/03-gpio/images/DFR0478_pinout.png)
 
 * Sensors and modules:
   * [DHT12](https://arduino-shop.cz/arduino/1977-i2c-teplomer-a-vlhkomer-dht12-digitalni.html) I2C humidity and temperature sensor: [data sheet](docs/dht12_manual.pdf)
