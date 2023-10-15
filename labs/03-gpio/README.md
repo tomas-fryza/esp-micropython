@@ -43,7 +43,7 @@ The purpose of this laboratory exercise is to acquire the skills to interact wit
 
 The ESP32 microcontroller board has a number of **GPIO (General Purpose Input/Output) pins** that can be used for various purposes, such as digital input and output, analog input, communication interfaces (e.g., UART, SPI, I2C), PWM (Pulse Width Modulation) output, and more. The exact pinout may vary depending on the specific development board or module you are using. Here is the pinout for Firebeetle ESP32 board used in the lab:
 
-   ![firebeetle_pinout](../../images/DFR0478_pinout.png)
+   ![firebeetle_pinout](images/DFR0478_pinout.png)
 
 Please note that we will use the numerical designations from the labels in light blue to interact with the GPIO pins in MicroPython. For example, we will refer to pins like 3, 1, 25, and so on, for the pins on the left side from the top.
 
@@ -69,22 +69,22 @@ In an **active-high** configuration, the component is activated when the GPIO pi
 
 For an active-low button:
 
-   * The GPIO pin is connected to one terminal of the button.
-   * The other terminal is connected to GND.
-   * The internal (or external) pull-up resistor must be used.
-   * The button is considered pressed when the GPIO pin reads LOW (0).
+* The GPIO pin is connected to one terminal of the button.
+* The other terminal is connected to GND.
+* The internal (or external) pull-up resistor must be used.
+* The button is considered pressed when the GPIO pin reads LOW (0).
 
 For an active-high button:
 
-   * The GPIO pin is connected to one terminal of the button.
-   * The other terminal is connected to VCC (3.3V).
-   * The internal (or external) pull-down resistor must be used.
-   * The button is considered pressed when the GPIO pin reads HIGH (1).
+* The GPIO pin is connected to one terminal of the button.
+* The other terminal is connected to VCC (3.3V).
+* The internal (or external) pull-down resistor must be used.
+* The button is considered pressed when the GPIO pin reads HIGH (1).
 
    ![active-low_active-high_btn](images/internal_pull-up_arduino.png)
 
    Note that, the ESP32 has built-in pull-up and pull-down resistors that can be enabled in software.
-   
+
    ```python
    from machine import Pin
 
@@ -116,15 +116,15 @@ For an active-high button:
 
 For an active-low LED:
 
-   * The GPIO pin is connected to the cathode (shorter lead) of the LED.
-   * The the anode (longer lead) is connected to resistor and VCC (3.3V).
-   * The LED lights up when the GPIO pin is set to LOW (0).
+* The GPIO pin is connected to the cathode (shorter lead) of the LED.
+* The the anode (longer lead) is connected to resistor and VCC (3.3V).
+* The LED lights up when the GPIO pin is set to LOW (0).
 
 For an active-high LED:
 
-   * The GPIO pin is connected to the anode (longer lead) of the LED.
-   * The cathode (shorter lead) is connected to resistor and GND.
-   * The LED lights up when the GPIO pin is set to HIGH (1).
+* The GPIO pin is connected to the anode (longer lead) of the LED.
+* The cathode (shorter lead) is connected to resistor and GND.
+* The LED lights up when the GPIO pin is set to HIGH (1).
 
    ![active-low_active-high_led](images/gpio_high_low_easyEda.png)
 

@@ -2,7 +2,7 @@
 With this script, the built-in blue LED of the ESP32 starts
 blinking every second, without using loops
 """
-from machine import Timer, Pin
+from machine import Pin, Timer
 
 pin_led = Pin(2, mode=Pin.OUT)
 timer_0 = Timer(0)  # Between 0-3 for ESP32

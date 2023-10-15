@@ -2,14 +2,14 @@
 
 The repository contains MicroPython lab exercises for [*Digital Electronics*](https://www.vut.cz/en/students/courses/detail/268609) course at Brno University of Technology, Czechia.
 
+   ![firebeetle_multiple-leds](labs/03-gpio/images/firebeetle-multipl-leds.jpg)
+
 ## Exercises
 
 1. [Tools for programming and debugging ESP32 microcontrollers](labs/01-tools)
-2. [Programming in Python, Git version-control system ](labs/02-python)
+2. [Programming in Python, Git version-control system](labs/02-python)
 3. [Control of GPIO pins](labs/03-gpio)
-4. tbd
-5. tbd
-6. tbd
+4. [Timers](labs/04-timers)
 
 ## List of examples
 
@@ -32,7 +32,7 @@ The following hardware and software components are mainly used in the lab.
   * [ESP32](https://www.espressif.com/en/products/socs/esp32)
 
 * Boards:
-  * [FireBeetle board](docs/firebeetle.md)
+  * FireBeetle ESP32 board: [Schematic](firebeetle_esp32_board_user_manual.pdf) & manual, [pinout](labs/03-gpio/images/DFR0478_pinout.png)
 
 * Sensors and modules:
   * [DHT12](https://arduino-shop.cz/arduino/1977-i2c-teplomer-a-vlhkomer-dht12-digitalni.html) I2C humidity and temperature sensor: [data sheet](docs/dht12_manual.pdf)
