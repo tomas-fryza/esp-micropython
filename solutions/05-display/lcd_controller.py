@@ -1,15 +1,17 @@
+# Shujen Chen et al. Raspberry Pi Pico Interfacing and Programming with MicroPython
+
 import time
 from machine import Pin
 
 # Enable pin
-LCD_E = Pin(XXX, Pin.OUT)
+LCD_E = Pin(3, Pin.OUT)
 LCD_E.off()
 
 # Register Select pin, 1 - data, 0 - command
-LCD_RS = Pin(XXX, Pin.OUT)
+LCD_RS = Pin(1, Pin.OUT)
 
 # Four-bit data pins
-dataPins = (xx, xx, xx, xx, xx)
+dataPins = (9, 27, 26, 25)
 # Empty list for data pin objects
 LCD_D = []
 # Construct the list of dapa pin objects
@@ -71,7 +73,9 @@ def lcd_init():
     lcd_command(0x28)  # 4-bit, 2 lines, 5x7 pixels
     lcd_command(0x06)  # Increment, no shift
     lcd_command(0x01)  # Clear display
-    lcd_command(0x0f)  # Display on, cursor on and blinking
+    # lcd_command(0x0f)  # Display on, cursor on and blinking
+    # lcd_command(0x0e)  # Display on, cursor on but not blinking
+    lcd_command(0x0c)  # Display on, cursor off
 
 
 def lcd_put_string(s):
@@ -86,7 +90,7 @@ def lcd_cursor(line, column):
         cmd = 0x80
     elif line == 2:
         cmd = 0xc0
-    else
+    else:
         return
     
     if column < 1 or column > 20:
@@ -108,6 +112,6 @@ while True:
     lcd_cursor(2, 5)
     lcd_put_string(TEMP_STR)
 
-    time.sleep_ms(1000)
+    time.sleep_ms(2000)
     lcd_command(1)
-    time.sleep_ms(1000)
+    time.sleep_ms(500)
