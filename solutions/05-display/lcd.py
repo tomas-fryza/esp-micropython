@@ -12,7 +12,7 @@ Hardware Configuration:
   - RS: GPIO pin 1
   - R/W: GND
   - E: 3
-  - D7:4: 9, 27, 26, 25
+  - D4:7: 9, 27, 26, 25
 
 Author(s): Shujen Chen et al. Raspberry Pi Pico Interfacing and
            Programming with MicroPython
