@@ -60,9 +60,13 @@ def scan_keypad():
     return key
 
 
-# Test the code
-while True:
-    key_pressed = scan_keypad()
-    if key_pressed:
-        print(f"Key pressed: {key_pressed}")
-        time.sleep_ms(10)  # Debounce delay
+# Forever loop until interrupted by Ctrl+C. When Ctrl+C
+# is pressed, the code jumps to the KeyboardInterrupt exception
+try:
+    while True:
+        key_pressed = scan_keypad()
+        if key_pressed:
+            print(f"Key pressed: {key_pressed}")
+            time.sleep_ms(10)  # Debounce delay
+except KeyboardInterrupt:
+    print("Ctrl+C Pressed. Exiting...")

@@ -68,11 +68,14 @@ timer0.init(mode=Timer.PERIODIC, period=15, callback=irq_timer0)
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
 print("")
-print("Start fading for approx. 10 secs...")
-   
-# Main loop to run the LED fading
-while True:
-    if timer_counter >= 700:  # Run for approximately 10 seconds
-        timer0.deinit()  # Deinitialize the timer
-        led_with_pwm.duty(0)  # Turn off the LED
-        break
+print(f"Start fading LED {led}...")
+
+# Forever loop until interrupted by Ctrl+C. When Ctrl+C
+# is pressed, the code jumps to the KeyboardInterrupt exception
+try:
+    while True:
+        pass
+except KeyboardInterrupt:
+    timer0.deinit()       # Deinitialize the timer
+    led_with_pwm.duty(0)  # Turn off the LED
+    print("Ctrl+C Pressed. Exiting...")

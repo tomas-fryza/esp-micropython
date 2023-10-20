@@ -35,3 +35,14 @@ led0 = Pin(2, mode=Pin.OUT)
 timer0 = Timer(0)  # Between 0-3 for ESP32
 # Init the Timer and call the handler every 100 ms
 timer0.init(mode=Timer.PERIODIC, period=250, callback=irq_timer0)
+
+# Forever loop until interrupted by Ctrl+C. When Ctrl+C
+# is pressed, the code jumps to the KeyboardInterrupt exception
+try:
+    while True:
+        # print("Running...")
+        # time.sleep(0.1)
+        pass
+except KeyboardInterrupt:
+    timer0.deinit()
+    print("Ctrl+C Pressed. Exiting...")

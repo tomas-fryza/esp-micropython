@@ -30,8 +30,14 @@ led = Pin(2, Pin.OUT)
 # Attach PWM object on the LED pin and set frequency to 1 kHz
 led_with_pwm = PWM(led, freq=1000)
 
-while True:
-    for duty in range(100):  # Duty from 0 to 100 %
-        # Pulse width resolution is 10-bit only !
-        led_with_pwm.duty(int(duty/100 * 1024))
-        time.sleep_ms(15)
+# Forever loop until interrupted by Ctrl+C. When Ctrl+C
+# is pressed, the code jumps to the KeyboardInterrupt exception
+try:
+    while True:
+        for duty in range(100):  # Duty from 0 to 100 %
+            # Pulse width resolution is 10-bit only !
+            led_with_pwm.duty(int(duty/100 * 1024))
+            time.sleep_ms(15)
+except KeyboardInterrupt:
+    led_with_pwm.duty(0)
+    print("Ctrl+C Pressed. Exiting...")
