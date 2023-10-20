@@ -1,16 +1,19 @@
 """
-Blink the On-Board LED
+Blink the onboard LED
 
 This MicroPython script controls an on-board LED by repeatedly
 switching it on and off. It serves as a simple example of 
 how to control an output pin of a microcontroller.
 
-Stop the code execution by pressing `Ctrl+C` key.
+Hardware Configuration:
+  - LED: GPIO pin 2 (onboard)
 
-Inspired by:
-    - https://wokwi.com/projects/359801682833812481
+Instructions:
+1. Run the current script
+2. Stop the code execution by pressing `Ctrl+C` key.
+   If it does not respond, press the onboard `reset` button.
 
-Author: Tomas Fryza
+Author: Wokwi, Tomas Fryza
 Date: 2023-09-21
 """
 
@@ -28,4 +31,4 @@ while True:
     led.on()          # Turn on the LED
     sleep_ms(25)      # Sleep for 25 ms
     led.off()         # Turn off the LED
-    sleep_ms(975)     # Sleep for 975 ms (total cycle time is 1 second)
+    sleep_ms(975)     # Sleep for 975 ms (total cycle time is 1 sec)

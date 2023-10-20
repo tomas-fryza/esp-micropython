@@ -6,17 +6,17 @@ and columns as input pins with pull-up resistors. It detects
 key presses and prints the pressed key.
 
 Hardware Configuration:
-- Connect the keypad to your ESP32 as follows:
-  - Rows (R1-R4): GPIO pins 19, 21, 22, 14 (set as Pin.OUT)
-  - Columns (C1-C4): GPIO pins 12, 4, 16, 17 (set as Pin.IN with Pin.PULL_UP)
+  - Rows R1-R4: GPIO pins 19, 21, 22, 14 (set as Pin.OUT)
+  - Columns C1-C4: GPIO pins 12, 4, 16, 17 (set as Pin.IN with Pin.PULL_UP)
 
-Operation:
-- The script continuously scans the keypad for keypresses.
-- When a key is pressed, it prints the pressed key.
-- The key detection includes debouncing to avoid false keypresses.
+Instructions:
+1. Connect rows and columns of 4x4 key pad to GPIO pins
+2. Run the current script
+3. Stop the code execution by pressing `Ctrl+C` key.
+   If it does not respond, press the onboard `reset` button.
 
 Author: Tomas Fryza
-Date: 2023-11-12
+Date: 2023-10-12
 """
 
 from machine import Pin

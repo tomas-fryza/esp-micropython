@@ -1,11 +1,16 @@
 """
-Python Code: Mathematical Functions
+MicroPython mathematical functions
 
 This script defines and demonstrates several mathematical functions.
+
+Instructions:
+1. Run the current script
+2. Wait for results
 
 Author: Tomas Fryza
 Date: 2023-10-12
 """
+
 import math   # Import mathematical module
 import cmath  # Complex numbers' math
 

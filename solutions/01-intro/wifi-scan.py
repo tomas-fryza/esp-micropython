@@ -1,15 +1,18 @@
 """
-MicroPython Wi-Fi Access Point Scanner
+MicroPython Wi-Fi access point scanner
 
 This MicroPython script scans for nearby Wi-Fi access points
 (APs) using an ESP32 microcontroller and displays their SSID,
 channel index, and signal strength (RSSI).
 
-Inspired by:
-    - https://wokwi.com/projects/305570169692881473
-    - https://github.com/micropython/micropython/issues/10017
+Hardware Configuration:
+  - LED: GPIO pin 2 (onboard)
 
-Author: Tomas Fryza
+Instructions:
+1. Run the current script
+2. Wait for results
+
+Author: Wokwi, Tomas Fryza
 Date: 2023-09-21
 """
 
