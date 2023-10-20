@@ -13,21 +13,32 @@ Author(s): Shujen Chen et al. Raspberry Pi Pico Interfacing and
 Date: 2023-10-17
 """
 
-import time              # For time delays
+# import time              # For time delays
 from machine import Pin  # For GPIO control
 
 
-class LcdHd44780:
-    def __init__(self, pin_rs, pin_e=3, pins_data=(25, 26, 27, 9)):
+class MyDevice:
+    def __init__(self, pin0, pin1, pin2):
         # Create a machine.Pin object within the constructor
-        self.LCD_RS = Pin(pin_rs, Pin.OUT)
+        self.pin0 = Pin(pin0, Pin.OUT)
+        self.pin1 = Pin(pin1, Pin.OUT)
+        self.pin2 = Pin(pin2, Pin.OUT)
+        # self.LCD_D = [Pin(pin, Pin.OUT) for pin in pins_data]
+        print(self)
 
 
     def toggle(self):
-        self.LCD_RS.value(not self.LCD_RS.value())
+        self.pin0.value(not self.pin0.value())
 
 
-if __name__ == "__main__":
-    # lcd = Lcd(pin_rs=1, pin_e=3, pins_data=(25, 26, 27, 9))
-    lcd = LcdHd44780(pin_rs=2)  # Example GPIO pin number (change as needed)
-    lcd.toggle()  # Toggles the pin state
+# rs_pin = 2  # Spravne: 1
+# e_pin = 3
+# data_pins = (25, 26, 27, 9)
+# lcd = LcdHd44780(2, 3, (25, 26, 27, 9))
+# lcd.toggle()  # Toggles the pin state
+
+
+
+my_device = MyDevice(2,3,25)  # Example GPIO pin number (change as needed)
+my_device.toggle()  # Toggles the pin state
+

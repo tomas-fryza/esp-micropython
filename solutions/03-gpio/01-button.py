@@ -9,6 +9,8 @@ Hardware Configuration:
 - Connect a button to GPIO Pin 26.
 - Ensure the button has an external pull-up resistor or use Pin.PULL_UP.
 
+Stop the code execution by pressing `Ctrl+C` key.
+
 Author: Tomas Fryza
 Date: 2023-10-12
 """

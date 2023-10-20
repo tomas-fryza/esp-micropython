@@ -12,7 +12,11 @@ Inspired by:
 Author: Tomas Fryza
 Date: 2023-09-21
 """
+
 import network
+from machine import Pin
+
+status_led = Pin(2, Pin.OUT)
 
 # Initialize the Wi-Fi interface in station (client) mode
 wifi = network.WLAN(network.STA_IF)
@@ -20,8 +24,10 @@ wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
 
 # Perform the Wi-Fi APs scan
-print("Scanning for Wi-Fi networks...", end="")
+status_led.on()
+print("Scanning for Wi-Fi networks...")
 available_networks = wifi.scan()
+status_led.off()
 
 # Print the list of available Wi-Fi networks
 print("SSID              | Channel | Signal Strength (dBm)")

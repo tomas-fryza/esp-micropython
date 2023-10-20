@@ -8,6 +8,8 @@ in a sequence.
 - LED1 is connected to GPIO Pin 1.
 - LED2 is connected to GPIO Pin 25.
 
+Stop the code execution by pressing `Ctrl+C` key.
+
 Replace the GPIO pin numbers with the actual pin connections on
 your hardware.
 
