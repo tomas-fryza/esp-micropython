@@ -27,7 +27,7 @@ led = Pin(2, Pin.OUT)
 led_with_pwm = PWM(led, freq=1000)
 led_with_pwm.duty(10)  # approx. 1% duty cycle
 
-# Timer interrupt variables
+# Timer interrupt global variables
 timer_counter = 0
 fade_direction = 1  # 1 for increasing brightness, -1 for decreasing
 
@@ -46,17 +46,17 @@ def irq_timer0(t):
     else:
         new_duty = current_duty - 10
 
-    # Change the fade direction when the duty cycle reaches 0 or 1023
+    # Change the fade direction when the duty cycle reaches min or max
     if new_duty < 0:
         new_duty = 0
         fade_direction = 1
-    elif new_duty > 1023:
-        new_duty = 1020
+    elif new_duty > 800:
+        new_duty = 800
         fade_direction = 0
 
     # Update the duty cycle in the range of 1 to 100
     led_with_pwm.duty(new_duty)
-    # print(f"dir:{fade_direction}, cur:{current_duty}, new:{new_duty}")
+    print(f"dir:{fade_direction}, cur:{current_duty}, new:{new_duty}")
 
     timer_counter += 1
 
@@ -68,7 +68,7 @@ timer0.init(mode=Timer.PERIODIC, period=15, callback=irq_timer0)
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
 print("")
-print(f"Start fading LED {led}...")
+print(f"Start dimming LED {led} in both directions...")
 
 # Forever loop until interrupted by Ctrl+C. When Ctrl+C
 # is pressed, the code jumps to the KeyboardInterrupt exception

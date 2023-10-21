@@ -23,7 +23,7 @@ from machine import Pin
 from machine import Timer
 
 
-def irq_timer0(t):
+def timer0_handler(t):
     """Interrupt handler of Timer0"""
     led0.value(not led0.value())
 
@@ -34,7 +34,12 @@ led0 = Pin(2, mode=Pin.OUT)
 # Create an object for 64-bit Timer0
 timer0 = Timer(0)  # Between 0-3 for ESP32
 # Init the Timer and call the handler every 100 ms
-timer0.init(mode=Timer.PERIODIC, period=250, callback=irq_timer0)
+timer0.init(mode=Timer.PERIODIC, period=250, callback=timer0_handler)
+
+print("Stop the code execution by pressing `Ctrl+C` key.")
+print("If it does not respond, press the onboard `reset` button.")
+print("")
+print(f"Start blinking LED {led0}...")
 
 # Forever loop until interrupted by Ctrl+C. When Ctrl+C
 # is pressed, the code jumps to the KeyboardInterrupt exception
@@ -44,5 +49,6 @@ try:
         # time.sleep(0.1)
         pass
 except KeyboardInterrupt:
-    timer0.deinit()
+    timer0.deinit()  # Deinitialize the timer
+    led0.off()       # Turn off the LED
     print("Ctrl+C Pressed. Exiting...")

@@ -32,10 +32,10 @@ print(f"cols: {col_pins}")
 
 # Define the keypad matrix layout
 keypad = [
-    ['1', '2', '3', 'A'],
-    ['4', '5', '6', 'B'],
-    ['7', '8', '9', 'C'],
-    ['*', '0', '#', 'D']
+    ["1", "2", "3", "A"],
+    ["4", "5", "6", "B"],
+    ["7", "8", "9", "C"],
+    ["*", "0", "#", "D"],
 ]
 
 
@@ -59,6 +59,11 @@ def scan_keypad():
 
     return key
 
+
+print("Stop the code execution by pressing `Ctrl+C` key.")
+print("If it does not respond, press the onboard `reset` button.")
+print("")
+print(f"Press the button on the keypad...")
 
 # Forever loop until interrupted by Ctrl+C. When Ctrl+C
 # is pressed, the code jumps to the KeyboardInterrupt exception

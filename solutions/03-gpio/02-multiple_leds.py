@@ -32,6 +32,11 @@ led2 = Pin(26, Pin.OUT)
 # Uncomment the following line if you want to use a button
 # button = Pin(27, Pin.IN, Pin.PULL_UP)
 
+print("Stop the code execution by pressing `Ctrl+C` key.")
+print("If it does not respond, press the onboard `reset` button.")
+print("")
+print(f"Start blinking LEDs: {led0, led1, led2}...")
+
 # Forever loop until interrupted by Ctrl+C. When Ctrl+C
 # is pressed, the code jumps to the KeyboardInterrupt exception
 try:
@@ -57,7 +62,7 @@ try:
         led2.off()
         sleep_ms(250)
 except KeyboardInterrupt:
-    led0.off()
+    led0.off()  # Turn off the LEDs
     led1.off()
     led2.off()
     print("Ctrl+C Pressed. Exiting...")

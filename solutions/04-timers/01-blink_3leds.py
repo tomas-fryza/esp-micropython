@@ -26,17 +26,17 @@ from machine import Timer
 import time
 
 
-def irq_timer0(t):
+def timer0_handler(t):
     """Interrupt handler of Timer0"""
     led0.value(not led0.value())
 
 
-def irq_timer1(t):
+def timer1_handler(t):
     """Interrupt handler of Timer1"""
     led1.value(not led1.value())
 
 
-def irq_timer2(t):
+def timer2_handler(t):
     """Interrupt handler of Timer2"""
     led2.value(not led2.value())
 
@@ -50,9 +50,14 @@ led2 = Pin(26, mode=Pin.OUT)
 timer0 = Timer(0)  # Between 0-3 for ESP32
 timer1 = Timer(1)
 timer2 = Timer(2)
-timer0.init(mode=Timer.PERIODIC, period=100, callback=irq_timer0)
-timer1.init(mode=Timer.PERIODIC, period=200, callback=irq_timer1)
-timer2.init(mode=Timer.PERIODIC, period=500, callback=irq_timer2)
+timer0.init(mode=Timer.PERIODIC, period=100, callback=timer0_handler)
+timer1.init(mode=Timer.PERIODIC, period=200, callback=timer1_handler)
+timer2.init(mode=Timer.PERIODIC, period=500, callback=timer2_handler)
+
+print("Stop the code execution by pressing `Ctrl+C` key.")
+print("If it does not respond, press the onboard `reset` button.")
+print("")
+print(f"Start blinking LEDs: {led0, led1, led2}...")
 
 # Forever loop until interrupted by Ctrl+C. When Ctrl+C
 # is pressed, the code jumps to the KeyboardInterrupt exception
@@ -62,7 +67,10 @@ try:
         # time.sleep(0.1)
         pass
 except KeyboardInterrupt:
-    timer0.deinit()
+    timer0.deinit()  # Deinitialize the timer(s)
     timer1.deinit()
     timer2.deinit()
+    led0.off()       # Turn off the LED(s)
+    led1.off()
+    led2.off()
     print("Ctrl+C Pressed. Exiting...")
