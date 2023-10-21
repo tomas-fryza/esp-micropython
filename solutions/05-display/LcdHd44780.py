@@ -91,12 +91,12 @@ class LcdHd44780:
         # Write the data
         self._write_byte(val)
 
-    def put_string(self, s):
+    def write(self, s):
         """Display a character string on the LCD"""
         for c in s:
             self.data(ord(c))
 
-    def cursor(self, line, column):
+    def move_to(self, line, column):
         """Move cursor to a specified location of the display"""
         if line == 1:
             cmd = 0x80
@@ -111,10 +111,28 @@ class LcdHd44780:
         cmd += column - 1
         self.command(cmd)
 
+    def custom_char(self, addr, charmap):
+        """Write a character to one of the 8 CGRAM locations, available
+        as chr(0) through chr(7).
+        https://peppe8o.com/download/micropython/LCD/lcd_api.py
+        https://microcontrollerslab.com/i2c-lcd-esp32-esp8266-micropython-tutorial/
+        """
+        addr = addr & 0x07
+        self.command(0x40 | (addr << 3))
+        time.sleep_us(40)
+        for i in range(8):
+            self.data(charmap[i])
+            time.sleep_us(40)
+
 
 # Example usage
 # Four-bit data pins [D4, D5, D6, D7]
 lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
+
+# Create custom character(s)
+# https://www.quinapalus.com/hd44780udg.html
+thermo = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
+lcd.custom_char(0, thermo)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
@@ -125,15 +143,19 @@ print("Start using HD44780-based LCD...")
 # is pressed, the code jumps to the KeyboardInterrupt exception
 try:
     while True:
-        lcd.cursor(1, 3)
-        lcd.put_string("Temperature")
+        lcd.move_to(1, 3)
+        lcd.write("Temperature")
+        lcd.move_to(2, 3)
+        lcd.write(chr(0))  # Show custom character at addr 0
+        lcd.move_to(2, 13)
+        lcd.write(chr(0))
 
         # Example how to put a numeric value to display
         TEMP = 23.25
         TEMP_STR = str(TEMP)
         TEMP_STR = TEMP_STR + chr(223) + "C"
-        lcd.cursor(2, 5)
-        lcd.put_string(TEMP_STR)
+        lcd.move_to(2, 5)
+        lcd.write(TEMP_STR)
 
         time.sleep_ms(2000)
         lcd.command(0x01)  # Clear display
