@@ -1,28 +1,35 @@
-"""Scan Wi-Fi access points.
+"""
+MicroPython Wi-Fi access point scanner
 
-Activate the WLAN interface and scan for nearby access points (AP).
-Display SSID, channel index and signal strength of APs.
+This MicroPython script scans for nearby Wi-Fi access points
+(APs) using an ESP32 microcontroller and displays their SSID
+(Service Set Identifier, aka network's name), channel index,
+and signal strength (RSSI).
 
-Inspired by:
-    * https://wokwi.com/projects/305570169692881473
-    * https://github.com/micropython/micropython/issues/10017
+Instructions:
+1. Run the current script
+2. Wait for results
+
+Author: Wokwi, Tomas Fryza
+Date: 2023-06-16
 """
 
 import network
 
-# Initialize the WLAN (Station mode interface)
-sta_if = network.WLAN(network.STA_IF)
-# Activate station/Wi-Fi client interface
-sta_if.active(True)
+# Initialize the Wi-Fi interface in station (client) mode
+wifi = network.WLAN(network.STA_IF)
+# Activate the interface
+wifi.active(True)
 
 # Perform the Wi-Fi APs scan
-print("Scanning for Wi-Fi networks, please wait... ", end="")
-available_networks = sta_if.scan()
-print("Done")
-print("")
+print("Scanning for Wi-Fi networks...")
+available_networks = wifi.scan()
 
 # Print the list of available Wi-Fi networks
-print("SSID              | Channel | Signal Strength (dBm)")
-print("------------------+---------+----------------------")
-for network in available_networks:
-    print(f"{network[0].decode("utf-8"):17s} | {network[2]:7d} | {network[3]:10d}")
+print("SSID                 | Channel | Signal Strength (dBm)")
+print("---------------------+---------+----------------------")
+for net in available_networks:
+    ssid = net[0].decode("utf-8")
+    channel = net[2]
+    rssi = net[3]
+    print(f"{ssid:20s} | {channel:7d} | {rssi:10d}")

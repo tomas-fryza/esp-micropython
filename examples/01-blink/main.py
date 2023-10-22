@@ -1,26 +1,35 @@
-"""Blink the on-board LED.
+"""
+Blink the onboard LED
 
-A simple example of how to control one output pin of 
-a microcontroller. An LED is connected to the GPIO pin,
-which is repeatedly switched on and off.
+This MicroPython script controls an on-board LED by repeatedly
+switching it on and off. It serves as a simple example of 
+how to control an output pin of a microcontroller.
 
-Inspired by:
-    * https://wokwi.com/projects/359801682833812481
+Hardware Configuration:
+  - LED: GPIO pin 2 (onboard)
+
+Instructions:
+1. Run the current script
+2. Stop the code execution by pressing `Ctrl+C` key.
+   If it does not respond, press the onboard `reset` button.
+
+Author: Wokwi, Tomas Fryza
+Date: 2023-06-12
 """
 
-# Load `Pin` class from `machine` module in order to access the hardware
+# Import the `Pin` class from the `machine` module to access hardware
 from machine import Pin
 from time import sleep_ms
 
-# Check the LED pin on your board, usually it is GPIO2
-print("Configure output pin #2... ", end="")
+# Check the LED pin on your board (usually GPIO 2)
 led = Pin(2, Pin.OUT)
-print("Done")
-print("Start blinking...")
+
+print(f"Start blinking {led}...")
 
 # Forever loop
 while True:
-    led.on()
-    sleep_ms(125)
-    led.off()
-    sleep_ms(875)
+    led.on()          # Turn on the LED
+    sleep_ms(25)      # Sleep for 25 ms
+    led.off()         # Turn off the LED
+    sleep_ms(975)     # Sleep for 975 ms
+                      # (total cycle time is 1 sec)
