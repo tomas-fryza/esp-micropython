@@ -59,7 +59,7 @@ The main grid consists of multiple rows and columns. Each row typically contains
 
 ## Part 2: Push button and LEDs
 
-Active-low and active-high are two different methods of connecting and controlling electronic components, such as LEDs (Light Emitting Diodes) and buttons, to an ESP32 GPIO pin. These methods determine the logic levels required to activate (turn on) or deactivate (turn off) the component. 
+Active-low and active-high are two different methods of connecting and controlling electronic components, such as LEDs (Light Emitting Diodes) and buttons, to an ESP32 GPIO pin. These methods determine the logic levels required to activate (turn on) or deactivate (turn off) the component.
 
 In an **active-low** configuration, the component is activated or considered "on" when the GPIO pin is at a logic LOW (0V or GND) state. When the GPIO pin transitions to a logic HIGH state (3.3V or VCC), the component is turned off.
 
@@ -89,27 +89,31 @@ For an active-high button:
    from machine import Pin
 
    # Create Pin objects for the GPIO pins
-   button1 = Pin(14, Pin.IN, Pin.PULL_UP)  # Assuming GPIO 14
+   button1 = Pin(27, Pin.IN, Pin.PULL_UP)  # Assuming GPIO 27
 
    button2 = Pin(26, Pin.IN, Pin.PULL_DOWN)
 
    ```
 
-1. Use breadboard, jumper wires and connect one push button to ESP32 GPIO pin in active-low way. Use GPIO pin number 26.
+1. Use breadboard, jumper wires and connect one push button to ESP32 GPIO pin in active-low way. Use GPIO pin number 27.
 
 2. Use micro USB cable and connect the ESP32 board to your computer. Run Thonny IDE and check if selected interpreter is Micropython (ESP32). If not, go to menu **Run > Select interpreter... > Interpreter** and select `ESP32` or `ESP8266`. Click on red **Stop/Restart** button or press the on-board reset button if necesary.
 
 3. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, write the code, save the file as `01-button.py` to your local folder, and run the application by **Run > Run current script F5**.
 
    ```python
-    from machine import Pin
+   from machine import Pin
 
-    # Define the GPIO pin for the button including internal Pull-up
-    button = Pin(26, Pin.IN, Pin.PULL_UP)
+   # Define the GPIO pin for the button including internal Pull-up
+   button = Pin(27, Pin.IN, Pin.PULL_UP)
 
-    # Forever loop
-    while True:
-        # COMPLETE THE CODE
+   # Forever loop
+   while True:
+       # Check if the button is pressed (active LOW)
+       if button.value() == 0:
+
+       # COMPLETE THE CODE
+
    ```
 
 ### LEDs
@@ -130,9 +134,11 @@ For an active-high LED:
 
    ![two-pin-led_pinout](images/LED-polarity.png)
 
-1. Use breadboard, jumper wires and connect three LEDs and resistors to ESP32 GPIO pins in active-high way. Use GPIO pin numbers 3, 1, 25.
+1. Use breadboard, jumper wires and connect two LEDs and resistors to ESP32 GPIO pins in active-high way. Use GPIO pin numbers 25, 26.
 
-2. Create a new source file, write the code for continuous blinking of all LEDs, save the file as `02-multiple_leds.py` to your local folder, and run the application.
+   > **IMPORTANT:** On the FireBeetle board, GPIO pins 3 and 1 are dedicated to serial communication with the interactive console via UART. To maintain interactivity, it's advisable to refrain from using these pins for other purposes.
+
+2. Create a new source file, write the code for continuous blinking of all LEDs (including onboard one), save the file as `02-multiple_leds.py` to your local folder, and run the application.
 
    ```python
    # Load `Pin` class from `machine` module to access hardware
@@ -140,14 +146,16 @@ For an active-high LED:
    from time import sleep_ms
 
    # Define three LED pins
-   led0 = Pin(3, Pin.OUT)
+   led0 = Pin(2, Pin.OUT)  # Onboard
    # COMPLETE THE CODE
 
    # Forever loop
    while True:
        # Turn on the first LED, wait 250 ms, and turn it off
        led0.on()
+
        # COMPLETE THE CODE
+
    ```
 
    Alternatively, you can use a [3-pin LED](https://lednique.com/leds-with-more-than-two-pins/) with two different colours. The middle lead is a common cathos or anode
@@ -155,6 +163,20 @@ For an active-high LED:
    ![three-pin-led_pinout](images/3-pin_led.png)
 
 3. Combine both codes and write an application when the multiple LEDs are blinking only if push button is pressed.
+
+   > **NOTE:** If you are running code interactively on a MicroPython REPL (Read-Eval-Print Loop), you can stop the execution by sending a keyboard interrupt `Ctrl+C`. This works when you are connected to the ESP32's REPL via a terminal or a serial console. When you press `Ctrl+C`, it will raise a `KeyboardInterrupt` exception on the main thread to stop the code execution and return you to the REPL prompt.
+   >
+   > ```python
+   > try:
+   >     while True:
+   >         # Check if the button is pressed (active LOW)
+   >         if button.value() == 0:
+   >             ...
+   > except KeyboardInterrupt:
+   >     print("Ctrl+C Pressed. Exiting...")
+   > finally:
+   >     # Optional cleanup code
+   > ```
 
 <a name="part3"></a>
 

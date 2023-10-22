@@ -62,6 +62,8 @@ Thonny is an integrated development environment (IDE) designed primarily for Pyt
     >>> print("Hi there!")
     Hi there!
 
+    >>> a = 10
+    >>> b = 3
     >>> print(f"add: {a+b}, sub: {a-b}, div: {a/3}, div_int: {a//3}")
     >>> print(f"rem: {a%b}, mul: {a*b}, exp: {a**b}")
     ```
@@ -99,6 +101,16 @@ Thonny is an integrated development environment (IDE) designed primarily for Pyt
 
    ![thonny_blink](images/thonny_blink.png)
 
+   > **IMPORTANT:** When a program is running at an interactive console, pressing `Ctrl+C` will raise a `KeyboardInterrupt` exception on the main thread to stop the script. If it does not respond, press the onboard `reset` button.
+   >
+   > Interrupting a running MicroPython code on an ESP32 microcontroller can be done in several ways. Here are two common methods:
+   >
+   >   * **Keyboard Interrupt `Ctrl+C`:**
+   >      If you are running code interactively on a MicroPython REPL (Read-Eval-Print Loop), you can stop the execution by sending a keyboard interrupt `Ctrl+C`. This works when you are connected to the ESP32's REPL via a terminal or a serial console. When you press `Ctrl+C`, it will raise a `KeyboardInterrupt` exception on the main thread to stop the code execution and return you to the REPL prompt.
+    >
+    >   * **Hardware Reset:**
+    >      In case the code is running as a standalone script (i.e., not interactively on the REPL), and you cannot stop it through `Ctrl+C`, you can perform a hardware reset. This can be done by pressing the reset button on your ESP32 board, or by momentarily disconnecting and reconnecting the power source.
+
 <a name="part3"></a>
 
 ## Part 3: Wi-Fi scanner
@@ -117,9 +129,9 @@ Because ESP32 microcontroller consists of Wi-Fi module, you can use MicroPython'
     available_networks = wlan.scan()
 
     # Print the list of available Wi-Fi networks
-    for network in available_networks:
-        print("SSID:", network[0].decode("utf-8"))
-        print("Signal Strength (dBm):", network[3])
+    for net in available_networks:
+        print("SSID:", net[0].decode("utf-8"))
+        print("Signal Strength (dBm):", net[3])
     ```
 
     This code initializes the WLAN interface in Station mode, performs a Wi-Fi scan, and then prints the SSID and signal strength (in dBm) of each available network.
