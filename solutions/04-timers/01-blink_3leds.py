@@ -23,7 +23,6 @@ Date: 2023-10-16
 
 from machine import Pin
 from machine import Timer
-import time
 
 
 def timer0_handler(t):

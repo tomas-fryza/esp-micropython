@@ -23,7 +23,7 @@ The purpose of this laboratory exercise is to acquire the skills to interact wit
 
 * ESP32 board, USB cable
 * Breadboard
-* 3 LEDs, 3 resistors
+* 2 LEDs, 2 resistors
 * Jumper wires
 
 <a name="preparation"></a>
@@ -87,30 +87,29 @@ To blink the on-board LED with a period of 1 sec, use the following code:
    ```python
    from machine import Pin, Timer
 
-   pin_led = Pin(2, mode=Pin.OUT)
+   def timer0_handler(t):
+       """Interrupt handler of Timer0"""
+       led0.value(not led0.value())
+
+
+   # Create an object for on-board LED
+   led0 = Pin(2, mode=Pin.OUT)
    timer0 = Timer(0)  # Between 0-3 for ESP32
-
-
-   def interruption_handler(timer):
-       pin_led.value(not pin_led.value())
-
-
-   timer0.init(mode=Timer.PERIODIC, period=1000, callback=interruption_handler)
+   timer0.init(mode=Timer.PERIODIC, period=1000, callback=timer0_handler)
    ```
 
-1. Use breadboard, jumper wires and connect three LEDs and resistors to ESP32 GPIO pins in active-high way. Use GPIO pin numbers 3, 1, 25.
+1. Use breadboard, jumper wires and connect two other LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
 
 2. Create a new source file, write the code for continuous blinking of all LEDs, save the file as `01-blink_leds.py` to your local folder, and run the application.
 
    ```python
    # Load `Pin` class from `machine` module to access hardware
    from machine import Pin, Timer
-   from time import sleep_ms
 
    # Define three LED pins
-   led0 = Pin(3, Pin.OUT)
+   led0 = Pin(2, Pin.OUT)
    timer0 = Timer(0)
-   timer0.init(mode=Timer.PERIODIC, period=1000, callback=tim0_interrupt_handler)
+   timer0.init(mode=Timer.PERIODIC, period=1000, callback=timer0_handler)
 
    # COMPLETE THE CODE
 
@@ -136,9 +135,9 @@ After importing, an object has to be instantiated from the PWM class. For this, 
    class machine.PWM(dest, *, freq, duty_u16, duty_ns)
    ```
 
-1. Create a new source file, write the code for change a duty cycles of one LED, save the file as `03-dimmer.py` to your local folder, and run the application.
+1. Create a new source file, write the code for change a duty cycles of one LED within a `for` in forever loop, save the file as `03-pwm.py` to your local folder, and run the application.
 
-2. Add another two PWM channels and control dimming of all three LEDs.
+2. Combine both examples and change duty cycle of one LED in Timer0 interrupt handler.
 
 <a name="experiments"></a>
 

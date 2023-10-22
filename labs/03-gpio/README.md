@@ -25,7 +25,7 @@ The purpose of this laboratory exercise is to acquire the skills to interact wit
 * ESP32 board, USB cable
 * Breadboard
 * Push button
-* 3 LEDs, 3 resistors
+* 2 LEDs, 2 resistors
 * 4x4 matrix keypad
 * Jumper wires
 
@@ -165,18 +165,18 @@ For an active-high LED:
 3. Combine both codes and write an application when the multiple LEDs are blinking only if push button is pressed.
 
    > **NOTE:** If you are running code interactively on a MicroPython REPL (Read-Eval-Print Loop), you can stop the execution by sending a keyboard interrupt `Ctrl+C`. This works when you are connected to the ESP32's REPL via a terminal or a serial console. When you press `Ctrl+C`, it will raise a `KeyboardInterrupt` exception on the main thread to stop the code execution and return you to the REPL prompt.
-   >
-   > ```python
-   > try:
-   >     while True:
-   >         # Check if the button is pressed (active LOW)
-   >         if button.value() == 0:
-   >             ...
-   > except KeyboardInterrupt:
-   >     print("Ctrl+C Pressed. Exiting...")
-   > finally:
-   >     # Optional cleanup code
-   > ```
+
+   ```python
+   try:
+       while True:
+           # Check if the button is pressed (active LOW)
+           if button.value() == 0:
+               ...
+   except KeyboardInterrupt:
+       print("Ctrl+C Pressed. Exiting...")
+   finally:
+       # Optional cleanup code
+   ```
 
 <a name="part3"></a>
 
