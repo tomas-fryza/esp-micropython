@@ -125,41 +125,43 @@ class LcdHd44780:
             time.sleep_us(40)
 
 
-# Example usage
-# Four-bit data pins [D4, D5, D6, D7]
-lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
+# Execute this only if the module in not initialized from
+# an import statement
+if __name__ == "__main__":
+    # Four-bit data pins [D4, D5, D6, D7]
+    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
-# Create custom character(s)
-# https://www.quinapalus.com/hd44780udg.html
-thermo = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
-lcd.custom_char(0, thermo)
+    # Create custom character(s)
+    # https://www.quinapalus.com/hd44780udg.html
+    thermo = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
+    lcd.custom_char(0, thermo)
 
-print("Stop the code execution by pressing `Ctrl+C` key.")
-print("If it does not respond, press the onboard `reset` button.")
-print("")
-print("Start using HD44780-based LCD...")
+    print("Stop the code execution by pressing `Ctrl+C` key.")
+    print("If it does not respond, press the onboard `reset` button.")
+    print("")
+    print("Start using HD44780-based LCD...")
 
-# Forever loop until interrupted by Ctrl+C. When Ctrl+C
-# is pressed, the code jumps to the KeyboardInterrupt exception
-try:
-    while True:
-        lcd.move_to(1, 3)
-        lcd.write("Temperature")
-        lcd.move_to(2, 3)
-        lcd.write(chr(0))  # Show custom character at addr 0
-        lcd.move_to(2, 13)
-        lcd.write(chr(0))
+    # Forever loop until interrupted by Ctrl+C. When Ctrl+C
+    # is pressed, the code jumps to the KeyboardInterrupt exception
+    try:
+        while True:
+            lcd.move_to(1, 3)
+            lcd.write("Temperature")
+            lcd.move_to(2, 3)
+            lcd.write(chr(0))  # Show custom character at addr 0
+            lcd.move_to(2, 13)
+            lcd.write(chr(0))
 
-        # Example how to put a numeric value to display
-        TEMP = 23.25
-        TEMP_STR = str(TEMP)
-        TEMP_STR = TEMP_STR + chr(223) + "C"
-        lcd.move_to(2, 5)
-        lcd.write(TEMP_STR)
+            # Example how to put a numeric value to display
+            TEMP = 23.25
+            TEMP_STR = str(TEMP)
+            TEMP_STR = TEMP_STR + chr(223) + "C"
+            lcd.move_to(2, 5)
+            lcd.write(TEMP_STR)
 
-        time.sleep_ms(2000)
+            time.sleep_ms(2000)
+            lcd.command(0x01)  # Clear display
+            time.sleep_ms(500)
+    except KeyboardInterrupt:
         lcd.command(0x01)  # Clear display
-        time.sleep_ms(500)
-except KeyboardInterrupt:
-    lcd.command(0x01)  # Clear display
-    print("Ctrl+C Pressed. Exiting...")
+        print("Ctrl+C Pressed. Exiting...")
