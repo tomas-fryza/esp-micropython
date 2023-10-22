@@ -42,5 +42,8 @@ try:
             while button.value() == 0:
                 pass
             time.sleep_ms(10)  # Additional delay for stability
+
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
+finally:
+    # Optional cleanup code

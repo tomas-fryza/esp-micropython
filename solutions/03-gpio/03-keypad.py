@@ -73,5 +73,8 @@ try:
         if key_pressed:
             print(f"Key pressed: {key_pressed}")
             time.sleep_ms(10)  # Debounce delay
+
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
+finally:
+    # Optional cleanup code

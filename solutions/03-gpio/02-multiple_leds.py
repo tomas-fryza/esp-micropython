@@ -61,8 +61,11 @@ try:
         sleep_ms(250)
         led2.off()
         sleep_ms(250)
+
 except KeyboardInterrupt:
+    print("Ctrl+C Pressed. Exiting...")
+finally:
+    # Optional cleanup code
     led0.off()  # Turn off the LEDs
     led1.off()
     led2.off()
-    print("Ctrl+C Pressed. Exiting...")

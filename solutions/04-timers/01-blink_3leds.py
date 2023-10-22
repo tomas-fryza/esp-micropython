@@ -66,11 +66,14 @@ try:
         # print("Running...")
         # time.sleep(0.1)
         pass
+
 except KeyboardInterrupt:
+    print("Ctrl+C Pressed. Exiting...")
+finally:
+    # Optional cleanup code
     timer0.deinit()  # Deinitialize the timer(s)
     timer1.deinit()
     timer2.deinit()
     led0.off()       # Turn off the LED(s)
     led1.off()
     led2.off()
-    print("Ctrl+C Pressed. Exiting...")

@@ -21,16 +21,6 @@ Date: 2023-10-20
 
 from machine import Pin, Timer, PWM
 
-# Define the LED pin
-led = Pin(2, Pin.OUT)
-# Attach PWM object on the LED pin and set frequency to 1 kHz
-led_with_pwm = PWM(led, freq=1000)
-led_with_pwm.duty(10)  # approx. 1% duty cycle
-
-# Timer interrupt global variables
-timer_counter = 0
-fade_direction = 1  # 1 for increasing brightness, -1 for decreasing
-
 
 def irq_timer0(t):
     global fade_direction
@@ -47,10 +37,10 @@ def irq_timer0(t):
         new_duty = current_duty - 10
 
     # Change the fade direction when the duty cycle reaches min or max
-    if new_duty < 0:
+    if new_duty <= 0:
         new_duty = 0
         fade_direction = 1
-    elif new_duty > 800:
+    elif new_duty >= 800:
         new_duty = 800
         fade_direction = 0
 
@@ -61,6 +51,14 @@ def irq_timer0(t):
     timer_counter += 1
 
 
+# Attach PWM object on the LED pin and set frequency to 1 kHz
+led_with_pwm = PWM(Pin(2), freq=1000)
+led_with_pwm.duty(10)  # Approx. 1% duty cycle
+
+# Timer interrupt global variables
+timer_counter = 0
+fade_direction = 1  # 1 for increasing brightness, 0 for decreasing
+
 # Create a Timer0 object for the interrupt
 timer0 = Timer(0)
 timer0.init(mode=Timer.PERIODIC, period=15, callback=irq_timer0)
@@ -68,14 +66,17 @@ timer0.init(mode=Timer.PERIODIC, period=15, callback=irq_timer0)
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
 print("")
-print(f"Start dimming LED {led} in both directions...")
+print(f"Start using {led_with_pwm}...")
 
 # Forever loop until interrupted by Ctrl+C. When Ctrl+C
 # is pressed, the code jumps to the KeyboardInterrupt exception
 try:
     while True:
         pass
+
 except KeyboardInterrupt:
+    print("Ctrl+C Pressed. Exiting...")
+finally:
+    # Optional cleanup code
     timer0.deinit()       # Deinitialize the timer
     led_with_pwm.duty(0)  # Turn off the LED
-    print("Ctrl+C Pressed. Exiting...")
