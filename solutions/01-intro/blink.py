@@ -21,10 +21,10 @@ Date: 2023-09-21
 from machine import Pin
 from time import sleep_ms
 
-# Check the LED pin on your board (usually GPIO2)
+# Check the LED pin on your board (usually GPIO 2)
 led = Pin(2, Pin.OUT)
 
-print("Start blinking...")
+print(f"Start blinking {led}...")
 
 # Forever loop
 while True:

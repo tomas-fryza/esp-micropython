@@ -1,4 +1,4 @@
-# Lab 3: Timers
+# Lab 4: Timers
 
 ### Learning objectives
 
