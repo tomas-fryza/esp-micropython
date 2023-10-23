@@ -103,7 +103,7 @@ class LCDHD44780:
         if line == 1:
             cmd = 0x80
         elif line == 2:
-            cmd = 0xC0
+            cmd = 0xc0
         else:
             return
 
@@ -131,7 +131,7 @@ class LCDHD44780:
 # an import statement
 if __name__ == "__main__":
     # Four-data pins order: [D4, D5, D6, D7]
-    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
+    lcd = LCDHD44780(rs=26, e=25, d=[13, 10, 9, 27])
 
     print("Stop the code execution by pressing `Ctrl+C` key.")
     print("If it does not respond, press the onboard `reset` button.")
