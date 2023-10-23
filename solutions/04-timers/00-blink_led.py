@@ -34,7 +34,7 @@ led0 = Pin(2, mode=Pin.OUT)
 # Create an object for 64-bit Timer0
 timer0 = Timer(0)  # Between 0-3 for ESP32
 # Init the Timer and call the handler every 100 ms
-timer0.init(mode=Timer.PERIODIC, period=250, callback=timer0_handler)
+timer0.init(period=100, mode=Timer.PERIODIC, callback=timer0_handler)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")

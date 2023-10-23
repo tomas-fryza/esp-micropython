@@ -49,9 +49,9 @@ led2 = Pin(26, mode=Pin.OUT)
 timer0 = Timer(0)  # Between 0-3 for ESP32
 timer1 = Timer(1)
 timer2 = Timer(2)
-timer0.init(mode=Timer.PERIODIC, period=100, callback=timer0_handler)
-timer1.init(mode=Timer.PERIODIC, period=200, callback=timer1_handler)
-timer2.init(mode=Timer.PERIODIC, period=500, callback=timer2_handler)
+timer0.init(period=100, mode=Timer.PERIODIC, callback=timer0_handler)
+timer1.init(period=200, mode=Timer.PERIODIC, callback=timer1_handler)
+timer2.init(period=500, mode=Timer.PERIODIC, callback=timer2_handler)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")

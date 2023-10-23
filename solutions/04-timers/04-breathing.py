@@ -1,10 +1,12 @@
 """
-LED dimmer
+Breathing light
 
 Example combines timer interrupts and PWM (Pulse Width Modulation)
 for dimming an LED on an ESP32 using MicroPython. In this example,
 a timer interrupt is used to periodically update the PWM duty cycle
-to create a fading effect on the LED.
+to create a visual effect where the intensity or brightness of an LED,
+smoothly and periodically increases and decreases in a manner that
+resembles the rhythm of human breathing.
 
 Hardware Configuration:
   - LED: GPIO pin 2 (onboard)
@@ -22,9 +24,9 @@ Date: 2023-10-20
 from machine import Pin, Timer, PWM
 
 
-def irq_timer0(t):
+def timer0_handler(t):
+    """Interrupt handler of Timer0"""
     global fade_direction
-    global timer_counter
 
     # Read currect duty cycle in the range of 1 to 1024 (1-100%)
     # Note that, pulse width resolution is 10-bit only !
@@ -46,27 +48,25 @@ def irq_timer0(t):
 
     # Update the duty cycle in the range of 1 to 100
     led_with_pwm.duty(new_duty)
-    print(f"dir:{fade_direction}, cur:{current_duty}, new:{new_duty}")
-
-    timer_counter += 1
+    # print(f"dir:{fade_direction}, cur:{current_duty}, new:{new_duty}")
 
 
 # Attach PWM object on the LED pin and set frequency to 1 kHz
 led_with_pwm = PWM(Pin(2), freq=1000)
 led_with_pwm.duty(10)  # Approx. 1% duty cycle
 
-# Timer interrupt global variables
-timer_counter = 0
-fade_direction = 1  # 1 for increasing brightness, 0 for decreasing
+# Define global variable
+fade_direction = 1  # 1 - increasing brightness
+                    # 0 - decreasing
 
 # Create a Timer0 object for the interrupt
 timer0 = Timer(0)
-timer0.init(mode=Timer.PERIODIC, period=15, callback=irq_timer0)
+timer0.init(period=50, mode=Timer.PERIODIC, callback=timer0_handler)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
 print("")
-print(f"Start using {led_with_pwm}...")
+print("Start *breathing* with LED...")
 
 # Forever loop until interrupted by Ctrl+C. When Ctrl+C
 # is pressed, the code jumps to the KeyboardInterrupt exception
@@ -78,5 +78,5 @@ except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
 finally:
     # Optional cleanup code
-    timer0.deinit()       # Deinitialize the timer
-    led_with_pwm.duty(0)  # Turn off the LED
+    timer0.deinit()        # Deinitialize the timer
+    led_with_pwm.deinit()  # Deinitialized the PWM object

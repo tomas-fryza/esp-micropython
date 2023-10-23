@@ -16,20 +16,19 @@ Date: 2023-10-16
 
 from machine import Timer
 
-# Timer interrupt global variable
-timer_counter = 0
+# Define global variable
+timer0_counter = 0
 
 
-def irq_timer0(t):
+def timer0_handler(t):
     """Interrupt handler of Timer0"""
-    # Get access to the global variable in the function
-    global timer_counter
-    timer_counter += 1
+    global timer0_counter  # Access the global timer0_counter
+    timer0_counter += 1
 
 
 # Create an object for 64-bit Timer0
 timer0 = Timer(0)  # Between 0-3 for ESP32
-timer0.init(mode=Timer.PERIODIC, period=100, callback=irq_timer0)
+timer0.init(period=100, mode=Timer.PERIODIC, callback=timer0_handler)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
@@ -40,8 +39,8 @@ print(f"Start counting {timer0}...")
 # is pressed, the code jumps to the KeyboardInterrupt exception
 try:
     while True:
-        if timer_counter > 20:
-            timer_counter = 0
+        if timer0_counter > 20:
+            timer0_counter = 0
             print("Timer0 interrupt triggered 20 times")
 
             # You can put a `heavy computing task` here

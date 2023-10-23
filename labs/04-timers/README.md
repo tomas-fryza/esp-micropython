@@ -66,21 +66,23 @@ The MicroPython's `machine.Timer` class defines a baseline operation of initiali
        pass
 
    # Periodic at 1kHz
-   tim.init(mode=Timer.PERIODIC, freq=1000, callback=mycallback)
+   tim.init(freq=1000, mode=Timer.PERIODIC, callback=mycallback)
 
    # Periodic with 100ms period
    tim.init(period=100, callback=mycallback)
 
    # One shot firing after 1000ms
-   tim.init(mode=Timer.ONE_SHOT, period=1000, callback=mycallback)
+   tim.init(period=1000, mode=Timer.ONE_SHOT, callback=mycallback)
    ```
 
 The init keyword arguments are:
 
-* `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`
 * `freq` is the timer frequency, in units of Hz
 * `period` is the timer period in milliseconds
+* `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`
 * `callback` is executed whenever a timer is triggered. The callback must take one argument, which is passed the Timer object.
+
+> **NOTE:** In MicroPython, the timer parameter of the `mycallback` function is a reference to the timer object that triggered the interrupt. This parameter allows you to identify which timer initiated the interrupt if your code works with multiple timers.
 
 To blink the on-board LED with a period of 1 sec, use the following code:
 
@@ -95,24 +97,50 @@ To blink the on-board LED with a period of 1 sec, use the following code:
    # Create an object for on-board LED
    led0 = Pin(2, mode=Pin.OUT)
    timer0 = Timer(0)  # Between 0-3 for ESP32
-   timer0.init(mode=Timer.PERIODIC, period=1000, callback=timer0_handler)
+   timer0.init(period=1000, mode=Timer.PERIODIC, callback=timer0_handler)
    ```
 
-1. Use breadboard, jumper wires and connect two other LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
+1. Utilize a breadboard and jumper wires to connect two additional LEDs and resistors to GPIO pins 25 and 26 on the ESP32 in an active-high configuration.
 
-2. Create a new source file, write the code for continuous blinking of all LEDs, save the file as `01-blink_leds.py` to your local folder, and run the application.
+2. Create a new source file, save it as `01-blink_leds.py` in your local folder, and write the code to continuously blink all three LEDs (onboard + external).
 
    ```python
-   # Load `Pin` class from `machine` module to access hardware
    from machine import Pin, Timer
 
    # Define three LED pins
    led0 = Pin(2, Pin.OUT)
    timer0 = Timer(0)
-   timer0.init(mode=Timer.PERIODIC, period=1000, callback=timer0_handler)
+   timer0.init(period=100, mode=Timer.PERIODIC, callback=timer0_handler)
 
    # COMPLETE THE CODE
 
+   ```
+
+3. (Optional) Creating a time domain using the main timer interrupt of an ESP32 in MicroPython is a powerful way to precisely control timing for various tasks or applications. Use a global variable to identify time intervals and increment a time variable within a timer interrupt of an ESP32 in MicroPython. You can access this variable from both the timer interrupt and the main loop to perform tasks based on the elapsed time.
+
+   ```python
+   from machine import Timer
+
+   # Define global variables
+   time_variable = 0
+
+   # Define the timer callback function
+   def timer_callback(t):
+       global time_variable  # Access the global time_variable
+       time_variable += 1
+
+   # Initialize and configure the timer
+   main_timer = Timer(0)  # Use Timer 0
+   main_timer.init(period=100, mode=machine.Timer.PERIODIC, callback=timer_callback)
+
+   try:
+       while True:
+           # Your main program logic can run here
+           # You can access the time_variable to check elapsed time.
+           pass
+   except KeyboardInterrupt:
+       # Deinitialize the timer before exiting
+       main_timer.deinit()
    ```
 
 <a name="part3"></a>
@@ -121,23 +149,38 @@ To blink the on-board LED with a period of 1 sec, use the following code:
 
 **Pulse Width Modulation** (PWM) changes the average power delivered from a signal by chopping the square wave signal into discrete parts. It is not an actual continuous signal. Instead, a periodic digital signal's ON, and OFF duration is modulated to reduce the effective voltage/power output. For example, if a microcontroller's GPIO outputs 3.3V in digital output while generating a PWM signal of [50% duty cycle](https://makeabilitylab.github.io/physcomp/esp32/led-fade.html) from the pin, it will output an effective voltage of approximately 1.65V, i.e., 3.3/2.
 
+   ![pwm_duty-princip](images/pwm_princip.png)
+
    ![pwm_duty-cycles](images/pwm_duty-cycles.png)
 
-The PWM class is written to provide pulse width modulation in MicroPython supported boards. This class can be imported into a MicroPython script using the following statements.
+The PWM class is written to provide pulse width modulation in MicroPython supported boards. This class can be imported into a MicroPython script using the following statements. After importing, an object has to be instantiated from the PWM class.
 
    ```python
    from machine import PWM
+   pwm_object = PWM(pin, freq=frequency, duty=duty_cycle)
    ```
 
-After importing, an object has to be instantiated from the PWM class. For this, `machine.PWM()` method is provided. This method has the following syntax.
+1. Create a new source file, save it as `03-pwm.py` in your local folder, and write the code to change a duty cycles of onboard LED (`Pin(2)`) within a `for` cycle from 0 to 1024 (10-bit resolution) in forever loop. To deinitialize PWM object, use `deinit()` method.
 
    ```python
-   class machine.PWM(dest, *, freq, duty_u16, duty_ns)
+   ...
+   try:
+       while True:
+           for duty in range(0, 1024, 5):  # 0, 5, 10, ..., 1020, 0, ...
+               # Pulse width resolution is 10-bit only !
+               led_with_pwm.duty(duty)
+               time.sleep_ms(10)
+
+   except KeyboardInterrupt:
+       print("Ctrl+C Pressed. Exiting...")
+   finally:
+       # Optional cleanup code
+       led_with_pwm.deinit()  # Deinitialized the PWM object
    ```
 
-1. Create a new source file, write the code for change a duty cycles of one LED within a `for` in forever loop, save the file as `03-pwm.py` to your local folder, and run the application.
+2. Combine both examples and modify the duty cycle of one LED within the Timer0 interrupt handler instead of the main loop. This approach allows you to independently control the duty cycles of multiple PWM signals.
 
-2. Combine both examples and change duty cycle of one LED in Timer0 interrupt handler.
+Program a *Breathing light* application. It is a visual effect where the intensity or brightness of an LED, smoothly and periodically increases and decreases in a manner that resembles the rhythm of human breathing. This effect is often used in various electronic and lighting applications to create visually appealing and calming effects.
 
 <a name="experiments"></a>
 

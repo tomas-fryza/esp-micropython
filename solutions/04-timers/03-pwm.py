@@ -27,7 +27,7 @@ import time
 
 # Attach PWM object on the LED pin and set frequency to 1 kHz
 led_with_pwm = PWM(Pin(2), freq=1000)
-led_with_pwm.duty(10)  # Approx. 1% duty cycle
+led_with_pwm.duty(10)  # Approx. 1% duty cycle of 10-bit range
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
@@ -38,13 +38,13 @@ print("Start dimming LED in one direction...")
 # is pressed, the code jumps to the KeyboardInterrupt exception
 try:
     while True:
-        for duty in range(100):  # Duty from 0 to 100 %
+        for duty in range(0, 1024, 5):  # 0, 5, 10, ..., 1020, 0, ...
             # Pulse width resolution is 10-bit only !
-            led_with_pwm.duty(int(duty/100 * 1024))
-            time.sleep_ms(15)
+            led_with_pwm.duty(duty)
+            time.sleep_ms(10)
 
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
 finally:
     # Optional cleanup code
-    led_with_pwm.duty(0)  # Turn off the LED
+    led_with_pwm.deinit()  # Deinitialized the PWM object
