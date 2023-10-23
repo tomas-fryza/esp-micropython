@@ -10,6 +10,7 @@ The repository contains MicroPython lab exercises for [*Digital Electronics*](ht
 2. [Programming in Python, Git version-control system](labs/02-python)
 3. [Control of GPIO pins](labs/03-gpio)
 4. [Timers](labs/04-timers)
+5. [Liquid crystal display (LCD)](labs/05-display)
 
 ## List of examples
 
@@ -54,7 +55,7 @@ The following hardware and software components are mainly used in the lab.
 
 ## References
 
-1. [How to use MicroPython and ESP32/ESP8266](https://github.com/tomas-fryza/esp-micropython/wiki/How-to-use-MicroPython-and-ESP32-ESP8266)
+1. [Installation of MicroPython on ESP32 and ESP8266](https://github.com/tomas-fryza/esp-micropython/wiki/Installation-of-MicroPython-on-ESP32-and-ESP8266)
 
 2. [IDEs for MicroPython](https://github.com/tomas-fryza/esp-micropython/wiki/IDEs-for-MicroPython)
 
@@ -66,4 +67,6 @@ The following hardware and software components are mainly used in the lab.
 
 6. MicroPython Documentation. [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html)
 
-7. [40+ MicroPython Projects, Tutorial and Guides with ESP32 / ESP8266](https://randomnerdtutorials.com/projects-esp32-esp8266-micropython/)
+7. DFRobot. [250+ Must-read Tutorials for Learning ESP32 and Arduino](https://www.dfrobot.com/blog-1578.html)
+
+8. [40+ MicroPython Projects, Tutorial and Guides with ESP32 / ESP8266](https://randomnerdtutorials.com/projects-esp32-esp8266-micropython/)

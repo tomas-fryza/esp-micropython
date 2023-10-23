@@ -30,9 +30,11 @@ import time  # For time delays
 from machine import Pin  # For GPIO control
 
 
-class LcdHd44780:
+class LCDHD44780:
     def __init__(self, rs, e, d):
-        # Create a list of machine.Pin objects within the constructor
+        """Constructor. Set control and data pins of HD44780-based
+        LCD and call the initialization sequence."""
+        # Create machine.Pin objects within the constructor
         self.RS = Pin(rs, Pin.OUT)
         self.E = Pin(e, Pin.OUT)
         self.D = [Pin(pin_number, Pin.OUT) for pin_number in d]
@@ -56,7 +58,7 @@ class LcdHd44780:
         self.command(0x01)  # Clear display
         # self.command(0x0f)  # Display on, cursor on and blinking
         # self.command(0x0e)  # Display on, cursor on but not blinking
-        self.command(0x0C)  # Display on, cursor off
+        self.command(0x0c)  # Display on, cursor off
 
     def _set_data_bits(self, val):
         """Set four data pins according to the parameter val"""
@@ -128,13 +130,8 @@ class LcdHd44780:
 # Execute this only if the module in not initialized from
 # an import statement
 if __name__ == "__main__":
-    # Four-bit data pins [D4, D5, D6, D7]
+    # Four-data pins order: [D4, D5, D6, D7]
     lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
-
-    # Create custom character(s)
-    # https://www.quinapalus.com/hd44780udg.html
-    thermo = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
-    lcd.custom_char(0, thermo)
 
     print("Stop the code execution by pressing `Ctrl+C` key.")
     print("If it does not respond, press the onboard `reset` button.")
@@ -146,22 +143,12 @@ if __name__ == "__main__":
     try:
         while True:
             lcd.move_to(1, 3)
-            lcd.write("Temperature")
-            lcd.move_to(2, 3)
-            lcd.write(chr(0))  # Show custom character at addr 0
-            lcd.move_to(2, 13)
-            lcd.write(chr(0))
-
-            # Example how to put a numeric value to display
-            TEMP = 23.25
-            TEMP_STR = str(TEMP)
-            TEMP_STR = TEMP_STR + chr(223) + "C"
-            lcd.move_to(2, 5)
-            lcd.write(TEMP_STR)
-
+            lcd.write("Using LCD...")
             time.sleep_ms(2000)
             lcd.command(0x01)  # Clear display
             time.sleep_ms(500)
     except KeyboardInterrupt:
-        lcd.command(0x01)  # Clear display
         print("Ctrl+C Pressed. Exiting...")
+    finally:
+        # Optional cleanup code
+        lcd.command(0x01)  # Clear display
