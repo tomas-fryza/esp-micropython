@@ -63,7 +63,7 @@ def scan_keypad():
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
 print("")
-print(f"Press the button on the keypad...")
+print("Press the button on the keypad...")
 
 # Forever loop until interrupted by Ctrl+C. When Ctrl+C
 # is pressed, the code jumps to the KeyboardInterrupt exception
@@ -76,5 +76,3 @@ try:
 
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
-finally:
-    # Optional cleanup code

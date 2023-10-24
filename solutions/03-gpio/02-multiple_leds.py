@@ -64,7 +64,7 @@ try:
 
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
-finally:
+
     # Optional cleanup code
     led0.off()  # Turn off the LEDs
     led1.off()

@@ -45,5 +45,3 @@ try:
 
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
-finally:
-    # Optional cleanup code

@@ -172,9 +172,10 @@ For an active-high LED:
            # Check if the button is pressed (active LOW)
            if button.value() == 0:
                ...
+
    except KeyboardInterrupt:
        print("Ctrl+C Pressed. Exiting...")
-   finally:
+
        # Optional cleanup code
    ```
 

@@ -62,8 +62,9 @@ try:
         time.sleep_ms(2000)
         lcd.command(0x01)  # Clear display
         time.sleep_ms(500)
+
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
-finally:
+
     # Optional cleanup code
     lcd.command(0x01)  # Clear display

@@ -93,7 +93,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    | `LcdHd44780` | `rs`, `e`, and `d` pins | Constructor. Set control and data pins of HD44780-based LCD and call the initialization sequence | `LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])` |
    | `move_to` | `line`, `column` | Move cursor to a specified location of the display | `move_to(1, 3)` |
    | `write` | `s` - string | Display a character string on the LCD | `write("Using LCD...")` |
-   | `custom_char` | `addr`, `charmap` | Write a character to one of the 8 CGRAM locations, available as chr(0) through chr(7) | `custom_char(0, thermometer)` |
+   | `custom_char` | `addr`, `charmap` | Write a character to one of the 8 CGRAM locations, available as chr(0) through chr(7) | `custom_char(0, bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00]))` |
    | `command` | `cmd` - command | Write a command to the LCD controller | `command(0x01)` |
 
 1. In Thonny IDE, create a new file `lcd_hd44780.py` and copy/paste [module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/lcd_hd44780.py) to it. To use the module, the file must be also stored in the ESP32 device memory.
@@ -115,9 +115,10 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
            time.sleep_ms(2000)
            lcd.command(0x01)  # Clear display
            time.sleep_ms(500)
+
    except KeyboardInterrupt:
        print("Ctrl+C Pressed. Exiting...")
-   finally:
+
        # Optional cleanup code
        lcd.command(0x01)  # Clear display
    ```
@@ -168,7 +169,13 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
 ## (Optional) Experiments on your own
 
-1. Create new characters and program a horizontal progress bar at LCD (similar to [this one](https://www.youtube.com/watch?app=desktop&v=rKP1AA-hizw)). Let the full bar state corresponds to one second.
+1. Create six new characters in the CG RAM of the LCD controller and program a progress bar at LCD. Determine how often the progress bar should be updated to accurately represent one second of progress.
+
+   ![LCD_progress-bar_chars](images/lcd_chars_bar.png)
+
+   > **NOTE:** An explanation and instructions on how to program such a progress bar can be found [here (for C language)](https://www.youtube.com/watch?app=desktop&v=rKP1AA-hizw).
+
+2. Add a push button to your application to pause and resume counting when the button is pressed.
 
 <a name="references"></a>
 

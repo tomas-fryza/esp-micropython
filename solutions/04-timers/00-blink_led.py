@@ -51,7 +51,7 @@ try:
 
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
-finally:
+
     # Optional cleanup code
     timer0.deinit()  # Deinitialize the timer
     led0.off()  # Turn off the LED

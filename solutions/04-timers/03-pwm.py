@@ -45,6 +45,6 @@ try:
 
 except KeyboardInterrupt:
     print("Ctrl+C Pressed. Exiting...")
-finally:
+
     # Optional cleanup code
     led_with_pwm.deinit()  # Deinitialized the PWM object
