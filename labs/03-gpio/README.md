@@ -243,6 +243,6 @@ A **matrix keypad** is a type of input device used to capture user input in the 
 
 4. SparkFun Learn. [Pull-up Resistors](https://learn.sparkfun.com/tutorials/pull-up-resistors/all)
 
-5. Physical Computing. [Lesson 1: Using buttons ](https://makeabilitylab.github.io/physcomp/arduino/buttons.html)
+5. Physical Computing. [Lesson 1: Using buttons](https://makeabilitylab.github.io/physcomp/arduino/buttons.html)
 
 6. LEDnique. [LED pinouts – 2, 3, 4-pin and more](https://lednique.com/leds-with-more-than-two-pins/)
