@@ -102,6 +102,8 @@ To blink the on-board LED with a period of 1 sec, use the following code:
 
 1. Utilize a breadboard and jumper wires to connect two additional LEDs and resistors to GPIO pins 25 and 26 on the ESP32 in an active-high configuration.
 
+   ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
+
 2. Create a new source file, save it as `01-blink_leds.py` in your local folder, and write the code to continuously blink all three LEDs (onboard + external).
 
    ```python

@@ -80,6 +80,8 @@ When a command is given to LCD, the command register (RS = 0) is selected and wh
 
 1. Use breadboard, jumper wires, and connect LCD signals to ESP32 GPIO pins as follows: RS - GPIO pin 26, R/W - GND, E - 25, D7:4 - 27, 9, 10, 13.
 
+   ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
+
 <a name="part2"></a>
 
 ## Part 2: Class for HD44780 based LCDs
