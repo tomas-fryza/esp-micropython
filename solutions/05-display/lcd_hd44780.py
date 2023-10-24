@@ -30,7 +30,7 @@ import time  # For time delays
 from machine import Pin  # For GPIO control
 
 
-class LCDHD44780:
+class LcdHd44780:
     def __init__(self, rs, e, d):
         """Constructor. Set control and data pins of HD44780-based
         LCD and call the initialization sequence."""
@@ -131,7 +131,7 @@ class LCDHD44780:
 # an import statement
 if __name__ == "__main__":
     # Four-data pins order: [D4, D5, D6, D7]
-    lcd = LCDHD44780(rs=26, e=25, d=[13, 10, 9, 27])
+    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
     print("Stop the code execution by pressing `Ctrl+C` key.")
     print("If it does not respond, press the onboard `reset` button.")

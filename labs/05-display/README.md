@@ -76,7 +76,7 @@ In the lab, the Digilent PmodCLP display module is used. The display consists of
 
 When a command is given to LCD, the command register (RS = 0) is selected and when data is sent to LCD, the data register (RS = 1) is selected. A **command** is an instruction entered on the LCD in order to perform the required function. In order to display textual information, **data** is send to LCD.
 
-![LCD_pinout_](images/cmodclp_signals.png)
+![LCD_digilent_pinout](images/cmodclp_signals.png)
 
 1. Use breadboard, jumper wires, and connect LCD signals to ESP32 GPIO pins as follows: RS - GPIO pin 26, R/W - GND, E - 25, D7:4 - 27, 9, 10, 13.
 
@@ -86,7 +86,7 @@ When a command is given to LCD, the command register (RS = 0) is selected and wh
 
 ## Part 2: Class for HD44780 based LCDs
 
-In the lab, we are using MicroPython module for HD44780-based LCDs developed by Shujen Chen et al. within book titled *Raspberry Pi Pico Interfacing and Programming with MicroPython* and modified by Tomas Fryza. The `LCDHD44780` class provides the following methods:
+In the lab, we are using MicroPython module for HD44780-based LCDs developed by Shujen Chen et al. within book titled *Raspberry Pi Pico Interfacing and Programming with MicroPython* and modified by Tomas Fryza. The `LcdHdD44780` class provides the following methods:
 
    | **Method name** | **Parameters** | **Description** | **Example** |
    | :-- | :-- | :-- | :-- |
@@ -96,17 +96,17 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    | `custom_char` | `addr`, `charmap` | Write a character to one of the 8 CGRAM locations, available as chr(0) through chr(7) | `custom_char(0, thermometer)` |
    | `command` | `cmd` - command | Write a command to the LCD controller | `command(0x01)` |
 
-1. In Thonny IDE, create a new file `LcdHd44780.py` and copy/paste [module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/LcdHd44780.py) to it. To use the module, the file must be also stored in the ESP32 device memory.
+1. In Thonny IDE, create a new file `lcd_hd44780.py` and copy/paste [module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/lcd_hd44780.py) to it. To use the module, the file must be also stored in the ESP32 device memory.
 
 2. Create a new file `01-test_lcd.py` and write a simple script to test the basic functions `move_to` and `write`.
 
    ```python
    # Import necessary modules
-   import LcdHd44780
+   import lcd_hd44780  # Filename with a new class
    import time
 
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
-   lcd = LcdHd44780.LCDHD44780(rs=26, e=25, d=[13, 10, 9, 27])
+   lcd = lcd_hd44780.LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
    try:
        while True:
