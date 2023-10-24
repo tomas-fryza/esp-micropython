@@ -90,7 +90,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
    | **Method name** | **Parameters** | **Description** | **Example** |
    | :-- | :-- | :-- | :-- |
-   | `__init__` | `rs`, `e`, and `d` pins | Constructor. Set control and data pins of HD44780-based LCD and call the initialization sequence | `lcdHd44780.LCDHD44780(rs=26, e=25, d=[13, 10, 9, 27])` |
+   | `LcdHd44780` | `rs`, `e`, and `d` pins | Constructor. Set control and data pins of HD44780-based LCD and call the initialization sequence | `LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])` |
    | `move_to` | `line`, `column` | Move cursor to a specified location of the display | `move_to(1, 3)` |
    | `write` | `s` - string | Display a character string on the LCD | `write("Using LCD...")` |
    | `custom_char` | `addr`, `charmap` | Write a character to one of the 8 CGRAM locations, available as chr(0) through chr(7) | `custom_char(0, thermometer)` |
@@ -102,11 +102,11 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
    ```python
    # Import necessary modules
-   import lcd_hd44780  # Filename with a new class
+   from lcd_hd44780 import LcdHd44780
    import time
 
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
-   lcd = lcd_hd44780.LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
+   lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
    try:
        while True:

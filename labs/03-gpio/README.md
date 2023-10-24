@@ -245,4 +245,6 @@ A **matrix keypad** is a type of input device used to capture user input in the 
 
 5. Physical Computing. [Lesson 1: Using buttons](https://makeabilitylab.github.io/physcomp/arduino/buttons.html)
 
-6. LEDnique. [LED pinouts – 2, 3, 4-pin and more](https://lednique.com/leds-with-more-than-two-pins/)
+6. LEDnique. [LED pinouts - 2, 3, 4-pin and more](https://lednique.com/leds-with-more-than-two-pins/)
+
+7. peppe0. [Use Matrix Keypad with Raspberry PI Pico to get User Codes Input](https://peppe8o.com/use-matrix-keypad-with-raspberry-pi-pico-to-get-user-codes-input/)
