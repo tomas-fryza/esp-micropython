@@ -1,10 +1,10 @@
 """
 MicroPython script for HD44780-based LCD control
 
-This script demonstrates the use of an HD44780-based LCD with MicroPython. It
-initializes the LCD, creates a custom character (a thermometer icon), and displays
-temperature information. The code runs in a loop until interrupted by the user,
-and it provides a clean exit method.
+This script demonstrates the use of an HD44780-based LCD with MicroPython.
+It initializes the LCD, creates a custom character (a thermometer icon),
+and displays temperature information. The code runs in a loop until
+interrupted by the user, and it provides a clean exit method.
 
 Hardware Configuration:
 - Connect HD44780-based LCD to your ESP32 as follows:
