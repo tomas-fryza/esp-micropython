@@ -33,9 +33,9 @@ The purpose of the laboratory exercise is to understand the serial control of Hi
 
 1. Use reference manual of the [Digilent PmodCLP](https://digilent.com/reference/pmod/pmodclp/start)  module and find out the connection of LCD display. What data and control signals are used? What is the meaning of these signals?
 
-   | **LCD signal(s)** | **AVR pin(s)** | **Description** |
+   | **LCD signal(s)** | **PmodCLP pin(s)** | **Description** |
    | :-: | :-: | :-- |
-   | RS | PB0 | Register selection signal. Selection between Instruction register (RS=0) and Data register (RS=1) |
+   | RS | J2, pin 1 | Register selection signal. Selection between Instruction register (RS=0) and Data register (RS=1) |
    | R/W |  |  |
    | E |  |  |
    | D[3:0] |  |  |
@@ -67,7 +67,7 @@ The HD44780 is capable of operating in 8-bit mode i.e. faster, but 11 microcontr
 
 In 8-bit mode we send the command/data to the LCD using eight data lines (D0-D7), while in 4-bit mode we use four data lines (D4-D7) to send commands and data. Inside the HD44780 there is still an 8-bit operation so for 4-bit mode, two writes to get 8-bit quantity inside the chip are made (first high four bits and then low four bits with an E clock pulse).
 
-In the lab, the Digilent PmodCLP display module is used. The display consists of 2 rows of 16 characters each. It does not provide a back-light and it communicates through a parallel interface with 4 data and 2 control wires.
+In the lab, the Digilent PmodCLP display module is used. The display consists of 2 rows of 16 characters each. It does not provide a back-light and it communicates through a parallel interface with 4 data and 3 control wires.
 
 * RS - register select. Selects the data or instruction register inside the HD44780
 * E - enable. This loads the data into the HD44780 on the falling edge
@@ -96,17 +96,17 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    | `custom_char` | `addr`, `charmap` | Write a character to one of the 8 CGRAM locations, available as chr(0) through chr(7) | `custom_char(0, thermometer)` |
    | `command` | `cmd` - command | Write a command to the LCD controller | `command(0x01)` |
 
-1. In Thonny IDE, create a new file `lcdHd44780.py` and copy/paste [module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/lcdHd44780.py) to it. To use the module, the file must be also stored in the ESP32 device memory.
+1. In Thonny IDE, create a new file `LcdHd44780.py` and copy/paste [module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/LcdHd44780.py) to it. To use the module, the file must be also stored in the ESP32 device memory.
 
 2. Create a new file `01-test_lcd.py` and write a simple script to test the basic functions `move_to` and `write`.
 
    ```python
    # Import necessary modules
-   import lcdHd44780
+   import LcdHd44780
    import time
 
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
-   lcd = lcdHd44780.LCDHD44780(rs=26, e=25, d=[13, 10, 9, 27])
+   lcd = LcdHd44780.LCDHD44780(rs=26, e=25, d=[13, 10, 9, 27])
 
    try:
        while True:

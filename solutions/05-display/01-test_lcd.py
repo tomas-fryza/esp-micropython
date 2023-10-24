@@ -24,12 +24,12 @@ Date: 2023-10-20
 """
 
 # Import necessary modules
-import lcdHd44780
+import LcdHd44780
 import time
 
 # Initialize LCD and create custom character
 # Four-data pins order: [D4, D5, D6, D7]
-lcd = lcdHd44780.LCDHD44780(rs=26, e=25, d=[13, 10, 9, 27])
+lcd = LcdHd44780.LCDHD44780(rs=26, e=25, d=[13, 10, 9, 27])
 
 # Custom character(s)
 # https://www.quinapalus.com/hd44780udg.html
