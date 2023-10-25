@@ -104,7 +104,7 @@ To blink the on-board LED with a period of 1 sec, use the following code:
 
    ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
 
-2. Create a new source file, save it as `01-blink_leds.py` in your local folder, and write the code to continuously blink all three LEDs (onboard + external).
+2. Create a new source file, save it as `01-blink_leds.py` in your local folder, and write the code to continuously blink all three LEDs (onboard + external ones) at different periods.
 
    ```python
    from machine import Pin, Timer
@@ -165,7 +165,13 @@ The PWM class is written to provide pulse width modulation in MicroPython suppor
 1. Create a new source file, save it as `03-pwm.py` in your local folder, and write the code to change a duty cycles of onboard LED (`Pin(2)`) within a `for` cycle from 0 to 1024 (10-bit resolution) in forever loop. To deinitialize PWM object, use `deinit()` method.
 
    ```python
-   ...
+   from machine import Pin, PWM
+   import time
+
+   # Attach PWM object on the LED pin and set frequency to 1 kHz
+   led_with_pwm = PWM(Pin(2), freq=1000)
+   led_with_pwm.duty(10)  # Approx. 1% duty cycle of 10-bit range
+
    try:
        while True:
            for duty in range(0, 1024, 5):  # 0, 5, 10, ..., 1020, 0, ...
@@ -175,14 +181,58 @@ The PWM class is written to provide pulse width modulation in MicroPython suppor
 
    except KeyboardInterrupt:
        print("Ctrl+C Pressed. Exiting...")
-   finally:
+
        # Optional cleanup code
        led_with_pwm.deinit()  # Deinitialized the PWM object
    ```
 
-2. Combine both examples and modify the duty cycle of one LED within the Timer0 interrupt handler instead of the main loop. This approach allows you to independently control the duty cycles of multiple PWM signals.
+2. Modify the duty cycle of one LED within the Timer0 interrupt handler instead of the main loop. This approach allows you to independently control the duty cycles of multiple PWM signals.
 
-Program a *Breathing light* application. It is a visual effect where the intensity or brightness of an LED, smoothly and periodically increases and decreases in a manner that resembles the rhythm of human breathing. This effect is often used in various electronic and lighting applications to create visually appealing and calming effects.
+   Program a *Breathing light* application. It is a visual effect where the intensity or brightness of an LED, smoothly and periodically increases and decreases in a manner that resembles the rhythm of human breathing. This effect is often used in various electronic and lighting applications to create visually appealing and calming effects.
+
+   ```python
+   from machine import Pin, Timer, PWM
+
+
+   def timer0_handler(t):
+       """Interrupt handler of Timer0"""
+       global fade_direction
+
+       # Read currect duty cycle in the range of 1 to 1024 (1-100%)
+       # Note that, pulse width resolution is 10-bit only !
+       current_duty = led_with_pwm.duty()
+
+
+       # COMPLETE THE CODE: Increment or decrement the PWM duty cycle
+
+
+       # Update the duty cycle in the range of 1 to 1024
+       led_with_pwm.duty(new_duty)
+
+
+   # Attach PWM object on the LED pin and set frequency to 1 kHz
+   led_with_pwm = PWM(Pin(2), freq=1000)
+   led_with_pwm.duty(10)  # Approx. 1% duty cycle
+
+   # Define global variable
+   fade_direction = 1  # 1 - increasing brightness
+                       # 0 - decreasing
+
+   # Create a Timer0 object for the interrupt
+   timer0 = Timer(0)
+   timer0.init(period=50, mode=Timer.PERIODIC, callback=timer0_handler)
+
+   try:
+       while True:
+           pass
+
+   except KeyboardInterrupt:
+       print("Ctrl+C Pressed. Exiting...")
+
+       # Optional cleanup code
+       timer0.deinit()        # Deinitialize the timer
+       led_with_pwm.deinit()  # Deinitialized the PWM object
+   ```
 
 <a name="experiments"></a>
 

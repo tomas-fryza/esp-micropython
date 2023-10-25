@@ -45,14 +45,15 @@ The purpose of the laboratory exercise is to understand the serial control of Hi
 
    | **Char** | **Decimal** | **Hexadecimal** |
    | :-: | :-: | :-: |
+   | ... |  |  |
+   | `0` | 48 | 0x30 |
+   | `1` |  |  |
+   | ... |  |  |
    | `A` | 65 | 0x41 |
    | `B` |  |  |
    | ... |  |  |
    | `a` | 97 | 0x61 |
    | `b` |  |  |
-   | ... |  |  |
-   | `0` | 48 | 0x30 |
-   | `1` |  |  |
    | ... |  |  |
 
 <a name="part1"></a>
@@ -90,19 +91,19 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
    | **Method name** | **Parameters** | **Description** | **Example** |
    | :-- | :-- | :-- | :-- |
-   | `LcdHd44780` | `rs`, `e`, and `d` pins | Constructor. Set control and data pins of HD44780-based LCD and call the initialization sequence | `LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])` |
-   | `move_to` | `line`, `column` | Move cursor to a specified location of the display | `move_to(1, 3)` |
-   | `write` | `s` - string | Display a character string on the LCD | `write("Using LCD...")` |
-   | `custom_char` | `addr`, `charmap` | Write a character to one of the 8 CGRAM locations, available as chr(0) through chr(7) | `custom_char(0, bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00]))` |
-   | `command` | `cmd` - command | Write a command to the LCD controller | `command(0x01)` |
+   | `LcdHd44780` | `rs`, `e`, and `d` pins | Constructor. Set GPIO pins for HD44780-based LCD and call the initialization sequence. (`rs`-Register Select, `e`-Enable, `d`-Data) | `LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])` |
+   | `move_to` | `line`, `column` | Move cursor to a specified location of the display. `line` and `column` start from 1 | `move_to(1, 3)` |
+   | `write` | `s` - string | Display a string (array of characters) on the LCD | `write("Using LCD...")` |
+   | `custom_char` | `addr`, `charmap` | Write a character to one of the 8 CG RAM locations, available as `chr(0)` through `chr(7)` | `custom_char(0, bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00]))` |
+   | `command` | `cmd` - command | Write a command to the LCD controller, such as `0x01` to clear the display | `command(0x01)` |
 
-1. In Thonny IDE, create a new file `lcd_hd44780.py` and copy/paste [module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/lcd_hd44780.py) to it. To use the module, the file must be also stored in the ESP32 device memory.
+1. In Thonny IDE, create a new file `lcd_hd44780.py` and copy/paste [module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/lcd_hd44780.py) to it. To import and use the module, the copy of file must be stored in the ESP32 device as well.
 
-2. Create a new file `01-test_lcd.py` and write a simple script to test the basic functions `move_to` and `write`.
+2. Create a new file `01-test_lcd.py` and write a simple script to test `move_to` and `write` functions.
 
    ```python
    # Import necessary modules
-   from lcd_hd44780 import LcdHd44780
+   from lcd_hd44780 import LcdHd44780  # From `lcd-hd4480.py` file import class `LcdHd4480`
    import time
 
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
@@ -128,8 +129,8 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    ```python
    # Example how to put a numeric value to display
    TEMP = 23.25
-   TEMP_STR = str(TEMP)
-   TEMP_STR = TEMP_STR + chr(223) + "C"
+   TEMP_STR = str(TEMP)  # Convert to string
+   TEMP_STR = TEMP_STR + chr(223) + "C"  # Add `°C` to the string
    lcd.move_to(2, 5)
    lcd.write(TEMP_STR)
    ```
@@ -152,14 +153,14 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
     thermometer = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
     lcd.custom_char(0, thermometer)
     ...
-    lcd.write(chr(0))
+    lcd.write(chr(0))  # Display the character from location `0`
     ```
 
 <a name="part3"></a>
 
 ## Part 3: Stopwatch
 
-1. Create a stopwatch counter. Use timer interrupt and update the stopwatch value every 100&nbsp;ms. Display tenths of a second only in the form `00:00.tenths`, ie let the stopwatch counts from `00:00.0` to `00:00.9` and then starts again.
+1. Create a stopwatch counter according to the screenshot below. Use timer interrupt and update the stopwatch value every 100&nbsp;ms. Display tenths of a second only in the form `00:00.tenths`, ie let the stopwatch counts from `00:00.0` to `00:00.9` and then starts counting again.
 
    ![LCD_screenshot](images/screenshot_lcd_stopwatch.png)
 
@@ -169,7 +170,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
 ## (Optional) Experiments on your own
 
-1. Create six new characters in the CG RAM of the LCD controller and program a progress bar at LCD. Determine how often the progress bar should be updated to accurately represent one second of progress.
+1. Create six new characters in the CG RAM of the LCD controller and program a progress bar at several columns of the LCD. Determine how often the progress bar should be updated to accurately represent one second of progress.
 
    ![LCD_progress-bar_chars](images/lcd_chars_bar.png)
 
