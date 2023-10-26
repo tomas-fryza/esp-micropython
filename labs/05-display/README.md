@@ -103,7 +103,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
    ```python
    # Import necessary modules
-   from lcd_hd44780 import LcdHd44780  # From `lcd-hd4480.py` file import class `LcdHd4480`
+   from lcd_hd44780 import LcdHd44780  # From `lcd_hd4480.py` file import class `LcdHd4480`
    import time
 
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
@@ -191,3 +191,5 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 4. [LCd Display Screenshot Generator](http://avtanski.net/projects/lcd/)
 
 5. eTech Tom. [Arduino Progress Bar Graph Tutorial](https://www.youtube.com/watch?app=desktop&v=rKP1AA-hizw)
+
+6. Raspberry Pi Spy. [16x2 LCD Module Control Using Python](https://www.raspberrypi-spy.co.uk/2012/07/16x2-lcd-module-control-using-python/)
