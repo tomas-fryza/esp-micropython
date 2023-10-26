@@ -2,8 +2,8 @@
 MicroPython HD44780 character LCD controller
 
 This class provides a simple interface to control character LCDs
-based on the HD44780 driver. It allows you to display text and
-control the cursor position on the LCD screen.
+based on the HD44780 driver. It allows to display text, control
+the cursor position on the LCD screen, and create the custom characters.
 
 Compatible with ESP32 boards and other MicroPython-supported hardware.
 
@@ -13,12 +13,6 @@ Hardware Configuration:
   - R/W: GND
   - E: 25
   - D7:4: 27, 9, 10, 13
-
-Instructions:
-1. Connect LCD display to GPIO pins
-2. Run the current script
-3. Stop the code execution by pressing `Ctrl+C` key.
-   If it does not respond, press the onboard `reset` button.
 
 Author(s): Shujen Chen et al. Raspberry Pi Pico Interfacing and
            Programming with MicroPython
@@ -120,11 +114,12 @@ class LcdHd44780:
         https://microcontrollerslab.com/i2c-lcd-esp32-esp8266-micropython-tutorial/
         """
         addr = addr & 0x07
-        self.command(0x40 | (addr << 3))
+        self.command(0x40 | (addr << 3))  # Set CG RAM address
         time.sleep_us(40)
         for i in range(8):
             self.data(charmap[i])
             time.sleep_us(40)
+        self.command(0x80)  # Move to origin of DD RAM address
 
 
 # Execute this only if the module in not initialized from
