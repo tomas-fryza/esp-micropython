@@ -142,8 +142,8 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
    # Custom character(s)
    # https://www.quinapalus.com/hd44780udg.html
-   thermometer = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
-   lcd.custom_char(0, thermometer)
+   new_char = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
+   lcd.custom_char(0, new_char)
 
    try:
        while True:
