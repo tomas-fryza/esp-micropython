@@ -102,8 +102,9 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 2. Create a new file `01-test_lcd.py` and write a simple script to test `move_to` and `write` functions.
 
    ```python
-   # Import necessary modules
-   from lcd_hd44780 import LcdHd44780  # From `lcd_hd4480.py` file import class `LcdHd4480`
+   # Import necessary module(s)
+   # From `lcd_hd4480.py` file import class `LcdHd4480`
+   from lcd_hd44780 import LcdHd44780
    
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])

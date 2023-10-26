@@ -23,7 +23,7 @@ Author: Tomas Fryza
 Date: 2023-10-20
 """
 
-# Import necessary modules
+# Import necessary module(s)
 from lcd_hd44780 import LcdHd44780
 
 # Initialize LCD (four-data pins order is [D4, D5, D6, D7])

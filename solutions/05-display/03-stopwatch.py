@@ -20,7 +20,7 @@ Author: Tomas Fryza
 Date: 2023-10-26
 """
 
-# Import necessary modules
+# Import necessary module(s)
 from lcd_hd44780 import LcdHd44780
 from machine import Timer
 
