@@ -145,9 +145,15 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    new_char = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
    lcd.custom_char(0, new_char)
 
+   # Create other new characters
+   # WRITE YOUR CODE HERE
+
    # Show new custom character
    lcd.move_to(2, 3)
    lcd.write(chr(0))
+
+   # Show other new characters
+   # WRITE YOUR CODE HERE
 
    try:
        while True:
