@@ -61,7 +61,7 @@ fade_direction = 1  # 1 - increasing brightness
 
 # Create a Timer0 object for the interrupt
 timer0 = Timer(0)
-timer0.init(period=50, mode=Timer.PERIODIC, callback=timer0_handler)
+timer0.init(period=10, mode=Timer.PERIODIC, callback=timer0_handler)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("If it does not respond, press the onboard `reset` button.")
