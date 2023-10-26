@@ -133,6 +133,10 @@ if __name__ == "__main__":
     # Four-data pins order: [D4, D5, D6, D7]
     lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
+    # Default screen
+    lcd.move_to(1, 3)
+    lcd.write("Using LCD...")
+
     print("Stop the code execution by pressing `Ctrl+C` key.")
     print("If it does not respond, press the onboard `reset` button.")
     print("")
@@ -142,11 +146,7 @@ if __name__ == "__main__":
     # is pressed, the code jumps to the KeyboardInterrupt exception
     try:
         while True:
-            lcd.move_to(1, 3)
-            lcd.write("Using LCD...")
-            time.sleep_ms(2000)
-            lcd.command(0x01)  # Clear display
-            time.sleep_ms(500)
+            pass
 
     except KeyboardInterrupt:
         print("Ctrl+C Pressed. Exiting...")
