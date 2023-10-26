@@ -104,8 +104,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    ```python
    # Import necessary modules
    from lcd_hd44780 import LcdHd44780  # From `lcd_hd4480.py` file import class `LcdHd4480`
-   import time
-
+   
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
@@ -138,6 +137,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
    ```python
    ...
+   # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
    # Custom character(s)
@@ -173,6 +173,47 @@ To display numerical values, they first need to be converted to strings.
 2. Create a stopwatch counter according to the screenshot below. Use timer interrupt and update the stopwatch value every 100&nbsp;ms. Display tenths of a second only in the form `00:00.tenths`, ie let the stopwatch counts from `00:00.0` to `00:00.9` and then starts counting again.
 
    ![LCD_screenshot](images/screenshot_lcd_stopwatch.png)
+
+   ```python
+   # Import necessary modules
+   from lcd_hd44780 import LcdHd44780
+   from machine import Timer
+
+   def stopwatch_100ms(t):
+       """Interrupt handler of Timer0 executed every 100 millisecs"""
+       global tenths  # Can use global variable here
+
+       # Modify tenths of seconds
+       # WRITE YOR CODE HERE
+
+       # Display tenths of seconds
+       # WRITE YOR CODE HERE
+
+   # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
+   lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
+
+   # Default screen
+   # WRITE YOR CODE HERE
+
+   # Define 100-millisec timer
+   timer0 = Timer(0)
+   timer0.init(period=100,
+               mode=Timer.PERIODIC,
+               callback=stopwatch_100ms)
+
+   tenths = 0  # Global variable for `tenths of seconds`
+
+   try:
+       while True:
+           pass
+
+   except KeyboardInterrupt:
+       print("Ctrl+C Pressed. Exiting...")
+
+       # Optional cleanup code
+       lcd.command(0x01)  # Clear display
+       timer0.deinit()    # Deinitialize the timer
+   ```
 
 2. Complete the stopwatch counter by seconds and minutes. Let the stopwatch counts from `00:00.0` to `59:59.9` and then starts again.
 
