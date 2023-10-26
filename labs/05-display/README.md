@@ -124,18 +124,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
        lcd.command(0x01)  # Clear display
    ```
 
-3. To display numerical values, they first need to be converted to strings.
-
-   ```python
-   # Example how to put a numeric value to display
-   TEMP = 23.25
-   TEMP_STR = str(TEMP)  # Convert to string
-   TEMP_STR = TEMP_STR + chr(223) + "C"  # Add `°C` to the string
-   lcd.move_to(2, 5)
-   lcd.write(TEMP_STR)
-   ```
-
-4. All LCD displays based on the Hitachi HD44780 controller have two types of memory that store defined characters: CGROM and CGRAM (Character Generator ROM & RAM). The CGROM memory is non-volatile and cannot be modified, while the CGRAM memory is volatile and can be [modified at any time](https://lastminuteengineers.com/arduino-1602-character-lcd-tutorial/).
+3. All LCD displays based on the Hitachi HD44780 controller have two types of memory that store defined characters: CGROM and CGRAM (Character Generator ROM & RAM). The CGROM memory is non-volatile and cannot be modified, while the CGRAM memory is volatile and can be [modified at any time](https://lastminuteengineers.com/arduino-1602-character-lcd-tutorial/).
 
    **CGROM** memory is used to store all permanent fonts that can be displayed using their ASCII code. For example, if we write 0x43, then we get the character "C" on the display. In total, it can generate 192 5x8 character patterns.
 
@@ -148,19 +137,36 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    Use [LCD pattern library](https://www.quinapalus.com/hd44780udg.html) and generate two 5 by 8 custom characters. Use the foíllowing structure to display them on the sceen.
 
    ```python
-    # Custom character(s)
-    # https://www.quinapalus.com/hd44780udg.html
-    thermometer = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
-    lcd.custom_char(0, thermometer)
-    ...
-    lcd.write(chr(0))  # Display the character from location `0`
-    ```
+   ...
+   lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
+
+   # Custom character(s)
+   # https://www.quinapalus.com/hd44780udg.html
+   thermometer = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
+   lcd.custom_char(0, thermometer)
+
+   try:
+       while True:
+           lcd.write(chr(0))  # Display the character from location `0`
+           ...
+   ```
 
 <a name="part3"></a>
 
 ## Part 3: Stopwatch
 
-1. Create a stopwatch counter according to the screenshot below. Use timer interrupt and update the stopwatch value every 100&nbsp;ms. Display tenths of a second only in the form `00:00.tenths`, ie let the stopwatch counts from `00:00.0` to `00:00.9` and then starts counting again.
+To display numerical values, they first need to be converted to strings.
+
+   ```python
+   # Example how to put a numeric value to display
+   TEMP = 23.25
+   TEMP_STR = str(TEMP)  # Convert to string
+   TEMP_STR = TEMP_STR + chr(223) + "C"  # Add `°C` to the string
+   lcd.move_to(2, 5)
+   lcd.write(TEMP_STR)
+   ```
+
+2. Create a stopwatch counter according to the screenshot below. Use timer interrupt and update the stopwatch value every 100&nbsp;ms. Display tenths of a second only in the form `00:00.tenths`, ie let the stopwatch counts from `00:00.0` to `00:00.9` and then starts counting again.
 
    ![LCD_screenshot](images/screenshot_lcd_stopwatch.png)
 
