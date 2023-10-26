@@ -109,13 +109,13 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
+   # Default screen
+   lcd.move_to(1, 3)
+   lcd.write("Using LCD...")
+
    try:
        while True:
-           lcd.move_to(1, 3)
-           lcd.write("Using LCD...")
-           time.sleep_ms(2000)
-           lcd.command(0x01)  # Clear display
-           time.sleep_ms(500)
+           pass
 
    except KeyboardInterrupt:
        print("Ctrl+C Pressed. Exiting...")
