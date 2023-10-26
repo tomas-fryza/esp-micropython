@@ -4,7 +4,7 @@ MicroPython mathematical functions
 This script defines and demonstrates several mathematical functions.
 
 Instructions:
-1. Run the current script
+1. Run the script
 2. Wait for results
 
 Author: Tomas Fryza

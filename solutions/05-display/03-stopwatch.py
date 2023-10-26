@@ -1,7 +1,9 @@
 """
-Stopwatch
+Stopwatch on LCD
 
-TBD
+The example uses Timer0 and LCD to display a counter in the form of
+`minutes:seconds.tenths`. Based of Timer0 interruptions, the counter
+value is updated every 100 milli seconds.
 
 Hardware Configuration:
 - Connect HD44780-based LCD to your ESP32 as follows:
@@ -12,7 +14,7 @@ Hardware Configuration:
 
 Instructions:
 1. Connect the LCD display to GPIO pins
-2. Run the current script
+2. Run the script
 3. Stop the code execution by pressing `Ctrl+C` key.
    If it does not respond, press the onboard `reset` button.
 

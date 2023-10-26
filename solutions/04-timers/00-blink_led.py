@@ -11,7 +11,7 @@ Hardware Configuration:
 
 Instructions:
 1. Use onboard LED or connect an external
-2. Run the current script
+2. Run the script
 3. Stop the code execution by pressing `Ctrl+C` key.
    If it does not respond, press the onboard `reset` button.
 

@@ -9,7 +9,7 @@ Hardware Configuration:
   - LED: GPIO pin 2 (onboard)
 
 Instructions:
-1. Run the current script
+1. Run the script
 2. Stop the code execution by pressing `Ctrl+C` key.
    If it does not respond, press the onboard `reset` button.
 

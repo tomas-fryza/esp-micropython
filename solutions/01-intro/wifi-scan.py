@@ -10,7 +10,7 @@ Hardware Configuration:
   - LED: GPIO pin 2 (onboard)
 
 Instructions:
-1. Run the current script
+1. Run the script
 2. Wait for results
 
 Author: Wokwi, Tomas Fryza
@@ -34,10 +34,10 @@ available_networks = wifi.scan()
 status_led.off()
 
 # Print the list of available Wi-Fi networks
-print("SSID              | Channel | Signal Strength (dBm)")
-print("------------------+---------+----------------------")
+print("SSID                 | Channel | Signal Strength (dBm)")
+print("---------------------+---------+----------------------")
 for net in available_networks:
     ssid = net[0].decode("utf-8")
     channel = net[2]
     rssi = net[3]
-    print(f"{ssid:17s} | {channel:7d} | {rssi:10d}")
+    print(f"{ssid:20s} | {channel:7d} | {rssi:10d}")
