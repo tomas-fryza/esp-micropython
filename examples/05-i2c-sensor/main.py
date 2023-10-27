@@ -20,7 +20,8 @@ Inspired by:
     * https://github.com/mcauser/micropython-dht12/blob/master/dht12.py
 """
 
-from machine import Pin, I2C
+from machine import I2C
+from machine import Pin
 from time import sleep
 
 # Create I2C peripheral at frequency of 100 kHz
