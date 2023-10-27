@@ -20,28 +20,21 @@ Inspired by:
     * https://github.com/mcauser/micropython-dht12/blob/master/dht12.py
 """
 
-from machine import Pin, I2C
+from machine import I2C
+from machine import Pin
 from time import sleep
 
-# Status LED at GPIO2
-led = Pin(2, Pin.OUT)
-led.off()
-
 # Create I2C peripheral at frequency of 100 kHz
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100000)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
 # Scan for peripherals, returning a list of 7-bit addresses
 # between 0x08 and 0x77 inclusive
-print("Scanning for I2C devices... ", end="")
+print("Scanning I2C... ", end="")
 devices = i2c.scan()
-device_count = len(devices)
+print(f"{len(devices)} device(s) detected")
 
-if device_count == 0:
-    print("No I2C devices found")
-else:
-    print(f"{device_count} found")
-    for device in devices:
-        print(f"Dec address: {device},\tHex address: {hex(device)}")
+for device in devices:
+    print(f"{device},\t{hex(device)}")
 print("")
 
 # Create an array of 5 bytes
@@ -51,6 +44,10 @@ buf = bytearray(5)
 # 2 - Temperature integer part
 # 3 - Temperature decimal part
 # 4 - Checksum
+
+# Status LED at GPIO2
+led = Pin(2, Pin.OUT)
+led.off()
 
 # Forever loop
 while True:
