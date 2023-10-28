@@ -77,7 +77,7 @@ Note that, most I2C devices support repeated start condition. This means that be
 >
 > The data frame always follows the address one and contains eight data bits from the MSB to the LSB and is again terminated by an acknowledgment from the receiving side. Here, number `2` was written to the sensor. According to the [DHT12 sensor manual](https://github.com/tomas-fryza/digital-electronics-2/blob/master/docs/dht12_manual.pdf), this is the address of register, to which the integer part of measured temperature is stored. (The following register contains its decimal part.)
 >
-> | **Register address** | **Description** |
+> | **Memory location** | **Description** |
 > | :-: | :-- |
 > | 0x00 | Humidity integer part |
 > | 0x01 | Humidity decimal part |
