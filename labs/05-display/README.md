@@ -1,4 +1,4 @@
-# Lab 4: LCD (Liquid crystal display)
+# Lab 4: LCD (Liquid Crystal Display)
 
 ### Learning objectives
 
