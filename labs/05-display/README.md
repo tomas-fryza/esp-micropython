@@ -1,4 +1,4 @@
-# Lab 4: Liquid crystal display (LCD)
+# Lab 4: LCD (Liquid crystal display)
 
 ### Learning objectives
 
@@ -79,7 +79,7 @@ When a command is given to LCD, the command register (RS = 0) is selected and wh
 
 ![LCD_digilent_pinout](images/cmodclp_signals.png)
 
-1. Use breadboard, jumper wires, and connect LCD signals to ESP32 GPIO pins as follows: RS - GPIO pin 26, R/W - GND, E - 25, D7:4 - 27, 9, 10, 13.
+1. Use breadboard, jumper wires, and connect LCD signals to ESP32 GPIO pins as follows: RS - GPIO 26, R/W - GND, E - GPIO 25, D7:4 - GPIO 27, 9, 10, 13, VCC - 3.3V, GND - GND.
 
    ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
 
