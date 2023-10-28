@@ -9,9 +9,9 @@ your microcontroller.
 
 Hardware Configuration:
 - Connect I2C devices to your ESP32 as follows:
-  - SCL (Serial Clock): GPIO pin 22
-  - SDA (Serial Data): 21
-  - Vin: 3.3V
+  - SCL (Serial Clock): GPIO 22
+  - SDA (Serial Data): GPIO 21
+  - VCC: 3.3V
   - GND: GND
 
 Authors: MicroPython

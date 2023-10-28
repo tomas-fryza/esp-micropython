@@ -1,14 +1,16 @@
 """
 Read sensor values via I2C bus
 
-This MicroPython example initializes the I2C bus, scans for
-DHT12 temperature & humidity sensor with Slave address `0x5c`,
-and continuously reads and prints data from the sensor.
+This MicroPython script demonstrates the initialization
+of the I2C bus, the scanning process to locate the DHT12
+temperature and humidity sensor assigned to the Slave
+address `0x5c`, and the continuous retrieval and printing
+of data from the sensor.
 
 Hardware Configuration:
 - Connect I2C sensor DHT12 to your ESP32 as follows:
-  - SCL: GPIO pin 22
-  - SDA: 21
+  - SCL: GPIO 22
+  - SDA: GPIO 21
   - `+`: 3.3V
   - `-`: GND
 

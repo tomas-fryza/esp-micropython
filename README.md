@@ -10,7 +10,9 @@ The repository contains MicroPython lab exercises for [*Digital Electronics*](ht
 2. [Programming in Python, Git version-control system](labs/02-python)
 3. [Control of GPIO pins](labs/03-gpio)
 4. [Timers](labs/04-timers)
-5. [Liquid crystal display (LCD)](labs/05-display)
+5. [LCD (Liquid crystal display)](labs/05-display)
+6. [I2C serial communication](labs/06-serial)
+7. Wi-Fi communication
 
 ## List of examples
 

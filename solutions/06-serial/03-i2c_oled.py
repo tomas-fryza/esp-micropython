@@ -1,5 +1,5 @@
 """
-I2C OLED display SSD1306
+I2C OLED display SH1106
 
 MicroPython script for initializing I2C and using an OLED
 display with the SH1106 controller. The script requires
@@ -28,7 +28,7 @@ i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
 # SH1106_I2C(width, height, i2c, addr, rotate)
 display = SH1106_I2C(128, 64, i2c, addr=0x3c, rotate=180)
-display.contrast(50)  # Set contrast to 50 %
+display.contrast(100)  # Set contrast to 50 %
 
 display.text("Using OLED...", x=0, y=0)
 display.show()
