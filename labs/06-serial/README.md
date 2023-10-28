@@ -208,7 +208,7 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
 
 An OLED I2C display, or OLED I2C screen, is a type of display technology that combines an OLED (Organic Light Emitting Diode) panel with an I2C (Inter-Integrated Circuit) interface for communication. The I2C interface simplifies the connection between the display and a microcontroller, making it easier to control and integrate into various electronic projects.
 
-1. Create a new file `sh1106.py` consinsting the class for OLED display with SH1106 driver and copy/paste the [code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device as well.
+1. Create a new file `sh1106.py` consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device as well.
 
 2. Create a new file `03-i2c_oled.py` and write a script to print text on the display.
 
