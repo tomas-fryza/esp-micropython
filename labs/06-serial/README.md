@@ -23,7 +23,7 @@ The main goal of this laboratory exercise is to gain a comprehensive understandi
 
 ### Components list
 
-* Arduino Uno board, USB cable
+* ESP32 board, USB cable
 * Breadboard
 * DHT12 humidity/temperature sensor
   * Optional: RTC DS3231 and AT24C32 EEPROM memory module
