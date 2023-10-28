@@ -240,7 +240,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
        display.poweroff()
     ```
 
-3. Use other methods from [`sh1106` class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display.
+3. Use other methods from `sh1106` [class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display.
 
    ```python
    # https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
