@@ -208,7 +208,7 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
 
 An OLED I2C display, or OLED I2C screen, is a type of display technology that combines an OLED (Organic Light Emitting Diode) panel with an I2C (Inter-Integrated Circuit) interface for communication. The I2C interface simplifies the connection between the display and a microcontroller, making it easier to control and integrate into various electronic projects.
 
-1. Create a new file `sh1106.py` consinsting the class for OLED display with SH1106 driver and copy/paste the [code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device as well.
+1. Create a new file `sh1106.py` consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device as well.
 
 2. Create a new file `03-i2c_oled.py` and write a script to print text on the display.
 
@@ -240,7 +240,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
        display.poweroff()
     ```
 
-3. Use other methods from [`sh1106` class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display.
+3. Use other methods from `sh1106` [class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display.
 
    ```python
    # https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
@@ -341,6 +341,9 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 6. NXP. [I2C-bus specification and user manual](https://www.pololu.com/file/download/UM10204.pdf?file_id=0J435)
 
-7. Maxim Integrated. [DS3231, Extremely accurate I2C-Integrated RTC/TCXO/Crystal](../../docs/ds3231_manual.pdf)
+7. Martin Fitzpatrick. [Driving I2C OLED displays with MicroPython](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/)
 
-8. LastMinuteEngineers. [Interface DS3231 Precision RTC Module with Arduino](https://lastminuteengineers.com/ds3231-rtc-arduino-tutorial/)
+8. Maxim Integrated. [DS3231, Extremely accurate I2C-Integrated RTC/TCXO/Crystal](../../docs/ds3231_manual.pdf)
+
+9. LastMinuteEngineers. [Interface DS3231 Precision RTC Module with Arduino](https://lastminuteengineers.com/ds3231-rtc-arduino-tutorial/)
+
