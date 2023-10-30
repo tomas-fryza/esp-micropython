@@ -166,6 +166,8 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
 ## Part 3: Stopwatch
 
+![photo_stopwatch](images/photo_lcd_stopwatch.jpg)
+
 To display numerical values, they first need to be converted to strings.
 
    ```python
