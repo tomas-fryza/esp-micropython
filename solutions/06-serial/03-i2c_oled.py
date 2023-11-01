@@ -7,8 +7,8 @@ the SH1106 driver library, stored in ESP32 device.
 
 Hardware Configuration:
 - Connect I2C OLED display to your ESP32 as follows:
-  - SCL: GPIO pin 22
-  - SDA: 21
+  - SCL: GPIO 22
+  - SDA: GPIO 21
   - VCC: 3.3V
   - GND: GND
 
