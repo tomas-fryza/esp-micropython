@@ -32,7 +32,7 @@ The repository contains MicroPython lab exercises for [*Digital Electronics*](ht
 
 The following hardware and software components are mainly used in the lab.
 
-| **Component** | **Links** |
+| **Component** | **Link(s)** |
 | :-- | :-- |
 | ESP32 microcontroler | [Expressif](https://www.espressif.com/en/products/socs/esp32) |
 | FireBeetle board | [Schematic](docs/firebeetle_esp32_board_user_manual.pdf) & manual, [pinout](labs/03-gpio/images/DFR0478_pinout.png)
@@ -45,7 +45,7 @@ The following hardware and software components are mainly used in the lab.
 | Osciloscope DSOX3034T | Oscilloscope Keysight Technologies [DSOX3034T](https://www.keysight.com/en/pdx-x202175-pn-DSOX3034T/oscilloscope-350-mhz-4-analog-channels?&cc=CZ&lc=eng) (350 MHz, 4 analog channels), including 16 logic timing channels [DSOXT3MSO](https://www.keysight.com/en/pdx-x205238-pn-DSOXT3MSO/3000t-x-series-oscilloscope-mso-upgrade?cc=CZ&lc=eng) and serial protocol triggering and decode options [D3000BDLA](https://www.keysight.com/en/pd-2990560-pn-D3000BDLA/ultimate-software-bundle-for-the-3000a-t-x-series?&cc=CZ&lc=eng) |
 | Thonny IDE | [Python IDE for beginners](https://thonny.org/) |
 | Mu editor | [Python editor](https://codewith.mu/) |
-| VS Code | [Visual Studio Code](https://code.visualstudio.com/) |
+| Visual Studio Code | [web page](https://code.visualstudio.com/) |
 | Git | [git](https://git-scm.com/) |
 
 ## References
