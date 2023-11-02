@@ -237,39 +237,39 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
    except KeyboardInterrupt:
        print("Ctrl+C Pressed. Exiting...")
-       display.poweroff()
+       oled.poweroff()
     ```
 
 3. Use other methods from `sh1106` [class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display.
 
    ```python
    # https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
-   display.fill(color=0)  # Clear screen
-   display.fill_rect(x=0, y=0, w=32, h=32, color=1)
-   display.fill_rect(x=2, y=2, w=28, h=28, color=0)
-   display.vline(x=9, y=8, h=22, color=1)
-   display.vline(x=16, y=2, h=22, color=1)
-   display.vline(x=23, y=8, h=22, color=1)
-   display.fill_rect(x=26, y=24, w=2, h=4, color=1)
-   display.text("MicroPython", x=40, y=0)
-   display.text("Brno, CZ", x=40, y=12)
-   display.text("2023/24", x=40, y=24)
+   oled.fill(color=0)  # Clear screen
+   oled.fill_rect(x=0, y=0, w=32, h=32, color=1)
+   oled.fill_rect(x=2, y=2, w=28, h=28, color=0)
+   oled.vline(x=9, y=8, h=22, color=1)
+   oled.vline(x=16, y=2, h=22, color=1)
+   oled.vline(x=23, y=8, h=22, color=1)
+   oled.fill_rect(x=26, y=24, w=2, h=4, color=1)
+   oled.text("MicroPython", x=40, y=0)
+   oled.text("Brno, CZ", x=40, y=12)
+   oled.text("2023/24", x=40, y=24)
    ```
 
    Here is the list of availabe methods for basic graphics.
 
    | **Method name** | **Description** | **Example** |
    | :-- | :-- | :-- |
-   | `display.text(text, x, y)` | Display `text` at position `x`, `y` | `display.text("Using OLED...", x=0, y=0)` |
-   | `display.pixel(x, y, color)` | Display one pixel at position. Optional `color`: 1 - visible, 0 - background color | `display.pixel(10, 20)`
-   | `display.hline(x, y, w, color)` | Horizontal line with width `w` and `color` | `display.hline(0, 64, 128, color=1)` |
-   | `display.vline(x, y, h, color)` | Vertical line with height `h` | `display.vline(x=9, y=8, h=22, color=1)` |
-   | `display.line(x1, y1, x2, y2, color)` | Diagonal line | `display.line(x1=0, y1=0, x2=128, y2=64, color=1)` |
-   | `display.rect(x, y, w, h, color)` | Rectangle | `display.rect(0, 0, 128, 64, 1)` |
-   | `display.fill_rect(x, y, w, h, collor)` | Filled rectangle | `display.fill_rect(x=0, y=0, w=32, h=32, color=1)` |
-   | `display.fill(color)` | Fill the whole screen (clear screen) | `display.fill(0)` |
+   | `oled.text(text, x, y)` | Display `text` at position `x`, `y` | `oled.text("Using OLED...", x=0, y=0)` |
+   | `oled.pixel(x, y, color)` | Display one pixel at position. Optional `color`: 1 - visible, 0 - background color | `oled.pixel(10, 20)`
+   | `oled.hline(x, y, w, color)` | Horizontal line with width `w` and `color` | `oled.hline(0, 64, 128, color=1)` |
+   | `oled.vline(x, y, h, color)` | Vertical line with height `h` | `oled.vline(x=9, y=8, h=22, color=1)` |
+   | `oled.line(x1, y1, x2, y2, color)` | Diagonal line | `oled.line(x1=0, y1=0, x2=128, y2=64, color=1)` |
+   | `oled.rect(x, y, w, h, color)` | Rectangle | `oled.rect(0, 0, 128, 64, 1)` |
+   | `oled.fill_rect(x, y, w, h, collor)` | Filled rectangle | `oled.fill_rect(x=0, y=0, w=32, h=32, color=1)` |
+   | `oled.fill(color)` | Fill the whole screen (clear screen) | `oled.fill(0)` |
 
-4. Define a binary matrix, suggest your picture/icon, use the `display.pixel()` method, and print it on the display.
+4. Define a binary matrix, suggest your picture/icon, use the `oled.pixel()` method, and print it on the display.
 
    ```python
    # Binary icon
@@ -287,7 +287,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    pos_x, pos_y = 100, 50
    for j, row in enumerate(icon):
        for i, val in enumerate(row):
-           display.pixel(x=i+pos_x, y=j+pos_y, color=val) 
+           oled.pixel(x=i+pos_x, y=j+pos_y, color=val) 
    ```
 
 5. Combine temperature and OLED examples and print DHT12 senzor values on OLED display.
