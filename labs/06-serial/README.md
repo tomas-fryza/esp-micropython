@@ -155,13 +155,13 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    from machine import Pin
    import time
 
-   # I2C(id, scl, sda, freq)
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-
    SENSOR_ADDR = 0x5c
    SENSOR_HUMI_REG = 0
    SENSOR_TEMP_REG = 2
    SENSOR_CHECKSUM = 4
+
+   # I2C(id, scl, sda, freq)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
    print("Stop the code execution by pressing `Ctrl+C` key.")
    print("")
@@ -252,7 +252,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    display.vline(x=23, y=8, h=22, color=1)
    display.fill_rect(x=26, y=24, w=2, h=4, color=1)
    display.text("MicroPython", x=40, y=0)
-   display.text("Brno, Czechia", x=40, y=12)
+   display.text("Brno, CZ", x=40, y=12)
    display.text("2023/24", x=40, y=24)
    ```
 
