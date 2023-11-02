@@ -222,11 +222,11 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
    # SH1106_I2C(width, height, i2c, addr, rotate)
-   display = SH1106_I2C(128, 64, i2c, addr=0x3c, rotate=180)
-   display.contrast(50)  # Set contrast to 50 %
+   oled = SH1106_I2C(128, 64, i2c, addr=0x3c, rotate=180)
+   oled.contrast(50)  # Set contrast to 50 %
 
-   display.text("Using OLED...", x=0, y=0)
-   display.show()
+   oled.text("Using OLED...", x=0, y=0)
+   oled.show()
 
    print("Stop the code execution by pressing `Ctrl+C` key.")
    print("If it does not respond, press the onboard `reset` button.")
