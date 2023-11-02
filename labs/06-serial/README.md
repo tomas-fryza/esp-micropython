@@ -107,15 +107,15 @@ The goal of this task is to find all devices connected to the I2C bus.
 
    > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones is used.
 
+   ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
+
    * Humidity/temperature [DHT12](../../docs/dht12_manual.pdf) digital sensor
 
    * SH1106 I2C [OLED display](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/) 128x64
 
    * Optional: Combined module with [RTC DS3231](../../docs/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../../docs/at24c32_manual.pdf) EEPROM memory
 
-   * Optionall: [GY-521 module](../../docs/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
-
-   ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
+   * Optional: [GY-521 module](../../docs/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
 
 2. Within the Thonny IDE, create a new script named `01-i2c_scan.py` and perform a scan to detect the slave addresses of connected I2C devices. Endeavor to determine the corresponding chip associated with each address.
 

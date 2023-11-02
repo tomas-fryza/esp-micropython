@@ -23,13 +23,13 @@ from machine import I2C
 from machine import Pin
 import time
 
-# I2C(id, scl, sda, freq)
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-
 SENSOR_ADDR = 0x5c
 SENSOR_HUMI_REG = 0
 SENSOR_TEMP_REG = 2
 SENSOR_CHECKSUM = 4
+
+# I2C(id, scl, sda, freq)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 print("")
@@ -44,7 +44,7 @@ try:
     while True:
         # readfrom_mem(addr, memaddr, nbytes)
         val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
-        print(f"{val[0]}.{val[1]} {chr(176)}C")
+        print(f"{val[0]}.{val[1]} C")
         time.sleep(5)
 
 except KeyboardInterrupt:
