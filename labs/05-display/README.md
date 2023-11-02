@@ -12,6 +12,8 @@ After completing this lab you will be able to:
 
 The purpose of the laboratory exercise is to understand the serial control of Hitachi HD44780-based LCD character display and how to define custom characters. Another goal is to learn how to use Python's class methods in your own project.
 
+![photo_stopwatch](images/photo_lcd_stopwatch.jpg)
+
 ### Table of contents
 
 * [Pre-Lab preparation](#preparation)
@@ -165,8 +167,6 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 <a name="part3"></a>
 
 ## Part 3: Stopwatch
-
-![photo_stopwatch](images/photo_lcd_stopwatch.jpg)
 
 To display numerical values, they first need to be converted to strings.
 

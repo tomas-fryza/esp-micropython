@@ -11,6 +11,8 @@ After completing this lab you will be able to:
 
 The main goal of this laboratory exercise is to gain a comprehensive understanding of serial synchronous communication via the I2C (Inter-Integrated Circuit) bus. This includes grasping the essential structure of address and data frames. Additionally, this exercise provides an opportunity to explore the utilization of classes and methods in MicroPython.
 
+![photo_oled](images/photo_oled.jpg)
+
 ### Table of contents
 
 * [Pre-Lab preparation](#preparation)
