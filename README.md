@@ -202,7 +202,7 @@ The following hardware and software components are mainly used in the lab.
 | **Version**                | **Result (yyyy-mm-dd)** | **Note**    |
 | :------------------------- | :---------------------: | :---------- |
 | Windows 10                 | OK (2023-09-18)         | Lab SC 6.61 |
-| Linux Mint 20.3 (Una)      | OK (2022-05-23)         | Laptop      |
+| Linux Mint 20.3 (Una)      | OK (2023-05-23)         | Laptop      |
 
 ```bash
 # FYI: How to check OS version in Linux
