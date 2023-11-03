@@ -1,8 +1,8 @@
 # MicroPython on ESP32/ESP8266 microcontollers
 
-The repository contains MicroPython lab exercises for [*Digital Electronics*](https://www.vut.cz/en/students/courses/detail/268609) course at Brno University of Technology, Czechia.
+The repository contains MicroPython lab exercises for [*Digital Electronics*](https://www.vut.cz/en/students/courses/detail/268609) course at Brno University of Technology, Czechia. The course focuses on digital circuits, microprocessor technology, embedded systems and uses the MicroPython language for programming 32-bit microcontrollers. Students will gain practical experience with individual parts of microprocessor systems and will also expand their knowledge of Python programming language.
 
-   ![firebeetle_multiple-leds](labs/03-gpio/images/firebeetle-multipl-leds.jpg)
+   ![firebeetle_multiple-leds](labs/06-serial/images/photo_oled.jpg)
 
 ## Installation
 
