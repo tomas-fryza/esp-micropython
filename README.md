@@ -4,6 +4,155 @@ The repository contains MicroPython lab exercises for [*Digital Electronics*](ht
 
    ![firebeetle_multiple-leds](labs/03-gpio/images/firebeetle-multipl-leds.jpg)
 
+## Installation
+
+To use MicroPython with a real ESP32 board, you will need to follow these steps:
+
+* Download MicroPython firmware
+* Flash the firmware
+* Connect to the Board's Serial REPL and interact with MicroPython
+* Transfer files to the ESP32 board
+
+There are several very good tutorials how to install and use MicroPython on an ESP microcontroller, such as [this one](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html) for Windows. The following text was tested under Linux-based operating system.
+
+1. Install [Python](https://www.python.org/downloads/).
+
+2. Open terminal (typically `Ctrl+Alt+T`) and install `esptool`:
+
+    ```shell
+    pip install esptool
+    ```
+
+    Connect your ESP board and test the [`esptool`](https://docs.espressif.com/projects/esptool/en/latest/esp32/esptool/basic-commands.html#):
+
+    ```shell
+    # Get the version
+    esptool.py version
+
+    # Read chip info, serial port, MAC address, and others
+    # Note: Use `dmesg` command to find your USB port
+    esptool.py --port /dev/ttyUSB0 flash_id
+
+    # Read all eFuses from the chip
+    espefuse.py --port /dev/ttyUSB0 summary
+    ```
+
+**For ESP32 chips:**
+
+3. [Download](http://micropython.org/download/) the latest firmware for your target device, such as `esp32-20230426-v1.20.0.bin` for Espressif ESP32.
+
+4. Erase the Flash of target device (use your port name):
+
+    ```shell
+    esptool.py --chip esp32 --port /dev/ttyUSB0 erase_flash
+    ```
+
+5. Deploy the new firmware:
+
+    ```shell
+    esptool.py --chip esp32 --port /dev/ttyUSB0 write_flash -z 0x1000 esp32-20230426-v1.20.0.bin
+    ```
+
+**For ESP8266 chips:**
+
+3. [Download](https://micropython.org/download/esp8266/) the latest firmware, such as `esp8266-20230426-v1.20.0.bin`.
+
+4. Erase the Flash before deploying the firmware:
+
+    ```shell
+    esptool.py --chip esp8266 --port /dev/ttyUSB0 erase_flash
+    ```
+
+5. Deploy the firmware:
+
+    ```shell
+    esptool.py --chip esp8266 --port /dev/ttyUSB0 write_flash --flash_mode dio --flash_size 4MB 0x0 esp8266-20230426-v1.20.0.bin
+    ```
+
+## Usage
+
+Test MicroPython via [PuTTY](https://putty.org/) or directly in terminal by `screen`. You need to press on-board reset button:
+
+```shell
+screen /dev/ttyUSB0 115200
+```
+
+> **Note:** To exit the `screen`, press `Ctrl+A`, followed by `K` and `Y`.
+
+```python
+# Print string to a Shell
+>>> print("Hi there!")
+Hi there!
+
+# Operators used for the different functions like division,
+# multiplication, addition, subtraction, ...
+>>> 10/3
+3.333333
+>>> 10//3
+3
+>>> 10%3
+1
+>>> 10*3
+30
+>>> 10**3
+1000
+
+# Integers, floats, strings
+>>> type(10)
+<class 'int'>
+>>> type(10.0)
+<class 'float'>
+
+>>> pi = 3.1415
+>>> pi_str = str(pi)
+>>> type(pi_str)
+<class 'str'>
+>>> len(pi_str)
+6
+
+# `ord` returns unicode code of a specified character
+>>> ord("A")
+65
+>>> ord("a")
+97
+>>> ord("0")
+48
+
+>>> print(pi_str)
+3.1415
+>>> ord(pi_str[0])
+51
+>>> ord(pi_str[-1])
+53
+```
+
+See MicroPython tutorials, such as [MicroPython Programming Basics with ESP32 and ESP8266](https://randomnerdtutorials.com/micropython-programming-basics-esp32-esp8266/) for detailed explanation.
+
+Test some other useful commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
+
+```python
+# A platform identifier
+>>> import sys
+>>> sys.platform
+'esp32'
+
+# Get the current frequency of the CPU and RTC time
+>>> import machine
+>>> help(machine)
+>>> machine.freq()
+>>> machine.RTC().datetime()
+
+# Get Flash size in Bytes
+>>> import esp
+>>> esp.flash_size()
+
+# Read the internal temperature (in Fahrenheit)
+>>> import esp32
+>>> esp32.raw_temperature()
+# FYI: temp_c = (temp_f-32) * (5/9)
+#      temp_f = temp_c * (9/5) + 32
+```
+
 ## Exercises
 
 1. [Tools for programming and debugging ESP32 microcontrollers](labs/01-tools)
@@ -48,9 +197,24 @@ The following hardware and software components are mainly used in the lab.
 | Visual Studio Code | [web page](https://code.visualstudio.com/) |
 | Git | [git](https://git-scm.com/) |
 
+### Tested on
+
+| **Version**                | **Result (yyyy-mm-dd)** | **Note**    |
+| :------------------------- | :---------------------: | :---------- |
+| Windows 10                 | OK (2023-09-18)         | Lab SC 6.61 |
+| Linux Mint 20.3 (Una)      | OK (2022-05-23)         | Laptop      |
+
+```bash
+# FYI: How to check OS version in Linux
+cat /etc/os-release
+
+# Or by Neofetch
+neofetch
+```
+
 ## References
 
-1. [Installation of MicroPython on ESP32 and ESP8266](https://github.com/tomas-fryza/esp-micropython/wiki/Installation-of-MicroPython-on-ESP32-and-ESP8266)
+1. Peter Kazarinoff. [How to install MicroPython on an ESP32 microcontroller](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html)
 
 2. [IDEs for MicroPython](https://github.com/tomas-fryza/esp-micropython/wiki/IDEs-for-MicroPython)
 
@@ -65,3 +229,5 @@ The following hardware and software components are mainly used in the lab.
 7. DFRobot. [250+ Must-read Tutorials for Learning ESP32 and Arduino](https://www.dfrobot.com/blog-1578.html)
 
 8. [40+ MicroPython Projects, Tutorial and Guides with ESP32 / ESP8266](https://randomnerdtutorials.com/projects-esp32-esp8266-micropython/)
+
+9. Rafael Aroca. [ESP32, Camera, MicroPython and NO esptool!](https://rafaelaroca.wordpress.com/2021/07/15/esp32-camera-micropython-and-no-esptool/)
