@@ -2,99 +2,202 @@
 
 ## Wi-Fi scan
 
+The Wi-Fi scanning process on the ESP32 involves searching for available Wi-Fi networks in the vicinity. This is commonly used to provide information about nearby networks or to allow the ESP32 to connect to a specific Wi-Fi network.
+
+![wifi-scan](images/ESP32-WiFi-Scan-Networks_Wi-Fi-Scan.png)
+
+Use the following code to create an instance of the `WLAN` class from the `network` module, specifying the desired Station mode, activate the Wi-Fi interface, and perform Wi-Fi scan.
+
+See the documentation for [WLAN class](https://docs.micropython.org/en/latest/library/network.WLAN.html) description.
+
 ```python
 import network
 
-# Initialize the Wi-Fi interface in station (client) mode
+# Initialize the Wi-Fi interface in Station mode and activate it
 wifi = network.WLAN(network.STA_IF)
-# Activate the interface
 wifi.active(True)
 
-# Perform the Wi-Fi APs scan
-print("Scanning for Wi-Fi networks...")
-available_networks = wifi.scan()
+# Perform the Wi-Fi scan
+print("Scanning for Wi-Fi... ", end="")
+nets = wifi.scan()
+print(f"{len(nets)} networks")
 
 # Print the list of available Wi-Fi networks
-print("SSID                 | Channel | Signal Strength (dBm)")
-print("---------------------+---------+----------------------")
-for net in available_networks:
-    ssid = net[0].decode("utf-8")
-    channel = net[2]
+print("RSSI Channel \tSSID")
+for net in nets:
     rssi = net[3]
-    print(f"{ssid:20s} | {channel:7d} | {rssi:10d}")
+    channel = net[2]
+    ssid = net[0].decode("utf-8")
+    print(f"{rssi}  (ch.{channel}) \t{ssid}")
 ```
 
-## Wi-Fi STA
+> **Note:** The `.decode("utf-8")` method converts a sequence of bytes into a string using the UTF-8 encoding.
+
+## Wi-Fi Station mode
+
+ESP32 microcontrollers typically have two main modes of operation for the Wi-Fi interface: Station mode and Access Point mode.
+
+In **Station Mode (`network.STA_IF`)** the ESP32 connects to an existing Wi-Fi network as a client. It can obtain an IP address from the network and access the Internet. This mode is suitable for scenarios where the ESP32 needs to connect to an existing Wi-Fi network, like a home or office network.
+
+![wifi-sta](images/ESP32-Station-Mode.png)
+
+In **Access Point mode (`network.AP_IF`)** the ESP32 acts as a Wi-Fi access point (AP) and other devices (like smartphones or computers) can connect to the ESP32 and obtain an IP address. This mode is useful when you want the ESP32 to create its own Wi-Fi network.
+
+![wifi-ap](images/ESP32-Access-Point-Mode.png)
+
+The Wi-Fi modes can be activated or deactivated using the `active()` method of the `network` module. These modes can be used individually or in combination. For example, the ESP32 can operate in both Station and Access Point modes simultaneously (`network.WIFI_AP_STA`), allowing it to connect to an existing Wi-Fi network while also providing an access point for other devices.
+
+In MicroPython on the ESP32, the `network.STA_IF` provides access to the interface's configuration and status. Use the following code, set your Wi-Fi settings, and connect to the network.
 
 ```python
 import network
-
-
-def connect_wifi():
-    from time import sleep_ms
-    import ubinascii
-
-    if not sta_if.isconnected():
-        print("Connecting to Wi-Fi", end="")
-
-        # Activate station/Wi-Fi client interface
-        sta_if.active(True)
-
-        # Connect
-        sta_if.connect(WIFI_SSID, WIFI_PSWD)
-
-        # Wait untill the connection is estalished
-        while not sta_if.isconnected():
-            print(".", end="")
-            sleep_ms(100)
-
-        print(" Connected")
-
-    else:
-        print("Already connected")
-
-    # Get the interface's IP/netmask/gw/DNS addresses
-    # Note that, the IP assigned to the ESP32 is local,
-    # so we can not use it to receive connections from outside
-    # your network without portforwarding the router
-    print(f"Network config: {sta_if.ifconfig()}")
-
-    # Get MAC address
-    macAddr = network.WLAN().config("mac")
-
-    # Convert binary to ASCII
-    binaryToAscii = ubinascii.hexlify(macAddr, ":")
-    print(f"MAC: {macAddr} --> {binaryToAscii} --> {binaryToAscii.decode()}")
-
-
-def disconnect_wifi():
-    if sta_if.active():
-        sta_if.active(False)
-
-    if not sta_if.isconnected():
-        print("Disconnected")
-
 
 # Network settings
 WIFI_SSID = "<YOUR WIFI SSID>"
 WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 
-# Create Station interface
-sta_if = network.WLAN(network.STA_IF)
+# Initialize the Wi-Fi interface in Station mode
+wifi = network.WLAN(network.STA_IF)
+
+
+def connect_wifi():
+    """
+    Connect to Wi-Fi network.
+
+    Activates the Wi-Fi interface, connects to the specified network,
+    and waits until the connection is established.
+
+    :return: None
+    """
+    from time import sleep_ms
+
+    if not wifi.isconnected():
+        print(f"Connecting to `{WIFI_SSID}`", end="")
+
+        # Activate the Wi-Fi interface
+        wifi.active(True)
+
+        # Connect to the specified Wi-Fi network
+        wifi.connect(WIFI_SSID, WIFI_PSWD)
+
+        # Wait untill the connection is estalished
+        while not wifi.isconnected():
+            print(".", end="")
+            sleep_ms(100)
+
+        print(" Connected")
+    else:
+        print("Already connected")
+
+
+def disconnect_wifi():
+    """
+    Disconnect from Wi-Fi network.
+
+    Deactivates the Wi-Fi interface if active and checks if
+    the device is not connected to any Wi-Fi network.
+
+    :return: None
+    """
+    # Check if the Wi-Fi interface is active
+    if wifi.active():
+        # Deactivate the Wi-Fi interface
+        wifi.active(False)
+
+    # Check if the device is not connected to any Wi-Fi network
+    if not wifi.isconnected():
+        print("Disconnected")
+
 
 connect_wifi()
+
+# WRITE YOUR CODE HERE
+
 disconnect_wifi()
 ```
 
-## ThingSpeak
+When working with the `network.WLAN` class, `ifconfig()` is used to get or set the IP configuration of the interface. Place the following codes between `connect_wifi()` and `disconnect_wifi()` functions.
 
-1. Use breadboard, jumper wires, and connect I2C devices to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
+```python
+# Get the current IP configuration of the interface
+config = wifi.ifconfig()
+
+# Print the configuration
+print("Wi-Fi Configuration:")
+print(f"IP address: \t{config[0]}")
+print(f"Subnet mask:\t{config[1]}")
+print(f"Gateway: \t{config[2]}")
+print(f"DNS server:\t{config[3]}")
+```
+
+Apart from the IP configuration obtained using `ifconfig()`, you can also retrieve information such as:
+
+**Signal strength (RSSI):**
+
+```python
+rssi = wifi.status("rssi")
+print("Signal strength (RSSI):", rssi)
+```
+
+This will print the signal strength in dBm.
+
+**MAC address:**
+
+```python
+mac_address = wifi.config('mac')
+print("MAC address:", ':'.join(['{:02x}'.format(b) for b in mac_address]))
+```
+
+This code will print the MAC address of the ESP32.
+
+**Is connected:**
+
+```python
+is_connected = wifi.isconnected()
+print("Is connected:", is_connected)
+```
+
+This will print `True` if the ESP32 is connected to a Wi-Fi network, and `False` otherwise.
+
+## ThingSpeak online platform
+
+ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, analyze, and visualize data from your connected devices. It provides APIs for storing and retrieving data, making it easy to integrate IoT devices into your projects. One common use case for ThingSpeak is to store and display sensor data.
+
+1. Use breadboard, jumper wires, and connect I2C [DHT12](../../docs/dht12_manual.pdf) sensor to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
 
    > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones is used.
 
    ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
 
-   * Humidity/temperature [DHT12](../../docs/dht12_manual.pdf) digital sensor
+2. Create a ThingSpeak Account: If you don't have a ThingSpeak account, sign up at [ThingSpeak](https://thingspeak.com/).
+
+3. Create a Channel: After logging in, create a new channel. A channel is where you will store your sensor data and you can create up to four channels.
+
+4. Get Channel API Key: In your channel settings, you'll find an Write API Key. This key is used to authenticate your device when sending data to ThingSpeak.
+
+5. Write a MicroPython script that reads data from the DHT12 sensor and sends it to ThingSpeak. Use the `urequests` library to make HTTP requests.
+
+TBD
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ```python
 from machine import Pin, I2C
@@ -177,6 +280,18 @@ while True:
     # Put device to sleep for 60 seconds
     sleep(60)
 ```
+
+6. Go to your ThingSpeak channel to view the data being sent by your ESP32.
+
+
+
+
+
+
+
+
+
+
 
 ## NTP
 
