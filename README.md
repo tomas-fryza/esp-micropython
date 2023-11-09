@@ -161,8 +161,8 @@ Test some other useful commands from [Quick reference for the ESP32](https://doc
 4. [Timers](labs/04-timers)
 5. [LCD (Liquid Crystal Display)](labs/05-display)
 6. [I2C serial communication](labs/06-serial)
-7. Wi-Fi communication
-8. ADC
+7. [Wi-Fi communication](labs/07-wifi)
+8. [Project](labs/09-project/)
 
 ## List of examples
 
