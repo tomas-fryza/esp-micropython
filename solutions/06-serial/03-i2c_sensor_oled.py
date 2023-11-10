@@ -20,13 +20,14 @@ Date: 2023-10-27
 
 from machine import I2C
 from machine import Pin
-from sh1106 import SH1106_I2C
 import time
+import dht12
+from sh1106 import SH1106_I2C
 
-SENSOR_ADDR = 0x5c
-SENSOR_HUMI_REG = 0
-SENSOR_TEMP_REG = 2
-SENSOR_CHECKSUM = 4
+
+def read_sensor():
+    sensor.measure()
+    return sensor.temperature(), sensor.humidity()
 
 
 def oled_setup(oled):
@@ -48,8 +49,9 @@ def oled_setup(oled):
     oled.text("Humid. [%]:", x=0, y=52)
 
 
-# I2C(id, scl, sda, freq)
+# Connect to the DHT12 sensor
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+sensor = dht12.DHT12(i2c)
 
 # SH1106_I2C(width, height, i2c, addr, rotate)
 oled = SH1106_I2C(128, 64, i2c, addr=0x3c, rotate=180)
@@ -60,16 +62,14 @@ print("If it does not respond, press the onboard `reset` button.")
 
 try:
     while True:
-        # readfrom_mem(addr, memaddr, nbytes)
-        val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_HUMI_REG, 4)
+        temp, humidity = read_sensor()
+        print(f"Temperature: {temp}°C, Humidity: {humidity}%")
         oled.fill_rect(95, 38, 120, 50, 0)
-        # Display temperature
-        oled.text(f"{val[2]}.{val[3]}", 95, 40)
-        # Display humidity
-        oled.text(f"{val[0]}.{val[1]}", 95, 52)
+        oled.text(f"{temp}", 95, 40)
+        oled.text(f"{humidity}", 95, 52)
         oled.show()
         time.sleep(1)
 
 except KeyboardInterrupt:
-    print("Ctrl+C Pressed. Exiting...")
+    print("Ctrl+C pressed. Exiting...")
     oled.poweroff()

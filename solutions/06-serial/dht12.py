@@ -18,7 +18,7 @@ class DHTBaseI2C:
         self.i2c = i2c
         self.addr = addr
         self.buf = bytearray(5)
-        # self.scan()
+        self.scan()
 
     def measure(self):
         buf = self.buf

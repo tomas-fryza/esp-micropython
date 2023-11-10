@@ -1,11 +1,11 @@
 from machine import I2C
 from machine import Pin
 import time
-import dht12
+import dht122
 
 # Connect to the DHT12 sensor
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-sensor = dht12.DHT12(i2c)
+sensor = dht122.DHT12(i2c)
 
 
 def read_sensor():

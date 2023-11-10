@@ -166,23 +166,19 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
    print("Stop the code execution by pressing `Ctrl+C` key.")
-   print("")
-   print("Scanning I2C... ", end="")
    addrs = i2c.scan()
-   if SENSOR_ADDR in addrs:
-       print(f"{hex(SENSOR_ADDR)} detected")
-   else:
-       print("[ERROR] Sensor is not detected")
+   if SENSOR_ADDR not in addrs:
+       raise Exception(f"`{hex(SENSOR_ADDR)}` is not detected")
 
    try:
        while True:
            # readfrom_mem(addr, memaddr, nbytes)
            val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
-           print(f"{val[0]}.{val[1]} {chr(176)}C")
+           print(f"{val[0]}.{val[1]}°C")
            time.sleep(5)
 
    except KeyboardInterrupt:
-       print("Ctrl+C Pressed. Exiting...")
+       print("Ctrl+C pressed. Exiting...")
    ```
 
 2. Use the MicroPython manual and find the description of the following methods from [I2C class](https://docs.micropython.org/en/latest/library/machine.I2C.html):
@@ -238,7 +234,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
            time.sleep(.1)
 
    except KeyboardInterrupt:
-       print("Ctrl+C Pressed. Exiting...")
+       print("Ctrl+C pressed. Exiting...")
        oled.poweroff()
     ```
 
@@ -294,6 +290,40 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 5. Combine temperature and OLED examples and print DHT12 senzor values on OLED display.
 
+   Create a new file `dht12.py` and [copy/paste](../../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Import the class to your script and use the methods according to the example:
+
+   ```python
+   from machine import I2C
+   from machine import Pin
+   import time
+   import dht12
+   from sh1106 import SH1106_I2C
+
+
+   def read_sensor():
+       sensor.measure()
+       return sensor.temperature(), sensor.humidity()
+
+   ...
+
+   # Connect to the DHT12 sensor
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+   sensor = dht12.DHT12(i2c)
+
+   try:
+       while True:
+           temp, humidity = read_sensor()
+           print(f"Temperature: {temp}°C, Humidity: {humidity}%")
+
+           ...
+
+           time.sleep(1)
+
+   except KeyboardInterrupt:
+       print("Ctrl+C pressed. Exiting...")
+       oled.poweroff()
+   ```
+
 <a name="experiments"></a>
 
 ## (Optional) Experiments on your own
@@ -348,4 +378,3 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 8. Maxim Integrated. [DS3231, Extremely accurate I2C-Integrated RTC/TCXO/Crystal](../../docs/ds3231_manual.pdf)
 
 9. LastMinuteEngineers. [Interface DS3231 Precision RTC Module with Arduino](https://lastminuteengineers.com/ds3231-rtc-arduino-tutorial/)
-

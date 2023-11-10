@@ -42,5 +42,5 @@ try:
         time.sleep(.1)
 
 except KeyboardInterrupt:
-    print("Ctrl+C Pressed. Exiting...")
+    print("Ctrl+C pressed. Exiting...")
     oled.poweroff()

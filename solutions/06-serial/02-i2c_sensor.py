@@ -40,8 +40,8 @@ try:
     while True:
         # readfrom_mem(addr, memaddr, nbytes)
         val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
-        print(f"{val[0]}.{val[1]} C")
+        print(f"{val[0]}.{val[1]}°C")
         time.sleep(5)
 
 except KeyboardInterrupt:
-    print("Ctrl+C Pressed. Exiting...")
+    print("Ctrl+C pressed. Exiting...")
