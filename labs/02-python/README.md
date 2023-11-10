@@ -16,6 +16,7 @@ The purpose of this laboratory exercise is to provide students with a fundamenta
 * [Part 1: GitHub](#part1)
 * [Part 2: Basic operations in Python](#part2)
 * [Part 3: Functions in Python](#part3)
+* [Part 4: Control characters and ANSI-color](#part4)
 * [(Optional) Experiments on your own](#experiments)
 * [References](#references)
 
@@ -260,13 +261,49 @@ GitHub serves as a platform for hosting code, facilitating collaboration, and ma
     If you require a library function in Python, you need to import the module that contains it.
 
     ```python
-    import math   # Import mathematical module
+    import math  # Import mathematical module
     import cmath  # Complex numbers' math
     
-    math.sqrt()   # Call the function
+    math.sqrt()  # Call the function
     ```
 
-4. After completing your work, ensure that you synchronize the contents of your working folder with both the local and remote repository versions. This practice guarantees that none of your changes are lost. You can achieve this by using Git commands to add, commit, and push all local changes to your remote repository. Check GitHub web page for changes.
+<a name="part4"></a>
+
+## Part 4: Control characters and ANSI-color
+
+In MicroPython, you can use the following control characters and escape sequences to format text, especially when working with the REPL (Read-Eval-Print Loop) and terminal output:
+
+* **Newline (\n):** Creates a new line, moving the cursor to the beginning of the next line.
+
+* **Carriage Return (\r):** Moves the cursor to the beginning of the current line. Useful for overwriting text on the same line.
+
+* **Tab (\t):** Inserts a horizontal tab, which typically advances the cursor to the next tab stop. Tab stops are usually set at regular intervals, such as every 4 or 8 spaces.
+
+* **Backspace (\b):** Moves the cursor one position to the left. Useful for removing characters.
+
+* **Escape (\x1b):** Starts an escape sequence that can be used to control text formatting, colors, and other terminal features. For example, you can change text color using ANSI escape codes.
+
+**Important:** To use these characters and sequences in Thonny IDE, enable the support in menu **Tools > Options... > Terminal emulation**.
+
+1. Here is an example of using a control character to create a processing counter:
+
+   ```python
+   import time
+
+   values = range(0, 100)
+   for i in values:
+       print(f"Complete: {i}%", end="\r")
+       time.sleep(.1)
+   ```
+
+2. See the following example and use [ANSI Escape Sequences](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797) to modify style and color of the printed text:
+
+   ```python
+   print("This is \x1b[1;32mGreen and Bold\x1b[0m")
+   print("\x1b[1;31m[ERROR]\x1b[0m End of file")
+   ```
+
+3. After completing your work, ensure that you synchronize the contents of your working folder with both the local and remote repository versions. This practice guarantees that none of your changes are lost. You can achieve this by using Git commands to add, commit, and push all local changes to your remote repository. Check GitHub web page for changes.
 
    > **Help:** Useful git commands are `git status` - Get state of working directory and staging area. `git add` - Add new and modified files to the staging area. `git commit` - Record changes to the local repository. `git push` - Push changes to remote repository. `git pull` - Update local repository and working folder. Note that, a brief description of useful git commands can be found [here](https://github.com/tomas-fryza/esp-micropython/wiki/Useful-Git-commands) and detailed description of all commands is [here](https://github.com/joshnh/Git-Commands).
    >
