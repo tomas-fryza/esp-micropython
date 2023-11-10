@@ -32,13 +32,9 @@ SENSOR_CHECKSUM = 4
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
-print("")
-print("Scanning I2C... ", end="")
 addrs = i2c.scan()
-if SENSOR_ADDR in addrs:
-    print(f"{hex(SENSOR_ADDR)} detected")
-else:
-    print("[ERROR] Sensor is not detected")
+if SENSOR_ADDR not in addrs:
+    raise Exception(f"`{hex(SENSOR_ADDR)}` is not detected")
 
 try:
     while True:
