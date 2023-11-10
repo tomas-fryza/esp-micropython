@@ -22,13 +22,13 @@ import bme280
 
 # I2C(id, scl, sda, freq)
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+bme = bme280.BME280(i2c=i2c, addr=0x76)
 
 try:
     while True:
-        bme = bme280.BME280(i2c=i2c, addr=0x76)
-        temp = bme.temperature
-        hum = bme.humidity
-        pres = bme.pressure
+        temp = bme.temperature  # Return temp in degrees
+        hum = bme.humidity()
+        pres = bme.pressure()
 
         print(f'Temperature: {temp}')
         print(f'Humidity: {hum}')
@@ -38,4 +38,4 @@ try:
         print("")
 
 except KeyboardInterrupt:
-    print("Ctrl+C Pressed. Exiting...")
+    print("Ctrl+C pressed. Exiting...")

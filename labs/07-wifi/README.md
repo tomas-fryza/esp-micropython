@@ -60,7 +60,7 @@ WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 wifi = network.WLAN(network.STA_IF)
 
 
-def connect_wifi():
+def connect_wifi(ssid, password):
     """
     Connect to Wi-Fi network.
 
@@ -72,20 +72,19 @@ def connect_wifi():
     from time import sleep_ms
 
     if not wifi.isconnected():
-        print(f"Connecting to `{WIFI_SSID}`", end="")
-
         # Activate the Wi-Fi interface
         wifi.active(True)
 
         # Connect to the specified Wi-Fi network
-        wifi.connect(WIFI_SSID, WIFI_PSWD)
+        wifi.connect(ssid, password)
 
-        # Wait untill the connection is estalished
+        # Wait until the connection is established
+        print(f"Connecting to {ssid}", end="")
         while not wifi.isconnected():
             print(".", end="")
             sleep_ms(100)
 
-        print(" Connected")
+        print(" Done")
     else:
         print("Already connected")
 
@@ -109,7 +108,7 @@ def disconnect_wifi():
         print("Disconnected")
 
 
-connect_wifi()
+connect_wifi(WIFI_SSID, WIFI_PSWD)
 
 # WRITE YOUR CODE HERE
 
@@ -175,200 +174,89 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
 4. Get Channel API Key: In your channel settings, you'll find an Write API Key. This key is used to authenticate your device when sending data to ThingSpeak.
 
-5. Write a MicroPython script that reads data from the DHT12 sensor and sends it to ThingSpeak. Use the `urequests` library to make HTTP requests.
+5. Create a new file `dht12.py` and [copy/paste](../../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device.
 
-TBD
+   Create a new file `mywifi.py` and [copy/paste](../../solutions/07-wifi/mywifi.py) the methods for connecting/disconnecting to Wi-Fi. Save a copy of this file to the MicroPython device.
 
+6. Write a MicroPython script that reads data from the DHT12 sensor and sends it to ThingSpeak. Use the `urequests` library to make HTTP requests.
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+   > **Note:** When sending data to ThingSpeak from MicroPython using the ESP32 and a DHT12 sensor, the choice between GET and POST requests depends on your specific use case and preferences. Both methods are supported by ThingSpeak.
+   >
+   > **GET Request:**
+   >   * Use GET requests when you want to send data as part of the URL.
+   >   * Data is appended to the URL as query parameters.
+   >   * GET requests are generally simpler to implement, especially for basic projects.
+   >   * They can be easier to debug and test since you can see the data in the URL.
+   >
+   > **POST Request:**
+   >   * Use POST requests when you have more data to send or when sending sensitive data (as it's not exposed in the URL).
+   >   * Data is sent in the body of the HTTP request.
+   >   * POST requests can accommodate larger payloads.
 
 ```python
-from machine import Pin, I2C
+from machine import I2C
+from machine import Pin
+import time
+import dht12
 import network
+import mywifi
 import urequests  # Network Request Module
-from time import sleep
-
-
-def connect_wifi():
-    from time import sleep_ms
-
-    if not sta_if.isconnected():
-        print("Connecting to Wi-Fi", end="")
-        sta_if.active(True)
-        sta_if.connect(WIFI_SSID, WIFI_PSWD)
-        while not sta_if.isconnected():
-            print(".", end="")
-            sleep_ms(100)
-
-        print(" Connected")
-
-
-def disconnect_wifi():
-    if sta_if.active():
-        sta_if.active(False)
-
-    if not sta_if.isconnected():
-        print("Disconnected")
-
-
-def read_dht12_sensor():
-    # Read 5 bytes from addr. 0 from peripheral with 7-bit address 0x5c
-    led.on()
-    i2c.readfrom_mem_into(0x5c, 0, buf)
-    led.off()
-
-    # Check the checksum
-    if (buf[0] + buf[1] + buf[2] + buf[3]) & 0xff != buf[4]:
-        raise Exception("Checksum error")
-
 
 # Network settings
 WIFI_SSID = "<YOUR WIFI SSID>"
 WIFI_PSWD = "<YOUR WIFI PASSWORD>"
-THINGSPEAK_API_KEY = "<THINGSPEAK WRITE API KEY>"
+API_KEY = "<THINGSPEAK WRITE API KEY>"
+
+# Connect to the DHT12 sensor
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+sensor = dht12.DHT12(i2c)
 
 # Create Station interface
-sta_if = network.WLAN(network.STA_IF)
+wifi = network.WLAN(network.STA_IF)
 
-# Create I2C peripheral at frequency of 100 kHz
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100000)
 
-# Status LED
-led = Pin(2, Pin.OUT)
+def read_sensor():
+    sensor.measure()
+    return sensor.temperature(), sensor.humidity()
 
-# Create an array of 5 bytes (2x humidity, 2x temperature, 1x checksum)
-buf = bytearray(5)
 
-# Forever loop
-while True:
-    read_dht12_sensor()
+def send_to_thingspeak(temp, humidity):
+    API_URL = "https://api.thingspeak.com/update"
+    
+    # Select GET or POST request
+    # GET request
+    url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
+    response = urequests.get(url)
 
-    # Put data together
-    humi = buf[0] + (buf[1]*0.1)
-    temp = buf[2] + (buf[3]*0.1)
-    print(f"Temperature: {temp} C\tHumidity: {humi} %")
+    # POST request
+    # url = f"{API_URL}?api_key={API_KEY}"
+    # json = {"field1": temp, "field2": humidity}
+    # headers = {"Content-Type": "application/json"}
+    # response = urequests.post(url, json=json, headers=headers)
 
-    connect_wifi()
+    print(f"Response from ThingSpeak: {response.text}")
+    response.close()
 
-    # Send data using a POST request
-    request = urequests.post(
-        'http://api.thingspeak.com/update?api_key=' + THINGSPEAK_API_KEY,
-        json={"field1": temp, "field2": humi},
-        headers={"Content-Type": "application/json"})
-    print(f"Request #{request.text} sent")
-    request.close()
 
-    disconnect_wifi()
+try:
+    while True:
+        temp, humidity = read_sensor()
+        print(f"Temperature: {temp}°C, Humidity: {humidity}%")
+        mywifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
+        send_to_thingspeak(temp, humidity)
+        mywifi.disconnect(wifi)
+        time.sleep(60)
 
-    # Put device to sleep for 60 seconds
-    sleep(60)
+except KeyboardInterrupt:
+    print("Ctrl+C pressed. Exiting...")
+    mywifi.disconnect(wifi)
 ```
 
 6. Go to your ThingSpeak channel to view the data being sent by your ESP32.
 
-
-
-
-
-
-
-
-
-
-
 ## NTP
 
+TBD
+
 ```python
-
-from machine import RTC
-import network
-import ntptime
-from time import localtime, sleep
-
-
-def connect_wifi():
-    from time import sleep_ms
-
-    if not sta_if.isconnected():
-        print("Connecting to Wi-Fi", end="")
-
-        # Activate station/Wi-Fi client interface
-        sta_if.active(True)
-
-        # Connect
-        sta_if.connect(WIFI_SSID, WIFI_PSWD)
-
-        # Wait untill the connection is estalished
-        while not sta_if.isconnected():
-            print(".", end="")
-            sleep_ms(100)
-
-        print(" Connected")
-
-
-def disconnect_wifi():
-    if sta_if.active():
-        sta_if.active(False)
-
-    if not sta_if.isconnected():
-        print("Disconnected")
-
-
-# Network settings
-WIFI_SSID = "<YOUR WIFI SSID>"
-WIFI_PSWD = "<YOUR WIFI PASSWORD>"
-UTC_OFFSET = 2  # CEST is UTC+2:00
-
-# Create an independent clock object
-rtc = RTC()
-
-# Create Station interface
-sta_if = network.WLAN(network.STA_IF)
-connect_wifi()
-
-# Get UTC time from NTP server (pool.ntp.org) and store it
-# to internal RTC
-ntptime.settime()
-
-# Display UTC (Coordinated Universal Time / Temps Universel Coordonné)
-(year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
-print(f"UTC Time: {year}-{month}-{day} {hrs}:{mins}:{secs}")
-
-# Get epoch time in seconds (for timezone update)
-sec = ntptime.time()
-
-disconnect_wifi()
-
-# Update your epoch time in seconds and store in to internal RTC
-sec = int(sec + UTC_OFFSET * 60 * 60)
-(year, month, day, hrs, mins, secs, wday, yday) = localtime(sec)
-rtc.datetime((year, month, day, wday, hrs, mins, secs, 0))
-
-print(f"Local RTC time: UTC+{UTC_OFFSET}:00")
-
-# Forever loop
-while True:
-    # Read values from internal RTC
-    (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
-    print(f"{year}-{month}-{day} {hrs}:{mins}:{secs}")
-
-    # Delay 30 seconds
-    sleep(30)
 ```

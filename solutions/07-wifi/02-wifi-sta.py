@@ -36,8 +36,6 @@ def connect_wifi(ssid, password):
     from time import sleep_ms
 
     if not wifi.isconnected():
-        print(f"Connecting to `{ssid}`", end="")
-
         # Activate the Wi-Fi interface
         wifi.active(True)
 
@@ -45,11 +43,12 @@ def connect_wifi(ssid, password):
         wifi.connect(ssid, password)
 
         # Wait until the connection is established
+        print(f"Connecting to {ssid}", end="")
         while not wifi.isconnected():
             print(".", end="")
             sleep_ms(100)
 
-        print(" Connected")
+        print(" Done")
     else:
         print("Already connected")
 
@@ -74,6 +73,8 @@ def disconnect_wifi():
 
 
 connect_wifi(WIFI_SSID, WIFI_PSWD)
+
+# WRITE YOUR CODE HERE
 
 # Get the current IP configuration of the interface
 config = wifi.ifconfig()
