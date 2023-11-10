@@ -13,6 +13,7 @@ Authors: Nikhil Agnihotri, https://www.engineersgarage.com/micropython-wifi-netw
          Tomas Fryza
 Date: 2023-06-16
 """
+
 import network
 
 # Network settings
@@ -23,7 +24,7 @@ WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 wifi = network.WLAN(network.STA_IF)
 
 
-def connect_wifi():
+def connect_wifi(ssid, password):
     """
     Connect to Wi-Fi network.
 
@@ -35,15 +36,15 @@ def connect_wifi():
     from time import sleep_ms
 
     if not wifi.isconnected():
-        print(f"Connecting to `{WIFI_SSID}`", end="")
+        print(f"Connecting to `{ssid}`", end="")
 
         # Activate the Wi-Fi interface
         wifi.active(True)
 
         # Connect to the specified Wi-Fi network
-        wifi.connect(WIFI_SSID, WIFI_PSWD)
+        wifi.connect(ssid, password)
 
-        # Wait untill the connection is estalished
+        # Wait until the connection is established
         while not wifi.isconnected():
             print(".", end="")
             sleep_ms(100)
@@ -72,8 +73,7 @@ def disconnect_wifi():
         print("Disconnected")
 
 
-
-connect_wifi()
+connect_wifi(WIFI_SSID, WIFI_PSWD)
 
 # Get the current IP configuration of the interface
 config = wifi.ifconfig()
