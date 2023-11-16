@@ -42,4 +42,3 @@ def disconnect(wifi):
 
     if not wifi.isconnected():
         print("Disconnected")
-

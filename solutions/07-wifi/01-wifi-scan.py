@@ -19,7 +19,7 @@ wifi.active(True)
 # Perform the Wi-Fi scan
 print("Scanning for Wi-Fi... ", end="")
 nets = wifi.scan()
-print(f"{len(nets)} networks")
+print(f"{len(nets)} network(s)")
 
 # Print the list of available Wi-Fi networks
 print("RSSI Channel \tSSID")

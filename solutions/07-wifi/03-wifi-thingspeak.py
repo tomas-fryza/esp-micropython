@@ -26,7 +26,7 @@ def read_sensor():
 
 def send_to_thingspeak(temp, humidity):
     API_URL = "https://api.thingspeak.com/update"
-    
+
     # Select GET or POST request
     # GET request
     request_url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
