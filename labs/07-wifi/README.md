@@ -1,6 +1,42 @@
 # Lab 7: Wi-Fi communication
 
-## Wi-Fi scan
+### Learning objectives
+
+After completing this lab you will be able to:
+
+* Understand the Wi-Fi STA mode
+* Use methods for connecting and disconnecting the Wi-Fi
+* Perform data transfers between ESP32 and server via GET and POST requests
+* Use the classes and modules
+
+The main goal of this laboratory exercise is to ... TBD
+
+### Table of contents
+
+* [Pre-Lab preparation](#preparation)
+* [Part 1: Wi-Fi scan](#part1)
+* [Part 2: Wi-Fi Station mode](#part2)
+* [Part 3: ThingSpeak online platform](#part3)
+* [Part 4: (Optional) Network Time Protocol](#part4)
+* [(Optional) Experiments on your own](#experiments)
+* [References](#references)
+
+### Components list
+
+* ESP32 board, USB cable
+* Breadboard
+* DHT12 humidity/temperature sensor
+* Jumper wires
+
+<a name="preparation"></a>
+
+## Pre-Lab preparation
+
+1. TBD
+
+<a name="part1"></a>
+
+## Part 1: Wi-Fi scan
 
 The Wi-Fi scanning process on the ESP32 involves searching for available Wi-Fi networks in the vicinity. This is commonly used to provide information about nearby networks or to allow the ESP32 to connect to a specific Wi-Fi network.
 
@@ -20,7 +56,7 @@ wifi.active(True)
 # Perform the Wi-Fi scan
 print("Scanning for Wi-Fi... ", end="")
 nets = wifi.scan()
-print(f"{len(nets)} networks")
+print(f"{len(nets)} network(s)")
 
 # Print the list of available Wi-Fi networks
 print("RSSI Channel \tSSID")
@@ -33,7 +69,9 @@ for net in nets:
 
 > **Note:** The `.decode("utf-8")` method converts a sequence of bytes into a string using the UTF-8 encoding.
 
-## Wi-Fi Station mode
+<a name="part2"></a>
+
+## Part 2: Wi-Fi Station mode
 
 ESP32 microcontrollers typically have two main modes of operation for the Wi-Fi interface: Station mode and Access Point mode.
 
@@ -158,7 +196,9 @@ print("Is connected:", is_connected)
 
 This will print `True` if the ESP32 is connected to a Wi-Fi network, and `False` otherwise.
 
-## ThingSpeak online platform
+<a name="part3"></a>
+
+## Part 3: ThingSpeak online platform
 
 ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, analyze, and visualize data from your connected devices. It provides APIs for storing and retrieving data, making it easy to integrate IoT devices into your projects. One common use case for ThingSpeak is to store and display sensor data.
 
@@ -254,9 +294,23 @@ except KeyboardInterrupt:
 
 6. Go to your ThingSpeak channel to view the data being sent by your ESP32.
 
-## NTP
+<a name="part4"></a>
+
+## Part 4: (Optional) Network Time Protocol
 
 TBD
 
 ```python
 ```
+
+<a name="experiments"></a>
+
+## (Optional) Experiments on your own
+
+1. TBD
+
+<a name="references"></a>
+
+## References
+
+1. TBD
