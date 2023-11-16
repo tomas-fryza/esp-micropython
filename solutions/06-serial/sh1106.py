@@ -74,6 +74,8 @@
 from micropython import const
 import utime as time
 import framebuf
+from machine import I2C
+from machine import Pin
 
 
 # a few register definitions
@@ -141,7 +143,7 @@ class SH1106(framebuf.FrameBuffer):
         self.write_cmd(_SET_SCAN_DIR | (0x08 if mir_h else 0x00))
         self.flip_en = flag
         if update:
-            self.show(True) # full update
+            self.show(True)  # full update
 
     def sleep(self, value):
         self.write_cmd(_SET_DISP | (not value))
@@ -153,7 +155,7 @@ class SH1106(framebuf.FrameBuffer):
     def invert(self, invert):
         self.write_cmd(_SET_NORM_INV | (invert & 1))
 
-    def show(self, full_update = False):
+    def show(self, full_update=False):
         # self.* lookups in loops take significant time (~4fps).
         (w, p, db, rb) = (self.width, self.pages,
                           self.displaybuf, self.renderbuf)
@@ -164,7 +166,7 @@ class SH1106(framebuf.FrameBuffer):
             pages_to_update = (1 << self.pages) - 1
         else:
             pages_to_update = self.pages_to_update
-        #print("Updating pages: {:08b}".format(pages_to_update))
+        # print("Updating pages: {:08b}".format(pages_to_update))
         for page in range(self.pages):
             if (pages_to_update & (1 << page)):
                 self.write_cmd(_SET_PAGE_ADDRESS | page)
@@ -208,7 +210,7 @@ class SH1106(framebuf.FrameBuffer):
     def scroll(self, x, y):
         # my understanding is that scroll() does a full screen change
         super().scroll(x, y)
-        self.pages_to_update =  (1 << self.pages) - 1
+        self.pages_to_update = (1 << self.pages) - 1
 
     def fill_rect(self, x, y, w, h, color):
         super().fill_rect(x, y, w, h, color)
@@ -219,12 +221,13 @@ class SH1106(framebuf.FrameBuffer):
         self.register_updates(y, y+h-1)
 
     def register_updates(self, y0, y1=None):
-        # this function takes the top and optional bottom address of the changes made
-        # and updates the pages_to_change list with any changed pages
-        # that are not yet on the list
+        # this function takes the top and optional bottom address
+        # of the changes made and updates the pages_to_change list
+        # with any changed pages that are not yet on the list
         start_page = max(0, y0 // 8)
         end_page = max(0, y1 // 8) if y1 is not None else start_page
-        # rearrange start_page and end_page if coordinates were given from bottom to top
+        # rearrange start_page and end_page if coordinates were
+        # given from bottom to top
         if start_page > end_page:
             start_page, end_page = end_page, start_page
         for page in range(start_page, end_page+1):
@@ -303,3 +306,17 @@ class SH1106_SPI(SH1106):
 
     def reset(self):
         super().reset(self.res)
+
+
+if __name__ == "__main__":
+    # I2C(id, scl, sda, freq)
+    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+
+    # SH1106_I2C(width, height, i2c, addr, rotate)
+    oled = SH1106_I2C(128, 64, i2c, addr=0x3c, rotate=180)
+    oled.sleep(False)
+    oled.contrast(50)  # Set contrast to 50 %
+
+    oled.text("Using OLED...", x=0, y=0)
+
+    oled.show()
