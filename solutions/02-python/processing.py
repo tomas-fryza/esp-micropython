@@ -10,7 +10,7 @@ import time
 values = range(0, 100)
 for i in values:
     print(f"Complete: {i}%", end="\r")
-    time.sleep(.1)
+    time.sleep(.05)
 
 print("\rComplete: 100%")
 
