@@ -179,7 +179,7 @@ class SH1106(framebuf.FrameBuffer):
         if color is None:
             return super().pixel(x, y)
         else:
-            super().pixel(x, y , color)
+            super().pixel(x, y, color)
             page = y // 8
             self.pages_to_update |= 1 << page
 

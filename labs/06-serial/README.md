@@ -115,6 +115,8 @@ The goal of this task is to find all devices connected to the I2C bus.
 
    * SH1106 I2C [OLED display](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/) 128x64
 
+   * Optional: Humidity/temperature/pressure [BME280](https://cdn-shop.adafruit.com/datasheets/BST-BME280_DS001-10.pdf) sensor
+
    * Optional: Combined module with [RTC DS3231](../../docs/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../../docs/at24c32_manual.pdf) EEPROM memory
 
    * Optional: [GY-521 module](../../docs/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
@@ -125,7 +127,7 @@ The goal of this task is to find all devices connected to the I2C bus.
    from machine import I2C
    from machine import Pin
 
-   # I2C(id, scl, sda, freq)
+   # Init I2C using pins GP22 & GP21 (default I2C0 pins)
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
    print("Scanning I2C... ", end="")
@@ -162,8 +164,12 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    SENSOR_TEMP_REG = 2
    SENSOR_CHECKSUM = 4
 
-   # I2C(id, scl, sda, freq)
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+   # Init I2C using pins GP22 & GP21 (default I2C0 pins)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+   # Display device address
+   print(f"I2C address       : {hex(i2c.scan()[0])}")
+   # Display I2C config
+   print(f"I2C configuration : {str(i2c)}")
 
    print("Stop the code execution by pressing `Ctrl+C` key.")
    addrs = i2c.scan()
@@ -200,6 +206,11 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    >
    > You can find a comprehensive tutorial on utilizing a logic analyzer in this [video](https://www.youtube.com/watch?v=CE4-T53Bhu0).
 
+5. (Optional) Use BME280 sensor and read humidity, temperature and preassure values.
+
+   * BME280 [class](../../solutions/06-serial/bme280.py)
+   * Testing [script](../../solutions/06-serial/03-i2c_sensor_bme280.py)
+
 <a name="part4"></a>
 
 ## Part 4: OLED display 128x64
@@ -208,41 +219,42 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 1. Create a new file `sh1106.py` consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device as well.
 
-2. Create a new file `03-i2c_oled.py` and write a script to print text on the display.
+2. Create a new file `04-i2c_oled.py` and write a script to print text on the display.
 
    ```python
    from machine import I2C
    from machine import Pin
    from sh1106 import SH1106_I2C
-   import time
 
-   # I2C(id, scl, sda, freq)
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+   WIDTH = 128  # OLED display width
+   HEIGHT = 64  # OLED display height
 
-   # SH1106_I2C(width, height, i2c, addr, rotate)
-   oled = SH1106_I2C(128, 64, i2c, addr=0x3c, rotate=180)
-   oled.contrast(50)  # Set contrast to 50 %
+   # Init I2C using pins GP22 & GP21 (default I2C0 pins)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+   # Display device address
+   print(f"I2C address       : {hex(i2c.scan()[0])}")
+   # Display I2C config
+   print(f"I2C configuration : {str(i2c)}")
 
-   oled.text("Using OLED...", x=0, y=0)
+   # Init OLED display
+   oled = SH1106_I2C(WIDTH, HEIGHT, i2c, rotate=180)
+
+   # Add some text
+   oled.text("Using OLED and", x=0, y=40)
+   oled.text("ESP32", x=50, y=50)
+
+
+   # WRITE YOUR CODE HERE
+
+
+   # Finally update the OLED display so the text is displayed
    oled.show()
-
-   print("Stop the code execution by pressing `Ctrl+C` key.")
-   print("If it does not respond, press the onboard `reset` button.")
-
-   try:
-       while True:
-           time.sleep(.1)
-
-   except KeyboardInterrupt:
-       print("Ctrl+C pressed. Exiting...")
-       oled.poweroff()
-    ```
+   ```
 
 3. Use other methods from `sh1106` [class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display.
 
    ```python
    # https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
-   oled.fill(color=0)  # Clear screen
    oled.fill_rect(x=0, y=0, w=32, h=32, color=1)
    oled.fill_rect(x=2, y=2, w=28, h=28, color=0)
    oled.vline(x=9, y=8, h=22, color=1)
@@ -251,7 +263,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    oled.fill_rect(x=26, y=24, w=2, h=4, color=1)
    oled.text("MicroPython", x=40, y=0)
    oled.text("Brno, CZ", x=40, y=12)
-   oled.text("2023/24", x=40, y=24)
+   oled.text("RadioElect.", x=40, y=24)
    ```
 
    Here is the list of availabe methods for basic graphics.
@@ -299,23 +311,30 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    import dht12
    from sh1106 import SH1106_I2C
 
+   WIDTH = 128  # OLED display width
+   HEIGHT = 64  # OLED display height
+
 
    def read_sensor():
        sensor.measure()
        return sensor.temperature(), sensor.humidity()
 
-   ...
 
    # Connect to the DHT12 sensor
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
    sensor = dht12.DHT12(i2c)
+
+   # Init OLED display
+   oled = SH1106_I2C(WIDTH, HEIGHT, i2c, rotate=180)
 
    try:
        while True:
            temp, humidity = read_sensor()
            print(f"Temperature: {temp}°C, Humidity: {humidity}%")
 
-           ...
+
+           # WRITE YOUR CODE HERE
+
 
            time.sleep(1)
 
@@ -337,13 +356,13 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    0x0.: RA RA RA RA RA RA RA RA -- -- -- -- -- -- -- --
    0x1.: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
    0x2.: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-   0x3.: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+   0x3.: -- -- -- -- -- -- -- -- -- -- -- -- 3c -- -- --
    0x4.: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-   0x5.: -- -- -- -- -- -- -- 57 -- -- -- -- -- -- -- --
+   0x5.: -- -- -- -- -- -- -- -- -- -- -- -- 5c -- -- --
    0x6.: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
    0x7.: -- -- -- -- -- -- -- -- RA RA RA RA RA RA RA RA
    
-   1 device(s) detected
+   2 device(s) detected
    ```
 
 2. Build a real-time clock using an ESP32 board, I2C communication, and an RTC DS3231. The goal is to set and display the current time, date, and perform basic time-related operations. Note that, according to the [DS3231 manual](../../docs/ds3231_manual.pdf), the RTC memory has the following structure.

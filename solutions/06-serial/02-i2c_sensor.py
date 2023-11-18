@@ -28,8 +28,12 @@ SENSOR_HUMI_REG = 0
 SENSOR_TEMP_REG = 2
 SENSOR_CHECKSUM = 4
 
-# I2C(id, scl, sda, freq)
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+# Init I2C using pins GP22 & GP21 (default I2C0 pins)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+# Display device address
+print(f"I2C address       : {hex(i2c.scan()[0])}")
+# Display I2C config
+print(f"I2C configuration : {str(i2c)}")
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
 addrs = i2c.scan()

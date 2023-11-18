@@ -24,6 +24,9 @@ import time
 import dht12
 from sh1106 import SH1106_I2C
 
+WIDTH = 128  # OLED display width
+HEIGHT = 64  # OLED display height
+
 
 def read_sensor():
     sensor.measure()
@@ -43,18 +46,18 @@ def oled_setup(oled):
     oled.fill_rect(x=26, y=24, w=2, h=4, color=1)
     oled.text("MicroPython", x=40, y=0)
     oled.text("Brno, CZ", x=40, y=12)
-    oled.text("2023/24", x=40, y=24)
+    oled.text("RadioElect.", x=40, y=24)
 
     oled.text("Tempr. [C]:", x=0, y=40)
     oled.text("Humid. [%]:", x=0, y=52)
 
 
 # Connect to the DHT12 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
 sensor = dht12.DHT12(i2c)
 
-# SH1106_I2C(width, height, i2c, addr, rotate)
-oled = SH1106_I2C(128, 64, i2c, addr=0x3c, rotate=180)
+# Init OLED display
+oled = SH1106_I2C(WIDTH, HEIGHT, i2c, rotate=180)
 oled_setup(oled)
 
 print("Stop the code execution by pressing `Ctrl+C` key.")
