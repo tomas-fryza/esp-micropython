@@ -237,64 +237,64 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
    >   * Data is sent in the body of the HTTP request.
    >   * POST requests can accommodate larger payloads.
 
-```python
-from machine import I2C
-from machine import Pin
-import time
-import dht12
-import network
-import mywifi
-import urequests  # Network Request Module
+    ```python
+    from machine import I2C
+    from machine import Pin
+    import time
+    import dht12
+    import network
+    import mywifi
+    import urequests  # Network Request Module
 
-# Network settings
-WIFI_SSID = "<YOUR WIFI SSID>"
-WIFI_PSWD = "<YOUR WIFI PASSWORD>"
-API_KEY = "<THINGSPEAK WRITE API KEY>"
-
-
-def read_sensor():
-    sensor.measure()
-    return sensor.temperature(), sensor.humidity()
+    # Network settings
+    WIFI_SSID = "<YOUR WIFI SSID>"
+    WIFI_PSWD = "<YOUR WIFI PASSWORD>"
+    API_KEY = "<THINGSPEAK WRITE API KEY>"
 
 
-def send_to_thingspeak(temp, humidity):
-    API_URL = "https://api.thingspeak.com/update"
-    
-    # Select GET or POST request
-    # GET request
-    url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
-    response = urequests.get(url)
-
-    # POST request
-    # url = f"{API_URL}?api_key={API_KEY}"
-    # json = {"field1": temp, "field2": humidity}
-    # headers = {"Content-Type": "application/json"}
-    # response = urequests.post(url, json=json, headers=headers)
-
-    print(f"Response from ThingSpeak: {response.text}")
-    response.close()
+    def read_sensor():
+        sensor.measure()
+        return sensor.temperature(), sensor.humidity()
 
 
-# Connect to the DHT12 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-sensor = dht12.DHT12(i2c)
+    def send_to_thingspeak(temp, humidity):
+        API_URL = "https://api.thingspeak.com/update"
+        
+        # Select GET or POST request
+        # GET request
+        url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
+        response = urequests.get(url)
 
-# Create Station interface
-wifi = network.WLAN(network.STA_IF)
+        # POST request
+        # url = f"{API_URL}?api_key={API_KEY}"
+        # json = {"field1": temp, "field2": humidity}
+        # headers = {"Content-Type": "application/json"}
+        # response = urequests.post(url, json=json, headers=headers)
 
-try:
-    while True:
-        temp, humidity = read_sensor()
-        print(f"Temperature: {temp}°C, Humidity: {humidity}%")
-        mywifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
-        send_to_thingspeak(temp, humidity)
+        print(f"Response from ThingSpeak: {response.text}")
+        response.close()
+
+
+    # Connect to the DHT12 sensor
+    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+    sensor = dht12.DHT12(i2c)
+
+    # Create Station interface
+    wifi = network.WLAN(network.STA_IF)
+
+    try:
+        while True:
+            temp, humidity = read_sensor()
+            print(f"Temperature: {temp}°C, Humidity: {humidity}%")
+            mywifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
+            send_to_thingspeak(temp, humidity)
+            mywifi.disconnect(wifi)
+            time.sleep(60)
+
+    except KeyboardInterrupt:
+        print("Ctrl+C pressed. Exiting...")
         mywifi.disconnect(wifi)
-        time.sleep(60)
-
-except KeyboardInterrupt:
-    print("Ctrl+C pressed. Exiting...")
-    mywifi.disconnect(wifi)
-```
+    ```
 
 7. Go to your ThingSpeak channel to view the data being sent by your ESP32.
 
