@@ -11,13 +11,6 @@ WIFI_SSID = "<YOUR WIFI SSID>"
 WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 API_KEY = "<THINGSPEAK WRITE API KEY>"
 
-# Connect to the DHT12 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-sensor = dht12.DHT12(i2c)
-
-# Create Station interface
-wifi = network.WLAN(network.STA_IF)
-
 
 def read_sensor():
     sensor.measure()
@@ -41,6 +34,13 @@ def send_to_thingspeak(temp, humidity):
     print(f"Response from ThingSpeak: {response.text}")
     response.close()
 
+
+# Connect to the DHT12 sensor
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+sensor = dht12.DHT12(i2c)
+
+# Create Station interface
+wifi = network.WLAN(network.STA_IF)
 
 try:
     while True:

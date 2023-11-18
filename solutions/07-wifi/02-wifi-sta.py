@@ -20,9 +20,6 @@ import network
 WIFI_SSID = "<YOUR WIFI SSID>"
 WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 
-# Initialize the Wi-Fi interface in Station mode
-wifi = network.WLAN(network.STA_IF)
-
 
 def connect_wifi(ssid, password):
     """
@@ -72,10 +69,12 @@ def disconnect_wifi():
         print("Disconnected")
 
 
+# Initialize the Wi-Fi interface in Station mode
+wifi = network.WLAN(network.STA_IF)
+
 connect_wifi(WIFI_SSID, WIFI_PSWD)
 
 # WRITE YOUR CODE HERE
-
 # Get the current IP configuration of the interface
 config = wifi.ifconfig()
 

@@ -9,7 +9,7 @@ After completing this lab you will be able to:
 * Perform data transfers between ESP32 and server via GET and POST requests
 * Use the classes and modules
 
-The main goal of this laboratory exercise is to ... TBD
+The main goal of this laboratory exercise is to understand Wi-Fi connectivity using MicroPython and introduce the concept of IoT (Internet of Things) by connecting the ESP32 to the ThingSpeak platform (or other).
 
 ### Table of contents
 
@@ -32,7 +32,11 @@ The main goal of this laboratory exercise is to ... TBD
 
 ## Pre-Lab preparation
 
-1. TBD
+1. Create an account on the [ThingSpeak](https://thingspeak.com/) IoT platform and optionally also on [OpenWeatherMap](https://openweathermap.org/) server for weather data.
+
+2. Review the usage of the I2C communication in MicroPython.
+
+3. Explore the usage of the `urequests` or `requests` library in MicroPython. Understand how to make HTTP requests and handle responses.
 
 <a name="part1"></a>
 
@@ -54,7 +58,7 @@ wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
 
 # Perform the Wi-Fi scan
-print("Scanning for Wi-Fi... ", end="")
+print("Scanning Wi-Fi... ", end="")
 nets = wifi.scan()
 print(f"{len(nets)} network(s)")
 
@@ -93,9 +97,6 @@ import network
 # Network settings
 WIFI_SSID = "<YOUR WIFI SSID>"
 WIFI_PSWD = "<YOUR WIFI PASSWORD>"
-
-# Initialize the Wi-Fi interface in Station mode
-wifi = network.WLAN(network.STA_IF)
 
 
 def connect_wifi(ssid, password):
@@ -145,6 +146,9 @@ def disconnect_wifi():
     if not wifi.isconnected():
         print("Disconnected")
 
+
+# Initialize the Wi-Fi interface in Station mode
+wifi = network.WLAN(network.STA_IF)
 
 connect_wifi(WIFI_SSID, WIFI_PSWD)
 
@@ -247,13 +251,6 @@ WIFI_SSID = "<YOUR WIFI SSID>"
 WIFI_PSWD = "<YOUR WIFI PASSWORD>"
 API_KEY = "<THINGSPEAK WRITE API KEY>"
 
-# Connect to the DHT12 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-sensor = dht12.DHT12(i2c)
-
-# Create Station interface
-wifi = network.WLAN(network.STA_IF)
-
 
 def read_sensor():
     sensor.measure()
@@ -278,6 +275,13 @@ def send_to_thingspeak(temp, humidity):
     response.close()
 
 
+# Connect to the DHT12 sensor
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+sensor = dht12.DHT12(i2c)
+
+# Create Station interface
+wifi = network.WLAN(network.STA_IF)
+
 try:
     while True:
         temp, humidity = read_sensor()
@@ -292,25 +296,65 @@ except KeyboardInterrupt:
     mywifi.disconnect(wifi)
 ```
 
-6. Go to your ThingSpeak channel to view the data being sent by your ESP32.
+7. Go to your ThingSpeak channel to view the data being sent by your ESP32.
 
 <a name="part4"></a>
 
 ## Part 4: (Optional) Network Time Protocol
 
-TBD
+The Network Time Protocol (NTP) is a protocol designed to synchronize the clocks of computers over a network with Coordinated Universal Time (UTC). NTP follows a client-server model, with clients requesting time information from servers and adjusting their local clocks based on the received server information.
 
-```python
-```
+1. Create a new script `04-wifi-ntp.py` and use the following code:
+
+    ```python
+    import network
+    import mywifi
+    import ntptime
+    from machine import RTC
+
+    # Network settings
+    WIFI_SSID = "<YOUR WIFI SSID>"
+    WIFI_PSWD = "<YOUR WIFI PASSWORD>"
+    TIMEZONE_OFFSET = 1  # UTC+1:00 ... CET, UTC+2:00 ... CEST
+
+    # Create Station interface
+    wifi = network.WLAN(network.STA_IF)
+    mywifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
+
+    # Get UTC time from NTP server and set it to RTC
+    ntptime.host = "cz.pool.ntp.org"
+    ntptime.settime()
+    print("Local RTC synchronized")
+    mywifi.disconnect(wifi)
+
+    # Create an independent clock object
+    rtc = RTC()
+
+    # Print UTC time after NTP update
+    print(rtc.datetime())
+    (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
+    # Update timezone
+    rtc.init((year, month, day, wday, hrs+TIMEZONE_OFFSET, mins, secs, subsecs))
+    print(rtc.datetime())
+
+    # WRITE YOUR CODE HERE
+
+    ```
+
+2. Integrate a perpetual loop into your code, and at regular intervals, retrieve data from the local Real-Time Clock (RTC). Display the information in a formatted manner, such as `yyyy-mm-dd hh:mm:ss`.
 
 <a name="experiments"></a>
 
 ## (Optional) Experiments on your own
 
-1. TBD
+1. Create a functional weather monitoring system. The primary goal is to establish a Wi-Fi connection, access real-time weather data from the [OpenWeatherMap API](https://openweathermap.org/current), and display the information to the shell or on a local OLED screen.
+
+2. Implement a simple web server on the ESP32 that responds to HTTP requests. Explore handling different types of requests, such as GET and POST, and responding with various types of content, like HTML pages or JSON data.
 
 <a name="references"></a>
 
 ## References
 
-1. TBD
+1. Engineers Garage. [How to use MicroPython with ESP8266 and ESP32 to connect to a WiFi network](https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/)
+
+2. [OpenWeather](https://openweathermap.org/)

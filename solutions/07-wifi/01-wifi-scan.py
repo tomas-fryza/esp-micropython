@@ -17,7 +17,7 @@ wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
 
 # Perform the Wi-Fi scan
-print("Scanning for Wi-Fi... ", end="")
+print("Scanning Wi-Fi... ", end="")
 nets = wifi.scan()
 print(f"{len(nets)} network(s)")
 
