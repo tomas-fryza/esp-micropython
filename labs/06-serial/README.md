@@ -168,12 +168,12 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    # Display I2C config
    print(f"I2C configuration : {str(i2c)}")
 
-   # readfrom_mem(addr, memaddr, nbytes)
+   # readfrom_mem(i2caddr, memaddr, nbytes)
    val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
    print(f"{val[0]}.{val[1]}°C")
    ```
 
-2. Periodically read values from all DHT12 memory locations, print them, and verify the checksum byte.
+2. Extend the code and periodically read values from all DHT12 memory locations, print them, and verify the checksum byte.
 
 3. Use the MicroPython manual and find the description of the following methods from [I2C class](https://docs.micropython.org/en/latest/library/machine.I2C.html):
 
