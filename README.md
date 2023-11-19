@@ -15,6 +15,8 @@ To use MicroPython with a real ESP32 board, you will need to follow these steps:
 
 There are several very good tutorials how to install and use MicroPython on an ESP microcontroller, such as [this one](https://pythonforundergradengineers.com/how-to-install-micropython-on-an-esp32.html) for Windows. The following text was tested under Linux-based operating system.
 
+> **NOTE:** The MicroPython firmware can also be flashed by Thonny IDE.
+
 1. Install [Python](https://www.python.org/downloads/).
 
 2. Open terminal (typically `Ctrl+Alt+T`) and install `esptool`:
