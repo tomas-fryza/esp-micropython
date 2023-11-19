@@ -155,7 +155,6 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    ```python
    from machine import I2C
    from machine import Pin
-   import time
 
    SENSOR_ADDR = 0x5c
    SENSOR_HUMI_REG = 0
@@ -169,23 +168,14 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    # Display I2C config
    print(f"I2C configuration : {str(i2c)}")
 
-   print("Stop the code execution by pressing `Ctrl+C` key.")
-   addrs = i2c.scan()
-   if SENSOR_ADDR not in addrs:
-       raise Exception(f"`{hex(SENSOR_ADDR)}` is not detected")
-
-   try:
-       while True:
-           # readfrom_mem(addr, memaddr, nbytes)
-           val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
-           print(f"{val[0]}.{val[1]}°C")
-           time.sleep(5)
-
-   except KeyboardInterrupt:
-       print("Ctrl+C pressed. Exiting...")
+   # readfrom_mem(addr, memaddr, nbytes)
+   val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
+   print(f"{val[0]}.{val[1]}°C")
    ```
 
-2. Use the MicroPython manual and find the description of the following methods from [I2C class](https://docs.micropython.org/en/latest/library/machine.I2C.html):
+2. Periodically read values from all DHT12 memory locations, print them, and verify the checksum byte.
+
+3. Use the MicroPython manual and find the description of the following methods from [I2C class](https://docs.micropython.org/en/latest/library/machine.I2C.html):
 
    * `I2C.scan()`
    * `I2C.readfrom()`
@@ -195,8 +185,6 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    * `I2C.readfrom_mem()`
    * `I2C.readfrom_mem_into()`
    * `I2C.writeto_mem()`
-
-3. Read values from all DHT12 memory locations, print them, and verify the checksum byte.
 
 4. Connect the logic analyzer to the I2C bus wires (SCL and SDA) between the microcontroller and the sensor. Launch the logic analyzer software Logic and **Start** the capture. Saleae Logic software offers a decoding feature to transform the captured signals into meaningful I2C messages. Click to **+ button** in **Analyzers** part and setup **I2C** decoder.
 
