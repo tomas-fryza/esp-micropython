@@ -1,17 +1,5 @@
 # Lab 2: Programming in Python
 
-### Learning objectives
-
-After completing this lab you will be able to:
-
-* Understand Python's syntax, data types, and basic programming concepts like variables and basic operations.
-* Use control structures like loops (`for` and `while`), `if` statements, and `else` clauses to control the flow of your programs.
-* Understand the concept of functions, how to define them, pass arguments, and return values.
-
-The purpose of this laboratory exercise is to provide students with a fundamental understanding of Python programming. These objectives aim to establish a strong foundation in Python programming concepts and skills, including flow control structures and functions. To achieve this, ESP32 microcontroller and MicroPython version are being used in the lab.
-
-### Table of contents
-
 * [Pre-Lab preparation](#preparation)
 * [Part 1: GitHub](#part1)
 * [Part 2: Basic operations in Python](#part2)
@@ -23,6 +11,16 @@ The purpose of this laboratory exercise is to provide students with a fundamenta
 ### Components list
 
 * ESP32 board, USB cable
+
+### Learning objectives
+
+After completing this lab you will be able to:
+
+* Understand Python's syntax, data types, and basic programming concepts like variables and basic operations.
+* Use control structures like loops (`for` and `while`), `if` statements, and `else` clauses to control the flow of your programs.
+* Understand the concept of functions, how to define them, pass arguments, and return values.
+
+The purpose of this laboratory exercise is to provide students with a fundamental understanding of Python programming. These objectives aim to establish a strong foundation in Python programming concepts and skills, including flow control structures and functions. To achieve this, ESP32 microcontroller and MicroPython version are being used in the lab.
 
 <a name="preparation"></a>
 

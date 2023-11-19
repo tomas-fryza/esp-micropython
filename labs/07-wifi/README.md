@@ -1,18 +1,5 @@
 # Lab 7: Wi-Fi communication
 
-### Learning objectives
-
-After completing this lab you will be able to:
-
-* Understand the Wi-Fi STA mode
-* Use methods for connecting and disconnecting the Wi-Fi
-* Perform data transfers between ESP32 and server via GET and POST requests
-* Use the classes and modules
-
-The main goal of this laboratory exercise is to understand Wi-Fi connectivity using MicroPython and introduce the concept of IoT (Internet of Things) by connecting the ESP32 to the ThingSpeak platform (or other).
-
-### Table of contents
-
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Wi-Fi scan](#part1)
 * [Part 2: Wi-Fi Station mode](#part2)
@@ -27,6 +14,17 @@ The main goal of this laboratory exercise is to understand Wi-Fi connectivity us
 * Breadboard
 * DHT12 humidity/temperature sensor
 * Jumper wires
+
+### Learning objectives
+
+After completing this lab you will be able to:
+
+* Understand the Wi-Fi STA mode
+* Use methods for connecting and disconnecting the Wi-Fi
+* Perform data transfers between ESP32 and server via GET and POST requests
+* Use the classes and modules
+
+The main goal of this laboratory exercise is to understand Wi-Fi connectivity using MicroPython and introduce the concept of IoT (Internet of Things) by connecting the ESP32 to the ThingSpeak platform (or other).
 
 <a name="preparation"></a>
 

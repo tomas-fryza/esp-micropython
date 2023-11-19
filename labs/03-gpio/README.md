@@ -1,18 +1,5 @@
 # Lab 3: Control of GPIO pins
 
-### Learning objectives
-
-After completing this lab you will be able to:
-
-* Use a breadboard for prototyping
-* Configure input/output pins of ESP32
-* Understand the distinction between active-low and active-high connections
-* Utilize basic I/O components, such as buttons, LEDs, and keypads, in MicroPython
-
-The purpose of this laboratory exercise is to acquire the skills to interact with fundamental I/O devices using the GPIO (General Purpose Input/Output) pins of the ESP32 microcontroller.
-
-### Table of contents
-
 * [Pre-Lab preparation](#preparation)
 * [Part 1: ESP32 pinout and Breadboards](#part1)
 * [Part 2: Push button and LEDs](#part2)
@@ -28,6 +15,17 @@ The purpose of this laboratory exercise is to acquire the skills to interact wit
 * 2 LEDs, 2 resistors
 * 4x4 matrix keypad
 * Jumper wires
+
+### Learning objectives
+
+After completing this lab you will be able to:
+
+* Use a breadboard for prototyping
+* Configure input/output pins of ESP32
+* Understand the distinction between active-low and active-high connections
+* Utilize basic I/O components, such as buttons, LEDs, and keypads, in MicroPython
+
+The purpose of this laboratory exercise is to acquire the skills to interact with fundamental I/O devices using the GPIO (General Purpose Input/Output) pins of the ESP32 microcontroller.
 
 <a name="preparation"></a>
 

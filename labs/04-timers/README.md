@@ -1,17 +1,5 @@
 # Lab 4: Timers
 
-### Learning objectives
-
-After completing this lab you will be able to:
-
-* Use internal microcontroller timers
-* Understand overflow and PWM
-* Combine different interrupts in MicroPython
-
-The purpose of this laboratory exercise is to acquire the skills to interact with timers and interrupts of the ESP32 microcontroller.
-
-### Table of contents
-
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Interrupts](#part1)
 * [Part 2: ESP32 timer overflows](#part2)
@@ -25,6 +13,16 @@ The purpose of this laboratory exercise is to acquire the skills to interact wit
 * Breadboard
 * 2 LEDs, 2 resistors
 * Jumper wires
+
+### Learning objectives
+
+After completing this lab you will be able to:
+
+* Use internal microcontroller timers
+* Understand overflow and PWM
+* Combine different interrupts in MicroPython
+
+The purpose of this laboratory exercise is to acquire the skills to interact with timers and interrupts of the ESP32 microcontroller.
 
 <a name="preparation"></a>
 

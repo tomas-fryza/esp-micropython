@@ -1,21 +1,5 @@
 # Lab 4: LCD (Liquid Crystal Display)
 
-### Learning objectives
-
-After completing this lab you will be able to:
-
-* Use alphanumeric LCD
-* Understand the digital communication between MCU and HD44780
-* Understand the ASCII table
-* Use module functions for LCD in MicroPython
-* Generate custom characters on LCD
-
-The purpose of the laboratory exercise is to understand the serial control of Hitachi HD44780-based LCD character display and how to define custom characters. Another goal is to learn how to use Python's class methods in your own project.
-
-![photo_stopwatch](images/photo_lcd_stopwatch.jpg)
-
-### Table of contents
-
 * [Pre-Lab preparation](#preparation)
 * [Part 1: LCD screen module](#part1)
 * [Part 2: Class for HD44780 based LCDs](#part2)
@@ -28,6 +12,20 @@ The purpose of the laboratory exercise is to understand the serial control of Hi
 * ESP32 board, USB cable
 * LCD module (such as Digilent PmodCLP)
 * Jumper wires
+
+   ![photo_stopwatch](images/photo_lcd_stopwatch.jpg)
+
+### Learning objectives
+
+After completing this lab you will be able to:
+
+* Use alphanumeric LCD
+* Understand the digital communication between MCU and HD44780
+* Understand the ASCII table
+* Use module functions for LCD in MicroPython
+* Generate custom characters on LCD
+
+The purpose of the laboratory exercise is to understand the serial control of Hitachi HD44780-based LCD character display and how to define custom characters. Another goal is to learn how to use Python's class methods in your own project.
 
 <a name="preparation"></a>
 

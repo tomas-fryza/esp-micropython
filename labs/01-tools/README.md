@@ -1,5 +1,16 @@
 # Lab 1: Tools for programming and debugging ESP32 microcontrollers
 
+* [Pre-Lab preparation](#preparation)
+* [Part 1: Wokwi simulator](#part1)
+* [Part 2: Thonny IDE](#part2)
+* [Part 3: Wi-Fi scanner](#part3)
+* [(Optional) Experiments on your own](#experiments)
+* [References](#references)
+
+### Components list
+
+* ESP32 board, USB cable
+
 ### Learning objectives
 
 After completing this lab you will be able to:
@@ -11,19 +22,6 @@ After completing this lab you will be able to:
 * Control GPIO pin to turn on/off LED
 
 The purpose of this laboratory exercise is to provide a foundational understanding of MicroPython and hands-on experience with microcontroller programming.
-
-### Table of contents
-
-* [Pre-Lab preparation](#preparation)
-* [Part 1: Wokwi simulator](#part1)
-* [Part 2: Thonny IDE](#part2)
-* [Part 3: Wi-Fi scanner](#part3)
-* [(Optional) Experiments on your own](#experiments)
-* [References](#references)
-
-### Components list
-
-* ESP32 board, USB cable
 
 <a name="preparation"></a>
 
@@ -53,6 +51,8 @@ Wokwi is a web-based platform for simulating and visualizing electronics project
 
 Thonny is an integrated development environment (IDE) designed primarily for Python programming. It provides a user-friendly and beginner-friendly environment for writing, running, and debugging Python code. It can also be used with MicroPython for programming microcontrollers like the ESP8266 and ESP32. Thonny is available for multiple platforms, including Windows, macOS, and Linux.
 
+> **IMPORTANT:** Before continue, your ESP32/ESP8266 board needs to be flashed with MicroPython firmware (see the [installation](../../README.md)).
+
 1. Use micro USB cable and connect the ESP32 board to your computer. Run Thonny IDE and go to menu **Run > Select interpreter... > Interpreter** and select `ESP32` or `ESP8266`. Click on red **Stop/Restart** button or press the on-board reset button if necesary.
 
 2. In MicroPython programming, REPL stands for `Read-Eval-Print Loop`. It is an interactive mode that allows you to enter and execute Python code commands directly, one at a time, without the need to write and upload entire scripts or programs. Use the following commands in **Shell**.
@@ -66,6 +66,17 @@ Thonny is an integrated development environment (IDE) designed primarily for Pyt
     >>> b = 3
     >>> print(f"add: {a+b}, sub: {a-b}, div: {a/3}, div_int: {a//3}")
     >>> print(f"rem: {a%b}, mul: {a*b}, exp: {a**b}")
+
+    # Convert numbers
+    >>> x = 65
+    >>> bin(x)  # to binary representation
+    '0b1000001'
+    >>> hex(x)  # to hexadecimal
+    '0x41'
+    >>> chr(x)  # to unicode string
+    'A'
+    >>> ord("a")  # to unicode code
+    97
     ```
 
     See MicroPython tutorials, such as [MicroPython Programming Basics with ESP32 and ESP8266](https://randomnerdtutorials.com/micropython-programming-basics-esp32-esp8266/) for detailed explanation.
@@ -122,16 +133,18 @@ Because ESP32 microcontroller consists of Wi-Fi module, you can use MicroPython'
     ```python
     import network
 
-    wlan = network.WLAN(network.STA_IF)  # Initialize the WLAN (Station mode)
-    wlan.active(True)  # Activate the WLAN interface
+    # Initialize the Wi-Fi interface in Station mode and activate it
+    wifi = network.WLAN(network.STA_IF)
+    wifi.active(True)
 
     # Perform the Wi-Fi scan
-    available_networks = wlan.scan()
+    nets = wifi.scan()
 
     # Print the list of available Wi-Fi networks
-    for net in available_networks:
-        print("SSID:", net[0].decode("utf-8"))
+    for net in nets:
         print("Signal Strength (dBm):", net[3])
+        print("SSID:", net[0].decode("utf-8"))
+        print("")
     ```
 
     This code initializes the WLAN interface in Station mode, performs a Wi-Fi scan, and then prints the SSID and signal strength (in dBm) of each available network.

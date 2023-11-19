@@ -1,20 +1,5 @@
 # Lab 6: I2C serial communication
 
-### Learning objectives
-
-After completing this lab you will be able to:
-
-* Understand the I2C communication
-* Perform data transfers between ESP32 and I2C devices
-* Use methods for OLED dispaly in MicroPython
-* Use logic analyzer
-
-The main goal of this laboratory exercise is to gain a comprehensive understanding of serial synchronous communication via the I2C (Inter-Integrated Circuit) bus. This includes grasping the essential structure of address and data frames. Additionally, this exercise provides an opportunity to explore the utilization of classes and methods in MicroPython.
-
-![photo_oled](images/photo_oled.jpg)
-
-### Table of contents
-
 * [Pre-Lab preparation](#preparation)
 * [Part 1: I2C bus](#part1)
 * [Part 2: I2C scanner](#part2)
@@ -33,6 +18,19 @@ The main goal of this laboratory exercise is to gain a comprehensive understandi
 * SH1106 I2C OLED display 128x64
 * Logic analyzer
 * Jumper wires
+
+   ![photo_oled](images/photo_oled.jpg)
+
+### Learning objectives
+
+After completing this lab you will be able to:
+
+* Understand the I2C communication
+* Perform data transfers between ESP32 and I2C devices
+* Use methods for OLED dispaly in MicroPython
+* Use logic analyzer
+
+The main goal of this laboratory exercise is to gain a comprehensive understanding of serial synchronous communication via the I2C (Inter-Integrated Circuit) bus. This includes grasping the essential structure of address and data frames. Additionally, this exercise provides an opportunity to explore the utilization of classes and methods in MicroPython.
 
 <a name="preparation"></a>
 
