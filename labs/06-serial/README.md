@@ -333,7 +333,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 ## (Optional) Experiments on your own
 
-1. Transform the output of the I2C scanner application into a hexadecimal table format, as illustrated in the example below. Please be aware that the term `RA`` signifies I2C addresses that are [reserved](https://www.pololu.com/file/download/UM10204.pdf?file_id=0J435) and not available for use with slave circuits.
+1. Transform the output of the I2C scanner application into a hexadecimal table format, as illustrated in the example below. Please be aware that the term `RA` signifies I2C addresses that are [reserved](https://www.pololu.com/file/download/UM10204.pdf?file_id=0J435) and not available for use with slave circuits.
 
    ```Makefile
    Scanning I2C...
