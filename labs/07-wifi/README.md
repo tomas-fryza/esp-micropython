@@ -175,7 +175,7 @@ Apart from the IP configuration obtained using `ifconfig()`, you can also retrie
 
 ```python
 rssi = wifi.status("rssi")
-print("Signal strength (RSSI):", rssi)
+print(f"Signal strength (RSSI): {rssi}")
 ```
 
 This will print the signal strength in dBm.
@@ -183,7 +183,7 @@ This will print the signal strength in dBm.
 **MAC address:**
 
 ```python
-mac_address = wifi.config('mac')
+mac_address = wifi.config("mac")
 print("MAC address:", ':'.join(['{:02x}'.format(b) for b in mac_address]))
 ```
 
@@ -193,7 +193,7 @@ This code will print the MAC address of the ESP32.
 
 ```python
 is_connected = wifi.isconnected()
-print("Is connected:", is_connected)
+print(f"Is connected: {is_connected}")
 ```
 
 This will print `True` if the ESP32 is connected to a Wi-Fi network, and `False` otherwise.

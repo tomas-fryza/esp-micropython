@@ -86,15 +86,15 @@ print(f"Gateway: \t{config[2]}")
 print(f"DNS server:\t{config[3]}")
 
 rssi = wifi.status("rssi")
-print("Signal strength (RSSI):", rssi)
+print(f"Signal strength (RSSI): {rssi}")
 
-mac_address = wifi.config('mac')
+mac_address = wifi.config("mac")
 print("MAC address:", ':'.join(['{:02x}'.format(b) for b in mac_address]))
 
 is_connected = wifi.isconnected()
-print("Is connected:", is_connected)
+print(f"Is connected: {is_connected}")
 
 disconnect_wifi()
 
 is_connected = wifi.isconnected()
-print("Is connected:", is_connected)
+print(f"Is connected: {is_connected}")
