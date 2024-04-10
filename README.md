@@ -1,5 +1,12 @@
 # MicroPython on ESP32/ESP8266 microcontollers
 
+* [Installation](#installation)
+* [Usage](#usage)
+* [Exercises](#exercises)
+* [List of MicroPython examples](#list-of-micropython-examples)
+* [Components and tools](#components-and-tools)
+* [References](#references)
+
 The repository contains MicroPython lab exercises for [*Digital Electronics*](https://www.vut.cz/en/students/courses/detail/268609) course at Brno University of Technology, Czechia. The course focuses on digital circuits, microprocessor technology, embedded systems and uses the MicroPython language for programming 32-bit microcontrollers. Students will gain practical experience with individual parts of microprocessor systems and will also expand their knowledge of Python programming language.
 
    ![firebeetle_multiple-leds](labs/06-serial/images/photo_oled.jpg)
@@ -166,7 +173,7 @@ Test some other useful commands from [Quick reference for the ESP32](https://doc
 7. [Wi-Fi communication](labs/07-wifi)
 8. [Project](labs/09-project/)
 
-## List of examples
+## List of MicroPython examples
 
 * [Blink](examples/01-blink/main.py)
 * [Timer blink](examples/02-timers/main.py)
@@ -179,7 +186,7 @@ Test some other useful commands from [Quick reference for the ESP32](https://doc
 * [Web server & I2C sensor](examples/09-web-server-i2c-sensor/)
 * [Jupyter example](examples/99-jupyter/test_micropython.ipynb)
 
-## Components
+## Components and tools
 
 The following hardware and software components are mainly used in the lab.
 
