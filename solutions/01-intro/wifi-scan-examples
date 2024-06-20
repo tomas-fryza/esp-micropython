@@ -1,3 +1,23 @@
+Tue 2024-01-09, 18:26, office
+Scanning Wi-Fi... 10 network(s)
+RSSI Channel 	SSID
+-76  (ch.1) 	eduroam
+-76  (ch.1) 	fekthost
+-77  (ch.1) 	vutbrno
+-77  (ch.6) 	fekthost
+-78  (ch.6) 	eduroam
+-78  (ch.6) 	vutbrno
+-84  (ch.11) 	UREL-SC6095-P-01
+-89  (ch.1) 	Phoenix_VPN
+-89  (ch.6) 	Lab537
+-96  (ch.11) 	vutbrno
+
+
+Tue 2023-12-19, 16:39, airplane VLC--ZRH
+Scanning Wi-Fi... 0 network(s)
+RSSI Channel 	SSID
+
+
 Sun 2023-12-17, 09:11, airplane VIE--VLC
 Scanning Wi-Fi... 6 network(s)
 RSSI Channel 	SSID
@@ -7,7 +27,3 @@ RSSI Channel 	SSID
 -51  (ch.1) 	
 -52  (ch.1) 	Austrian FlyNet
 -52  (ch.1) 	
-
-Tue 2023-12-19, 16:39, airplane VLC--ZRH
-Scanning Wi-Fi... 0 network(s)
-RSSI Channel 	SSID
