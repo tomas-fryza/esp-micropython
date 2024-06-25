@@ -1,3 +1,16 @@
+Fri 2024-06-21, 18:28, train PRG--BRN
+Scanning Wi-Fi... 8 network(s)
+RSSI Channel    SSID
+-54  (ch.11)    OEBB
+-55  (ch.11)    svciob
+-55  (ch.11)    
+-57  (ch.11)    
+-70  (ch.1)     OEBB
+-70  (ch.1)     svciob
+-83  (ch.6)     OEBB
+-85  (ch.6)
+
+
 Tue 2024-01-09, 18:26, office
 Scanning Wi-Fi... 10 network(s)
 RSSI Channel 	SSID
@@ -27,3 +40,14 @@ RSSI Channel 	SSID
 -51  (ch.1) 	
 -52  (ch.1) 	Austrian FlyNet
 -52  (ch.1) 	
+
+
+Wed 2023-11-15, 7:24, train BRN--PRG
+Scanning Wi-Fi... 6 network(s)
+RSSI Channel    SSID
+-53  (ch.11)    Galaxy A21s9D0C
+-61  (ch.6)     Helena's iPhone
+-63  (ch.6)     Regiojet - zluty
+-74  (ch.11)    Regiojet - zluty
+-77  (ch.6)     Patrik's Galaxy S23
+-83  (ch.1)     Regiojet - zluty

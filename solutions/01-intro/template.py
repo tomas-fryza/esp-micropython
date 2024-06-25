@@ -1,25 +1,28 @@
-import sys
 from machine import Pin
-from time import sleep_ms
+import time
+import sys
 
-
-def main():
-    led.value(not led.value())
-    sleep_ms(500)
-
-
-# Check the LED pin on your board (usually GPIO 2)
+# On-board LED
 led = Pin(2, Pin.OUT)
 
 print(f"Start blinking {led}")
 print("Press `Ctrl+C` to stop")
 
 # Forever loop
-while True:
-    try:
-        main()
+try:
+    while True:
+        # led.value(not led.value())
+        led.on()
+        time.sleep_ms(500)
+        led.off()
+        time.sleep_ms(500)
 
-    # Ctrl+C
-    except KeyboardInterrupt:
-        print("Program stopped")
-        sys.exit(0)
+# Ctrl+C
+except KeyboardInterrupt:
+    print("Program stopped")
+
+    # Optional cleanup code
+    led.off()
+
+    # Stop program execution
+    sys.exit(0)
