@@ -1,10 +1,10 @@
-# Lab 3: Control of GPIO pins
+# Lab 2: Control of GPIO pins
 
 * [Pre-Lab preparation](#preparation)
 * [Part 1: ESP32 pinout and Breadboards](#part1)
 * [Part 2: Push button and LEDs](#part2)
 * [Part 3: Matrix keypad](#part3)
-* [(Optional) Experiments on your own](#experiments)
+* [Challenges](#challenges)
 * [References](#references)
 
 ### Components list
@@ -18,14 +18,10 @@
 
 ### Learning objectives
 
-After completing this lab you will be able to:
-
 * Use a breadboard for prototyping
 * Configure input/output pins of ESP32
 * Understand the distinction between active-low and active-high connections
 * Utilize basic I/O components, such as buttons, LEDs, and keypads, in MicroPython
-
-The purpose of this laboratory exercise is to acquire the skills to interact with fundamental I/O devices using the GPIO (General Purpose Input/Output) pins of the ESP32 microcontroller.
 
 <a name="preparation"></a>
 
@@ -36,6 +32,11 @@ The purpose of this laboratory exercise is to acquire the skills to interact wit
 2. Remind yourself how to write and run MicroPython code on the ESP32 microcontroller. This includes knowledge of variables, loops, functions, and input/outputs.
 
 <a name="part1"></a>
+
+TODO: Blink example using on-board LED
+
+
+
 
 ## Part 1: ESP32 pinout and Breadboards
 
@@ -177,9 +178,9 @@ For an active-high LED:
        # Optional cleanup code
    ```
 
-<a name="part3"></a>
+<a name="challenges"></a>
 
-## Part 3: Matrix keypad
+## Challenges
 
 A **matrix keypad** is a type of input device used to capture user input in the form of numbers, letters, or other characters. It consists of an array of buttons arranged in rows and columns, where each button press represents a unique combination of a row and a column. Matrix keypads are commonly used in various electronic devices, such as calculators and security systems.
 
@@ -219,11 +220,7 @@ A **matrix keypad** is a type of input device used to capture user input in the 
 
 3. Integrate the keypad code with LEDs to control individual LEDs based on keypad button presses.
 
-<a name="experiments"></a>
-
-## (Optional) Experiments on your own
-
-1. Create a simple, interactive door lock system using a 4x4 keypad, a button, and LEDs. The goal is to simulate a password-protected door:
+4. Create a simple, interactive door lock system using a 4x4 keypad, a button, and LEDs. The goal is to simulate a password-protected door:
 
    * User enters a 4-digit code
    * If an incorrect digit is entered, an "Access Denied" LED blinks.
