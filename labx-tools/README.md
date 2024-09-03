@@ -27,9 +27,115 @@ The purpose of this laboratory exercise is to provide a foundational understandi
 
 ## Pre-Lab preparation
 
+1. If you don't have any, create a free account on [GitHub](https://github.com/login).
+
+2. For future synchronization of local folders with GitHub, download and install [git](https://git-scm.com/). Git is free, open source, and available on Windows, Mac, and Linux platforms. Window users may also need to use the Git Bash application (installed automatically with git) for command line operations.
+
+
+
 1. (Optional) If you have option to use ESP32 board and logic analyzer, download and install [Saleae Logic 1](https://support.saleae.com/logic-software/legacy-software/older-software-releases#logic-1-x-download-links).
 
 <a name="part1"></a>
+
+## Part 1: GitHub
+
+GitHub serves as a platform for hosting code, facilitating collaboration, and managing version control. It enables you and your collaborators to work together on projects, retain a history of all prior changes, create distinct branches, and offers a multitude of additional features.
+
+1. In GitHub, create a new public repository titled **esp-micropython**. Initialize a README, Python template `.gitignore`, and [MIT license](https://choosealicense.com/licenses/mit/).
+
+2. Use any available Git manuals, such as [Markdown Guide, Basic Syntax](https://www.markdownguide.org/basic-syntax/) and add the following sections to your README file.
+
+   * Headers H1, H2, H3
+   * Emphasis (*italics*, **bold**)
+   * Lists (ordered, unordered)
+   * Links
+   * Table
+   * Listing of Python source code (with syntax highlighting)
+
+3. Use your favorite file manager and run the Git Bash (Windows) or Terminal (Linux) application inside your home folder `Documents`.
+
+4. With help of Git command, clone a local copy of your public repository.
+
+   > **Important:** To avoid future problems, never use national characters (such as éščřèêö, ...) and spaces in folder- and file-names.
+   >
+   > **Help:** Useful git command is `git clone` - Create a local copy of remote repository. This command is executed just once; later synchronization between remote and local repositories is performed differently.
+   >
+   > Useful bash commands are `cd` - Change working directory. `mkdir` - Create directory. `ls` - List information about files in the current directory. `ls -a` - List information aout all files in the current directory. `pwd` - Print the name of the current working directory.
+
+   ```bash
+   ## Windows Git Bash or Linux:
+   git clone https://github.com/your-github-account/esp-micropython
+   cd esp-micropython/
+   ls -a
+   ## You should see these three files
+   .gitignore  LICENSE  README.md
+   ```
+
+5. Set username and email for your repository (values will be associated with your later commits):
+
+   ```shell
+   git config user.name "your-git-user-name"
+   git config user.email "your-email@address.com"
+   ```
+
+   You can verify that the changes were made correctly by:
+
+   ```shell
+   git config --list
+   ```
+
+6. (Optional) Using branches in Git is a fundamental concept that allows you to work on different features or aspects of a project simultaneously without affecting the main codebase. Using branches in Git allows for efficient code management, parallel development, and collaboration in a team setting. It helps prevent conflicts between different features or bug fixes being worked on simultaneously. Here is the basic way to use branches in Git.
+
+   a. **Create a New Branch:** To create a new branch, use the following command:
+
+      ```bash
+      git branch branch_name
+      ```
+
+   Replace `branch_name` with the name you want to give to your new branch. This command creates a new branch but doesn't switch to it yet.
+
+   b. **Switch to a Branch:** To switch to a branch, use the following command:
+
+      ```bash
+      git checkout branch_name
+      ```
+
+   Replace `branch_name` with the name of the branch you want to switch to. After executing this command, you're working in the context of the chosen branch.
+
+   Alternatively, you can use a single command to create and switch to a new branch:
+
+      ```bash
+      git checkout -b new_branch_name
+      ```
+
+   c. **Make Changes:** Now that you're on the new branch, you can make changes to your project. These changes are isolated to this branch and won't affect the main or other branches.
+
+   d. **Commit Changes:** After making changes, commit them to your branch using the following commands:
+
+      ```bash
+      git add .
+      git commit -m "Descriptive commit message"
+      ```
+
+      The `git add .` command stages your changes, and `git commit` records them with a meaningful commit message.
+
+   e. **Push Branch (Optional):** If you want to share your branch and collaborate with others, you can push it to a remote repository:
+
+      ```bash
+      git push origin branch_name
+      ```
+
+   f. **Merge or Rebase (Optional):** Once your changes on the branch are complete, you can merge the branch back into the main branch or another target branch using commands like `git merge` or `git rebase`.
+
+   g. **Delete Branch (Optional):** After the branch's changes have been merged or are no longer needed, you can delete it:
+
+      ```bash
+      git branch -d branch_name
+      ```
+
+      The `-d` flag stands for "delete." If the branch contains unmerged changes, you may need to use `-D` instead: `git branch -D branch_name`.
+
+
 
 ## Part 1: Wokwi simulator
 
@@ -150,6 +256,26 @@ Because ESP32 microcontroller consists of Wi-Fi module, you can use MicroPython'
     This code initializes the WLAN interface in Station mode, performs a Wi-Fi scan, and then prints the SSID and signal strength (in dBm) of each available network.
 
 2. Start a new access point on your smartphone and repeat the application. Try several distances between the phone and ESP32 board and observe the RSSI parameter.
+
+
+
+3. After completing your work, ensure that you synchronize the contents of your working folder with both the local and remote repository versions. This practice guarantees that none of your changes are lost. You can achieve this by using Git commands to add, commit, and push all local changes to your remote repository. Check GitHub web page for changes.
+
+   > **Help:** Useful git commands are `git status` - Get state of working directory and staging area. `git add` - Add new and modified files to the staging area. `git commit` - Record changes to the local repository. `git push` - Push changes to remote repository. `git pull` - Update local repository and working folder. Note that, a brief description of useful git commands can be found [here](https://github.com/tomas-fryza/esp-micropython/wiki/Useful-Git-commands) and detailed description of all commands is [here](https://github.com/joshnh/Git-Commands).
+   >
+   > ```bash
+   > ## Windows Git Bash or Linux:
+   > $ git status
+   > $ git add -A
+   > $ git status
+   > $ git commit -m "Creating functions in Python"
+   > $ git status
+   > $ git push
+   > $ git status
+   > ```
+
+   ![git](images/git_basics.png)
+
 
 <a name="experiments"></a>
 

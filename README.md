@@ -2,12 +2,12 @@
 
 * [Installation](#installation)
 * [Usage](#usage)
-* [Exercises](#exercises)
+* [Labs](#labs)
 * [List of MicroPython examples](#list-of-micropython-examples)
 * [Components and tools](#components-and-tools)
 * [References](#references)
 
-The repository contains MicroPython lab exercises for [*Digital Electronics*](https://www.vut.cz/en/students/courses/detail/268609) course at Brno University of Technology, Czechia. The course focuses on digital circuits, microprocessor technology, embedded systems and uses the MicroPython language for programming 32-bit microcontrollers. Students will gain practical experience with individual parts of microprocessor systems and will also expand their knowledge of Python programming language.
+The repository contains MicroPython lab exercises for [*Erasmus course*](https://www.vut.cz/en/students/courses/detail/279596) at Brno University of Technology, Czechia. The course focuses on advanced digital circuits, microprocessor technology, and use of MicroPython language for programming 32-bit microcontrollers. The course provides practical experience in the design and implementation of embedded systems, allowing students to deepen their programming skills and understanding of individual components within microprocessor systems.
 
    ![firebeetle_multiple-leds](labs/06-serial/images/photo_oled.jpg)
 
@@ -162,16 +162,16 @@ Test some other useful commands from [Quick reference for the ESP32](https://doc
 #      temp_f = temp_c * (9/5) + 32
 ```
 
-## Exercises
+## Labs
 
-1. [Tools for programming and debugging ESP32 microcontrollers](labs/01-tools)
-2. [Programming in Python, Git version-control system](labs/02-python)
-3. [Control of GPIO pins](labs/03-gpio)
-4. [Timers](labs/04-timers)
-5. [LCD (Liquid Crystal Display)](labs/05-display)
-6. [I2C serial communication](labs/06-serial)
-7. [Wi-Fi communication](labs/07-wifi)
-8. [Project](labs/09-project/)
+1. [Programming in Python](lab1-python)
+2. [Control of GPIO pins](lab2-gpio)
+3. [Timers](lab3-timers)
+4. [LCD (Liquid Crystal Display)](lab4-display)
+5. [I2C serial communication](lab5-serial)
+6. [Wi-Fi communication](lab6-wifi)
+7. Object-oriented programming
+8. [Project](lab8-project)
 
 ## List of MicroPython examples
 
@@ -210,15 +210,18 @@ The following hardware and software components are mainly used in the lab.
 
 | **Version**                | **Result (yyyy-mm-dd)** | **Note**    |
 | :------------------------- | :---------------------: | :---------- |
+| macOS Sonoma 14.6.1        | OK (2024-09-03)         | Laptop      |
 | Windows 10                 | OK (2023-09-18)         | Lab SC 6.61 |
 | Linux Mint 20.3 (Una)      | OK (2023-05-23)         | Laptop      |
 
 ```bash
 # FYI: How to check OS version in Linux
 cat /etc/os-release
-
-# Or by Neofetch
+# or
 neofetch
+
+# How to identify the macOS version
+sw_vers
 ```
 
 ## References
