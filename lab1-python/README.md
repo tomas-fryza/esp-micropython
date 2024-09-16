@@ -120,7 +120,7 @@
 
 2. Create a function `my_factorial(n)` to calculate a factorial of input `n`.
 
-3. Create a function `def my_factorial(n)` to solve the quadratic equation.
+3. Create a function `def solve_quadratic_eq(n)` to solve the quadratic equation.
 
     ```python
     def solve_quadratic_eq(a, b, c):
