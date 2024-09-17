@@ -1,28 +1,28 @@
-from machine import Pin
+"""
+MicroPython template
+
+The script with a forever loop can be interrupted using
+Ctrl+C.
+
+Author: Wokwi, Tomas Fryza
+Date: 2023-09-21
+"""
+
 import time
 import sys
 
-# On-board LED
-led = Pin(2, Pin.OUT)
-
-print(f"Start blinking {led}")
 print("Press `Ctrl+C` to stop")
 
-# Forever loop
 try:
+    # Forever loop
     while True:
-        # led.value(not led.value())
-        led.on()
-        time.sleep_ms(500)
-        led.off()
         time.sleep_ms(500)
 
-# Ctrl+C
 except KeyboardInterrupt:
+    # This part runs when Ctrl+C is pressed
     print("Program stopped")
 
     # Optional cleanup code
-    led.off()
 
     # Stop program execution
     sys.exit(0)
