@@ -35,19 +35,26 @@ def clear():
 clear()
 
 display.set_pen(BLACK)
-display.text("Tomas", 10, 5, 240, 5)
+display.text("Tomas", 5, 5, 240, 7)
+# display.line(5, 56, 291, 56, 1)
+display.text("Fryza", 219, 40, 60, 2)
+display.text("Brno Univ. of Technology", 61, 80, 240, 2)
+# display.line(10, 100, 286, 100)
+display.set_font("bitmap6")
+display.text("Czechia", 152, 100, 100, 4)
+# display.text("Czechoslovakia", 2, 100, 296, 4)
+
 display.update()
 
-
-while True:
-    if button_a.read():
-        display.line(10,50,286,50)
-        display.update()
-    elif button_b.read():
-        display.text("IEEE", 10, 70, 240, 4)
-        display.update()
-    elif button_c.read():
-        display.text("Brno University of Technology", 10, 118, 240, 1)
-        display.update()
-
-    time.sleep(0.1)  # this number is how frequently the Pico checks for button presses
+# while True:
+#     if button_a.read():
+#         display.line(10,50,286,50)
+#         display.update()
+#     elif button_b.read():
+#         display.text("IEEE", 10, 70, 240, 4)
+#         display.update()
+#     elif button_c.read():
+#         display.text("Brno University of Technology", 10, 118, 240, 1)
+#         display.update()
+# 
+#     time.sleep(0.1)  # this number is how frequently the Pico checks for button presses
