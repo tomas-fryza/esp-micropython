@@ -16,7 +16,7 @@ print("Press `Ctrl+C` to stop")
 try:
     # Forever loop
     while True:
-        time.sleep_ms(500)
+        time.sleep(0.5)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
