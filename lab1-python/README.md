@@ -168,9 +168,7 @@ In MicroPython, you can use the following control characters and escape sequence
 
 4. Write a Python function to solve a quadratic equation of the form `ax^2 + bx + c = 0`, where `a`, `b`, and `c` are real numbers. The function should take three input parameters: `a`, `b`, and `c`. Use the quadratic formula to find the solutions:
 
-   \[
-   x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
-   \]
+   ![solution](images/quadratic_eq_solution.png)
 
    Your function should:
       1. Handle cases where the equation has two real solutions.
