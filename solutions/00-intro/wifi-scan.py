@@ -6,12 +6,9 @@ This MicroPython script scans for nearby Wi-Fi access points
 (Service Set Identifier, aka network's name), channel index,
 and signal strength (RSSI).
 
-Hardware Configuration:
-  - LED: GPIO pin 2 (onboard)
-
-Instructions:
-1. Run the script
-2. Wait for results
+Components:
+  - ESP32 microcontroller
+  - LED connected to GPIO2 (on-board)
 
 Author: Wokwi, Tomas Fryza
 Date: 2023-09-21

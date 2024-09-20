@@ -106,6 +106,83 @@
 
 ## Part 2: Functions in Python
 
+<<<<<<< HEAD
+=======
+1. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, save it as `functions.py` to your local folder. Program the function to display an `arrow` of symbols and run the application by **Run > Run current script F5**. Note that you can use **if** statements and **for** loops.
+
+    ```python
+    def print_arrow(width, symbol):
+        """
+        Print an arrow made of symbols with a defined width.
+
+        Args:
+            width (int): The width of the arrow.
+            symbol (str): The symbol used to create the arrow.
+
+        Example:
+            print_arrow(5, "*") would print:
+            *
+            **
+            ***
+            ****
+            *****
+            ****
+            ***
+            **
+            *
+        """
+        # Complete the code
+
+    # Example usage
+    arrow_width = 5
+    print_arrow(arrow_width, "*")
+    ```
+
+2. Create a function `my_factorial(n)` to calculate a factorial of input `n`.
+
+3. Create a function `def solve_quadratic_eq(n)` to solve the quadratic equation.
+
+    ```python
+    def solve_quadratic_eq(a, b, c):
+        """
+        Solve a quadratic equation of the form ax^2 + bx + c = 0.
+
+        Args:
+            a (float): Coefficient of x^2.
+            b (float): Coefficient of x.
+            c (float): Constant term.
+
+        Returns:
+            tuple: A tuple containing the real or complex roots.
+
+        Example:
+            solve_quadratic_eq(1, 5, 1) returns the roots (approximately):
+            (-0.2087, -4.7912)
+        """
+        # Complete the code
+
+    # Example usage
+    a = 1
+    b = 5
+    c = 1
+    roots = solve_quadratic_eq(a, b, c)
+    print(f"Roots: {roots}")
+    ```
+
+    If you require a library function in Python, you need to import the module that contains it.
+
+    ```python
+    import math  # Import mathematical module
+    import cmath  # Complex numbers' math
+    
+    math.sqrt()  # Call the function
+    ```
+
+<a name="part3"></a>
+
+## Part 3: Control characters and ANSI-color
+
+>>>>>>> 0fc769eb19f547d1e95d25b88562e4e2e92cd9b2
 In MicroPython, you can use the following control characters and escape sequences to format text, especially when working with the REPL (Read-Eval-Print Loop) and terminal output:
 
    * **Newline (\n):** Creates a new line, moving the cursor to the beginning of the next line.
