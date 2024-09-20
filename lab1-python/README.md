@@ -6,9 +6,10 @@
 * [Challenges](#challenges)
 * [References](#references)
 
-### Components list
+### Component list
 
-* ESP32 board, USB cable
+* ESP32 board with pre-installed MicroPython firmware
+* USB cable
 
 ### Learning objectives
 
@@ -126,8 +127,9 @@ In MicroPython, you can use the following control characters and escape sequence
 
    values = range(0, 100)
    for i in values:
-       print(f"Complete: {i}%", end="\r")
-       time.sleep(.1)
+       print(f"{i}%", end="\r")
+       time.sleep(.05)  # Wait for 50 milliseconds
+   print("\nProcess complete!")
    ```
 
 2. Write a Python function that calculates the factorial of a given number `n`. The function should take one input parameter, `n`, and return the result of `n!` (`n` factorial), which is the product of all positive integers from 1 to `n`. Note that you can use **if** statements and **while** loops.
@@ -138,12 +140,12 @@ In MicroPython, you can use the following control characters and escape sequence
 
    ```python
    def factorial(n):
-       # If negative inputs, then Error
+       """Returns the factorial of a given non-negative integer n."""
 
-       # Elif input is zero or one, then return 1
+       # WRITE YOUR CODE HERE
 
-       # Else other input values, then
-       # result = n * (n-1) * (n-2) * ... * 1
+   # Example usage
+   print(factorial(7))
    ```
 
 3. Write a Python function that prints a right-angled triangle made up of asterisks (`*`). The function should take one parameter, which specifies the number of lines in the triangle. Each subsequent line should contain one additional asterisk, starting with one asterisk on the first line, two on the second line, and so on. 
@@ -181,30 +183,15 @@ In MicroPython, you can use the following control characters and escape sequence
       - If the discriminant is negative, return a message indicating there are no real solutions.
 
    ```python
-   def solve_quadratic_eq(a, b, c):
-       """
-       Solve a quadratic equation of the form ax^2 + bx + c = 0.
+   def solve_quadratic(a, b, c):
+       """Solve a quadratic equation of the form ax^2 + bx + c = 0."""
 
-       Args:
-           a (float): Coefficient of x^2.
-           b (float): Coefficient of x.
-           c (float): Constant term.
-
-       Returns:
-           tuple: A tuple containing the real or complex roots.
-
-       Example:
-           solve_quadratic_eq(1, 5, 1) returns the roots (approximately):
-           (-0.2087, -4.7912)
-       """
        # WRITE YOUR CODE HERE
 
    # Example usage
-   a = 1
-   b = 5
-   c = 1
-   roots = solve_quadratic_eq(a, b, c)
-   print(f"Roots: {roots}")
+   a,b,c = 1,5,1
+   roots = solve_quadratic(a, b, c)
+   print(f"Roots of {a}x^2 + {b}x + {c} = 0: {roots}")
    ```
 
    If you require a library function in Python, you need to import the module that contains it.

@@ -1,68 +1,22 @@
 """
-MicroPython mathematical functions
-
-This script defines and demonstrates several mathematical functions.
-
-Instructions:
-1. Run the script
-2. Wait for results
+Usage of MicroPython functions
 
 Author: Tomas Fryza
-Date: 2023-10-12
+Creation Date: 2023-10-12
+Last Modified: 2024-09-20
 """
 
-import math   # Import mathematical module
-import cmath  # Complex numbers' math
+import time
+
+values = range(0, 100)
+for i in values:
+    print(f"{i}%", end="\r")
+    time.sleep(.05)  # Wait for 50 milliseconds
+print("\nProcess complete!")
 
 
-def print_arrow(width, symbol):
-    """
-    Print an arrow made of symbols with a defined width.
-
-    Args:
-        width (int): The width of the arrow.
-        symbol (str): The symbol used to create the arrow.
-
-    Example:
-        print_arrow(5, "*") would print:
-        *
-        **
-        ***
-        ****
-        *****
-        ****
-        ***
-        **
-        *
-    """
-    if width < 3:
-        print("Please choose the width greater than or equal to 3.")
-        return
-
-    # Print the upper half of the arrow
-    for i in range(width):
-        arrow_part = symbol * i
-        print(arrow_part)
-
-    # Print the lower half of the arrow
-    for i in range(width, 0, -1):
-        arrow_part = symbol * i
-        print(arrow_part)
-
-
-def my_factorial(n):
-    """
-    Calculate the factorial of a non-negative integer.
-
-    Args:
-        n (int): The integer for which to calculate the factorial.
-
-    Returns:
-        int: The factorial of n.
-
-    Example:
-        my_factorial(5) returns 120.
-    """
+def factorial(n):
+    """Returns the factorial of a given non-negative integer n."""
     if n < 0:
         print("Factorial is not defined for negative numbers")
         return
@@ -76,22 +30,26 @@ def my_factorial(n):
         return result
 
 
-def solve_quadratic_eq(a, b, c):
-    """
-    Solve a quadratic equation of the form ax^2 + bx + c = 0.
+# Example usage
+n = 7
+result = factorial(7)
+print(f"The factorial of {n} is {result}")
 
-    Args:
-        a (float): Coefficient of x^2.
-        b (float): Coefficient of x.
-        c (float): Constant term.
 
-    Returns:
-        tuple: A tuple containing the real or complex roots.
+def triangle(lines):
+    for i in range(lines):
+        print("#" * (i+1))
 
-    Example:
-        solve_quadratic_eq(1, 5, 1) returns the roots (approximately):
-        (-0.2087, -4.7912)
-    """
+
+# Example usage
+triangle(5)
+
+
+import math   # Import mathematical module
+import cmath  # Complex numbers' math
+
+
+def solve_quadratic(a, b, c):
     # Calculate the discriminant
     discr = b**2 - 4*a*c
 
@@ -112,15 +70,9 @@ def solve_quadratic_eq(a, b, c):
 
 
 # Example usage
-arrow_width = 5
-print_arrow(arrow_width, "*")
+a,b,c = 1,5,1
+roots = solve_quadratic(a, b, c)
+print(f"Roots of {a}x^2 + {b}x + {c} = 0: {roots}")
 
-n = 7
-result = my_factorial(n)
-print(f"The factorial of {n} is {result}")
-
-a = 1
-b = 5
-c = 1
-roots = solve_quadratic_eq(a, b, c)
-print(f"Roots: {roots}")
+print("This is \x1b[1;32mGreen and Bold\x1b[0m")
+print("\x1b[1;31m[ERROR]\x1b[0m End of file")

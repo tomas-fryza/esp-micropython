@@ -8,10 +8,9 @@ import time
 
 values = range(0, 100)
 for i in values:
-    print(f"Complete: {i}%", end="\r")
-    time.sleep(.025)
-
-print("\rComplete: 100%")
+    print(f"{i}%", end="\r")
+    time.sleep(.05)  # Wait for 50 milliseconds
+print("\nProcess complete!")
 
 symbols = ["/", "-", "\\", "|"]
 for i in range(10):
