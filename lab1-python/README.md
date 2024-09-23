@@ -8,8 +8,7 @@
 
 ### Component list
 
-* ESP32 board with pre-installed MicroPython firmware
-* USB cable
+* ESP32 board with pre-installed MicroPython firmware, cable
 
 ### Learning objectives
 
@@ -27,7 +26,9 @@
 
 ## Part 1: Basic operations in Python
 
-1. Use micro USB cable and connect the ESP32 board to your computer. Run Thonny IDE and check if selected interpreter is Micropython (ESP32). If not, go to menu **Run > Select interpreter... > Interpreter** and select `ESP32` or `ESP8266`. Click on red **Stop/Restart** button or press the on-board reset button if necesary.
+1. Use micro USB cable and connect the ESP32 board to your computer. Run Thonny IDE and check if selected interpreter is Micropython (ESP32). If not, go to menu **Run > Select interpreter... > Interpreter**, select `ESP32` or `ESP8266`, and choose the correct port. Click on red **Stop/Restart** button or press the on-board reset button if necesary.
+
+   ![interpreter](images/select_interpreter2.png)
 
 2. In the **Shell** window, attempt the following arithmetic, binary, and string operations using variables. Note that you can use the `print()` function  to display values or text.
 
