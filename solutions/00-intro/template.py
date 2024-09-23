@@ -4,7 +4,7 @@ MicroPython template
 The script with a forever loop can be interrupted using
 Ctrl+C.
 
-Author: Wokwi, Tomas Fryza
+Author: Tomas Fryza
 Date: 2023-09-21
 """
 

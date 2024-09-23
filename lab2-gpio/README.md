@@ -1,15 +1,15 @@
 # Lab 2: Control of GPIO pins
 
 * [Pre-Lab preparation](#preparation)
-* [Part 1: ESP32 pinout and Breadboards](#part1)
-* [Part 2: Push button and LEDs](#part2)
-* [Part 3: Matrix keypad](#part3)
+* [Part 1: Blink example](#part1)
+* [Part 2: ESP32 pinout and Breadboards](#part2)
+* [Part 3: Push buttons and LEDs](#part3)
 * [Challenges](#challenges)
 * [References](#references)
 
-### Components list
+### Component list
 
-* ESP32 board, USB cable
+* ESP32 board with pre-installed MicroPython firmware, cable
 * Breadboard
 * Push button
 * 2 LEDs, 2 resistors
@@ -18,10 +18,10 @@
 
 ### Learning objectives
 
-* Use a breadboard for prototyping
-* Configure input/output pins of ESP32
-* Understand the distinction between active-low and active-high connections
-* Utilize basic I/O components, such as buttons, LEDs, and keypads, in MicroPython
+* Use a breadboard for prototyping.
+* Configure input/output pins of ESP32.
+* Understand the distinction between active-low and active-high connections.
+* Utilize basic I/O components, such as buttons, LEDs, and keypads, in MicroPython.
 
 <a name="preparation"></a>
 
@@ -29,16 +29,81 @@
 
 1. Ensure you have a basic understanding of electronic components, including resistors, LEDs, buttons, as well as concepts like voltage, current, and digital input/output.
 
-2. Remind yourself how to write and run MicroPython code on the ESP32 microcontroller. This includes knowledge of variables, loops, functions, and input/outputs.
+2. Review how to write and run MicroPython code on the ESP32 microcontroller. This includes understanding variables, loops, functions, and how to handle input/outputs (I/O) operations.
 
 <a name="part1"></a>
 
-TODO: Blink example using on-board LED
+## Part 1: Blink example
 
+1. Connect the ESP32: Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
+   ![interpreter](../lab1-python/images/select_interpreter2.png)
 
+2. Create a New File: Create a new file in Thonny and enter the following MicroPython code:
 
-## Part 1: ESP32 pinout and Breadboards
+   ```python
+   import time
+   import sys
+
+   print("Press `Ctrl+C` to stop")
+
+   try:
+       # Forever loop
+       while True:
+           time.sleep(0.5)
+
+   except KeyboardInterrupt:
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped")
+
+       # Optional cleanup code
+
+       # Stop program execution
+       sys.exit(0)
+   ```
+
+   This code includes the necessary imports, a forever loop, and the ability to interrupt/stop the program by pressing `Ctrl+C`. We will use this as a template for all future MicroPython applications.
+
+   > **NOTE:** If you are running the code interactively via the MicroPython REPL (Read-Eval-Print Loop), you can stop the execution by sending a keyboard interrupt (`Ctrl+C`). This works when you are connected to the ESP32's REPL via a terminal or a serial console. When you press `Ctrl+C`, it raises a `KeyboardInterrupt` exception on the main thread, stopping the code execution and returning you to the REPL prompt.
+
+3. The `machine` module in MicroPython provides access to low-level hardware functions, such as controlling GPIO pins on the ESP32 board. You can import the entire module or specific parts (classes) of it:
+   
+   ```python
+   from machine import Pin
+   ```
+
+   Set Up the LED: The onboard LED is typically connected to GPIO Pin 2 on most ESP32 boards. Define a pin for the LED:
+
+   ```python
+   led = Pin(2, Pin.OUT):
+   ```
+
+4. Blinking LED Code: The following code creates an infinite loop where the LED turns on for 0.5 seconds, then off for 0.5 seconds, continuously. The ESP32 controls the onboard LED by sending a HIGH (1) or LOW (0) signal to GPIO Pin 2, which is connected to the LED. The `time.sleep()` function ensures the LED stays on or off for a specific duration.
+
+   ```python
+   while True:
+       led.on()
+       time.sleep(.5)
+       led.off()
+       time.sleep(.5)
+   ```
+
+5. To ensure the LED is turned off when you stop the program, add cleanup code in the exception block:
+
+   ```python
+   except KeyboardInterrupt:
+       # Optional cleanup code
+       led.off()
+
+       # Stop program execution
+       sys.exit(0)
+   ```
+
+6. Save the file as `blink.py` in your local folder, and run the code. The onboard LED should start blinking on and off every 0.5 seconds. To stop the execution, press `Ctrl+C` in Thonny's terminal.
+
+<a name="part2"></a>
+
+## Part 2: ESP32 pinout and Breadboards
 
 The ESP32 microcontroller board has a number of **GPIO (General Purpose Input/Output) pins** that can be used for various purposes, such as digital input and output, analog input, communication interfaces (e.g., UART, SPI, I2C), PWM (Pulse Width Modulation) output, and more. The exact pinout may vary depending on the specific development board or module you are using. Here is the pinout for Firebeetle ESP32 board used in the lab:
 
@@ -54,9 +119,9 @@ The main grid consists of multiple rows and columns. Each row typically contains
 
    ![breadboard](images/breadboard-row-connections.png)
 
-<a name="part2"></a>
+<a name="part3"></a>
 
-## Part 2: Push button and LEDs
+## Part 3: Push buttons and LEDs
 
 Active-low and active-high are two different methods of connecting and controlling electronic components, such as LEDs (Light Emitting Diodes) and buttons, to an ESP32 GPIO pin. These methods determine the logic levels required to activate (turn on) or deactivate (turn off) the component.
 
@@ -89,16 +154,12 @@ For an active-high button:
 
    # Create Pin objects for the GPIO pins
    button1 = Pin(27, Pin.IN, Pin.PULL_UP)  # Assuming GPIO 27
-
    button2 = Pin(26, Pin.IN, Pin.PULL_DOWN)
-
    ```
 
 1. Use breadboard, jumper wires and connect one push button to ESP32 GPIO pin in active-low way. Use GPIO pin number 27.
 
-2. Use micro USB cable and connect the ESP32 board to your computer. Run Thonny IDE and check if selected interpreter is Micropython (ESP32). If not, go to menu **Run > Select interpreter... > Interpreter** and select `ESP32` or `ESP8266`. Click on red **Stop/Restart** button or press the on-board reset button if necesary.
-
-3. In Thonny IDE, create a new source file in menu **File > New Ctrl+N**, write the code, save the file as `01-button.py` to your local folder, and run the application by **Run > Run current script F5**.
+2. Extend the previous example, and blink the onboard LED only then the button is pressed.
 
    ```python
    from machine import Pin
@@ -106,13 +167,17 @@ For an active-high button:
    # Define the GPIO pin for the button including internal Pull-up
    button = Pin(27, Pin.IN, Pin.PULL_UP)
 
-   # Forever loop
-   while True:
-       # Check if the button is pressed (active LOW)
-       if button.value() == 0:
+   try:
+       while True:
+           # Check if the button is pressed (active LOW)
+           if button.value() == 0:
 
-       # COMPLETE THE CODE
+               # COMPLETE THE CODE
 
+   except KeyboardInterrupt:
+       print("Ctrl+C Pressed. Exiting...")
+
+       # Optional cleanup code
    ```
 
 ### LEDs
@@ -133,50 +198,15 @@ For an active-high LED:
 
    ![two-pin-led_pinout](images/LED-polarity.png)
 
-1. Use breadboard, jumper wires and connect two LEDs and resistors to ESP32 GPIO pins in active-high way. Use GPIO pin numbers 25, 26.
+1. Use breadboard, jumper wires and connect at least one LED with a resistor to ESP32 GPIO pins in active-high way. Use GPIO pin number 25 or 26.
 
    > **IMPORTANT:** On the FireBeetle board, GPIO pins 3 and 1 are dedicated to serial communication with the interactive console via UART. To maintain interactivity, it's advisable to refrain from using these pins for other purposes.
 
-2. Create a new source file, write the code for continuous blinking of all LEDs (including onboard one), save the file as `02-multiple_leds.py` to your local folder, and run the application.
-
-   ```python
-   # Load `Pin` class from `machine` module to access hardware
-   from machine import Pin
-   from time import sleep_ms
-
-   # Define three LED pins
-   led0 = Pin(2, Pin.OUT)  # Onboard
-   # COMPLETE THE CODE
-
-   # Forever loop
-   while True:
-       # Turn on the first LED, wait 250 ms, and turn it off
-       led0.on()
-
-       # COMPLETE THE CODE
-
-   ```
+2. Write an application when the multiple LEDs (including onboard one) are blinking only if push button is pressed.
 
    Alternatively, you can use a [3-pin LED](https://lednique.com/leds-with-more-than-two-pins/) with two different colours. The middle lead is a common cathos or anode
 
    ![three-pin-led_pinout](images/3-pin_led.png)
-
-3. Combine both codes and write an application when the multiple LEDs are blinking only if push button is pressed.
-
-   > **NOTE:** If you are running code interactively on a MicroPython REPL (Read-Eval-Print Loop), you can stop the execution by sending a keyboard interrupt `Ctrl+C`. This works when you are connected to the ESP32's REPL via a terminal or a serial console. When you press `Ctrl+C`, it will raise a `KeyboardInterrupt` exception on the main thread to stop the code execution and return you to the REPL prompt.
-
-   ```python
-   try:
-       while True:
-           # Check if the button is pressed (active LOW)
-           if button.value() == 0:
-               ...
-
-   except KeyboardInterrupt:
-       print("Ctrl+C Pressed. Exiting...")
-
-       # Optional cleanup code
-   ```
 
 <a name="challenges"></a>
 
@@ -188,7 +218,7 @@ A **matrix keypad** is a type of input device used to capture user input in the 
 
     ![keypad_pinouts](images/keypad_pinouts.png)
 
-2. Create a new source file, write the code for keypad scanning, save the file as `03-keypad.py` to your local folder, and run the application.
+2. Write the code for keypad scanning.
 
    ```python
    from machine import Pin
