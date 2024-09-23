@@ -19,7 +19,7 @@ Date: 2023-06-12
 
 # Import the `Pin` class from the `machine` module to access hardware
 from machine import Pin
-from time import sleep_ms
+import time
 
 # Check the LED pin on your board (usually GPIO 2)
 led = Pin(2, Pin.OUT)
@@ -29,7 +29,7 @@ print(f"Start blinking {led}...")
 # Forever loop
 while True:
     led.on()          # Turn on the LED
-    sleep_ms(25)      # Sleep for 25 ms
+    time.sleep(.025)  # Sleep for 25 ms
     led.off()         # Turn off the LED
-    sleep_ms(975)     # Sleep for 975 ms
+    time.sleep(.975)  # Sleep for 975 ms
                       # (total cycle time is 1 sec)
