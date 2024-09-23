@@ -75,7 +75,7 @@
    Set Up the LED: The onboard LED is typically connected to GPIO Pin 2 on most ESP32 boards. Define a pin for the LED:
 
    ```python
-   led = Pin(2, Pin.OUT):
+   led = Pin(2, Pin.OUT)
    ```
 
 4. Blinking LED Code: The following code creates an infinite loop where the LED turns on for 0.5 seconds, then off for 0.5 seconds, continuously. The ESP32 controls the onboard LED by sending a HIGH (1) or LOW (0) signal to GPIO Pin 2, which is connected to the LED. The `time.sleep()` function ensures the LED stays on or off for a specific duration.
@@ -107,9 +107,12 @@
 
 The ESP32 microcontroller board has a number of **GPIO (General Purpose Input/Output) pins** that can be used for various purposes, such as digital input and output, analog input, communication interfaces (e.g., UART, SPI, I2C), PWM (Pulse Width Modulation) output, and more. The exact pinout may vary depending on the specific development board or module you are using. Here is the pinout for Firebeetle ESP32 board used in the lab:
 
-   ![firebeetle_pinout](images/DFR0478_pinout.png)
+   ![firebeetle_pinout_front](images/DFR0478_pinout.png)
+   ![firebeetle_pinout_bottom](images/DFR0478_pinout2.png)
 
-Please note that we will use the numerical designations from the labels in light blue to interact with the GPIO pins in MicroPython. For example, we will refer to pins like 3, 1, 25, and so on, for the pins on the left side from the top.
+   > **NOTE:** NC = Empty; VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
+
+Please note that we will use the numerical designations from the labels **in light blue** to interact with the GPIO pins in MicroPython. For example, we will refer to pins like 3, 1, 25, and so on, for the pins on the left side from the top.
 
 The primary purpose of a **breadboard** (also known as a protoboard or solderless breadboard) is to facilitate the construction and testing of electronic circuits. It allows students to create complex circuits without soldering components together. This is especially important for beginners who are learning electronics and want to experiment with different designs because components can be easily inserted and removed, making it an ideal platform for prototyping and trying out various circuit configurations quickly. Also, breadboards provide a clear visual representation of the circuit layout.
 
