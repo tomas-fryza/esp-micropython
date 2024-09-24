@@ -2,6 +2,7 @@
 
 * [Installation](#installation)
 * [Usage](#usage)
+* [Tools](#tools)
 * [Labs](#labs)
 * [List of MicroPython examples](#list-of-micropython-examples)
 * [Components and tools](#components-and-tools)
@@ -119,6 +120,17 @@ Hi there!
 >>> len(pi_str)
 6
 
+# Convert numbers
+>>> x = 65
+>>> bin(x)  # to binary representation
+'0b1000001'
+>>> hex(x)  # to hexadecimal
+'0x41'
+>>> chr(x)  # to unicode string
+'A'
+>>> ord("a")  # to unicode code
+97
+
 # `ord` returns unicode code of a specified character
 >>> ord("A")
 65
@@ -161,6 +173,30 @@ Test some other useful commands from [Quick reference for the ESP32](https://doc
 # FYI: temp_c = (temp_f-32) * (5/9)
 #      temp_f = temp_c * (9/5) + 32
 ```
+
+## Tools
+
+### Wokwi simulator
+
+[Wokwi](https://wokwi.com/micropython) is a web-based platform for simulating and visualizing electronics projects right in your web browser. You can use it to simulate Arduino, ESP32, STM32, and many other popular boards, parts and sensors in C, MicroPython or Rust language.
+
+   ![wokwi_blink](lab1-python/images/wokwi_blink.png)
+
+### ViperIDE
+
+[ViperIDE](https://viper-ide.org/) is a lightweight MicroPython / CircuitPython IDE for Web and Mobile. It provides a clean interface with essential features like a serial console, code uploading, and direct interaction with the MicroPython REPL. Viper IDE allows easy management of files on the microcontroller, real-time code execution, and debugging.
+
+### Thonny IDE
+
+Thonny is an integrated development environment (IDE) designed primarily for Python programming. It provides a user-friendly and beginner-friendly environment for writing, running, and debugging Python code. It can also be used with MicroPython for programming microcontrollers like the ESP8266, ESP32, Raspberry Pi Pico, etc. [Thonny](https://thonny.org/) is available for multiple platforms, including Windows, macOS, and Linux.
+
+### Mu Editor
+
+[Mu](https://codewith.mu/) is another simple Python editor with built-in support for MicroPython. It has an intuitive user interface with easy-to-access buttons for uploading code and interacting with the board. Mu is designed for beginners and education, with features like a REPL, plotter, and simple code running on devices like the BBC micro and ESP32.
+
+### Visual Studio Code with Pymakr extension
+
+Pymakr allows you to connect, upload, and run MicroPython code on boards like the ESP32. It includes features like auto-completion, real-time terminal access to the board, and a file manager.
 
 ## Labs
 
