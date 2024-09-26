@@ -107,12 +107,11 @@
 
 The ESP32 microcontroller board has a number of **GPIO (General Purpose Input/Output) pins** that can be used for various purposes, such as digital input and output, analog input, communication interfaces (e.g., UART, SPI, I2C), PWM (Pulse Width Modulation) output, and more. The exact pinout may vary depending on the specific development board or module you are using. Here is the pinout for Firebeetle ESP32 board used in the lab:
 
-   ![firebeetle_pinout_front](images/DFR0478_pinout.png)
-   ![firebeetle_pinout_bottom](images/DFR0478_pinout2.png)
+   ![firebeetle_pinout](images/DFR0478_pinout3.png)
 
    > **NOTE:** NC = Empty; VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
 
-Please note that we will use the numerical designations from the labels **in light blue** to interact with the GPIO pins in MicroPython. For example, we will refer to pins like 3, 1, 25, and so on, for the pins on the left side from the top.
+Please note that we will use numerical designations for the GPIO pins in MicroPython. For example, we will refer to the pins as 36, 39, 34, etc., when interacting with the corresponding GPIO numbers located on the right side, starting from the top.
 
 The primary purpose of a **breadboard** (also known as a protoboard or solderless breadboard) is to facilitate the construction and testing of electronic circuits. It allows students to create complex circuits without soldering components together. This is especially important for beginners who are learning electronics and want to experiment with different designs because components can be easily inserted and removed, making it an ideal platform for prototyping and trying out various circuit configurations quickly. Also, breadboards provide a clear visual representation of the circuit layout.
 
