@@ -4,7 +4,8 @@ Blink three LEDs
 This MicroPython script blinks three LEDs connected to the ESP32
 microcontroller. The LEDs are controlled individually in a sequence.
 
-Hardware Configuration:
+Components:
+  - ESP32 microcontroller
   - LED0: GPIO pin 2 (onboard)
   - LED1: GPIO pin 25
   - LED2: GPIO pin 26
@@ -17,12 +18,14 @@ Instructions:
    If it does not respond, press the onboard `reset` button.
 
 Author: Tomas Fryza
-Date: 2023-10-12
+Creation Date: 2023-10-12
+Last Modified: 2024-09-27
 """
 
 # Load `Pin` class from `machine` module to access hardware
 from machine import Pin
-from utime import sleep_ms
+import time
+import sys
 
 # Define three LED pins
 led0 = Pin(2, Pin.OUT)
@@ -32,40 +35,41 @@ led2 = Pin(26, Pin.OUT)
 # Uncomment the following line if you want to use a button
 # button = Pin(27, Pin.IN, Pin.PULL_UP)
 
-print("Stop the code execution by pressing `Ctrl+C` key.")
-print("If it does not respond, press the onboard `reset` button.")
-print("")
 print(f"Start blinking LEDs: {led0, led1, led2}...")
+print("Press `Ctrl+C` to stop")
 
-# Forever loop until interrupted by Ctrl+C. When Ctrl+C
-# is pressed, the code jumps to the KeyboardInterrupt exception
 try:
-    while True:
+    # Forever loop
+      while True:
         # Turn on the first LED, wait 250 ms, and turn it off
         print(f"LED {led0}")
         led0.on()
-        sleep_ms(250)
+        time.sleep(0.25)
         led0.off()
-        sleep_ms(250)
+        time.sleep(.25)
 
         # Repeat the above process for the second LED
         print(f"LED {led1}")
         led1.on()
-        sleep_ms(250)
+        time.sleep(0.25)
         led1.off()
-        sleep_ms(250)
+        time.sleep(0.25)
 
         # Repeat the above process for the third LED
         print(f"LED {led2}")
         led2.on()
-        sleep_ms(250)
+        time.sleep(0.25)
         led2.off()
-        sleep_ms(250)
+        time.sleep(0.25)
 
 except KeyboardInterrupt:
-    print("Ctrl+C Pressed. Exiting...")
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
 
     # Optional cleanup code
     led0.off()  # Turn off the LEDs
     led1.off()
     led2.off()
+
+    # Stop program execution
+    sys.exit(0)

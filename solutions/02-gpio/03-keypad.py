@@ -5,7 +5,8 @@ This MicroPython script scans a 4x4 keypad with rows as outputs
 and columns as input pins with pull-up resistors. It detects
 key presses and prints the pressed key.
 
-Hardware Configuration:
+Components:
+  - ESP32 microcontroller
   - Rows R1-R4: GPIO pins 19, 21, 22, 14 (set as Pin.OUT)
   - Columns C1-C4: GPIO pins 12, 4, 16, 17 (set as Pin.IN with Pin.PULL_UP)
 
@@ -16,11 +17,13 @@ Instructions:
    If it does not respond, press the onboard `reset` button.
 
 Author: Tomas Fryza
-Date: 2023-10-12
+Creation Date: 2023-10-12
+Last Modified: 2024-09-27
 """
 
 from machine import Pin
 import time
+import sys
 
 # Define the GPIO pins for rows (outputs) and columns (inputs with pull-ups)
 row_pins = [Pin(pin, Pin.OUT) for pin in (19, 21, 22, 14)]
@@ -60,19 +63,22 @@ def scan_keypad():
     return key
 
 
-print("Stop the code execution by pressing `Ctrl+C` key.")
-print("If it does not respond, press the onboard `reset` button.")
-print("")
 print("Press the button on the keypad...")
+print("Press `Ctrl+C` to stop")
 
-# Forever loop until interrupted by Ctrl+C. When Ctrl+C
-# is pressed, the code jumps to the KeyboardInterrupt exception
 try:
+    # Forever loop
     while True:
         key_pressed = scan_keypad()
         if key_pressed:
             print(f"Key pressed: {key_pressed}")
-            time.sleep_ms(10)  # Debounce delay
+            time.sleep(0.01)  # Short debounce delay
 
 except KeyboardInterrupt:
-    print("Ctrl+C Pressed. Exiting...")
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
+
+    # Optional cleanup code
+
+    # Stop program execution
+    sys.exit(0)

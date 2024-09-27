@@ -5,7 +5,8 @@ The script with a forever loop can be interrupted using
 Ctrl+C.
 
 Author: Tomas Fryza
-Date: 2023-09-21
+Creation Date: 2023-09-21
+Last Modified: 2024-09-27
 """
 
 import time
@@ -20,7 +21,7 @@ try:
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
-    print("Program stopped")
+    print("Program stopped. Exiting...")
 
     # Optional cleanup code
 

@@ -54,7 +54,7 @@
 
    except KeyboardInterrupt:
        # This part runs when Ctrl+C is pressed
-       print("Program stopped")
+       print("Program stopped. Exiting...")
 
        # Optional cleanup code
 
@@ -92,6 +92,9 @@
 
    ```python
    except KeyboardInterrupt:
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
+
        # Optional cleanup code
        led.off()
 
@@ -109,7 +112,11 @@ The ESP32 microcontroller board has a number of **GPIO (General Purpose Input/Ou
 
    ![firebeetle_pinout](images/DFR0478_pinout3.png)
 
-   > **NOTE:** NC = Empty; VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
+   > **Notes:**
+   > * NC = Empty, Not Connected
+   > * VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
+   > * Use pins A0, ..., A4 as input only
+   > * Do not use In-Package Flash pins
 
 Please note that we will use numerical designations for the GPIO pins in MicroPython. For example, we will refer to the pins as 36, 39, 34, etc., when interacting with the corresponding GPIO numbers located on the right side, starting from the top.
 
@@ -151,25 +158,20 @@ For an active-high button:
 
    Note that, the ESP32 has built-in pull-up and pull-down resistors that can be enabled in software.
 
-   ```python
-   from machine import Pin
-
-   # Create Pin objects for the GPIO pins
-   button1 = Pin(27, Pin.IN, Pin.PULL_UP)  # Assuming GPIO 27
-   button2 = Pin(26, Pin.IN, Pin.PULL_DOWN)
-   ```
-
 1. Use breadboard, jumper wires and connect one push button to ESP32 GPIO pin in active-low way. Use GPIO pin number 27.
 
 2. Extend the previous example, and blink the onboard LED only then the button is pressed.
 
    ```python
    from machine import Pin
+   import time
+   import sys
 
    # Define the GPIO pin for the button including internal Pull-up
    button = Pin(27, Pin.IN, Pin.PULL_UP)
 
    try:
+       # Forever loop
        while True:
            # Check if the button is pressed (active LOW)
            if button.value() == 0:
@@ -177,9 +179,13 @@ For an active-high button:
                # COMPLETE THE CODE
 
    except KeyboardInterrupt:
-       print("Ctrl+C Pressed. Exiting...")
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
 
        # Optional cleanup code
+
+       # Stop program execution
+       sys.exit(0)
    ```
 
 ### LEDs
@@ -224,8 +230,10 @@ A **matrix keypad** is a type of input device used to capture user input in the 
 
    ```python
    from machine import Pin
+   import time
+   import sys
 
-   # Enable pull-up on rows and configure columns as outputs
+   # Define the GPIO pins for rows (outputs) and columns (inputs with pull-ups)
    row_pins = [Pin(pin, Pin.OUT) for pin in (19, 21, 22, 14)]
    col_pins = [Pin(pin, Pin.IN, Pin.PULL_UP) for pin in (12, 4, 16, 17)]
 
@@ -243,11 +251,25 @@ A **matrix keypad** is a type of input device used to capture user input in the 
       return key
 
 
-   # Test the code
-   while True:
-       key_pressed = scan_keypad()
-       if key_pressed:
-           print(f"Key pressed: {key_pressed}")
+   print("Press the button on the keypad...")
+   print("Press `Ctrl+C` to stop")
+
+   try:
+       # Forever loop
+       while True:
+           key_pressed = scan_keypad()
+           if key_pressed:
+               print(f"Key pressed: {key_pressed}")
+               time.sleep(0.01)  # Short debounce delay
+
+   except KeyboardInterrupt:
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
+
+       # Optional cleanup code
+
+       # Stop program execution
+       sys.exit(0)
    ```
 
 3. Integrate the keypad code with LEDs to control individual LEDs based on keypad button presses.

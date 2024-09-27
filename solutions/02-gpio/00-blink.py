@@ -11,7 +11,8 @@ Components:
   - LED connected to GPIO2 (on-board)
 
 Author: Wokwi, Tomas Fryza
-Date: 2023-09-21
+Creation Date: 2023-09-21
+Last Modified: 2024-09-27
 """
 
 # Import the `Pin` class from the `machine` module to access hardware
@@ -37,7 +38,7 @@ try:
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
-    print("Program stopped")
+    print("Program stopped. Exiting...")
 
     # Optional cleanup code
     led.off()
