@@ -35,7 +35,7 @@ class Led:
 
     def blink(self, duration=0.5, times=5):
         """Make the LED blink a certain number of times."""
-        for _ in range(times):
+        for i in range(times):
             self.pin.on()
             time.sleep(duration)
             self.pin.off()
@@ -59,7 +59,7 @@ class PwmLed(Led):
 
     def __init__(self, pin_number, frequency=1000):
         # Call the parent class (Led) constructor
-        super().__init__(pin_number)
+        Led.__init__(self, pin_number)
         # Initialize PWM on the LED pin
         self.pwm = PWM(self.pin, freq=frequency)
     
@@ -93,7 +93,7 @@ class PwmLed(Led):
 
 class Button:
     def __init__(self, pin_number):
-        self.pin = Pin(pin_nlkumber, Pin.IN, Pin.PULL_UP)
+        self.pin = Pin(pin_number, Pin.IN, Pin.PULL_UP)
 
     def is_pressed(self):
         return not self.pin.value()  # Active-low button
@@ -126,3 +126,6 @@ if __name__ == "__main__" :
         led.on()
     else:
         led.off()
+
+    print(issubclass(Led, PwmLed))
+    print(issubclass(PwmLed, Led))
