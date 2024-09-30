@@ -67,7 +67,7 @@ except KeyboardInterrupt:
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
-    led0.off()  # Turn off the LEDs
+    led0.off()
     led1.off()
     led2.off()
 

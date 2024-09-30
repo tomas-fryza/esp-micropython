@@ -14,9 +14,16 @@ for i in values:
     time.sleep(.05)  # Wait for 50 milliseconds
 print("\nProcess complete!")
 
+symbols = ["/", "-", "\\", "|"]
+for i in range(10):
+    for symbol in symbols:
+        print(f"Processing... {symbol}", end="\r")
+        time.sleep(.05)
+print("Processing... Done")
 
+
+# Returns the factorial of a given non-negative integer n
 def factorial(n):
-    """Returns the factorial of a given non-negative integer n."""
     if n < 0:
         print("Factorial is not defined for negative numbers")
         return
@@ -29,19 +36,16 @@ def factorial(n):
             n = n - 1
         return result
 
-
-# Example usage
 n = 7
 result = factorial(7)
 print(f"The factorial of {n} is {result}")
 
 
+# Prints the triangle of asterics `*`
 def triangle(lines):
     for i in range(lines):
         print("#" * (i+1))
 
-
-# Example usage
 triangle(5)
 
 
@@ -68,11 +72,13 @@ def solve_quadratic(a, b, c):
 
     return x1, x2
 
-
-# Example usage
 a,b,c = 1,5,1
 roots = solve_quadratic(a, b, c)
 print(f"Roots of {a}x^2 + {b}x + {c} = 0: {roots}")
 
+
+# NOTE: In Thonny IDE, enable `\r` and ANSI-color
+#       support in menu:
+#   Tools > Options... > Shell > Terminal emulation (...)
 print("This is \x1b[1;32mGreen and Bold\x1b[0m")
 print("\x1b[1;31m[ERROR]\x1b[0m End of file")
