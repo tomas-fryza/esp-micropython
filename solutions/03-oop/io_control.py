@@ -5,8 +5,13 @@ import time
 
 class Led:
     """
-    This class represents a LED with basic functionality. It uses
-    the Pin object from the machine module.
+    A class to control an LED connected to a specified GPIO pin.
+
+    Methods:
+    - on(): Turns the LED on.
+    - off(): Turns the LED off.
+    - toggle(): Toggles the LED state.
+    - blink(duration=0.5, times=5): Blinks the LED for a given duration and number of times.
     """
 
     def __init__(self, pin_number):
@@ -39,8 +44,17 @@ class Led:
 
 class PwmLed(Led):
     """
-    This class inherits from the base LED class and extends
-    it with Pulse Width Modulation (PWM) functionality.
+    A class to control an LED with PWM (Pulse Width Modulation) for
+    adjustable brightness.
+
+    Inherits from the LED class.
+
+    Methods:
+    - set_brightness(brightness): Set the LED brightness (0 to 100%).
+    - on(brightness=100): Turn the LED on with specified brightness.
+    - off(): Turn the LED off (0% brightness).
+    - fade_in(steps=100, duration=1): Gradually increase the brightness.
+    - fade_out(steps=100, duration=1): Gradually decrease the brightness.
     """
 
     def __init__(self, pin_number, frequency=1000):
@@ -79,10 +93,10 @@ class PwmLed(Led):
 
 class Button:
     def __init__(self, pin_number):
-        self.button = Pin(pin_number, Pin.IN, Pin.PULL_UP)
+        self.pin = Pin(pin_nlkumber, Pin.IN, Pin.PULL_UP)
 
     def is_pressed(self):
-        return not self.button.value()  # Active-low button
+        return not self.pin.value()  # Active-low button
 
 
 # Code inside `if __name__ == "__main__"` will not be executed
