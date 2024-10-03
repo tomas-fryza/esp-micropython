@@ -3,94 +3,6 @@ from machine import PWM
 import time
 
 
-class Led:
-    """
-    A class to control an LED connected to a specified GPIO pin.
-
-    Methods:
-    - on(): Turns the LED on.
-    - off(): Turns the LED off.
-    - toggle(): Toggles the LED state.
-    - blink(duration=0.5, times=5): Blinks the LED for a given duration and number of times.
-    """
-
-    def __init__(self, pin_number):
-        """
-        Constructor to initialize the LED with the given pin number.
-        """
-        # Instance variable `self.pin`, unique to each instance
-        self.pin = Pin(pin_number, Pin.OUT)
-
-    def on(self):
-        """Turn the LED on."""
-        self.pin.on()
-
-    def off(self):
-        """Turn the LED off."""
-        self.pin.off()
-
-    def toggle(self):
-        """Toggle the LED state."""
-        self.pin.value(not self.pin.value)
-
-    def blink(self, duration=0.5, times=5):
-        """Make the LED blink a certain number of times."""
-        for i in range(times):
-            self.pin.on()
-            time.sleep(duration)
-            self.pin.off()
-            time.sleep(duration)
-
-
-class PwmLed(Led):
-    """
-    A class to control an LED with PWM (Pulse Width Modulation) for
-    adjustable brightness.
-
-    Inherits from the LED class.
-
-    Methods:
-    - set_brightness(brightness): Set the LED brightness (0 to 100%).
-    - on(brightness=100): Turn the LED on with specified brightness.
-    - off(): Turn the LED off (0% brightness).
-    - fade_in(steps=100, duration=1): Gradually increase the brightness.
-    - fade_out(steps=100, duration=1): Gradually decrease the brightness.
-    """
-
-    def __init__(self, pin_number, frequency=1000):
-        # Call the parent class (Led) constructor
-        Led.__init__(self, pin_number)
-        # Initialize PWM on the LED pin
-        self.pwm = PWM(self.pin, freq=frequency)
-    
-    def set_brightness(self, brightness):
-        """Set the LED brightness using PWM (0 to 100%)."""
-        duty_cycle = int(brightness / 100 * 1023)  # Duty cycle 0 to 1023
-        self.pwm.duty(duty_cycle)
-
-    def on(self, brightness=100):
-        """Override the `on` method with a brightness (0 to 100%)."""
-        self.set_brightness(brightness)
-
-    def off(self):
-        """Override the off method to use 0% duty cycle."""
-        self.set_brightness(0)
-
-    def fade_in(self, steps=100, duration=1):
-        """Fade in the LED by increasing brightness gradually."""
-        step_duration = duration / steps
-        for i in range(steps):
-            self.set_brightness(i)
-            time.sleep(step_duration)
-
-    def fade_out(self, steps=100, duration=1):
-        """Fade out the LED by decreasing brightness gradually."""
-        step_duration = duration / steps
-        for i in range(steps, 0, -1):
-            self.set_brightness(i)
-            time.sleep(step_duration)
-
-
 class Button:
     def __init__(self, pin_number):
         self.pin = Pin(pin_number, Pin.IN, Pin.PULL_UP)
@@ -99,29 +11,108 @@ class Button:
         return not self.pin.value()  # Active-low button
 
 
-# Code inside `if __name__ == "__main__"` will not be executed
-# when imported as a module but runs only when executed directly.
+class Led(Pin):
+    """
+    A class to control an LED connected to a specified GPIO pin.
+
+    Methods:
+    - toggle(): Toggles the LED state.
+    - blink(duration=0.5, times=5): Blinks the LED for a given duration and number of times.
+    """
+
+    def __init__(self, pin_number):
+        """Initialize the LED on a specific GPIO pin."""
+        super().__init__(pin_number, Pin.OUT)
+
+    def toggle(self):
+        """Toggle the LED state."""
+        self.value(not self.value())
+
+    def blink(self, duration=0.5, times=5):
+        """Make the LED blink a certain number of times."""
+        for i in range(times):
+            self.on()
+            time.sleep(duration)
+            self.off()
+            time.sleep(duration)
+
+
+class PwmLed(PWM):
+    def __init__(self, pin_number, frequency=1000):
+        pin = Pin(pin_number, Pin.OUT)
+        super().__init__(pin)
+        self.freq(frequency)
+        self.duty(0)
+    
+    def set_brightness(self, brightness):
+        """Set the LED brightness using PWM (0 to 100%)."""
+        duty_cycle = int(brightness / 100 * 1023)  # Duty cycle 0 to 1023
+        self.duty(duty_cycle)
+
+    def on(self, brightness=100):
+        """Turn the LED on by setting the brightness to 100%."""
+        self.set_brightness(brightness)
+
+    def off(self):
+        """Turn the LED off by setting the brightness to 0%."""
+        self.set_brightness(0)
+
+    def fade_in(self, duration=1):
+        """Fade in the LED by increasing brightness gradually."""
+        step_duration = duration / 100
+        for i in range(100):
+            self.set_brightness(i)
+            time.sleep(step_duration)
+
+    def fade_out(self, duration=1):
+        """Fade out the LED by decreasing brightness gradually."""
+        step_duration = duration / 100
+        for i in range(100, -1, -1):  # -1 to reach fully off
+            self.set_brightness(i)
+            time.sleep(step_duration)
+
+
+# __name__ is a special built-in variable in Python that holds the
+# name of the module (or script) currently being executed. If the
+# script is being run directly, __name__ will be set to "__main__".
+
 if __name__ == "__main__" :
+
+    # Example of using the Led class
     led = Led(2)
-    led.on()
-    time.sleep(1)
-    led.off()
-    time.sleep(1)
+
+    print("LED blinking...")
     led.blink(times=3)
 
-    # Create a PWM LED object and control brightness
-    led = PwmLed(2)
-    led.set_brightness(10)  # Set brightness to 20%
+    print("Toggling LED...")
+    led.toggle()
     time.sleep(1)
-    led.on(50)
-    time.sleep(1)
-    led.fade_in()
-    led.fade_out()
-    time.sleep(1)
+
+    print("Turning LED off...")
     led.off()
 
+
+    # Example of using the PwmLed class
+    led = PwmLed(2)
+
+    print("Fading in...")
+    led.fade_in(duration=2)
+
+    print("Fading out...")
+    led.fade_out(duration=2)
+    time.sleep(1)
+
+    print("LED on at 25% brightness...")
+    led.on(25)
+    time.sleep(2)
+
+    print("Turning LED off...")
+    led.off()
+
+
+    # Example usage of the Button class
     btn = Button(27)
-    # Turn on LED when button is pressed
+
     if btn.is_pressed():
         led.on()
     else:
