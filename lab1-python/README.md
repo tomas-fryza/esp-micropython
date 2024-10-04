@@ -8,7 +8,7 @@
 
 ### Component list
 
-* ESP32 board with pre-installed MicroPython firmware, cable
+* ESP32 board with pre-installed MicroPython firmware, USB cable
 
 ### Learning objectives
 

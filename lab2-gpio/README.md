@@ -9,7 +9,7 @@
 
 ### Component list
 
-* ESP32 board with pre-installed MicroPython firmware, cable
+* ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
 * Push button
 * 2 LEDs, 2 resistors
