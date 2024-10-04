@@ -90,6 +90,7 @@ if __name__ == "__main__" :
 
     print("Turning LED off...")
     led.off()
+    time.sleep(1)
 
 
     # Example of using the PwmLed class
@@ -102,21 +103,29 @@ if __name__ == "__main__" :
     led.fade_out(duration=2)
     time.sleep(1)
 
-    print("LED on at 25% brightness...")
-    led.on(25)
-    time.sleep(2)
+    print("LED on at 20% brightness...")
+    led.on(20)
+    time.sleep(1)
+    print("LED on at 40% brightness...")
+    led.on(40)
+    time.sleep(1)
+    print("LED on at 80% brightness...")
+    led.on(80)
+    time.sleep(1)
 
     print("Turning LED off...")
     led.off()
+    time.sleep(1)
 
 
     # Example usage of the Button class
     btn = Button(27)
 
     if btn.is_pressed():
-        led.on()
+        print(f"Button {btn} pressed...")
     else:
-        led.off()
+        print(f"Button {btn} released...")
 
-    print(issubclass(Led, PwmLed))
+    print("Testing class relationship...")
+    print(issubclass(Led, Pin))
     print(issubclass(PwmLed, Led))
