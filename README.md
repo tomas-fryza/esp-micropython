@@ -202,11 +202,11 @@ Pymakr allows you to connect, upload, and run MicroPython code on boards like th
 
 1. [Programming in Python](lab1-python)
 2. [Control of GPIO pins](lab2-gpio)
-3. [Timers](lab3-timers)
-4. [LCD (Liquid Crystal Display)](lab4-display)
-5. [I2C serial communication](lab5-serial)
-6. [Wi-Fi communication](lab6-wifi)
-7. Object-oriented programming
+3. [Object-oriented programming](lab3-oop)
+4. [Timers](lab4-timers)
+5. [LCD (Liquid Crystal Display)](lab4-display)
+6. [I2C serial communication](lab5-serial)
+7. [Wi-Fi communication](lab6-wifi)
 8. [Project](lab8-project)
 
 ## List of MicroPython examples

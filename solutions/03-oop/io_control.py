@@ -1,27 +1,50 @@
+"""
+GPIO classes for common components
+
+This file defines classes to manage common GPIO components like
+buttons and LEDs, including PWM control for adjustable LED
+brightness.
+
+Components:
+  - ESP32 microcontroller
+  - Button connected to GPIO pin 27
+  - LED connected to GPIO pin 2 (on-board)
+
+Author: Tomas Fryza
+Creation Date: 2024-09-28
+Last Modified: 2024-10-07
+"""
+
 from machine import Pin
 from machine import PWM
 import time
 
 
 class Button:
+    """
+    A class to manage a button connected to a GPIO pin with pull-up resistor.
+    """
+
     def __init__(self, pin_number):
-        self.pin = Pin(pin_number, Pin.IN, Pin.PULL_UP)
+        """Initialize the button on a specific GPIO pin with
+           pull-up resistor."""
+        self.button = Pin(pin_number, Pin.IN, Pin.PULL_UP)
 
     def is_pressed(self):
-        return not self.pin.value()  # Active-low button
+        """Check if the button is currently pressed (active-low logic)."""
+        if self.button.value() == 0:  # Pressed button returns 0
+            return True
+        return False
 
 
 class Led(Pin):
     """
     A class to control an LED connected to a specified GPIO pin.
-
-    Methods:
-    - toggle(): Toggles the LED state.
-    - blink(duration=0.5, times=5): Blinks the LED for a given duration and number of times.
     """
 
     def __init__(self, pin_number):
         """Initialize the LED on a specific GPIO pin."""
+        # Calls Parent's __init__ without needing `self`
         super().__init__(pin_number, Pin.OUT)
 
     def toggle(self):
@@ -38,7 +61,12 @@ class Led(Pin):
 
 
 class PwmLed(PWM):
+    """
+    A class to control an LED using PWM, allowing for brightness adjustment, fading, and on/off control.
+    """
     def __init__(self, pin_number, frequency=1000):
+        """Initialize PWM on the given pin with a default frequency and
+           starts with a duty cycle of 0 (LED off)."""
         pin = Pin(pin_number, Pin.OUT)
         super().__init__(pin)
         self.freq(frequency)
@@ -72,11 +100,17 @@ class PwmLed(PWM):
             time.sleep(step_duration)
 
 
-# __name__ is a special built-in variable in Python that holds the
-# name of the module (or script) currently being executed. If the
-# script is being run directly, __name__ will be set to "__main__".
-
+# Code inside this block runs only if the script is executed directly
 if __name__ == "__main__" :
+
+    # Example usage of the Button class
+    btn = Button(27)
+
+    if btn.is_pressed():
+        print(f"Button {btn} pressed...")
+    else:
+        print(f"Button {btn} released...")
+
 
     # Example of using the Led class
     led = Led(2)
@@ -103,29 +137,22 @@ if __name__ == "__main__" :
     led.fade_out(duration=2)
     time.sleep(1)
 
-    print("LED on at 20% brightness...")
-    led.on(20)
+    print("LED on at 10% brightness...")
+    led.on(10)
     time.sleep(1)
     print("LED on at 40% brightness...")
     led.on(40)
     time.sleep(1)
-    print("LED on at 80% brightness...")
-    led.on(80)
+    print("LED on at 100% brightness...")
+    led.on(100)
     time.sleep(1)
 
     print("Turning LED off...")
     led.off()
     time.sleep(1)
 
-
-    # Example usage of the Button class
-    btn = Button(27)
-
-    if btn.is_pressed():
-        print(f"Button {btn} pressed...")
-    else:
-        print(f"Button {btn} released...")
-
     print("Testing class relationship...")
     print(issubclass(Led, Pin))
     print(issubclass(PwmLed, Led))
+    print(issubclass(Led, PwmLed))
+    print(isinstance(led, PWM))
