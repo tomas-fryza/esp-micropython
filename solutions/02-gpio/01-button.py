@@ -7,7 +7,7 @@ and implements a simple debouncing mechanism.
 
 Components:
   - ESP32 microcontroller
-  - BTN: GPIO pin 27
+  - Button connected to GPIO pin 27
 
 Instructions:
 1. Connect button to GPIO pin

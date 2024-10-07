@@ -8,7 +8,7 @@ Ctrl+C.
 
 Components:
   - ESP32 microcontroller
-  - LED connected to GPIO2 (on-board)
+  - LED connected to GPIO pin 2 (on-board)
 
 Author: Wokwi, Tomas Fryza
 Creation Date: 2023-09-21
