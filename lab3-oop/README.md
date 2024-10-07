@@ -67,7 +67,7 @@
            return False
 
 
-    # Code inside this block runs only if the script is executed directly
+   # Code inside this block runs only if the script is executed directly
    if __name__ == "__main__" :
 
        # Example usage of the Button class
