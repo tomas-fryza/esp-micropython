@@ -3,26 +3,21 @@
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Interrupts](#part1)
 * [Part 2: ESP32 timer overflows](#part2)
-* [Part 3: PWM and LED dimming](#part3)
-* [(Optional) Experiments on your own](#experiments)
+* [Part 3: Simple timer-controled tasks](#part3)
+* [Challenges](#challenges)
 * [References](#references)
 
-### Components list
-
-* ESP32 board, USB cable
+### Component list
+ 
+* ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
 * 2 LEDs, 2 resistors
 * Jumper wires
 
 ### Learning objectives
 
-After completing this lab you will be able to:
-
 * Use internal microcontroller timers
-* Understand overflow and PWM
 * Combine different interrupts in MicroPython
-
-The purpose of this laboratory exercise is to acquire the skills to interact with timers and interrupts of the ESP32 microcontroller.
 
 <a name="preparation"></a>
 
@@ -54,95 +49,143 @@ Prescalers help divide the base clock frequency. ESP32 generally has a base cloc
 
 The timer interrupts are the best way to run non-blocking functions at a certain interval. For that, we can configure and attach a particular timer interrupt to a specific Interrupt Service Routine or ISR.
 
-The MicroPython's `machine.Timer` class defines a baseline operation of initializing and executing a callback with a given period or once after some delay.
+The MicroPython's `machine.Timer` class defines a baseline operation of initializing and executing a callback with a given period or once after some delay. This function is called automatically by the Timer0 interrupt every time the timer period elapses.
+
+1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
+
+2. Create a new file in Thonny and enter the following MicroPython code which is a template for the Timer usage.
 
    ```python
    from machine import Timer
-   tim = Timer(0)  # Timer0
+   import sys
 
-   def mycallback(t):
-       pass
 
-   # Periodic at 1kHz
-   tim.init(freq=1000, mode=Timer.PERIODIC, callback=mycallback)
+   def timer_handler(t):
+       """Interrupt handler for Timer0.
+          Args: t (Timer): The Timer object that triggered the interrupt.
+       """
+       print("Running...")
 
-   # Periodic with 100ms period
-   tim.init(period=100, callback=mycallback)
 
-   # One shot firing after 1000ms
-   tim.init(period=1000, mode=Timer.ONE_SHOT, callback=mycallback)
+   # Create an object for 64-bit Timer0
+   tim = Timer(0)
+   # Initialize the timer to call the handler every 1000 s
+   tim.init(period=1000,             # Timer period in milliseconds
+            mode=Timer.PERIODIC,     # Set the timer to repeat after each period
+            callback=timer_handler)  # Function to call when the timer triggers
+
+   print("Timer started. Press `Ctrl+C` to stop")
+   print(tim)
+
+   try:
+       # Forever loop to keep the program running
+       # The timer runs independently in the background
+       while True:
+           pass
+
+   except KeyboardInterrupt:
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
+
+       # Optional cleanup code
+       tim.deinit()  # Stop the timer
+
+       # Stop program execution
+       sys.exit(0)
    ```
 
 The init keyword arguments are:
 
-* `freq` is the timer frequency, in units of Hz
-* `period` is the timer period in milliseconds
-* `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`
-* `callback` is executed whenever a timer is triggered. The callback must take one argument, which is passed the Timer object.
+   * `freq` is the timer frequency, in units of Hz
+   * `period` is the timer period in milliseconds
+   * `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`
+   * `callback` is executed whenever a timer is triggered. The callback must take one argument, which is passed the Timer object.
+   * Note that the timer is running even when program stopped. It must be deinicialized.
 
+<!--
 > **NOTE:** In MicroPython, the timer parameter of the `mycallback` function is a reference to the timer object that triggered the interrupt. This parameter allows you to identify which timer initiated the interrupt if your code works with multiple timers.
+-->
 
-To blink the on-board LED with a period of 1 sec, use the following code:
+3. Modify the template above, define a GPIO pin 2 and blink the on-board LED with a period of 1 sec. Try different Timer modes.
 
-   ```python
-   from machine import Pin, Timer
+<a name="part3"></a>
 
-   def timer0_handler(t):
-       """Interrupt handler of Timer0"""
-       led0.value(not led0.value())
+## Part 3: Simple timer-controled tasks
 
+Creating a time domain using the main timer interrupt of an ESP32 in MicroPython is a powerful way to precisely control timing for various tasks or applications. Use a global variable to identify time intervals and increment time variable(s) within a timer interrupt of an ESP32 in MicroPython. You can access these variables from both the timer interrupt and the main loop to perform tasks based on the elapsed time.
 
-   # Create an object for on-board LED
-   led0 = Pin(2, mode=Pin.OUT)
-   timer0 = Timer(0)  # Between 0-3 for ESP32
-   timer0.init(period=1000, mode=Timer.PERIODIC, callback=timer0_handler)
-   ```
+1. Use breadboard, jumper wires and connect two additional LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
 
-1. Utilize a breadboard and jumper wires to connect two additional LEDs and resistors to GPIO pins 25 and 26 on the ESP32 in an active-high configuration.
+   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
-   ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
+   > **Notes:**
+   > * NC = Empty, Not Connected
+   > * VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
+   > * Use pins A0, ..., A4 as input only
+   > * Do not use In-Package Flash pins
 
-2. Create a new source file, save it as `01-blink_leds.py` in your local folder, and write the code to continuously blink all three LEDs (onboard + external ones) at different periods.
-
-   ```python
-   from machine import Pin, Timer
-
-   # Define three LED pins
-   led0 = Pin(2, Pin.OUT)
-   timer0 = Timer(0)
-   timer0.init(period=100, mode=Timer.PERIODIC, callback=timer0_handler)
-
-   # COMPLETE THE CODE
-
-   ```
-
-3. (Optional) Creating a time domain using the main timer interrupt of an ESP32 in MicroPython is a powerful way to precisely control timing for various tasks or applications. Use a global variable to identify time intervals and increment a time variable within a timer interrupt of an ESP32 in MicroPython. You can access this variable from both the timer interrupt and the main loop to perform tasks based on the elapsed time.
+2. Create a new source file in your local folder and use the following code to control a single task by Timer interrupt.
 
    ```python
+   from machine import Pin
    from machine import Timer
+   import sys
 
-   # Define global variables
-   time_variable = 0
+   # Initialize counter(s) for different task(s)
+   task_a_counter = 0
 
-   # Define the timer callback function
-   def timer_callback(t):
-       global time_variable  # Access the global time_variable
-       time_variable += 1
+   # Define the intervals in terms of timer ticks (e.g., ticks every 100ms)
+   task_a_interval = 5   # Task A runs every 500ms (5 ticks)
 
-   # Initialize and configure the timer
-   main_timer = Timer(0)  # Use Timer 0
-   main_timer.init(period=100, mode=machine.Timer.PERIODIC, callback=timer_callback)
+
+   def timer_handler(t):
+      """Interrupt handler for Timer0."""
+      global task_a_counter
+
+      # Increment counter(s)
+      task_a_counter += 1
+
+
+   def task_a():
+      """Task A: Runs every 100ms"""
+      print("Task A executed: LED")
+      led.value(not led.value())
+
+
+   # Create and initialize Timer0
+   tim = Timer(0)
+   tim.init(period=100,
+            mode=Timer.PERIODIC,
+            callback=timer_handler)
+
+   # Create object for LED
+   led = Pin(2, mode=Pin.OUT)
+
+   print("Timer started. Press `Ctrl+C` to stop")
 
    try:
-       while True:
-           # Your main program logic can run here
-           # You can access the time_variable to check elapsed time.
-           pass
+      # Forever loop
+      while True:
+         # Task A (every 100ms)
+         if task_a_counter >= task_a_interval:
+               task_a_counter = 0  # Reset the counter
+               task_a()
+
    except KeyboardInterrupt:
-       # Deinitialize the timer before exiting
-       main_timer.deinit()
+      # This part runs when Ctrl+C is pressed
+      print("Program stopped. Exiting...")
+
+      # Optional cleanup code
+      tim.deinit()  # Stop the timer
+      led.off()
+
+      # Stop program execution
+      sys.exit(0)
    ```
 
+3. Extend the previous code to continuously blink all three LEDs (onboard + external ones) at different periods. Let each LED is controlled by a single task.
+
+<!--
 <a name="part3"></a>
 
 ## Part 3: PWM and LED dimming
@@ -231,10 +274,16 @@ The PWM class is written to provide pulse width modulation in MicroPython suppor
        timer0.deinit()        # Deinitialize the timer
        led_with_pwm.deinit()  # Deinitialized the PWM object
    ```
+-->
 
-<a name="experiments"></a>
 
-## (Optional) Experiments on your own
+
+<a name="challenges"></a>
+
+## Challenges
+
+1. xxx
+
 
 1. To combine timers and PWM in MicroPython on an ESP32, create a smooth fading effect using an RGB LED or two-colour LED. By controlling the intensity of the red, green, and blue components, you can achieve various colors and dynamic color transitions. Timers will be used to control the PWM signals for each color component.
 
