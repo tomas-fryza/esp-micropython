@@ -130,6 +130,7 @@ In MicroPython, you can use the following control characters and escape sequence
    for i in values:
        print(f"{i}%", end="\r")
        time.sleep(.05)  # Wait for 50 milliseconds
+   
    print("\nProcess complete!")
    ```
 

@@ -2,7 +2,7 @@
 
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Blink example](#part1)
-* [Part 2: ESP32 pinout and Breadboards](#part2)
+* [Part 2: ESP32 pinout and Breadboard](#part2)
 * [Part 3: Push buttons and LEDs](#part3)
 * [Challenges](#challenges)
 * [References](#references)
@@ -106,7 +106,7 @@
 
 <a name="part2"></a>
 
-## Part 2: ESP32 pinout and Breadboards
+## Part 2: ESP32 pinout and Breadboard
 
 The ESP32 microcontroller board has a number of **GPIO (General Purpose Input/Output) pins** that can be used for various purposes, such as digital input and output, analog input, communication interfaces (e.g., UART, SPI, I2C), PWM (Pulse Width Modulation) output, and more. The exact pinout may vary depending on the specific development board or module you are using. Here is the pinout for Firebeetle ESP32 board used in the lab:
 
@@ -176,7 +176,7 @@ For an active-high button:
            # Check if the button is pressed (active LOW)
            if button.value() == 0:
 
-               # COMPLETE THE CODE
+               # WRITE YOUR CODE HERE
 
    except KeyboardInterrupt:
        # This part runs when Ctrl+C is pressed
@@ -242,11 +242,11 @@ A **matrix keypad** is a type of input device used to capture user input in the 
 
        for row_num in range(len(row_pins)):
            # Set the current row LOW and the rest HIGH
-           # COMPLETE THE CODE
+           # WRITE YOUR CODE HERE
 
            for col_num in range(len(col_pins)):
                # Read the column input
-               # COMPLETE THE CODE
+               # WRITE YOUR CODE HERE
 
       return key
 
