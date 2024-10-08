@@ -5,12 +5,12 @@
 * [Part 2: Wi-Fi Station mode](#part2)
 * [Part 3: ThingSpeak online platform](#part3)
 * [Part 4: (Optional) Network Time Protocol](#part4)
-* [(Optional) Experiments on your own](#experiments)
+* [Challenges](#challenges)
 * [References](#references)
 
-### Components list
-
-* ESP32 board, USB cable
+### Component list
+ 
+* ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
 * DHT12 humidity/temperature sensor
 * Jumper wires
@@ -208,7 +208,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
    > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones is used.
 
-   ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
+   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
 2. Create a ThingSpeak Account: If you don't have a ThingSpeak account, sign up at [ThingSpeak](https://thingspeak.com/).
 
@@ -341,9 +341,9 @@ The Network Time Protocol (NTP) is a protocol designed to synchronize the clocks
 
 2. Integrate a perpetual loop into your code, and at regular intervals, retrieve data from the local Real-Time Clock (RTC). Display the information in a formatted manner, such as `yyyy-mm-dd hh:mm:ss`.
 
-<a name="experiments"></a>
+<a name="challenges"></a>
 
-## (Optional) Experiments on your own
+## Challenges
 
 1. Create a functional weather monitoring system. The primary goal is to establish a Wi-Fi connection, access real-time weather data from the [OpenWeatherMap API](https://openweathermap.org/current), and display the information to the shell or on a local OLED screen.
 

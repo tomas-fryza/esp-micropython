@@ -5,12 +5,12 @@
 * [Part 2: I2C scanner](#part2)
 * [Part 3: Communication with I2C devices](#part3)
 * [Part 4: OLED display 128x64](#part4)
-* [(Optional) Experiments on your own](#experiments)
+* [Challenges](#challenges)
 * [References](#references)
 
-### Components list
-
-* ESP32 board, USB cable
+### Component list
+ 
+* ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
 * DHT12 humidity/temperature sensor
   * Optional: RTC DS3231 and AT24C32 EEPROM memory module
@@ -107,7 +107,7 @@ The goal of this task is to find all devices connected to the I2C bus.
 
    > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones is used.
 
-   ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
+   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
    * Humidity/temperature [DHT12](../../docs/dht12_manual.pdf) digital sensor
 
@@ -329,9 +329,9 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
        oled.poweroff()
    ```
 
-<a name="experiments"></a>
+<a name="challenges"></a>
 
-## (Optional) Experiments on your own
+## Challenges
 
 1. Transform the output of the I2C scanner application into a hexadecimal table format, as illustrated in the example below. Please be aware that the term `RA` signifies I2C addresses that are [reserved](https://www.pololu.com/file/download/UM10204.pdf?file_id=0J435) and not available for use with slave circuits.
 

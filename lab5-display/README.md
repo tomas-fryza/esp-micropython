@@ -4,12 +4,12 @@
 * [Part 1: LCD screen module](#part1)
 * [Part 2: Class for HD44780 based LCDs](#part2)
 * [Part 3: Stopwatch](#part3)
-* [(Optional) Experiments on your own](#experiments)
+* [Challenges](#challenges)
 * [References](#references)
 
-### Components list
-
-* ESP32 board, USB cable
+### Component list
+ 
+* ESP32 board with pre-installed MicroPython firmware, USB cable
 * LCD module (such as Digilent PmodCLP)
 * Jumper wires
 
@@ -81,7 +81,7 @@ When a command is given to LCD, the command register (RS = 0) is selected and wh
 
 1. Use breadboard, jumper wires, and connect LCD signals to ESP32 GPIO pins as follows: RS - GPIO 26, R/W - GND, E - GPIO 25, D7:4 - GPIO 27, 9, 10, 13, VCC - 3.3V, GND - GND.
 
-   ![firebeetle_pinout](../03-gpio/images/DFR0478_pinout.png)
+   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
 <a name="part2"></a>
 
@@ -224,9 +224,9 @@ To display numerical values, they first need to be converted to strings.
 
 2. Complete the stopwatch counter by seconds and minutes. Let the stopwatch counts from `00:00.0` to `59:59.9` and then starts again.
 
-<a name="experiments"></a>
+<a name="challenges"></a>
 
-## (Optional) Experiments on your own
+## Challenges
 
 1. Add a push button to your application to pause and resume counting when the button is pressed. When the counter is paused, bllink the current stopwatch value.
 
