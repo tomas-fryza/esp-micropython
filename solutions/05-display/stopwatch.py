@@ -1,35 +1,31 @@
 """
 Stopwatch on LCD
 
-The example uses Timer0 and LCD to display a counter in the form of
-`minutes:seconds.tenths`. Based of Timer0 interruptions, the counter
-value is updated every 100 milli seconds.
+The example uses Timer and LCD to display a counter in the form of
+`minutes:seconds.tenths`. Based of Timer interruptions, the counter
+value is updated every 100 milliseconds.
 
-Hardware Configuration:
-- Connect HD44780-based LCD to your ESP32 as follows:
-  - RS: GPIO pin 26
-  - R/W: GND
-  - E: 25
-  - D7:4: 27, 9, 10, 13
-
-Instructions:
-1. Connect the LCD display to GPIO pins
-2. Run the script
-3. Stop the code execution by pressing `Ctrl+C` key.
-   If it does not respond, press the onboard `reset` button.
+Components:
+  - ESP32 microcontroller
+  - LCD display:
+     + RS: GPIO pin 26
+     + R/W: GND
+     + E: 25
+     + D[7:4]: 27, 9, 10, 13
 
 Author: Tomas Fryza
-Date: 2023-10-26
+Creation Date: 2023-10-26
+Last Modified: 2024-10-08
 """
 
-# Import necessary module(s)
-from lcd_hd44780 import LcdHd44780
 from machine import Timer
+from lcd_hd44780 import LcdHd44780
+import sys
 
 
 def stopwatch_100ms(t):
     """Interrupt handler of Timer0 executed every 100 millisecs"""
-    global tenths  # Can use global variable here
+    global tenths  # Can update global variables
     global secs
 
     # Modify tenths of seconds
@@ -55,7 +51,7 @@ def stopwatch_100ms(t):
 # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
 lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
-# Default screen
+# Default LCD screen
 lcd.move_to(1, 1)
 lcd.write("Stopwatch:")
 lcd.move_to(2, 3)
@@ -70,20 +66,20 @@ timer0.init(period=100,
 tenths = 0  # Global variable for `tenths of seconds`
 secs = 0    # ... and for seconds
 
-print("Stop the code execution by pressing `Ctrl+C` key.")
-print("If it does not respond, press the onboard `reset` button.")
-print("")
-print("Start counting...")
+print("Start counting. Press `Ctrl+C` to stop")
 
-# Forever loop until interrupted by Ctrl+C. When Ctrl+C
-# is pressed, the code jumps to the KeyboardInterrupt exception
 try:
+    # Forever loop
     while True:
         pass
 
 except KeyboardInterrupt:
-    print("Ctrl+C Pressed. Exiting...")
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
 
     # Optional cleanup code
     lcd.command(0x01)  # Clear display
     timer0.deinit()    # Deinitialize the timer
+
+    # Stop program execution
+    sys.exit(0)

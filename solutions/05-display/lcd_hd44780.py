@@ -1,27 +1,28 @@
 """
-MicroPython HD44780 character LCD controller
+Class for HD44780-based LCD
 
 This class provides a simple interface to control character LCDs
 based on the HD44780 driver. It allows to display text, control
 the cursor position on the LCD screen, and create the custom characters.
 
-Compatible with ESP32 boards and other MicroPython-supported hardware.
-
-Hardware Configuration:
-- Connect the LCD pins to your ESP32 as follows:
-  - RS: GPIO pin 26
-  - R/W: GND
-  - E: 25
-  - D7:4: 27, 9, 10, 13
+Components (if the script is executed directly):
+  - ESP32 microcontroller
+  - LCD display:
+     + RS: GPIO pin 26
+     + R/W: GND
+     + E: 25
+     + D[7:4]: 27, 9, 10, 13
 
 Author(s): Shujen Chen et al. Raspberry Pi Pico Interfacing and
            Programming with MicroPython
            Tomas Fryza
-Date: 2023-10-17
+Creation Date: 2023-10-17
+Last Modified: 2024-10-08
 """
 
-import time  # For time delays
-from machine import Pin  # For GPIO control
+from machine import Pin
+import time
+import sys
 
 
 class LcdHd44780:
@@ -50,6 +51,8 @@ class LcdHd44780:
         self.command(0x28)  # 4-bit, 2 lines, 5x7 pixels
         self.command(0x06)  # Increment, no shift
         self.command(0x01)  # Clear display
+        
+        # Select one command:
         # self.command(0x0f)  # Display on, cursor on and blinking
         # self.command(0x0e)  # Display on, cursor on but not blinking
         self.command(0x0c)  # Display on, cursor off
@@ -122,29 +125,29 @@ class LcdHd44780:
         self.command(0x80)  # Move to origin of DD RAM address
 
 
-# Execute this only if the module in not initialized from
-# an import statement
+# Code inside this block runs only if the script is executed directly
 if __name__ == "__main__":
-    # Four-data pins order: [D4, D5, D6, D7]
+
+    # Four-data pins order:         [D4, D5, D6, D7]
     lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
-    # Default screen
+    # Default LCD screen
     lcd.move_to(1, 3)
     lcd.write("Using LCD...")
 
-    print("Stop the code execution by pressing `Ctrl+C` key.")
-    print("If it does not respond, press the onboard `reset` button.")
-    print("")
-    print("Start using HD44780-based LCD...")
+    print("Start using HD44780-based LCD. Press `Ctrl+C` to stop")
 
-    # Forever loop until interrupted by Ctrl+C. When Ctrl+C
-    # is pressed, the code jumps to the KeyboardInterrupt exception
     try:
+        # Forever loop
         while True:
             pass
 
     except KeyboardInterrupt:
-        print("Ctrl+C Pressed. Exiting...")
+        # This part runs when Ctrl+C is pressed
+        print("Program stopped. Exiting...")
 
         # Optional cleanup code
         lcd.command(0x01)  # Clear display
+
+        # Stop program execution
+        sys.exit(0)

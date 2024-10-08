@@ -1,5 +1,5 @@
 """
-Timer interrupt example using Timer0 on ESP32
+Example of ESP32 Timer
 
 This script demonstrates how to use a hardware timer
 interrupt on the ESP32. A Timer0 interrupt is set up
@@ -23,12 +23,10 @@ def timer_handler(t):
     """Interrupt handler for Timer0.
 
     This function is called automatically by the Timer0
-    interrupt every time the timer period elapses.
-    
-    Args:
-        t (Timer): The Timer object that triggered the interrupt.
+    interrupt every time the timer period elapses. The parameter
+    `t` is the Timer object that triggered the interrupt.
     """
-    print("Running...")
+    print(f"Handler of {t} executed")
 
 
 # Create an object for 64-bit Timer0
@@ -41,7 +39,6 @@ tim.init(period=1000,             # Timer period in milliseconds
          callback=timer_handler)  # Function to call when the timer triggers
 
 print("Timer started. Press `Ctrl+C` to stop")
-print(tim)
 
 try:
     # Forever loop to keep the program running

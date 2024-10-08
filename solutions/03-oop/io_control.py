@@ -1,11 +1,11 @@
 """
-GPIO classes for common components
+Classes for common I/O components
 
-This file defines classes to manage common GPIO components like
-buttons and LEDs, including PWM control for adjustable LED
-brightness.
+This file defines classes to manage common input/output
+components like buttons and LEDs, including PWM control
+for adjustable LED brightness.
 
-Components:
+Components (if the script is executed directly):
   - ESP32 microcontroller
   - Button connected to GPIO pin 27
   - LED connected to GPIO pin 2 (on-board)
@@ -64,6 +64,7 @@ class PwmLed(PWM):
     """
     A class to control an LED using PWM, allowing for brightness adjustment, fading, and on/off control.
     """
+
     def __init__(self, pin_number, frequency=1000):
         """Initialize PWM on the given pin with a default frequency and
            starts with a duty cycle of 0 (LED off)."""

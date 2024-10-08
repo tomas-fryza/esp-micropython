@@ -1,28 +1,24 @@
 """
-Custom characters for HD44780-based CD
+Custom characters for HD44780-based LCD
 
 This script demonstrates how to create and use characters which are
 not included in the CG ROM of HD44780 LCD controlller.
 
-Hardware Configuration:
-- Connect HD44780-based LCD to your ESP32 as follows:
-  - RS: GPIO pin 26
-  - R/W: GND
-  - E: 25
-  - D7:4: 27, 9, 10, 13
-
-Instructions:
-1. Connect the LCD display to GPIO pins
-2. Run the script
-3. Stop the code execution by pressing `Ctrl+C` key.
-   If it does not respond, press the onboard `reset` button.
+Components:
+  - ESP32 microcontroller
+  - LCD display:
+     + RS: GPIO pin 26
+     + R/W: GND
+     + E: 25
+     + D[7:4]: 27, 9, 10, 13
 
 Author: Tomas Fryza
-Date: 2023-10-20
+Creation Date: 2023-10-20
+Last Modified: 2024-10-08
 """
 
-# Import necessary module(s)
 from lcd_hd44780 import LcdHd44780
+import sys
 
 # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
 lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
@@ -43,19 +39,19 @@ TEMP_STR = TEMP_STR + chr(223) + "C"
 lcd.move_to(2, 5)
 lcd.write(TEMP_STR)
 
-print("Stop the code execution by pressing `Ctrl+C` key.")
-print("If it does not respond, press the onboard `reset` button.")
-print("")
-print("Start using HD44780-based LCD...")
+print("Start using HD44780-based LCD. Press `Ctrl+C` to stop")
 
-# Forever loop until interrupted by Ctrl+C. When Ctrl+C
-# is pressed, the code jumps to the KeyboardInterrupt exception
 try:
+    # Forever loop
     while True:
         pass
 
 except KeyboardInterrupt:
-    print("Ctrl+C Pressed. Exiting...")
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
 
     # Optional cleanup code
     lcd.command(0x01)  # Clear display
+
+    # Stop program execution
+    sys.exit(0)

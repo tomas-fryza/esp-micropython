@@ -14,9 +14,6 @@ NOTES:
         +     |  3.3V |    3.3V |      3.3V |    3.3V
         -     |   GND |     GND |       GND |     GND
 
-TODOs:
-    * Add comments to all functions
-
 Inspired by:
     * https://microcontrollerslab.com/esp32-micropython-bme280-sensor-thingspeak/
 """

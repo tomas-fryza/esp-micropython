@@ -10,7 +10,7 @@ Components:
   - LED connected to GPIO2 (on-board)
 
 Instructions:
-1. Run the current script
+1. Run the script
 2. Stop the code execution by pressing `Ctrl+C` key
 
 Author: Wokwi, Tomas Fryza
@@ -26,8 +26,7 @@ import sys
 # Initialize LED pin (e.g., GPIO2 for ESP32 board)
 led = Pin(2, Pin.OUT)
 
-print(f"Start blinking {led}")
-print("Press `Ctrl+C` to stop")
+print(f"Start blinking {led}. Press `Ctrl+C` to stop")
 
 try:
     # Forever loop to blink the LED

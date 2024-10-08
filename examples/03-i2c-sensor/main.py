@@ -1,4 +1,5 @@
-"""Read temperature and humidity via I2C bus.
+"""
+Read temperature and humidity via I2C bus.
 
 Use hardware I2C bus and read temperature and humidity values
 from DHT12 sensor with SLA = 0x5c (92).
@@ -12,9 +13,6 @@ NOTES:
         +     |  3.3V |    3.3V |      3.3V |    3.3V
         -     |   GND |     GND |       GND |     GND
 
-TODOs:
-    * Add comments to all functions
-
 Inspired by:
     * https://docs.micropython.org/en/latest/library/machine.I2C.html#machine-i2c
     * https://github.com/mcauser/micropython-dht12/blob/master/dht12.py
@@ -22,7 +20,8 @@ Inspired by:
 
 from machine import I2C
 from machine import Pin
-from time import sleep
+import time
+import sys
 
 # Create I2C peripheral at frequency of 100 kHz
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
@@ -35,7 +34,11 @@ print(f"{len(devices)} device(s) detected")
 
 for device in devices:
     print(f"{device},\t{hex(device)}")
-print("")
+
+# Exit the program if sensor is not available
+if 0x5c not in devices:
+    print("Sensor is not available. Exiting...")
+    sys.exit(0)
 
 # Create an array of 5 bytes
 buf = bytearray(5)
@@ -47,12 +50,13 @@ buf = bytearray(5)
 
 # Status LED at GPIO2
 led = Pin(2, Pin.OUT)
-led.off()
 
-# Forever loop
-while True:
-    # Read values from device with 7-bit address `0x5c`
-    if 0x5c in devices:
+print("Press `Ctrl+C` to stop")
+
+try:
+    # Forever loop
+    while True:
+        # Read values from device with 7-bit address `0x5c`
         # Read 5 bytes from addr. 0 into `buf` array
         led.on()
         i2c.readfrom_mem_into(0x5c, 0, buf)
@@ -67,5 +71,14 @@ while True:
         temp = buf[2] + (buf[3]*0.1)
         print(f"Temperature: {temp} C\tHumidity: {humi} %")
 
-    # Delay 5 seconds
-    sleep(5)
+        time.sleep(5)
+
+except KeyboardInterrupt:
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
+
+    # Optional cleanup code
+    led.off()
+
+    # Stop program execution
+    sys.exit(0)
