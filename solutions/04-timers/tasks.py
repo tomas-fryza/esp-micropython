@@ -1,82 +1,81 @@
 """
-???
+Timer-based task management
+
+This script utilizes the ESP32's Timer0 to manage multiple tasks 
+periodically. It features three tasks that execute at different
+intervals. The timer interrupt updates global counters, allowing
+tasks to run based on elapsed time.
 
 Components:
   - ESP32 microcontroller
+  - LED connected to GPIO pin 2 (on-board)
+  - Two external LEDs connected to GPIO pin 25 and 26
 
 Author: Tomas Fryza
 Creation Date: 2023-10-16
-Last Modified: 2024-09-27
+Last Modified: 2024-10-08
 """
 
-from machine import Pin
 from machine import Timer
+from io_control import Led
 import sys
 
-# Initialize counters for different tasks
-task_a_counter = 0
-task_b_counter = 0
-task_c_counter = 0
-
-# Define the intervals in terms of timer ticks (e.g., ticks every 100ms)
-task_a_interval = 5   # Task A runs every 500ms (5 ticks)
-task_b_interval = 10  # Task B runs every 1s (10 ticks)
-task_c_interval = 20  # Task C runs every 2s (20 ticks)
+# Initialize global counter(s) for different task(s)
+counter_a = 0
+counter_b = 0
+counter_c = 0
 
 
 def timer_handler(t):
-    """Interrupt handler for Timer0."""
-    global task_a_counter, task_b_counter, task_c_counter
+    """Interrupt handler for Timer0 runs every 1 millisecond."""
+    global counter_a, counter_b, counter_c
 
-    # Increment counters
-    task_a_counter += 1
-    task_b_counter += 1
-    task_c_counter += 1
+    # Increment counter(s)
+    counter_a += 1
+    counter_b += 1
+    counter_c += 1
 
 
 def task_a():
-    """Task A: Runs every 100ms"""
-    print("Task A executed: LED")
-    led.value(not led.value())
+    print(f"Task A executed: onboard LED at {led_onboard}")
+    led_onboard.toggle()
 
 
 def task_b():
-    """Task B: Runs every 200ms"""
     print("Task B executed")
 
 
 def task_c():
-    """Task C: Runs every 500ms"""
     print("Task C executed")
 
 
-# Create and initialize Timer0
+# Create and initialize the timer
 tim = Timer(0)
-tim.init(period=100,
+tim.init(period=1,  # 1 millisecond
          mode=Timer.PERIODIC,
          callback=timer_handler)
 
-# Create object for LED
-led = Pin(2, mode=Pin.OUT)
+# Create object(s) for LED(s)
+led_onboard = Led(2)
 
 print("Timer started. Press `Ctrl+C` to stop")
 
 try:
     # Forever loop
     while True:
-        # Task A (every 100ms)
-        if task_a_counter >= task_a_interval:
-            task_a_counter = 0  # Reset the counter
-            task_a()
+        # Task A (every 500ms)
+        if counter_a >= 500:
+            counter_a = 0  # Reset the counter
+            task_a()  # Run the task
 
-        # Task B (every 200ms)
-        if task_b_counter >= task_b_interval:
-            task_b_counter = 0  # Reset the counter
+        # Task B (every 700ms)
+        if counter_b >= 700:
+            counter_b = 0
             task_b()
 
-        # Task C (every 500ms)
-        if task_c_counter >= task_c_interval:
-            task_c_counter = 0  # Reset the counter
+        # Task C (every 1,100ms)
+        if counter_c >= 1100:
+            counter_c = 0
             task_c()
 
 except KeyboardInterrupt:
@@ -85,7 +84,7 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     tim.deinit()  # Stop the timer
-    led.off()
+    led_onboard.off()
 
     # Stop program execution
     sys.exit(0)

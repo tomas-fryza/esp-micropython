@@ -2,7 +2,7 @@
 
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Interrupts](#part1)
-* [Part 2: ESP32 timer overflows](#part2)
+* [Part 2: ESP32 timers](#part2)
 * [Part 3: Simple timer-controled tasks](#part3)
 * [Challenges](#challenges)
 * [References](#references)
@@ -16,14 +16,18 @@
 
 ### Learning objectives
 
-* Use internal microcontroller timers
-* Combine different interrupts in MicroPython
+* Understand interrupts, including what they are and how they function within a microcontroller.
+* Use internal microcontroller timers.
+* Write and modify MicroPython code to initialize and use the timer in the ESP32.
+* Develop an understanding of how to schedule multiple tasks based on timer interrupts.
 
 <a name="preparation"></a>
 
 ## Pre-Lab preparation
 
-1. Remind yourself how to write and run functions in MicroPython.
+1. Students should study the concepts of interrupts and timers in embedded systems, including the role of Interrupt Service Routines (ISRs) and the difference between periodic and one-shot timer modes.
+
+2. Finish the definition of the custom module `io_control.py` for controlling the LEDs and buttons from the last lab.
 
 <a name="part1"></a>
 
@@ -37,23 +41,25 @@ Interrupts can be set up for events such as a counter's value, a pin changing st
 
 <a name="part2"></a>
 
-## Part 2: ESP32 timer overflows
+## Part 2: ESP32 timers
 
-A timer (or counter) is an integral hardware component in a microcontroller unit designed for measuring time-based events. Timers count from 0 to (2^n -1), where `n` being the number of bits of the counter. Thus, an 8-bit counter will count from 0 to 255, a 16-bit counter will count from 0 to 65535, and so on.
+A timer (or counter) is an integral hardware component in a microcontroller unit designed for measuring time-based events. Timers count from 0 to (2^n -1), where `n` being the number of bits of the counter. Thus, an 8-bit counter will count from 0 to 255, a 16-bit counter will count from 0 to 65,535, and so on.
 
-ESP32 has two timer groups, each group containing two 64-bit timers. Thus, there are four 64-bit timers in total, designated as Timer0, Timer1, and Timer2. They are all 64-bit generic timers based on 16-bit prescalers and 64-bit up/down counters which are capable of being auto-reloaded.
+The ESP32 microcontroller has two timer groups, and each group contains two 64-bit timers. This means there are a total of four 64-bit timers, labeled as Timer0, Timer1, Timer2, and Timer3. All of these timers use 16-bit prescalers and 64-bit up/down counters. They also support auto-reload functionality.
 
 ![esp32-timers](images/esp32-timers.png)
 
-Prescalers help divide the base clock frequency. ESP32 generally has a base clock frequency of 80 MHz and it can be a bit too high. Having a 16-bit pre-scaler means that you can divide the base clock frequency by at least 2 and by as much as 65536. 80 MHz/65535 = 1.22 KHz. Now, this means that the frequency of a timer can be adjusted from 1.22 KHz to 80 MHz (of course in discrete steps). This wide range of frequency, along with the fact that these are 64-bit timers ensures that almost any interval is possible with ESP32 timers.
+Prescalers are used to divide the base clock frequency of the ESP32, which is typically 80 MHz—a frequency that can be too high for some applications. The ESP32 features a 16-bit prescaler, allowing you to divide the base clock frequency by any value between 2 and 65,536. For example, dividing 80 MHz by 65,536 results in approximately 1.22 kHz.
 
-The timer interrupts are the best way to run non-blocking functions at a certain interval. For that, we can configure and attach a particular timer interrupt to a specific Interrupt Service Routine or ISR.
+This means the timer frequency can be adjusted from 1.22 kHz up to 80 MHz, in discrete steps. This wide frequency range, combined with the fact that these are 64-bit timers, ensures that the ESP32 can handle almost any timing interval needed for various applications.
 
-The MicroPython's `machine.Timer` class defines a baseline operation of initializing and executing a callback with a given period or once after some delay. This function is called automatically by the Timer0 interrupt every time the timer period elapses.
+Timer interrupts are an efficient way to run non-blocking functions at specific intervals. To achieve this, you can configure a timer and attach it to a specific Interrupt Service Routine (ISR) or handler.
 
 1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
-2. Create a new file in Thonny and enter the following MicroPython code which is a template for the Timer usage.
+2. Open Thonny and create a new file. Enter the following MicroPython code, which serves as a template for using timers. The `machine.Timer` class in MicroPython provides a way to set up and run a timer that calls a function (callback) either at regular intervals (periodically) or once after a delay.
+
+In this code, the function will be automatically called by Timer0 every time the timer period is reached.
 
    ```python
    from machine import Timer
@@ -61,9 +67,7 @@ The MicroPython's `machine.Timer` class defines a baseline operation of initiali
 
 
    def timer_handler(t):
-       """Interrupt handler for Timer0.
-          Args: t (Timer): The Timer object that triggered the interrupt.
-       """
+       """Interrupt handler for Timer0."""
        print("Running...")
 
 
@@ -94,13 +98,13 @@ The MicroPython's `machine.Timer` class defines a baseline operation of initiali
        sys.exit(0)
    ```
 
-The init keyword arguments are:
+Some important notes:
 
-   * `freq` is the timer frequency, in units of Hz
-   * `period` is the timer period in milliseconds
-   * `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`
-   * `callback` is executed whenever a timer is triggered. The callback must take one argument, which is passed the Timer object.
-   * Note that the timer is running even when program stopped. It must be deinicialized.
+   * The function `timer_handler(t)` is defined to act as the interrupt service routine (ISR). The parameter `t` (the Timer object) is passed when the interrupt occurs.
+   * The timer initialization uses `period` to set the timer period in milliseconds or `freq` to set the timer frequency in units of Hz.
+   * `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`.
+   * `callback` is executed whenever a timer is triggered.
+   * Note that the timer is running even when program is stopped. Call `tim.deinit()` to stop and clean up the timer, releasing any associated resources.
 
 <!--
 > **NOTE:** In MicroPython, the timer parameter of the `mycallback` function is a reference to the timer object that triggered the interrupt. This parameter allows you to identify which timer initiated the interrupt if your code works with multiple timers.
@@ -112,7 +116,9 @@ The init keyword arguments are:
 
 ## Part 3: Simple timer-controled tasks
 
-Creating a time domain using the main timer interrupt of an ESP32 in MicroPython is a powerful way to precisely control timing for various tasks or applications. Use a global variable to identify time intervals and increment time variable(s) within a timer interrupt of an ESP32 in MicroPython. You can access these variables from both the timer interrupt and the main loop to perform tasks based on the elapsed time.
+Using the main timer interrupt of the ESP32 in MicroPython is an effective way to precisely control timing for multiple tasks or applications. You can implement a fine-grained time domain (e.g., milliseconds) and have each task run based on its own multiple of this base period (e.g., every 1 ms, 10 ms, 100 ms), providing precise and customizable intervals.
+
+To achieve this, define global variables that keep track of time intervals, allowing for synchronization between the timer interrupt and the main loop. Within the timer interrupt, increment these variables regularly. Both the timer interrupt and the main program loop can then access these variables to perform tasks based on the elapsed time.
 
 1. Use breadboard, jumper wires and connect two additional LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
 
@@ -124,168 +130,84 @@ Creating a time domain using the main timer interrupt of an ESP32 in MicroPython
    > * Use pins A0, ..., A4 as input only
    > * Do not use In-Package Flash pins
 
-2. Create a new source file in your local folder and use the following code to control a single task by Timer interrupt.
+2. Save the module `io_control.py` from the previous lab to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
+
+3. Create a new source file in your local folder and use the following code to control a single task `a` by Timer interrupt.
 
    ```python
-   from machine import Pin
    from machine import Timer
+   from io_control import Led
    import sys
 
-   # Initialize counter(s) for different task(s)
-   task_a_counter = 0
-
-   # Define the intervals in terms of timer ticks (e.g., ticks every 100ms)
-   task_a_interval = 5   # Task A runs every 500ms (5 ticks)
+   # Initialize global counter(s) for different task(s)
+   counter_a = 0
 
 
    def timer_handler(t):
-      """Interrupt handler for Timer0."""
-      global task_a_counter
+       """Interrupt handler for Timer0 runs every 1 millisecond."""
+       global counter_a
 
-      # Increment counter(s)
-      task_a_counter += 1
+       # Increment counter(s)
+       counter_a += 1
 
 
    def task_a():
-      """Task A: Runs every 100ms"""
-      print("Task A executed: LED")
-      led.value(not led.value())
+       print(f"Task A executed: onboard LED at {led_onboard}")
+       led_onboard.toggle()
 
 
-   # Create and initialize Timer0
+   # Create and initialize the timer
    tim = Timer(0)
-   tim.init(period=100,
+   tim.init(period=1,  # 1 millisecond
             mode=Timer.PERIODIC,
             callback=timer_handler)
 
-   # Create object for LED
-   led = Pin(2, mode=Pin.OUT)
+   # Create object(s) for LED(s)
+   led_onboard = Led(2)
 
    print("Timer started. Press `Ctrl+C` to stop")
 
    try:
-      # Forever loop
-      while True:
-         # Task A (every 100ms)
-         if task_a_counter >= task_a_interval:
-               task_a_counter = 0  # Reset the counter
-               task_a()
-
-   except KeyboardInterrupt:
-      # This part runs when Ctrl+C is pressed
-      print("Program stopped. Exiting...")
-
-      # Optional cleanup code
-      tim.deinit()  # Stop the timer
-      led.off()
-
-      # Stop program execution
-      sys.exit(0)
-   ```
-
-3. Extend the previous code to continuously blink all three LEDs (onboard + external ones) at different periods. Let each LED is controlled by a single task.
-
-<!--
-<a name="part3"></a>
-
-## Part 3: PWM and LED dimming
-
-**Pulse Width Modulation** (PWM) changes the average power delivered from a signal by chopping the square wave signal into discrete parts. It is not an actual continuous signal. Instead, a periodic digital signal's ON, and OFF duration is modulated to reduce the effective voltage/power output. For example, if a microcontroller's GPIO outputs 3.3V in digital output while generating a PWM signal of [50% duty cycle](https://makeabilitylab.github.io/physcomp/esp32/led-fade.html) from the pin, it will output an effective voltage of approximately 1.65V, i.e., 3.3/2.
-
-   ![pwm_duty-princip](images/pwm_princip.png)
-
-   ![pwm_duty-cycles](images/pwm_duty-cycles.png)
-
-The PWM class is written to provide pulse width modulation in MicroPython supported boards. This class can be imported into a MicroPython script using the following statements. After importing, an object has to be instantiated from the PWM class.
-
-   ```python
-   from machine import PWM
-   pwm_object = PWM(pin, freq=frequency, duty=duty_cycle)
-   ```
-
-1. Create a new source file, save it as `03-pwm.py` in your local folder, and write the code to change a duty cycles of onboard LED (`Pin(2)`) within a `for` cycle from 0 to 1024 (10-bit resolution) in forever loop. To deinitialize PWM object, use `deinit()` method.
-
-   ```python
-   from machine import Pin, PWM
-   import time
-
-   # Attach PWM object on the LED pin and set frequency to 1 kHz
-   led_with_pwm = PWM(Pin(2), freq=1000)
-   led_with_pwm.duty(10)  # Approx. 1% duty cycle of 10-bit range
-
-   try:
+       # Forever loop
        while True:
-           for duty in range(0, 1024, 5):  # 0, 5, 10, ..., 1020, 0, ...
-               # Pulse width resolution is 10-bit only !
-               led_with_pwm.duty(duty)
-               time.sleep_ms(10)
+           # Task A (every 500ms)
+           if task_a_counter >= 500:
+               counter_a = 0  # Reset the counter
+               task_a()  # Run the task
 
    except KeyboardInterrupt:
-       print("Ctrl+C Pressed. Exiting...")
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
 
        # Optional cleanup code
-       led_with_pwm.deinit()  # Deinitialized the PWM object
+       tim.deinit()  # Stop the timer
+       led_onboard.off()
+
+       # Stop program execution
+       sys.exit(0)
    ```
 
-2. Modify the duty cycle of one LED within the Timer0 interrupt handler instead of the main loop. This approach allows you to independently control the duty cycles of multiple PWM signals.
+Some important notes:
 
-   Program a *Breathing light* application. It is a visual effect where the intensity or brightness of an LED, smoothly and periodically increases and decreases in a manner that resembles the rhythm of human breathing. This effect is often used in various electronic and lighting applications to create visually appealing and calming effects.
+   * Modules you are importing must be stored on ESP32 device.
+   * You must use the `global` keyword for variables (defined at the module level, ie outside of any function) that you want to modify inside a function, such as the counter variables in the interrupt handler.
+   * You can access global objects (like `led_onboard`) directly without needing to declare them as global, provided you are not trying to reassign them.
 
-   ```python
-   from machine import Pin, Timer, PWM
-
-
-   def timer0_handler(t):
-       """Interrupt handler of Timer0"""
-       global fade_direction
-
-       # Read currect duty cycle in the range of 1 to 1024 (1-100%)
-       # Note that, pulse width resolution is 10-bit only !
-       current_duty = led_with_pwm.duty()
-
-
-       # COMPLETE THE CODE: Increment or decrement the PWM duty cycle
-
-
-       # Update the duty cycle in the range of 1 to 1024
-       led_with_pwm.duty(new_duty)
-
-
-   # Attach PWM object on the LED pin and set frequency to 1 kHz
-   led_with_pwm = PWM(Pin(2), freq=1000)
-   led_with_pwm.duty(10)  # Approx. 1% duty cycle
-
-   # Define global variable
-   fade_direction = 1  # 1 - increasing brightness
-                       # 0 - decreasing
-
-   # Create a Timer0 object for the interrupt
-   timer0 = Timer(0)
-   timer0.init(period=50, mode=Timer.PERIODIC, callback=timer0_handler)
-
-   try:
-       while True:
-           pass
-
-   except KeyboardInterrupt:
-       print("Ctrl+C Pressed. Exiting...")
-
-       # Optional cleanup code
-       timer0.deinit()        # Deinitialize the timer
-       led_with_pwm.deinit()  # Deinitialized the PWM object
-   ```
--->
-
-
+4. Enhance the previous timer code by adding two counters and corresponding tasks that will blink two external LEDs at different intervals.
 
 <a name="challenges"></a>
 
 ## Challenges
 
-1. xxx
+1. Enhance the existing timer-based task implementation by allowing each task to execute at a variable interval that can be changed dynamically. Modify the existing timer code to introduce an additional global variable for each task that defines its execution interval. Implement a mechanism to change these intervals at runtime. For example, students could use button presses or serial commands to increase or decrease the blink interval of the LEDs.
 
+2. Simulate a simple traffic light system using three LEDs (red, yellow, green) controlled by a button. Implement a timer to handle the traffic light transitions:
 
-1. To combine timers and PWM in MicroPython on an ESP32, create a smooth fading effect using an RGB LED or two-colour LED. By controlling the intensity of the red, green, and blue components, you can achieve various colors and dynamic color transitions. Timers will be used to control the PWM signals for each color component.
+   * Red for 5 seconds
+   * Green for 5 seconds
+   * Yellow for 2 seconds
+   
+   Add a button that can be used to manually switch the traffic light to red, overriding the automatic sequence. For example, if the button is pressed, the light should turn red immediately and return to the automatic cycle after a defined delay.
 
 <a name="references"></a>
 
