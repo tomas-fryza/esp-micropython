@@ -20,18 +20,18 @@ import sys
 
 
 def timer_handler(t):
-    """Interrupt handler for Timer0.
+    """Interrupt handler for Timer.
 
-    This function is called automatically by the Timer0
+    This function is called automatically by the Timer
     interrupt every time the timer period elapses. The parameter
     `t` is the Timer object that triggered the interrupt.
     """
     print(f"Handler of {t} executed")
 
 
-# Create an object for 64-bit Timer0
+# Create an object for 64-bit Timer ID 0
 # The ESP32 has 4 hardware timers numbered 0 to 3.
-tim = Timer(0)
+tim = Timer(O)
 
 # Initialize the timer to call the handler every 1000 s
 tim.init(period=1000,             # Timer period in milliseconds

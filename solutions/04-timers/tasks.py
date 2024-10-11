@@ -27,7 +27,7 @@ counter_c = 0
 
 
 def timer_handler(t):
-    """Interrupt handler for Timer0 runs every 1 millisecond."""
+    """Interrupt handler for Timer runs every 1 millisecond."""
     global counter_a, counter_b, counter_c
 
     # Increment counter(s)

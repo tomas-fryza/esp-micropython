@@ -67,19 +67,19 @@ In this code, the function will be automatically called by Timer0 every time the
 
 
    def timer_handler(t):
-       """Interrupt handler for Timer0."""
-       print("Running...")
+       """Interrupt handler for Timer."""
+       print(f"Handler of {t} executed")
 
 
-   # Create an object for 64-bit Timer0
+   # Create an object for 64-bit Timer ID 0
    tim = Timer(0)
+
    # Initialize the timer to call the handler every 1000 s
    tim.init(period=1000,             # Timer period in milliseconds
             mode=Timer.PERIODIC,     # Set the timer to repeat after each period
             callback=timer_handler)  # Function to call when the timer triggers
 
    print("Timer started. Press `Ctrl+C` to stop")
-   print(tim)
 
    try:
        # Forever loop to keep the program running
@@ -104,11 +104,8 @@ Some important notes:
    * The timer initialization uses `period` to set the timer period in milliseconds or `freq` to set the timer frequency in units of Hz.
    * `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`.
    * `callback` is executed whenever a timer is triggered.
+   * In Python, the `pass` keyword is a null operation; it serves as a placeholder in code where a statement is syntactically required but you don't want to execute any code.
    * Note that the timer is running even when program is stopped. Call `tim.deinit()` to stop and clean up the timer, releasing any associated resources.
-
-<!--
-> **NOTE:** In MicroPython, the timer parameter of the `mycallback` function is a reference to the timer object that triggered the interrupt. This parameter allows you to identify which timer initiated the interrupt if your code works with multiple timers.
--->
 
 3. Modify the template above, define a GPIO pin 2 and blink the on-board LED with a period of 1 sec. Try different Timer modes.
 
@@ -132,6 +129,8 @@ To achieve this, define global variables that keep track of time intervals, allo
 
 2. Save the module `io_control.py` from the previous lab to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
 
+   ![save to device](images/save_as.png)
+
 3. Create a new source file in your local folder and use the following code to control a single task `a` by Timer interrupt.
 
    ```python
@@ -144,7 +143,7 @@ To achieve this, define global variables that keep track of time intervals, allo
 
 
    def timer_handler(t):
-       """Interrupt handler for Timer0 runs every 1 millisecond."""
+       """Interrupt handler for Timer runs every 1 millisecond."""
        global counter_a
 
        # Increment counter(s)
@@ -171,7 +170,7 @@ To achieve this, define global variables that keep track of time intervals, allo
        # Forever loop
        while True:
            # Task A (every 500ms)
-           if task_a_counter >= 500:
+           if counter_a >= 500:
                counter_a = 0  # Reset the counter
                task_a()  # Run the task
 
@@ -191,7 +190,7 @@ Some important notes:
 
    * Modules you are importing must be stored on ESP32 device.
    * You must use the `global` keyword for variables (defined at the module level, ie outside of any function) that you want to modify inside a function, such as the counter variables in the interrupt handler.
-   * You can access global objects (like `led_onboard`) directly without needing to declare them as global, provided you are not trying to reassign them.
+   * You can access global objects (like `led_onboard`) directly without needing to declare them as `global`, provided you are not trying to reassign them.
 
 4. Enhance the previous timer code by adding two counters and corresponding tasks that will blink two external LEDs at different intervals.
 
