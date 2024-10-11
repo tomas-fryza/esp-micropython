@@ -101,6 +101,7 @@ In this code, the function will be automatically called by Timer0 every time the
 Some important notes:
 
    * The function `timer_handler(t)` is defined to act as the interrupt service routine (ISR). The parameter `t` (the Timer object) is passed when the interrupt occurs.
+   * The number of different IDs you can use for timers in MicroPython depends on the specific hardware platform you are working with. For example, if the platform supports four timers, the valid IDs would typically be 0, 1, 2, and 3. Here, ID=4 will refer to ID 0, etc.
    * The timer initialization uses `period` to set the timer period in milliseconds or `freq` to set the timer frequency in units of Hz.
    * `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`.
    * `callback` is executed whenever a timer is triggered.
