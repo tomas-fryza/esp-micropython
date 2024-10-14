@@ -59,7 +59,7 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
 
 2. Open Thonny and create a new file. Enter the following MicroPython code, which serves as a template for using timers. The `machine.Timer` class in MicroPython provides a way to set up and run a timer that calls a function (callback) either at regular intervals (periodically) or once after a delay.
 
-In this code, the function will be automatically called by Timer0 every time the timer period is reached.
+   In this code, the function will be automatically called by Timer0 every time the timer period is reached.
 
    ```python
    from machine import Timer
@@ -98,15 +98,15 @@ In this code, the function will be automatically called by Timer0 every time the
        sys.exit(0)
    ```
 
-Some important notes:
+   Some important notes:
 
-   * The function `timer_handler(t)` is defined to act as the interrupt service routine (ISR). The parameter `t` (the Timer object) is passed when the interrupt occurs.
-   * The number of different IDs you can use for timers in MicroPython depends on the specific hardware platform you are working with. For example, if the platform supports four timers, the valid IDs would typically be 0, 1, 2, and 3. Here, ID=4 will refer to ID 0, etc.
-   * The timer initialization uses `period` to set the timer period in milliseconds or `freq` to set the timer frequency in units of Hz.
-   * `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`.
-   * `callback` is executed whenever a timer is triggered.
-   * In Python, the `pass` keyword is a null operation; it serves as a placeholder in code where a statement is syntactically required but you don't want to execute any code.
-   * Note that the timer is running even when program is stopped. Call `tim.deinit()` to stop and clean up the timer, releasing any associated resources.
+      * The function `timer_handler(t)` is defined to act as the interrupt service routine (ISR). The parameter `t` (the Timer object) is passed when the interrupt occurs.
+      * The number of different IDs you can use for timers in MicroPython depends on the specific hardware platform you are working with. For example, if the platform supports four timers, the valid IDs would typically be 0, 1, 2, and 3. Here, ID=4 will refer to ID 0, etc.
+      * The timer initialization uses `period` to set the timer period in milliseconds or `freq` to set the timer frequency in units of Hz.
+      * `mode` can be `Timer.ONE_SHOT` or `Timer.PERIODIC`.
+      * `callback` is executed whenever a timer is triggered.
+      * In Python, the `pass` keyword is a null operation; it serves as a placeholder in code where a statement is syntactically required but you don't want to execute any code.
+      * Note that the timer is running even when program is stopped. Call `tim.deinit()` to stop and clean up the timer, releasing any associated resources.
 
 3. Modify the template above, define a GPIO pin 2 and blink the on-board LED with a period of 1 sec. Try different Timer modes.
 

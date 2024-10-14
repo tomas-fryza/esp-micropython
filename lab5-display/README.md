@@ -13,19 +13,15 @@
 * LCD module (such as Digilent PmodCLP)
 * Jumper wires
 
-   ![photo_stopwatch](images/photo_lcd_stopwatch.jpg)
+  ![photo_stopwatch](images/photo_lcd_stopwatch.jpg)
 
 ### Learning objectives
-
-After completing this lab you will be able to:
 
 * Use alphanumeric LCD
 * Understand the digital communication between MCU and HD44780
 * Understand the ASCII table
 * Use module functions for LCD in MicroPython
 * Generate custom characters on LCD
-
-The purpose of the laboratory exercise is to understand the serial control of Hitachi HD44780-based LCD character display and how to define custom characters. Another goal is to learn how to use Python's class methods in your own project.
 
 <a name="preparation"></a>
 
@@ -83,6 +79,12 @@ When a command is given to LCD, the command register (RS = 0) is selected and wh
 
    ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
+   > **Notes:**
+   > * NC = Empty, Not Connected
+   > * VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
+   > * Use pins A0, ..., A4 as input only
+   > * Do not use In-Package Flash pins
+
 <a name="part2"></a>
 
 ## Part 2: Class for HD44780 based LCDs
@@ -97,34 +99,47 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    | `custom_char` | `addr`, `charmap` | Write a character to one of the 8 CG RAM locations, available as `chr(0)` through `chr(7)` | `custom_char(0, bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00]))` |
    | `command` | `cmd` - command | Write a command to the LCD controller, such as `0x01` to clear the display | `command(0x01)` |
 
-1. In Thonny IDE, create a new file `lcd_hd44780.py` and copy/paste [module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/lcd_hd44780.py) to it. To import and use the module, the copy of file must be stored in the ESP32 device as well.
+1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
-2. Create a new file `01-test_lcd.py` and write a simple script to test `move_to` and `write` functions.
+2. Open Thonny and create a new file. Copy/paste the [LCD module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/lcd_hd44780.py) to it. Save the file `lcd_hd44780.py` to local folder and also to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
+
+   ![save to device](../lab4-timers/images/save_as.png)
+
+3. Create a new source file `test_lcd.py` in your local folder and use the following code to print a static text to the display.
 
    ```python
-   # Import necessary module(s)
-   # From `lcd_hd4480.py` file import class `LcdHd4480`
    from lcd_hd44780 import LcdHd44780
-   
+   import sys
+
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
-   # Default screen
-   lcd.move_to(1, 3)
+   # Default LCD screen
    lcd.write("Using LCD...")
 
+   # WRITE YOUR CODE HERE
+
+   print("Start using HD44780-based LCD. Press `Ctrl+C` to stop")
+
    try:
+       # Forever loop
        while True:
            pass
 
    except KeyboardInterrupt:
-       print("Ctrl+C Pressed. Exiting...")
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
 
        # Optional cleanup code
        lcd.command(0x01)  # Clear display
+
+       # Stop program execution
+       sys.exit(0)
    ```
 
-3. All LCD displays based on the Hitachi HD44780 controller have two types of memory that store defined characters: CGROM and CGRAM (Character Generator ROM & RAM). The CGROM memory is non-volatile and cannot be modified, while the CGRAM memory is volatile and can be [modified at any time](https://lastminuteengineers.com/arduino-1602-character-lcd-tutorial/).
+4. Try methods `move_to()` and `write()` to print the text on the LCD screen.
+
+5. All LCD displays based on the Hitachi HD44780 controller have two types of memory that store defined characters: CGROM and CGRAM (Character Generator ROM & RAM). The CGROM memory is non-volatile and cannot be modified, while the CGRAM memory is volatile and can be [modified at any time](https://lastminuteengineers.com/arduino-1602-character-lcd-tutorial/).
 
    **CGROM** memory is used to store all permanent fonts that can be displayed using their ASCII code. For example, if we write 0x43, then we get the character "C" on the display. In total, it can generate 192 5x8 character patterns.
 
@@ -134,7 +149,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
    A custom character is an array of 8 bytes. Each byte (only 5 bits are considered) in the array defines one row of the character in the 5x8 matrix. Whereas, the zeros and ones in the byte indicate which pixels in the row should be on and which ones should be off.
 
-   Use [LCD pattern library](https://www.quinapalus.com/hd44780udg.html) and generate two 5 by 8 custom characters. Use the foíllowing structure to display them on the sceen.
+   The following code would create and display one new character.
 
    ```python
    ...
@@ -147,20 +162,22 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    lcd.custom_char(0, new_char)
 
    # Create other custom characters
+
    # WRITE YOUR CODE HERE
 
-   # Show new custom character
+   # Show new custom character(s)
    lcd.move_to(2, 3)
    lcd.write(chr(0))
 
-   # Show other custom characters
    # WRITE YOUR CODE HERE
 
    try:
        while True:
            pass
-           ...
+   ...
    ```
+
+6. Use [LCD pattern library](https://www.quinapalus.com/hd44780udg.html) and generate other two 5 by 8 new custom characters and display them on the sceen.
 
 <a name="part3"></a>
 
@@ -177,18 +194,18 @@ To display numerical values, they first need to be converted to strings.
    lcd.write(TEMP_STR)
    ```
 
-2. Create a stopwatch counter according to the screenshot below. Use timer interrupt and update the stopwatch value every 100&nbsp;ms. Display tenths of a second only in the form `00:00.tenths`, ie let the stopwatch counts from `00:00.0` to `00:00.9` and then starts counting again.
+1. Create a stopwatch counter according to the screenshot below. Use timer interrupt and update the stopwatch value every 100&nbsp;ms. Display tenths of a second only in the form `00:00.tenths`, ie let the stopwatch counts from `00:00.0` to `00:00.9` and then starts counting again.
 
    ![LCD_screenshot](images/screenshot_lcd_stopwatch.png)
 
    ```python
-   # Import necessary modules
    from lcd_hd44780 import LcdHd44780
    from machine import Timer
+   import sys
 
    def stopwatch_100ms(t):
-       """Interrupt handler of Timer0 executed every 100 millisecs"""
-       global tenths  # Can use global variable here
+       """Interrupt handler of Timer executed every 100 millisecs"""
+       global tenths  # Can update global variable here
 
        # Modify tenths of seconds
        # WRITE YOR CODE HERE
@@ -203,19 +220,23 @@ To display numerical values, they first need to be converted to strings.
    # WRITE YOR CODE HERE
 
    # Define 100-millisec timer
-   timer0 = Timer(0)
-   timer0.init(period=100,
-               mode=Timer.PERIODIC,
-               callback=stopwatch_100ms)
+   tim = Timer(0)
+   tim.init(period=100, 
+            mode=Timer.PERIODIC,
+            callback=stopwatch_100ms)
 
    tenths = 0  # Global variable for `tenths of seconds`
 
+   print("Start counting. Press `Ctrl+C` to stop")
+
    try:
+       # Forever loop
        while True:
            pass
 
    except KeyboardInterrupt:
-       print("Ctrl+C Pressed. Exiting...")
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
 
        # Optional cleanup code
        lcd.command(0x01)  # Clear display
@@ -228,7 +249,7 @@ To display numerical values, they first need to be converted to strings.
 
 ## Challenges
 
-1. Add a push button to your application to pause and resume counting when the button is pressed. When the counter is paused, bllink the current stopwatch value.
+1. Add a push button to your application to pause and resume counting when the button is pressed.
 
 2. Create six new characters in the CG RAM of the LCD controller and program a progress bar at several columns of the LCD. Determine how often the progress bar should be updated to accurately represent one second of progress.
 

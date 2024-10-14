@@ -28,7 +28,7 @@ lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 new_char = bytearray([0x4, 0xa, 0xa, 0xa, 0x11, 0x1f, 0xe, 0x00])
 lcd.custom_char(0, new_char)
 
-# Show new custom character
+# Show new custom character(s)
 lcd.move_to(2, 3)
 lcd.write(chr(0))
 

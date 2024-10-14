@@ -24,7 +24,7 @@ import sys
 
 
 def stopwatch_100ms(t):
-    """Interrupt handler of Timer0 executed every 100 millisecs"""
+    """Interrupt handler of Timer executed every 100 millisecs"""
     global tenths  # Can update global variables
     global secs
 
@@ -58,10 +58,10 @@ lcd.move_to(2, 3)
 lcd.write("00:00.0")
 
 # Define 100-millisec timer
-timer0 = Timer(0)
-timer0.init(period=100,
-            mode=Timer.PERIODIC,
-            callback=stopwatch_100ms)
+tim = Timer(0)
+tim.init(period=100,
+         mode=Timer.PERIODIC,
+         callback=stopwatch_100ms)
 
 tenths = 0  # Global variable for `tenths of seconds`
 secs = 0    # ... and for seconds
@@ -79,7 +79,7 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     lcd.command(0x01)  # Clear display
-    timer0.deinit()    # Deinitialize the timer
+    tim.deinit()       # Deinitialize the timer
 
     # Stop program execution
     sys.exit(0)
