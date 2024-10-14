@@ -17,14 +17,10 @@
 
 ### Learning objectives
 
-After completing this lab you will be able to:
-
 * Understand the Wi-Fi STA mode
 * Use methods for connecting and disconnecting the Wi-Fi
 * Perform data transfers between ESP32 and server via GET and POST requests
 * Use the classes and modules
-
-The main goal of this laboratory exercise is to understand Wi-Fi connectivity using MicroPython and introduce the concept of IoT (Internet of Things) by connecting the ESP32 to the ThingSpeak platform (or other).
 
 <a name="preparation"></a>
 
@@ -204,7 +200,7 @@ This will print `True` if the ESP32 is connected to a Wi-Fi network, and `False`
 
 ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, analyze, and visualize data from your connected devices. It provides APIs for storing and retrieving data, making it easy to integrate IoT devices into your projects. One common use case for ThingSpeak is to store and display sensor data.
 
-1. Use breadboard, jumper wires, and connect I2C [DHT12](../../docs/dht12_manual.pdf) sensor to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
+1. Use breadboard, jumper wires, and connect I2C [DHT12](../docs/dht12_manual.pdf) sensor to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
 
    > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones is used.
 
@@ -216,9 +212,9 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
 4. Get Channel API Key: In your channel settings, you'll find an Write API Key. This key is used to authenticate your device when sending data to ThingSpeak.
 
-5. Create a new file `dht12.py` and [copy/paste](../../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device.
+5. Create a new file `dht12.py` and [copy/paste](../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device.
 
-   Create a new file `mywifi.py` and [copy/paste](../../solutions/07-wifi/mywifi.py) the methods for connecting/disconnecting to Wi-Fi. Save a copy of this file to the MicroPython device.
+   Create a new file `mywifi.py` and [copy/paste](../solutions/07-wifi/mywifi.py) the methods for connecting/disconnecting to Wi-Fi. Save a copy of this file to the MicroPython device.
 
 6. Write a MicroPython script that reads data from the DHT12 sensor and sends it to ThingSpeak. Use the `urequests` library to make HTTP requests.
 

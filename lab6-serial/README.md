@@ -23,14 +23,10 @@
 
 ### Learning objectives
 
-After completing this lab you will be able to:
-
 * Understand the I2C communication
 * Perform data transfers between ESP32 and I2C devices
 * Use methods for OLED dispaly in MicroPython
 * Use logic analyzer
-
-The main goal of this laboratory exercise is to gain a comprehensive understanding of serial synchronous communication via the I2C (Inter-Integrated Circuit) bus. This includes grasping the essential structure of address and data frames. Additionally, this exercise provides an opportunity to explore the utilization of classes and methods in MicroPython.
 
 <a name="preparation"></a>
 
@@ -105,19 +101,19 @@ The goal of this task is to find all devices connected to the I2C bus.
 
 1. Use breadboard, jumper wires, and connect I2C devices to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
 
-   > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones is used.
+   > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones are used.
 
    ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
-   * Humidity/temperature [DHT12](../../docs/dht12_manual.pdf) digital sensor
+   * Humidity/temperature [DHT12](../docs/dht12_manual.pdf) digital sensor
 
    * SH1106 I2C [OLED display](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/) 128x64
 
    * Optional: Humidity/temperature/pressure [BME280](https://cdn-shop.adafruit.com/datasheets/BST-BME280_DS001-10.pdf) sensor
 
-   * Optional: Combined module with [RTC DS3231](../../docs/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../../docs/at24c32_manual.pdf) EEPROM memory
+   * Optional: Combined module with [RTC DS3231](../docs/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../docs/at24c32_manual.pdf) EEPROM memory
 
-   * Optional: [GY-521 module](../../docs/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
+   * Optional: [GY-521 module](../docs/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
 
 2. Within the Thonny IDE, create a new script named `01-i2c_scan.py` and perform a scan to detect the slave addresses of connected I2C devices. Endeavor to determine the corresponding chip associated with each address.
 
@@ -142,7 +138,7 @@ The goal of this task is to find all devices connected to the I2C bus.
 
 The goal of this task is to communicate with the DHT12 temperature and humidity sensor assigned to the I2C slave address `0x5c`.
 
-1. Create a new script named `02-i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../../docs/dht12_manual.pdf), the internal DHT12 memory has the following structure.
+1. Create a new script named `02-i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../docs/dht12_manual.pdf), the internal DHT12 memory has the following structure.
 
    | **Memory location** | **Description** |
    | :-: | :-- |
@@ -194,8 +190,8 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
 
 5. (Optional) Use BME280 sensor and read humidity, temperature and preassure values.
 
-   * BME280 [class](../../solutions/06-serial/bme280.py)
-   * Testing [script](../../solutions/06-serial/03-i2c_sensor_bme280.py)
+   * BME280 [class](../solutions/06-serial/bme280.py)
+   * Testing [script](../solutions/06-serial/03-i2c_sensor_bme280.py)
 
 <a name="part4"></a>
 
@@ -288,7 +284,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 5. Combine temperature and OLED examples and print DHT12 senzor values on OLED display.
 
-   Create a new file `dht12.py` and [copy/paste](../../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Import the class to your script and use the methods according to the example:
+   Create a new file `dht12.py` and [copy/paste](../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Import the class to your script and use the methods according to the example:
 
    ```python
    from machine import I2C
@@ -351,7 +347,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    2 device(s) detected
    ```
 
-2. Build a real-time clock using an ESP32 board, I2C communication, and an RTC DS3231. The goal is to set and display the current time, date, and perform basic time-related operations. Note that, according to the [DS3231 manual](../../docs/ds3231_manual.pdf), the RTC memory has the following structure.
+2. Build a real-time clock using an ESP32 board, I2C communication, and an RTC DS3231. The goal is to set and display the current time, date, and perform basic time-related operations. Note that, according to the [DS3231 manual](../docs/ds3231_manual.pdf), the RTC memory has the following structure.
 
    | **Address** | **Bit 7** | **Bits 6:4** | **Bits 3:0** |
    | :-: | :-: | :-: | :-: |
