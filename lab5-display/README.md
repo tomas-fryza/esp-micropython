@@ -249,13 +249,13 @@ To display numerical values, they first need to be converted to strings.
 
 ## Challenges
 
-1. Add a push button to your application to pause and resume counting when the button is pressed.
-
-2. Create six new characters in the CG RAM of the LCD controller and program a progress bar at several columns of the LCD. Determine how often the progress bar should be updated to accurately represent one second of progress.
+1. Create six new characters in the CG RAM of the LCD controller and program a progress bar at several columns of the LCD. Determine how often the progress bar should be updated to accurately represent one second of progress.
 
    ![LCD_progress-bar_chars](images/lcd_chars_bar.png)
 
    > **NOTE:** An explanation and instructions on how to program such a progress bar can be found [here (for C language)](https://www.youtube.com/watch?app=desktop&v=rKP1AA-hizw).
+
+2. Add a push button to your application to pause and resume counting when the button is pressed.
 
 <a name="references"></a>
 
