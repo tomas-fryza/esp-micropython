@@ -19,7 +19,7 @@
 * Logic analyzer
 * Jumper wires
 
-   ![photo_oled](images/photo_oled.jpg)
+  ![photo_oled](images/photo_oled.jpg)
 
 ### Learning objectives
 
@@ -115,14 +115,16 @@ The goal of this task is to find all devices connected to the I2C bus.
 
    * Optional: [GY-521 module](../docs/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
 
-2. Within the Thonny IDE, create a new script named `01-i2c_scan.py` and perform a scan to detect the slave addresses of connected I2C devices. Endeavor to determine the corresponding chip associated with each address.
+2. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
+
+3. Create a new file in Thonny and perform a scan to detect the slave addresses of connected I2C devices. Endeavor to determine the corresponding device associated with each address.
 
    ```python
    from machine import I2C
    from machine import Pin
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
 
    print("Scanning I2C... ", end="")
    addrs = i2c.scan()
@@ -138,7 +140,7 @@ The goal of this task is to find all devices connected to the I2C bus.
 
 The goal of this task is to communicate with the DHT12 temperature and humidity sensor assigned to the I2C slave address `0x5c`.
 
-1. Create a new script named `02-i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../docs/dht12_manual.pdf), the internal DHT12 memory has the following structure.
+1. Create a new script file `02-i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../docs/dht12_manual.pdf), the internal DHT12 memory has the following structure.
 
    | **Memory location** | **Description** |
    | :-: | :-- |
@@ -148,9 +150,12 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    | 0x03 | Temperature decimal part |
    | 0x04 | Checksum |
 
+   Use the following code to get the temperature value.
+
    ```python
    from machine import I2C
    from machine import Pin
+   import time
 
    SENSOR_ADDR = 0x5c
    SENSOR_HUMI_REG = 0
@@ -159,17 +164,30 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
-   # Display device address
-   print(f"I2C address       : {hex(i2c.scan()[0])}")
-   # Display I2C config
-   print(f"I2C configuration : {str(i2c)}")
 
-   # readfrom_mem(i2caddr, memaddr, nbytes)
-   val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
-   print(f"{val[0]}.{val[1]}°C")
+   print(f"I2C configuration : {str(i2c)}")
+   print("Start using I2C. Press `Ctrl+C` to stop")
+
+   try:
+       # Forever loop
+       while True:
+           # Read 2 bytes from `SENSOR_ADDR` device, from
+           # `SENSOR_TEMP_REG` address
+           val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
+           print(f"{val[0]}.{val[1]}°C")
+           time.sleep(5)
+
+   except KeyboardInterrupt:
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
+
+       # Optional cleanup code
+
+       # Stop program execution
+       sys.exit(0)
    ```
 
-2. Extend the code and periodically read values from all DHT12 memory locations, print them, and verify the checksum byte.
+2. Extend the code and periodically read humidity and checksum values from DHT12 sensor. Verify the checksum byte.
 
 3. Use the MicroPython manual and find the description of the following methods from [I2C class](https://docs.micropython.org/en/latest/library/machine.I2C.html):
 
@@ -199,9 +217,16 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
 
 An OLED I2C display, or OLED I2C screen, is a type of display technology that combines an OLED (Organic Light Emitting Diode) panel with an I2C (Inter-Integrated Circuit) interface for communication. The I2C interface simplifies the connection between the display and a microcontroller, making it easier to control and integrate into various electronic projects.
 
-1. Create a new file `sh1106.py` consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device as well.
+1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
 
 2. Create a new file `04-i2c_oled.py` and write a script to print text on the display.
+
+
+
+
+
+
+
 
    ```python
    from machine import I2C

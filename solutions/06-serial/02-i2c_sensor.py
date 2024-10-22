@@ -1,22 +1,13 @@
 """
-Read sensor values via I2C bus
+Read sensor values using I2C bus
 
-This MicroPython script demonstrates the initialization
-of the I2C bus, the scanning process to locate the DHT12
-temperature and humidity sensor assigned to the Slave
-address `0x5c`, and the continuous retrieval and printing
-of data from the sensor.
-
-Hardware Configuration:
-- Connect I2C sensor DHT12 to your ESP32 as follows:
-  - SCL: GPIO 22
-  - SDA: GPIO 21
-  - `+`: 3.3V
-  - `-`: GND
+This script demonstrates using I2C to read values from
+DHT12 temperature and humidity sensor.
 
 Authors: MicroPython, https://github.com/micropython/micropython/blob/master/examples/accel_i2c.py
          Tomas Fryza
-Date: 2023-06-17
+Creation Date: 2023-06-17
+Last Modified: 2024-10-18
 """
 
 from machine import I2C
@@ -35,17 +26,25 @@ print(f"I2C address       : {hex(i2c.scan()[0])}")
 # Display I2C config
 print(f"I2C configuration : {str(i2c)}")
 
-print("Stop the code execution by pressing `Ctrl+C` key.")
 addrs = i2c.scan()
 if SENSOR_ADDR not in addrs:
     raise Exception(f"`{hex(SENSOR_ADDR)}` is not detected")
 
+print("Start using I2C. Press `Ctrl+C` to stop")
+
 try:
+    # Forever loop
     while True:
-        # readfrom_mem(addr, memaddr, nbytes)
+                # readfrom_mem(addr, memaddr, nbytes)
         val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
         print(f"{val[0]}.{val[1]}°C")
         time.sleep(5)
 
 except KeyboardInterrupt:
-    print("Ctrl+C pressed. Exiting...")
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
+
+    # Optional cleanup code
+
+    # Stop program execution
+    sys.exit(0)

@@ -1,7 +1,22 @@
-# https://github.com/pimoroni/pimoroni-pico/releases
-# https://github.com/pimoroni/pimoroni-pico/blob/main/micropython/modules/picographics/README.md
-# https://allrite.blog/2022/09/12/pico-rss-news-feed-reader/
-# https://www.youtube.com/watch?v=ytnBCw5TO9s&ab_channel=MakingStuffwithChrisDeHut
+# Example of Pico Inky Pack
+#
+# Instructions:
+#
+# 1. Download latest release of Pimoroni Pico Libraries
+#    (such as pico-v1.23.0-1-pimoroni-micropython.uf2):
+#    https://github.com/pimoroni/pimoroni-pico/releases
+#
+# 2. Install the release
+#
+# 3. Connect the Pico Display, here `Pico Inky Pack`
+#
+# 4. Program the example
+#
+# See also:
+#
+#   https://github.com/pimoroni/pimoroni-pico/blob/main/micropython/modules/picographics/README.md
+#   https://allrite.blog/2022/09/12/pico-rss-news-feed-reader/
+#   https://www.youtube.com/watch?v=ytnBCw5TO9s&ab_channel=MakingStuffwithChrisDeHut
 
 import time
 from pimoroni import Button
@@ -25,9 +40,9 @@ display = PicoGraphics(
 # display.set_backlight(0.5)
 display.set_font("bitmap8")
 
-button_a = Button(12)
-button_b = Button(13)
-button_c = Button(14)
+# button_a = Button(12)
+# button_b = Button(13)
+# button_c = Button(14)
 
 WHITE = 15
 BLACK = 0
@@ -40,8 +55,8 @@ display.text('"Snowman" Fryza', 35, 67, 200, 2)
 display.text("Brno University of Technology", 152, 94, 200, 1)
 # display.line(10, 100, 286, 100)
 display.set_font("bitmap6")
-display.text("Czechia", 155, 102, 100, 4)
-# display.text("Czechoslovakia", 2, 102, 296, 4)
+# display.text("Czechia", 155, 102, 100, 4)
+display.text("Czechoslovakia", 2, 102, 296, 4)
 
 display.update()
 

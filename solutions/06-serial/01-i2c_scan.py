@@ -2,21 +2,12 @@
 I2C scanner
 
 Scan the I2C (Inter-Integrated Circuit) bus for connected
-devices and print their addresses (between 0x08 and 0x77
-inclusive) in both decimal and hexadecimal formats. This
-script is useful for identifying I2C devices connected to
-your microcontroller.
+devices and print their addresses. This script is useful
+for identifying I2C devices connected to your microcontroller.
 
-Hardware Configuration:
-- Connect I2C devices to your ESP32 as follows:
-  - SCL (Serial Clock): GPIO 22
-  - SDA (Serial Data): GPIO 21
-  - VCC: 3.3V
-  - GND: GND
-
-Authors: MicroPython
-         Tomas Fryza
-Date: 2023-06-17
+Authors: MicroPython, Tomas Fryza
+Creation Date: 2023-06-17
+Last Modified: 2024-10-18
 """
 
 from machine import I2C

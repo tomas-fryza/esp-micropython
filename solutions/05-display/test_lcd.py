@@ -5,14 +5,6 @@ This script demonstrates the use of an HD44780-based LCD with
 MicroPython. It initializes the LCD and write static text to
 the display.
 
-Components:
-  - ESP32 microcontroller
-  - LCD display:
-     + RS: GPIO pin 26
-     + R/W: GND
-     + E: 25
-     + D[7:4]: 27, 9, 10, 13
-
 Author: Tomas Fryza
 Creation Date: 2023-10-20
 Last Modified: 2024-10-08

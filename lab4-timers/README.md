@@ -57,7 +57,7 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
 
 1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
-2. Open Thonny and create a new file. Enter the following MicroPython code, which serves as a template for using timers. The `machine.Timer` class in MicroPython provides a way to set up and run a timer that calls a function (callback) either at regular intervals (periodically) or once after a delay.
+2. Create a new file in Thonny and enter the following MicroPython code, which serves as a template for using timers. The `machine.Timer` class in MicroPython provides a way to set up and run a timer that calls a function (callback) either at regular intervals (periodically) or once after a delay.
 
    In this code, the function will be automatically called by Timer0 every time the timer period is reached.
 
