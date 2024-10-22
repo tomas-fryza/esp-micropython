@@ -3,12 +3,9 @@ I2C BME280 sensor (Pressure, Temperature, Humidity)
 
 TBD
 
-Hardware Configuration:
-- Connect I2C BME280 sensor to your ESP32 as follows:
-  - SCL: GPIO 22
-  - SDA: GPIO 21
-  - VIN: 3.3V
-  - GND: GND
+Components:
+  - ESP32 microcontroller
+  - BME280 pressure, temperature, and humidity sensor
 
 Authors: https://randomnerdtutorials.com/micropython-bme280-esp32-esp8266/
          Tomas Fryza

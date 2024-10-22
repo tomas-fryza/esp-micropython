@@ -130,8 +130,8 @@ The goal of this task is to find all devices connected to the I2C bus.
    addrs = i2c.scan()
    print(f"{len(addrs)} device(s) detected")
 
-   for x in addrs:
-       print(f"{x}\t{hex(x)}")
+   for addr in addrs:
+       print(f"{addr}\t {hex(addr)}")
    ```
 
 <a name="part3"></a>
@@ -150,20 +150,23 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    | 0x03 | Temperature decimal part |
    | 0x04 | Checksum |
 
-   Use the following code to get the temperature value.
+   Use the following code to get the humidity value, stored in two bytes, starting at address 0.
 
    ```python
    from machine import I2C
    from machine import Pin
    import time
+   import sys
 
    SENSOR_ADDR = 0x5c
-   SENSOR_HUMI_REG = 0
-   SENSOR_TEMP_REG = 2
-   SENSOR_CHECKSUM = 4
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+
+   # Check the sensor
+   addrs = i2c.scan()
+   if SENSOR_ADDR not in addrs:
+       raise Exception(f"`{hex(SENSOR_ADDR)}` is not detected")
 
    print(f"I2C configuration : {str(i2c)}")
    print("Start using I2C. Press `Ctrl+C` to stop")
@@ -171,10 +174,9 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    try:
        # Forever loop
        while True:
-           # Read 2 bytes from `SENSOR_ADDR` device, from
-           # `SENSOR_TEMP_REG` address
-           val = i2c.readfrom_mem(SENSOR_ADDR, SENSOR_TEMP_REG, 2)
-           print(f"{val[0]}.{val[1]}°C")
+           # Read 2 bytes from `SENSOR_ADDR` device, starting at address 0
+           val = i2c.readfrom_mem(SENSOR_ADDR, 0, 2)
+           print(f"{val[0]}.{val[1]} %")
            time.sleep(5)
 
    except KeyboardInterrupt:
@@ -187,7 +189,7 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
        sys.exit(0)
    ```
 
-2. Extend the code and periodically read humidity and checksum values from DHT12 sensor. Verify the checksum byte.
+2. Extend the code and periodically read humidity and checksum values from DHT12 sensor. Verify the checksum byte, which is the sum of all previous four bytes.
 
 3. Use the MicroPython manual and find the description of the following methods from [I2C class](https://docs.micropython.org/en/latest/library/machine.I2C.html):
 
@@ -206,7 +208,9 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    >
    > You can find a comprehensive tutorial on utilizing a logic analyzer in this [video](https://www.youtube.com/watch?v=CE4-T53Bhu0).
 
-5. (Optional) Use BME280 sensor and read humidity, temperature and preassure values.
+5. (Optional) See the [DHT12 class](../solutions/06-serial/dht12.py) code.
+
+6. (Optional) Use BME280 sensor and read humidity, temperature and preassure values.
 
    * BME280 [class](../solutions/06-serial/bme280.py)
    * Testing [script](../solutions/06-serial/03-i2c_sensor_bme280.py)
@@ -221,34 +225,21 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 2. Create a new file `04-i2c_oled.py` and write a script to print text on the display.
 
-
-
-
-
-
-
-
    ```python
    from machine import I2C
    from machine import Pin
    from sh1106 import SH1106_I2C
 
-   WIDTH = 128  # OLED display width
-   HEIGHT = 64  # OLED display height
-
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
-   # Display device address
-   print(f"I2C address       : {hex(i2c.scan()[0])}")
-   # Display I2C config
    print(f"I2C configuration : {str(i2c)}")
 
    # Init OLED display
-   oled = SH1106_I2C(WIDTH, HEIGHT, i2c, rotate=180)
+   oled = SH1106_I2C(i2c)
 
-   # Add some text
-   oled.text("Using OLED and", x=0, y=40)
-   oled.text("ESP32", x=50, y=50)
+   # Add some text at (x, y)
+   oled.text("Using OLED and", 0, 40)
+   oled.text("ESP32", 50, 50)
 
 
    # WRITE YOUR CODE HERE
@@ -258,22 +249,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    oled.show()
    ```
 
-3. Use other methods from `sh1106` [class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display.
-
-   ```python
-   # https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
-   oled.fill_rect(x=0, y=0, w=32, h=32, color=1)
-   oled.fill_rect(x=2, y=2, w=28, h=28, color=0)
-   oled.vline(x=9, y=8, h=22, color=1)
-   oled.vline(x=16, y=2, h=22, color=1)
-   oled.vline(x=23, y=8, h=22, color=1)
-   oled.fill_rect(x=26, y=24, w=2, h=4, color=1)
-   oled.text("MicroPython", x=40, y=0)
-   oled.text("Brno, CZ", x=40, y=12)
-   oled.text("RadioElect.", x=40, y=24)
-   ```
-
-   Here is the list of availabe methods for basic graphics.
+3. Use other methods from `sh1106` [class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display. Here is the list of availabe methods for basic graphics.
 
    | **Method name** | **Description** | **Example** |
    | :-- | :-- | :-- |
@@ -304,12 +280,12 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    pos_x, pos_y = 100, 50
    for j, row in enumerate(icon):
        for i, val in enumerate(row):
-           oled.pixel(x=i+pos_x, y=j+pos_y, color=val) 
+           oled.pixel(i+pos_x, j+pos_y, val) 
    ```
 
-5. Combine temperature and OLED examples and print DHT12 senzor values on OLED display.
+5. Combine temperature and OLED examples and print DHT12 sensor values on OLED display.
 
-   Create a new file `dht12.py` and [copy/paste](../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Import the class to your script and use the methods according to the example:
+   Create a new file `dht12.py` and [copy/paste](../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Create a new script file, read values from DHT12 sensor, and display them in Thonny`s Shell and OLED display.
 
    ```python
    from machine import I2C
@@ -317,9 +293,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    import time
    import dht12
    from sh1106 import SH1106_I2C
-
-   WIDTH = 128  # OLED display width
-   HEIGHT = 64  # OLED display height
+   import sys
 
 
    def read_sensor():
@@ -327,14 +301,18 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
        return sensor.temperature(), sensor.humidity()
 
 
-   # Connect to the DHT12 sensor
+   # Init DHT12 sensor
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
    sensor = dht12.DHT12(i2c)
 
    # Init OLED display
-   oled = SH1106_I2C(WIDTH, HEIGHT, i2c, rotate=180)
+   oled = SH1106_I2C(i2c)
+
+   print(f"I2C configuration : {str(i2c)}")
+   print("Start using I2C. Press `Ctrl+C` to stop")
 
    try:
+       # Forever loop
        while True:
            temp, humidity = read_sensor()
            print(f"Temperature: {temp}°C, Humidity: {humidity}%")
@@ -343,10 +321,14 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
            # WRITE YOUR CODE HERE
 
 
-           time.sleep(1)
+           oled.show()
+           time.sleep(5)
 
    except KeyboardInterrupt:
-       print("Ctrl+C pressed. Exiting...")
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
+
+       # Optional cleanup code
        oled.poweroff()
    ```
 
@@ -372,7 +354,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    2 device(s) detected
    ```
 
-2. Build a real-time clock using an ESP32 board, I2C communication, and an RTC DS3231. The goal is to set and display the current time, date, and perform basic time-related operations. Note that, according to the [DS3231 manual](../docs/ds3231_manual.pdf), the RTC memory has the following structure.
+2. Create a stopwatch using an RTC DS3231 (Real Time Clock) I2C device. Note that, according to the [DS3231 manual](../docs/ds3231_manual.pdf), the RTC memory has the following structure.
 
    | **Address** | **Bit 7** | **Bits 6:4** | **Bits 3:0** |
    | :-: | :-: | :-: | :-: |

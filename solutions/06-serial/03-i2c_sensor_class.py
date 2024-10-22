@@ -2,6 +2,7 @@ from machine import I2C
 from machine import Pin
 import time
 import dht12
+import sys
 
 
 def read_sensor():
@@ -17,7 +18,8 @@ try:
     while True:
         temp, humidity = read_sensor()
         print(f"Temperature: {temp}°C, Humidity: {humidity}%")
-        time.sleep(30)
+        time.sleep(5)
 
 except KeyboardInterrupt:
     print("Ctrl+C pressed. Exiting...")
+    sys.exit(0)
