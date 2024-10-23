@@ -32,8 +32,8 @@ def read_sensor():
 
 def oled_setup(oled):
     oled.contrast(50)  # Set contrast to 50 %
-    oled.text("Tempr. [C]:", 0, 40)
-    oled.text("Humid. [%]:", 0, 52)
+    oled.text("Temp. [C]:", 0, 40)
+    oled.text("Humid.[%]:", 0, 52)
 
 
 # Init DHT12 sensor
@@ -52,9 +52,9 @@ try:
     while True:
         temp, humidity = read_sensor()
         print(f"Temperature: {temp}°C, Humidity: {humidity}%")
-        oled.fill_rect(95, 38, 120, 50, 0)
-        oled.text(f"{temp}", 95, 40)
-        oled.text(f"{humidity}", 95, 52)
+        oled.fill_rect(85, 38, 120, 50, 0)
+        oled.text(f"{temp}", 85, 40)
+        oled.text(f"{humidity}", 85, 52)
         oled.show()
         time.sleep(5)
 
