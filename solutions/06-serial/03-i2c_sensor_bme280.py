@@ -1,42 +1,50 @@
 """
-I2C BME280 sensor (Pressure, Temperature, Humidity)
+Read values from BME280 sensor (Pressure, Temperature, Humidity)
 
-TBD
+This script demonstrates using I2C to read values from
+BME280 pressure, temperature, and humidity sensor. The
+script requires BME280 module, stored in ESP32 device.
 
 Components:
   - ESP32 microcontroller
-  - BME280 pressure, temperature, and humidity sensor
+  - BME280 sensor
 
 Authors: https://randomnerdtutorials.com/micropython-bme280-esp32-esp8266/
          Tomas Fryza
-Date: 2023-11-01
+Creation Date: 2023-11-01
+Last Modified: 2024-10-23
 """
 
-from machine import Pin
 from machine import I2C
-from time import sleep
+from machine import Pin
+import time
 import bme280
-
-# Init I2C using pins GP22 & GP21 (default I2C0 pins)
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
-print(f"I2C address       : {hex(i2c.scan()[0])}")
-print(f"I2C configuration : {str(i2c)}")
+import sys
 
 # Init BME280 sensor
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
 bme = bme280.BME280(i2c=i2c)
 
+print(f"I2C configuration : {str(i2c)}")
+print("Start using I2C. Press `Ctrl+C` to stop")
+
 try:
+    # Forever loop
     while True:
-        temp = bme.temperature  # Return temp in degrees
+        temp = bme.temperature  # Return temp in degrees C
         hum = bme.humidity
         pres = bme.pressure
-
         print(f"Temperature: {temp}")
         print(f"Humidity: {hum}")
         print(f"Pressure: {pres}")
-
-        sleep(5)
+        time.sleep(5)
         print("")
 
 except KeyboardInterrupt:
-    print("Ctrl+C pressed. Exiting...")
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
+
+    # Optional cleanup code
+
+    # Stop program execution
+    sys.exit(0)
