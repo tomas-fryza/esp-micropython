@@ -19,7 +19,7 @@
 * Logic analyzer
 * Jumper wires
 
-  ![photo_oled](images/photo_oled.jpg)
+  ![photo_oled](images/photo_oled2.jpg)
 
 ### Learning objectives
 
@@ -330,6 +330,9 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
        # Optional cleanup code
        oled.poweroff()
+
+       # Stop program execution
+       sys.exit(0)
    ```
 
 <a name="challenges"></a>
