@@ -359,12 +359,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 2. Create a stopwatch using an RTC DS3231 (Real Time Clock) I2C device. Note that, according to the [DS3231 manual](../docs/ds3231_manual.pdf), the RTC memory has the following structure.
 
-   | **Address** | **Bit 7** | **Bits 6:4** | **Bits 3:0** |
-   | :-: | :-: | :-: | :-: |
-   | 0x00 | 0 | 10 Seconds | Seconds |
-   | 0x01 | 0 | 10 Minutes | Minutes |
-   | 0x02 | 0 | 12/24 AM/PM 10 Hour | Hour |
-   | ... | ... | ... | ... |
+   ![rtc_regs](images/rtc_registers.png)
 
 3. Build an environmental monitoring system using an ESP32 board, I2C communication, and common sensors. The goal is to collect data on temperature, humidity, and air quality, and display this information on an OLED display.
 
