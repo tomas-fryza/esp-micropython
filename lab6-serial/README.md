@@ -253,13 +253,13 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
    | **Method name** | **Description** | **Example** |
    | :-- | :-- | :-- |
-   | `oled.text(text, x, y)` | Display `text` at position `x`, `y` | `oled.text("Using OLED...", x=0, y=0)` |
+   | `oled.text(text, x, y)` | Display `text` at position `x`, `y` | `oled.text("Using OLED...", 0, 0)` |
    | `oled.pixel(x, y, color)` | Display one pixel at position. Optional `color`: 1 - visible, 0 - background color | `oled.pixel(10, 20)`
-   | `oled.hline(x, y, w, color)` | Horizontal line with width `w` and `color` | `oled.hline(0, 64, 128, color=1)` |
-   | `oled.vline(x, y, h, color)` | Vertical line with height `h` | `oled.vline(x=9, y=8, h=22, color=1)` |
-   | `oled.line(x1, y1, x2, y2, color)` | Diagonal line | `oled.line(x1=0, y1=0, x2=128, y2=64, color=1)` |
+   | `oled.hline(x, y, w, color)` | Horizontal line with width `w` and `color` | `oled.hline(0, 64, 128, 1)` |
+   | `oled.vline(x, y, h, color)` | Vertical line with height `h` | `oled.vline(9, 8, 22, 1)` |
+   | `oled.line(x1, y1, x2, y2, color)` | Diagonal line | `oled.line(0, 0, 128, 64, 1)` |
    | `oled.rect(x, y, w, h, color)` | Rectangle | `oled.rect(0, 0, 128, 64, 1)` |
-   | `oled.fill_rect(x, y, w, h, collor)` | Filled rectangle | `oled.fill_rect(x=0, y=0, w=32, h=32, color=1)` |
+   | `oled.fill_rect(x, y, w, h, collor)` | Filled rectangle | `oled.fill_rect(0, 0, 32, 32, 1)` |
    | `oled.fill(color)` | Fill the whole screen (clear screen) | `oled.fill(0)` |
 
 4. Define a binary matrix, suggest your picture/icon, use the `oled.pixel()` method, and print it on the display.
