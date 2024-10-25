@@ -2,7 +2,8 @@
 Read RTC values using I2C bus
 
 This script demonstrates using I2C to read values from
-RTC (Real Time Clock) DS3231 device.
+RTC (Real Time Clock) DS3231 device. The script requires
+io_control module, stored in ESP32 device.
 
 Components:
   - ESP32 microcontroller
@@ -30,6 +31,7 @@ RTC_UPDATE = False
 #  2:   0  | 12/24 | AM/PM | 10 hour |     hour
 #                  | 20 hr |
 
+# Status LED
 led = Led(2)
 led.off()
 

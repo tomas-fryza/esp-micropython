@@ -3,7 +3,7 @@ from machine import Pin
 import time
 import dht12
 import network
-import mywifi
+import my_wifi
 import urequests  # Network Request Module
 
 # Network settings
@@ -46,11 +46,11 @@ try:
     while True:
         temp, humidity = read_sensor()
         print(f"Temperature: {temp}°C, Humidity: {humidity}%")
-        mywifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
+        my_wifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
         send_to_thingspeak(temp, humidity)
-        mywifi.disconnect(wifi)
+        my_wifi.disconnect(wifi)
         time.sleep(60)
 
 except KeyboardInterrupt:
     print("Ctrl+C pressed. Exiting...")
-    mywifi.disconnect(wifi)
+    my_wifi.disconnect(wifi)

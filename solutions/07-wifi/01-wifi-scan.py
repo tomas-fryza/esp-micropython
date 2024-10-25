@@ -6,8 +6,12 @@ the ESP32's Wi-Fi interface in Station mode. It prints the RSSI
 (Received Signal Strength Indicator), channel, and SSID (Service
 Set Identifier) of each detected network.
 
+Components:
+  - ESP32 microcontroller
+
 Authors: Wokwi, Tomas Fryza
-Date: 2023-06-16
+Creation Date: 2023-06-16
+Last Modified: 2024-10-25
 """
 
 import network
@@ -17,14 +21,14 @@ wifi = network.WLAN(network.STA_IF)
 wifi.active(True)
 
 # Perform the Wi-Fi scan
-print("Scanning Wi-Fi... ", end="")
+print("Scanning Wi-Fi networks... ", end="")
 nets = wifi.scan()
-print(f"{len(nets)} network(s)")
+print(f"{len(nets)} network(s) found.")
 
 # Print the list of available Wi-Fi networks
-print("RSSI Channel \tSSID")
+print("RSSI\tChannel\tSSID")
 for net in nets:
-    rssi = net[3]
-    channel = net[2]
-    ssid = net[0].decode("utf-8")
-    print(f"{rssi}  (ch.{channel}) \t{ssid}")
+    rssi = net[3]  # Signal strength
+    channel = net[2]  # Channel number
+    ssid = net[0].decode("utf-8")  # SSID (network name)
+    print(f"{rssi}\t(ch.{channel})\t{ssid}")
