@@ -3,8 +3,8 @@
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Wi-Fi scan](#part1)
 * [Part 2: Wi-Fi Station mode](#part2)
-* [Part 3: ThingSpeak online platform](#part3)
-* [Part 4: (Optional) Network Time Protocol](#part4)
+* [Part 4: Requests](#part3)
+* [Part 4: ThingSpeak online platform](#part4)
 * [Challenges](#challenges)
 * [References](#references)
 
@@ -20,15 +20,14 @@
 * Understand the Wi-Fi STA mode
 * Use methods for connecting and disconnecting the Wi-Fi
 * Perform data transfers between ESP32 and server via GET and POST requests
-* Use the classes and modules
 
 <a name="preparation"></a>
 
 ## Pre-Lab preparation
 
-1. Create an account on the [ThingSpeak](https://thingspeak.com/) IoT platform and optionally also on [OpenWeatherMap](https://openweathermap.org/) server for weather data.
+1. Complete the tasks from the previous lab (getting data from I2C sensors).
 
-2. Review the usage of the I2C communication in MicroPython.
+2. Create an account on the [ThingSpeak](https://thingspeak.mathworks.com/) IoT platform and optionally also on [OpenWeatherMap](https://openweathermap.org/) server for weather data.
 
 3. Explore the usage of the `urequests` or `requests` library in MicroPython. Understand how to make HTTP requests and handle responses.
 
@@ -40,32 +39,34 @@ The Wi-Fi scanning process on the ESP32 involves searching for available Wi-Fi n
 
 ![wifi-scan](images/ESP32-WiFi-Scan-Networks_Wi-Fi-Scan.png)
 
-Use the following code to create an instance of the `WLAN` class from the `network` module, specifying the desired Station mode, activate the Wi-Fi interface, and perform Wi-Fi scan.
+1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
-See the documentation for [WLAN class](https://docs.micropython.org/en/latest/library/network.WLAN.html) description.
+2. Create a new file in Thonny and create an instance of the `WLAN` class from the `network` module, specifying the desired Station mode, activate the Wi-Fi interface, and perform the Wi-Fi scan.
 
-```python
-import network
+   ```python
+   import network
 
-# Initialize the Wi-Fi interface in Station mode and activate it
-wifi = network.WLAN(network.STA_IF)
-wifi.active(True)
+   # Initialize the Wi-Fi interface in Station mode and activate it
+   wifi = network.WLAN(network.STA_IF)
+   wifi.active(True)
 
-# Perform the Wi-Fi scan
-print("Scanning Wi-Fi... ", end="")
-nets = wifi.scan()
-print(f"{len(nets)} network(s)")
+   # Perform the Wi-Fi scan
+   print("Scanning Wi-Fi networks... ", end="")
+   nets = wifi.scan()
+   print(f"{len(nets)} network(s) found.")
 
-# Print the list of available Wi-Fi networks
-print("RSSI Channel \tSSID")
-for net in nets:
-    rssi = net[3]
-    channel = net[2]
-    ssid = net[0].decode("utf-8")
-    print(f"{rssi}  (ch.{channel}) \t{ssid}")
-```
+   # Print the list of available Wi-Fi networks
+   print("RSSI\tChannel\tSSID")
+   for net in nets:
+       rssi = net[3]  # Signal strength
+       channel = net[2]  # Channel number
+       ssid = net[0].decode("utf-8")  # SSID (network name)
+       print(f"{rssi}\t(ch.{channel})\t{ssid}")
+   ```
 
-> **Note:** The `.decode("utf-8")` method converts a sequence of bytes into a string using the UTF-8 encoding.
+   > **Note:** The `.decode("utf-8")` method converts a sequence of bytes into a string using the UTF-8 encoding.
+
+3. See the documentation for [WLAN class](https://docs.micropython.org/en/latest/library/network.WLAN.html) description.
 
 <a name="part2"></a>
 
@@ -83,122 +84,206 @@ In **Access Point mode (`network.AP_IF`)** the ESP32 acts as a Wi-Fi access poin
 
 The Wi-Fi modes can be activated or deactivated using the `active()` method of the `network` module. These modes can be used individually or in combination. For example, the ESP32 can operate in both Station and Access Point modes simultaneously (`network.WIFI_AP_STA`), allowing it to connect to an existing Wi-Fi network while also providing an access point for other devices.
 
-In MicroPython on the ESP32, the `network.STA_IF` provides access to the interface's configuration and status. Use the following code, set your Wi-Fi settings, and connect to the network.
+1. In MicroPython on the ESP32, the `network.STA_IF` provides access to the interface's configuration and status. In Thonny, create a new `config.py` file, set the Wi-Fi credentions, and save it on the ESP32 device.
 
-```python
-import network
+   ```python
+   SSID = "YOUR_WIFI_SSID"
+   PSWD = "YOUR_WIFI_PASSWORD"
+   ```
 
-# Network settings
-WIFI_SSID = "<YOUR WIFI SSID>"
-WIFI_PSWD = "<YOUR WIFI PASSWORD>"
+2. Create a new file `my_wifi.py` and [copy/paste the functions](../solutions/07-wifi/my_wifi.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
 
+3. Create a new file `02-wifi-sta.py` and use the following template to connect and disconnect the network.
 
-def connect_wifi(ssid, password):
-    """
-    Connect to Wi-Fi network.
+   ```python
+   import network
+   import my_wifi
+   import config
 
-    Activates the Wi-Fi interface, connects to the specified network,
-    and waits until the connection is established.
+   # Initialize the Wi-Fi interface in Station mode
+   wifi = network.WLAN(network.STA_IF)
 
-    :return: None
-    """
-    from time import sleep_ms
+   # Connect to SSID
+   my_wifi.connect(wifi, config.SSID, config.PSWD)
 
-    if not wifi.isconnected():
-        # Activate the Wi-Fi interface
-        wifi.active(True)
+   # WRITE YOUR CODE HERE
 
-        # Connect to the specified Wi-Fi network
-        wifi.connect(ssid, password)
+   print(f"Is connected? {wifi.isconnected()}")
+   my_wifi.disconnect(wifi)
+   print(f"Is connected? {wifi.isconnected()}")
+   ```
 
-        # Wait until the connection is established
-        print(f"Connecting to {ssid}", end="")
-        while not wifi.isconnected():
-            print(".", end="")
-            sleep_ms(100)
+4. When working with the `network.WLAN` class, the `ifconfig()` is used to get or set the IP configuration of the interface. Place the following code between `connect()` and `disconnect()` functions and get the current parameters.
 
-        print(" Done")
-    else:
-        print("Already connected")
+   ```python
+   # Get the current IP-level network-interface parameters
+   prms = wifi.ifconfig()
+   print("")
+   print(f"IP address: \t{prms[0]}")
+   print(f"Subnet mask:\t{prms[1]}")
+   print(f"Gateway: \t{prms[2]}")
+   print(f"DNS server:\t{prms[3]}")
+   ```
 
+5. Using the `WLAN.status()` method, we get the network link status according to the following table.
 
-def disconnect_wifi():
-    """
-    Disconnect from Wi-Fi network.
+   ```python
+   print(wifi.status())
+   ```
 
-    Deactivates the Wi-Fi interface if active and checks if
-    the device is not connected to any Wi-Fi network.
+   | **Status#** | **Status name** | **Description** |
+   | :-: | :-- | :-- |
+   | `1000` | `STAT_IDLE` | There is no connection or activity |
+   | `1001` | `STAT_CONNECTING` | Connecting in progress |
+   | `1010` | `STAT_GOT_IP` | The network is successfully connected and the IP is obtained |
+   | `201` | `STAT_NO_AP_FOUND` | The network connection failed because no access point replied |
+   | `202` | `STAT_WRONG_PASSWORD` | The network connection failed due to incorrect password |
+   | `203` | `STAT_ASSOC_FAIL` | The network connection failed due to another reason |
 
-    :return: None
-    """
-    # Check if the Wi-Fi interface is active
-    if wifi.active():
-        # Deactivate the Wi-Fi interface
-        wifi.active(False)
+   For the station object, the method can be called with the `rssi` argument, which returns the Received Signal Strength Indicator (RSSI) in dBm for the given access point.
 
-    # Check if the device is not connected to any Wi-Fi network
-    if not wifi.isconnected():
-        print("Disconnected")
+   ```python
+   print(wifi.status("rssi"))
+   ```
 
+6. Using the `WLAN.config()` method, we get or set general network interface parameters. This method allow to work with additional parameters, which include network-specific and hardware-specific parameters according to the table.
 
-# Initialize the Wi-Fi interface in Station mode
-wifi = network.WLAN(network.STA_IF)
+   | **Parameter** | **Description** | **Type** |
+   | :-- | :-- | :-- |
+   | `mac` | MAC address | bytes |
+   | `ssid` | WiFi access point name | string |
+   | `channel` | WiFi channel | integer |
+   | `hidden` | Whether SSID is hidden | boolean |
+   | `security` | Security protocol supported | enumeration |
+   | `hostname` | The hostname that will be sent to DHCP (STA interfaces) | string |
+   | `reconnects` | Number of reconnect attempts to make | integer, 0=none, -1=unlimited |
+   | `txpower` | Maximum transmit power in dBm | integer or float |
 
-connect_wifi(WIFI_SSID, WIFI_PSWD)
+   ```python
+   param = wifi.config("mac")
+   print("MAC address:", ':'.join(['{:02x}'.format(b) for b in param]))
+   param = wifi.config("ssid")
+   print(f"Wi-Fi access point name: {param}")
+   ```
 
-# WRITE YOUR CODE HERE
+   Try other parameters from the table.
 
-disconnect_wifi()
-```
+7. In case of STA mode, method `WLAN.isconnected()` returns `True` if connected to a WiFi access point and has a valid IP address. In AP mode returns `True` when a station is connected.
 
-When working with the `network.WLAN` class, `ifconfig()` is used to get or set the IP configuration of the interface. Place the following codes between `connect_wifi()` and `disconnect_wifi()` functions.
-
-```python
-# Get the current IP configuration of the interface
-config = wifi.ifconfig()
-
-# Print the configuration
-print("Wi-Fi Configuration:")
-print(f"IP address: \t{config[0]}")
-print(f"Subnet mask:\t{config[1]}")
-print(f"Gateway: \t{config[2]}")
-print(f"DNS server:\t{config[3]}")
-```
-
-Apart from the IP configuration obtained using `ifconfig()`, you can also retrieve information such as:
-
-**Signal strength (RSSI):**
-
-```python
-rssi = wifi.status("rssi")
-print(f"Signal strength (RSSI): {rssi}")
-```
-
-This will print the signal strength in dBm.
-
-**MAC address:**
-
-```python
-mac_address = wifi.config("mac")
-print("MAC address:", ':'.join(['{:02x}'.format(b) for b in mac_address]))
-```
-
-This code will print the MAC address of the ESP32.
-
-**Is connected:**
-
-```python
-is_connected = wifi.isconnected()
-print(f"Is connected: {is_connected}")
-```
-
-This will print `True` if the ESP32 is connected to a Wi-Fi network, and `False` otherwise.
+   ```python
+   print(f"Is connected? {wifi.isconnected()}")
+   ```
 
 <a name="part3"></a>
 
-## Part 3: ThingSpeak online platform
+## Part 3: Requests
 
-ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, analyze, and visualize data from your connected devices. It provides APIs for storing and retrieving data, making it easy to integrate IoT devices into your projects. One common use case for ThingSpeak is to store and display sensor data.
+The **GET** and **POST** methods are two fundamental types of HTTP request methods used in web development and APIs to facilitate communication between clients (like web browsers or IoT devices) and servers.
+
+**GET Request:**
+   * Use GET requests when you want to send or get data as part of the URL.
+   * Data is appended to the URL as query parameters.
+   * GET requests are generally simpler to implement, especially for basic projects.
+   * They can be easier to debug and test since you can see the data in the URL.
+
+**POST Request:**
+   * Use POST requests when you have more data to send or when sending sensitive data (as it's not exposed in the URL).
+   * Data is sent in the body of the HTTP request.
+   * POST requests can accommodate larger payloads.
+
+| **Feature** | **GET Method** | **POST Method** |
+| :-- | :-- | :-- |
+| **Purpose** | Retrieve data from a server | Send data to a server for processing |
+| **Data Retrieval** | Fetches resource representations | Submits data for server-side processing |
+| **Data Transmission** | Data sent in the URL as query parameters | Data sent in the body of the request |
+| **Data Size Limit** | Limited by URL length (typically around 2048 characters) | Generally larger, limited by server settings |
+| **Visibility** | Data visible in the URL, not secure for sensitive info | Data not visible in the URL, more secure |
+| **Caching** | Can be cached by browsers and proxies | Typically not cached |
+| **Browser History** | Remains in browser history | Does not remain in browser history |
+| **Use Cases** | Fetching data, querying resources, searching | Submitting forms, uploading files, creating resources |
+| **Response Type** | Often returns data (e.g., HTML, JSON) | Typically returns a confirmation or status message |
+
+1. Create a new script file and test the GET requests.
+
+   ```python
+   import network
+   import my_wifi
+   import config
+   import urequests  # Network Request Module
+   import time
+
+   # Create Station interface
+   wifi = network.WLAN(network.STA_IF)
+   print("Start using Wi-Fi. Press `Ctrl+C` to stop")
+
+   try:
+       # Forever loop
+       while True:
+           my_wifi.connect(wifi, config.SSID, config.PSWD)
+
+           # GET requests
+           API_URL = "https://catfact.ninja/fact"
+           print("Method used: GET")
+           request_url = f"{API_URL}"
+           response = urequests.get(request_url)
+
+           print("Response:")
+           print(response.text)
+           response.close()
+
+           my_wifi.disconnect(wifi)
+           time.sleep(30)
+
+   except KeyboardInterrupt:
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
+
+       # Optional cleanup code
+       my_wifi.disconnect(wifi)
+   ```
+
+   Try other GET APIs:
+      - Cat Fact API: https://catfact.ninja/fact
+      - Joke API: https://v2.jokeapi.dev/joke/Programming
+      - Time API: https://timeapi.io/api/time/current/zone?timeZone=Europe/Prague
+      - CoinGecko API: https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur
+
+2. Test the POST requests.
+
+   ```python
+   ...
+   try:
+       # Forever loop
+       while True:
+           my_wifi.connect(wifi, config.SSID, config.PSWD)
+
+           # POST requests
+           # List of GET/POST methods: https://timeapi.io/swagger/index.html
+           API_URL = "https://timeapi.io/api/conversion/converttimezone"
+
+           print("Method used: POST")
+           request_url = f"{API_URL}"
+           json = {"fromTimeZone": "Europe/Prague",
+                   "dateTime": "2024-10-26 15:33:00",
+                   "toTimeZone": "America/Los_Angeles",
+                   "dstAmbiguity": ""}
+           headers = {"Content-Type": "application/json"}
+           response = urequests.post(request_url, json=json, headers=headers)
+
+           print("Response:")
+           print(response.text)
+           response.close()
+
+           my_wifi.disconnect(wifi)
+           time.sleep(30)
+   ...
+   ```
+
+<a name="part4"></a>
+
+## Part 4: ThingSpeak online platform
+
+ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, analyze, and visualize data from your connected devices. It provides APIs for storing and retrieving data, making it easy to integrate IoT devices into your projects. One common use case for ThingSpeak is to store and display sensor data. Note that, ThingSpeak supports both, GET and POST types of HTTP request methods.
 
 1. Use breadboard, jumper wires, and connect I2C [DHT12](../docs/dht12_manual.pdf) sensor to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
 
@@ -206,44 +291,28 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
    ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
-2. Create a ThingSpeak Account: If you don't have a ThingSpeak account, sign up at [ThingSpeak](https://thingspeak.com/).
+2. Create a ThingSpeak Account: If you don't have a ThingSpeak account, get started for free at [ThingSpeak](https://thingspeak.mathworks.com/).
 
 3. Create a Channel: After logging in, create a new channel. A channel is where you will store your sensor data and you can create up to four channels.
 
 4. Get Channel API Key: In your channel settings, you'll find an Write API Key. This key is used to authenticate your device when sending data to ThingSpeak.
 
-5. Create a new file `dht12.py` and [copy/paste](../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device.
-
-   Create a new file `mywifi.py` and [copy/paste](../solutions/07-wifi/mywifi.py) the methods for connecting/disconnecting to Wi-Fi. Save a copy of this file to the MicroPython device.
+5. Use [`dht12.py`](../solutions/06-serial/dht12.py) file from the previous lab and save a copy of this file to the MicroPython device.
 
 6. Write a MicroPython script that reads data from the DHT12 sensor and sends it to ThingSpeak. Use the `urequests` library to make HTTP requests.
-
-   > **Note:** When sending data to ThingSpeak from MicroPython using the ESP32 and a DHT12 sensor, the choice between GET and POST requests depends on your specific use case and preferences. Both methods are supported by ThingSpeak.
-   >
-   > **GET Request:**
-   >   * Use GET requests when you want to send data as part of the URL.
-   >   * Data is appended to the URL as query parameters.
-   >   * GET requests are generally simpler to implement, especially for basic projects.
-   >   * They can be easier to debug and test since you can see the data in the URL.
-   >
-   > **POST Request:**
-   >   * Use POST requests when you have more data to send or when sending sensitive data (as it's not exposed in the URL).
-   >   * Data is sent in the body of the HTTP request.
-   >   * POST requests can accommodate larger payloads.
 
     ```python
     from machine import I2C
     from machine import Pin
-    import time
     import dht12
     import network
-    import mywifi
-    import urequests  # Network Request Module
+    import my_wifi
+    import config
+    import urequests
+    import time
 
-    # Network settings
-    WIFI_SSID = "<YOUR WIFI SSID>"
-    WIFI_PSWD = "<YOUR WIFI PASSWORD>"
-    API_KEY = "<THINGSPEAK WRITE API KEY>"
+    # API settings
+    API_KEY = "THINGSPEAK_WRITE_API_KEY"
 
 
     def read_sensor():
@@ -253,73 +322,69 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
     def send_to_thingspeak(temp, humidity):
         API_URL = "https://api.thingspeak.com/update"
-        
-        # Select GET or POST request
+
         # GET request
         url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
         response = urequests.get(url)
 
-        # POST request
-        # url = f"{API_URL}?api_key={API_KEY}"
-        # json = {"field1": temp, "field2": humidity}
-        # headers = {"Content-Type": "application/json"}
-        # response = urequests.post(url, json=json, headers=headers)
-
-        print(f"Response from ThingSpeak: {response.text}")
+        print(f"Entry # sent to ThingSpeak: {response.text}")
         response.close()
 
 
     # Connect to the DHT12 sensor
-    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
     sensor = dht12.DHT12(i2c)
 
     # Create Station interface
     wifi = network.WLAN(network.STA_IF)
+    print("Start using Wi-Fi. Press `Ctrl+C` to stop")
 
     try:
+        # Forever loop
         while True:
             temp, humidity = read_sensor()
             print(f"Temperature: {temp}°C, Humidity: {humidity}%")
-            mywifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
+
+            my_wifi.connect(wifi, config.SSID, config.PSWD)
             send_to_thingspeak(temp, humidity)
-            mywifi.disconnect(wifi)
+            my_wifi.disconnect(wifi)
+
             time.sleep(60)
 
     except KeyboardInterrupt:
-        print("Ctrl+C pressed. Exiting...")
-        mywifi.disconnect(wifi)
+        # This part runs when Ctrl+C is pressed
+        print("Program stopped. Exiting...")
+
+        # Optional cleanup code
+        my_wifi.disconnect(wifi)
     ```
 
 7. Go to your ThingSpeak channel to view the data being sent by your ESP32.
 
-<a name="part4"></a>
+<a name="challenges"></a>
 
-## Part 4: (Optional) Network Time Protocol
+## Challenges
 
-The Network Time Protocol (NTP) is a protocol designed to synchronize the clocks of computers over a network with Coordinated Universal Time (UTC). NTP follows a client-server model, with clients requesting time information from servers and adjusting their local clocks based on the received server information.
-
-1. Create a new script `04-wifi-ntp.py` and use the following code:
+1. The Network Time Protocol (NTP) is a protocol designed to synchronize the clocks of computers over a network with Coordinated Universal Time (UTC). NTP follows a client-server model, with clients requesting time information from servers and adjusting their local clocks based on the received server information.
 
     ```python
-    import network
-    import mywifi
-    import ntptime
     from machine import RTC
+    import network
+    import my_wifi
+    import config
+    import ntptime
 
-    # Network settings
-    WIFI_SSID = "<YOUR WIFI SSID>"
-    WIFI_PSWD = "<YOUR WIFI PASSWORD>"
     TIMEZONE_OFFSET = 1  # UTC+1:00 ... CET, UTC+2:00 ... CEST
 
     # Create Station interface
     wifi = network.WLAN(network.STA_IF)
-    mywifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
+    my_wifi.connect(wifi, config.SSID, config.PSWD)
 
     # Get UTC time from NTP server and set it to RTC
     ntptime.host = "cz.pool.ntp.org"
     ntptime.settime()
     print("Local RTC synchronized")
-    mywifi.disconnect(wifi)
+    my_wifi.disconnect(wifi)
 
     # Create an independent clock object
     rtc = RTC()
@@ -335,15 +400,11 @@ The Network Time Protocol (NTP) is a protocol designed to synchronize the clocks
 
     ```
 
-2. Integrate a perpetual loop into your code, and at regular intervals, retrieve data from the local Real-Time Clock (RTC). Display the information in a formatted manner, such as `yyyy-mm-dd hh:mm:ss`.
+   In a loop, retrieve data from the local Real-Time Clock (RTC), and display the information in a formatted manner, such as `yyyy-mm-dd hh:mm:ss`.
 
-<a name="challenges"></a>
+2. Create a functional weather monitoring system. The primary goal is to establish a Wi-Fi connection, access real-time weather data from the [OpenWeatherMap API](https://openweathermap.org/current), and display the information to the shell or on a local OLED screen.
 
-## Challenges
-
-1. Create a functional weather monitoring system. The primary goal is to establish a Wi-Fi connection, access real-time weather data from the [OpenWeatherMap API](https://openweathermap.org/current), and display the information to the shell or on a local OLED screen.
-
-2. Implement a simple web server on the ESP32 that responds to HTTP requests. Explore handling different types of requests, such as GET and POST, and responding with various types of content, like HTML pages or JSON data.
+3. Implement a simple web server on the ESP32 that responds to HTTP requests. Explore handling different types of requests, such as GET and POST, and responding with various types of content, like HTML pages or JSON data.
 
 <a name="references"></a>
 
@@ -351,4 +412,8 @@ The Network Time Protocol (NTP) is a protocol designed to synchronize the clocks
 
 1. Engineers Garage. [How to use MicroPython with ESP8266 and ESP32 to connect to a WiFi network](https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/)
 
-2. [OpenWeather](https://openweathermap.org/)
+2. MicroPython. [class WLAN – control built-in WiFi interfaces](https://docs.micropython.org/en/latest/library/network.WLAN.html)
+
+3. [ThingSpeak](https://thingspeak.mathworks.com/)
+
+4. [OpenWeather](https://openweathermap.org/)

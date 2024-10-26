@@ -1,15 +1,29 @@
+"""
+Read DHT12 sensor values and transmit to ThingSpeak
+
+This script connects to a DHT12 temperature and humidity
+sensor and transmits the collected data to ThingSpeak using
+Wi-Fi via either GET or POST requests.
+
+Components:
+  - ESP32 microcontroller
+
+Authors: Tomas Fryza
+Creation Date: 2023-06-18
+Last Modified: 2024-10-26
+"""
+
 from machine import I2C
 from machine import Pin
-import time
 import dht12
 import network
 import my_wifi
-import urequests  # Network Request Module
+import config
+import urequests
+import time
 
-# Network settings
-WIFI_SSID = "<YOUR WIFI SSID>"
-WIFI_PSWD = "<YOUR WIFI PASSWORD>"
-API_KEY = "<THINGSPEAK WRITE API KEY>"
+# API settings
+API_KEY = "THINGSPEAK_WRITE_API_KEY"
 
 
 def read_sensor():
@@ -31,26 +45,33 @@ def send_to_thingspeak(temp, humidity):
     # headers = {"Content-Type": "application/json"}
     # response = urequests.post(request_url, json=json, headers=headers)
 
-    print(f"Response from ThingSpeak: {response.text}")
+    print(f"Entry # sent to ThingSpeak: {response.text}")
     response.close()
 
 
 # Connect to the DHT12 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
 sensor = dht12.DHT12(i2c)
 
 # Create Station interface
 wifi = network.WLAN(network.STA_IF)
+print("Start using Wi-Fi. Press `Ctrl+C` to stop")
 
 try:
+    # Forever loop
     while True:
         temp, humidity = read_sensor()
         print(f"Temperature: {temp}°C, Humidity: {humidity}%")
-        my_wifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
+
+        my_wifi.connect(wifi, config.SSID, config.PSWD)
         send_to_thingspeak(temp, humidity)
         my_wifi.disconnect(wifi)
+
         time.sleep(60)
 
 except KeyboardInterrupt:
-    print("Ctrl+C pressed. Exiting...")
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
+
+    # Optional cleanup code
     my_wifi.disconnect(wifi)
