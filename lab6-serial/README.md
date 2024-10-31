@@ -259,7 +259,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    | `oled.vline(x, y, h, color)` | Vertical line with height `h` | `oled.vline(9, 8, 22, 1)` |
    | `oled.line(x1, y1, x2, y2, color)` | Diagonal line | `oled.line(0, 0, 128, 64, 1)` |
    | `oled.rect(x, y, w, h, color)` | Rectangle | `oled.rect(0, 0, 128, 64, 1)` |
-   | `oled.fill_rect(x, y, w, h, collor)` | Filled rectangle | `oled.fill_rect(0, 0, 32, 32, 1)` |
+   | `oled.fill_rect(x, y, w, h, color)` | Filled rectangle | `oled.fill_rect(0, 0, 32, 32, 1)` |
    | `oled.fill(color)` | Fill the whole screen (clear screen) | `oled.fill(0)` |
 
 4. Define a binary matrix, suggest your picture/icon, use the `oled.pixel()` method, and print it on the display.
