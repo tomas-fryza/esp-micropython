@@ -254,7 +254,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    | **Method name** | **Description** | **Example** |
    | :-- | :-- | :-- |
    | `oled.text(text, x, y)` | Display `text` at position `x`, `y` | `oled.text("Using OLED...", 0, 0)` |
-   | `oled.pixel(x, y, color)` | Display one pixel at position. Optional `color`: 1 - visible, 0 - background color | `oled.pixel(10, 20)`
+   | `oled.pixel(x, y, color)` | Display one pixel at position. Optional `color`: 1 - visible, 0 - background color | `oled.pixel(10, 20, 1)`
    | `oled.hline(x, y, w, color)` | Horizontal line with width `w` and `color` | `oled.hline(0, 64, 128, 1)` |
    | `oled.vline(x, y, h, color)` | Vertical line with height `h` | `oled.vline(9, 8, 22, 1)` |
    | `oled.line(x1, y1, x2, y2, color)` | Diagonal line | `oled.line(0, 0, 128, 64, 1)` |
