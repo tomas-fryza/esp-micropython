@@ -1,16 +1,22 @@
 """
-Read DHT12 sensor values and transmit to ThingSpeak
+Read DHT12 sensor values and send to ThingSpeak
+===============================================
 
 This script connects to a DHT12 temperature and humidity
 sensor and transmits the collected data to ThingSpeak using
 Wi-Fi via either GET or POST requests.
 
 Components:
-  - ESP32 microcontroller
+- ESP32 microcontroller
 
-Authors: Tomas Fryza
-Creation Date: 2023-06-18
-Last Modified: 2024-10-26
+Author:
+- Tomas Fryza
+
+Creation Date:
+- 2023-06-18
+
+Last Modified:
+- 2024-11-02
 """
 
 from machine import I2C
@@ -22,24 +28,36 @@ import config
 import urequests
 import time
 
-# API settings
 API_KEY = "THINGSPEAK_WRITE_API_KEY"
 
 
 def read_sensor():
+    """
+    Read temperature and humidity from the sensor.
+
+    :returns: A tuple containing the temperature
+              (float) and humidity (float).
+    :rtype: tuple
+    """
     sensor.measure()
     return sensor.temperature(), sensor.humidity()
 
 
 def send_to_thingspeak(temp, humidity):
+    """
+    Send temperature and humidity data to ThingSpeak.
+
+    :param float temp: The temperature value to send.
+    :param float humidity: The humidity value to send.
+    """
     API_URL = "https://api.thingspeak.com/update"
 
     # Select GET or POST request
-    # GET request
+    # Make the GET request
     request_url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
     response = urequests.get(request_url)
 
-    # POST request
+    # Make the POST request
     # request_url = f"{API_URL}?api_key={API_KEY}"
     # json = {"field1": temp, "field2": humidity}
     # headers = {"Content-Type": "application/json"}

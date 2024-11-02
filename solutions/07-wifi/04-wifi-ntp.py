@@ -1,31 +1,70 @@
-import network
-import mywifi
-import ntptime
-from machine import RTC
+"""
+NTP time synchronization and RTC management
+===========================================
 
-# Network settings
-WIFI_SSID = "<YOUR WIFI SSID>"
-WIFI_PSWD = "<YOUR WIFI PASSWORD>"
-TIMEZONE_OFFSET = 1  # UTC+1:00 ... CET, UTC+2:00 ... CEST
+This script connects to a Wi-Fi network, synchronizes the
+Real-Time Clock (RTC) with an NTP server to obtain the
+current UTC time, and then adjusts the RTC to the local
+timezone (CET/CEST).
+
+Components:
+- ESP32 microcontroller
+
+Author:
+- Tomas Fryza
+
+Creation Date:
+- 2023-10-25
+
+Last Modified:
+- 2024-11-02
+"""
+
+from machine import RTC
+import network
+import my_wifi
+import config
+import ntptime
+import time
+
+TIMEZONE_OFFSET = 1  # UTC+1:00 for CET (Central European Time)
+                     # UTC+2:00 for CEST (Central European Summer Time)
 
 # Create Station interface
 wifi = network.WLAN(network.STA_IF)
-mywifi.connect(wifi, WIFI_SSID, WIFI_PSWD)
+my_wifi.connect(wifi, config.SSID, config.PSWD)
 
 # Get UTC time from NTP server and set it to RTC
 ntptime.host = "cz.pool.ntp.org"
 ntptime.settime()
 print("Local RTC synchronized")
-mywifi.disconnect(wifi)
+my_wifi.disconnect(wifi)
 
 # Create an independent clock object
 rtc = RTC()
 
-# Print UTC time after NTP update
+print("UTC time after NTP update:")
 print(rtc.datetime())
 (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
-# Update timezone
+print("Update timezone:")
 rtc.init((year, month, day, wday, hrs+TIMEZONE_OFFSET, mins, secs, subsecs))
 print(rtc.datetime())
 
+
 # WRITE YOUR CODE HERE
+
+
+print("Start using RTC. Press `Ctrl+C` to stop")
+
+try:
+    # Forever loop
+    while True:
+        (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
+        print(f"{year}-{month}-{day} {hrs}:{mins}:{secs}")
+        time.sleep(1)
+
+except KeyboardInterrupt:
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
+
+    # Optional cleanup code

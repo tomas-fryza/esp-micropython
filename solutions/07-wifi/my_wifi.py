@@ -1,16 +1,22 @@
 """
-Wi-Fi Connection Management for MicroPython
+Wi-Fi connection management
+===========================
 
 This module provides functions to connect and disconnect
 from a Wi-Fi network.
 
 Components:
-  - ESP32 microcontroller
+- ESP32 microcontroller
 
-Authors: Nikhil Agnihotri, https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/
-         Tomas Fryza
-Creation Date: 2023-06-17
-Last Modified: 2024-10-26
+Authors:
+- Nikhil Agnihotri, https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/
+- Tomas Fryza
+
+Creation Date:
+- 2023-06-17
+
+Last Modified:
+- 2024-11-02
 """
 
 import gc  # Garbage Collector interface (Memory management)
@@ -21,12 +27,22 @@ print_info = False
 
 def connect(wifi, ssid, password, timeout=10):
     """
-    Connect to Wi-Fi network.
+    Connect to a Wi-Fi network.
 
-    Activates the Wi-Fi interface, connects to the specified network,
-    and waits until timeout or the connection is established.
-
-    :return: None
+    This function attempts to connect to a specified Wi-Fi
+    network using the provided SSID and password. If the
+    connection attempt exceeds the specified timeout, it
+    will terminate and return `False`.
+    
+    :param wifi: The Wi-Fi interface object to use for the connection.
+    :type wifi: network.WLAN
+    :param str ssid: The SSID of the Wi-Fi network to connect to.
+    :param str password: The password for the Wi-Fi network.
+    :param int timeout: The maximum time in seconds to wait
+                        for the connection attempt.
+    :returns: `True` if connected successfully, `False` if
+              the connection attempt timed out.
+    :rtype: bool
     """
     import time
 
@@ -53,16 +69,20 @@ def connect(wifi, ssid, password, timeout=10):
         print("Already connected")
         if print_info:
             print_status(wifi)
+    return True
 
 
 def disconnect(wifi):
     """
-    Disconnect from Wi-Fi network.
+    Disconnect from the Wi-Fi network.
 
-    Deactivates the Wi-Fi interface if active and checks if
-    the device is not connected to any Wi-Fi network.
+    This function deactivates the specified Wi-Fi interface
+    and checks if the device is not connected to any Wi-Fi
+    network.
 
-    :return: None
+    :param wifi: The Wi-Fi interface object to disconnect.
+    :type wifi: network.WLAN
+    :returns: None
     """
     if wifi.active():
         wifi.active(False)
@@ -75,6 +95,18 @@ def disconnect(wifi):
 
 
 def print_status(wifi):
+    """
+    Print the current status of the Wi-Fi connection.
+
+    This function retrieves the status of the specified
+    Wi-Fi interface and prints a human-readable message
+    corresponding to that status.
+
+    :param wifi: The Wi-Fi interface object whose status
+                 is to be printed.
+    :type wifi: network.WLAN
+    :returns: None
+    """
     status = wifi.status()
     print(f"[WIFI] {status_messages.get(status)}")
 
