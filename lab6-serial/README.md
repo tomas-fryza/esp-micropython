@@ -81,7 +81,7 @@ Note that, most I2C devices support repeated start condition. This means that be
 > | 0x03 | Temperature decimal part |
 > | 0x04 | Checksum |
 >
-> After the repeated start, the same circuit address is sent on the I2C bus, but this time with the read bit R/W=1 (185, `1011100_1`). Subsequently, data frames are sent from the slave to the master until the last of them is confirmed by the NACK value. Then the master generates a stop condition on the bus and the communication is terminated.
+> After the repeated start, the same circuit address is sent on the I2C bus, but this time with the read bit R/W=1 (185, `101_1100_1`). Subsequently, data frames are sent from the slave to the master until the last of them is confirmed by the NACK value. Then the master generates a stop condition on the bus and the communication is terminated.
 >
 > The communication in the picture therefore records the temperature transfer from the sensor, when the measured temperature is 25.3 degrees Celsius.
 >
@@ -204,9 +204,7 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    >
    > You can find a comprehensive tutorial on utilizing a logic analyzer in this [video](https://www.youtube.com/watch?v=CE4-T53Bhu0).
 
-5. (Optional) See the [DHT12 class](../solutions/06-serial/dht12.py) code.
-
-6. (Optional) Use BME280 sensor and read humidity, temperature and preassure values.
+5. (Optional) Use BME280 sensor and read humidity, temperature and preassure values.
 
    * BME280 [class](../solutions/06-serial/bme280.py)
    * Testing [script](../solutions/06-serial/03-i2c_sensor_bme280.py)
@@ -219,7 +217,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
 
-2. Create a new file `04-i2c_oled.py` and write a script to print text on the display.
+2. Create a new file `03-i2c_oled.py` and write a script to print text on the display.
 
    ```python
    from machine import I2C
@@ -281,7 +279,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 5. Combine temperature and OLED examples and print DHT12 sensor values on OLED display.
 
-   Create a new file `dht12.py` and [copy/paste](../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Create a new script file, read values from DHT12 sensor, and display them in Thonny`s Shell and OLED display.
+   Create a new file `dht12.py` and [copy/paste](../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Create a new script file `04-i2c_sensor_oled.py`, use the following code, read values from DHT12 sensor, and display them in Thonny`s Shell and OLED display.
 
    ```python
    from machine import I2C
@@ -289,11 +287,6 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    import time
    import dht12
    from sh1106 import SH1106_I2C
-
-
-   def read_sensor():
-       sensor.measure()
-       return sensor.temperature(), sensor.humidity()
 
 
    # Init DHT12 sensor
@@ -309,7 +302,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    try:
        # Forever loop
        while True:
-           temp, humidity = read_sensor()
+           temp, humidity = sensor.read_values()
            print(f"Temperature: {temp}°C, Humidity: {humidity}%")
 
 
