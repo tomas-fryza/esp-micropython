@@ -96,7 +96,7 @@ class SH1106_I2C(framebuf.FrameBuffer):
             self.write_cmd(cmd)
 
 
-if __name__ == "__main__":
+def demo():
     # Init I2C using pins GP22 & GP21 (default I2C0 pins)
     i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
     print(f"I2C configuration : {str(i2c)}")
@@ -142,3 +142,10 @@ if __name__ == "__main__":
 
     # Finally update the OLED display so the text is displayed
     oled.show()
+    
+    print("Check the OLED screen")
+
+
+if __name__ == "__main__" :
+    # Code that runs only if this script is executed directly
+    demo()

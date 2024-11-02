@@ -102,9 +102,7 @@ class PwmLed(PWM):
             time.sleep(step_duration)
 
 
-# Code inside this block runs only if the script is executed directly
-if __name__ == "__main__" :
-
+def demo():
     # Example usage of the Button class
     btn = Button(27)
 
@@ -158,3 +156,8 @@ if __name__ == "__main__" :
     print(issubclass(PwmLed, Led))
     print(issubclass(Led, PwmLed))
     print(isinstance(led, PWM))
+
+
+if __name__ == "__main__" :
+    # Code that runs only if this script is executed directly
+    demo()

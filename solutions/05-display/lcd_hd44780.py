@@ -125,9 +125,7 @@ class LcdHd44780:
         self.command(0x80)  # Move to origin of DD RAM address
 
 
-# Code inside this block runs only if the script is executed directly
-if __name__ == "__main__":
-
+def demo():
     # Four-data pins order:         [D4, D5, D6, D7]
     lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
@@ -148,3 +146,8 @@ if __name__ == "__main__":
 
         # Optional cleanup code
         lcd.command(0x01)  # Clear display
+
+
+if __name__ == "__main__" :
+    # Code that runs only if this script is executed directly
+    demo()

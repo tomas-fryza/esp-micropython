@@ -308,7 +308,7 @@ class SH1106_SPI(SH1106):
         super().reset(self.res)
 
 
-if __name__ == "__main__":
+def demo():
     # I2C(id, scl, sda, freq)
     i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
@@ -320,3 +320,8 @@ if __name__ == "__main__":
     oled.text("Using OLED...", x=0, y=0)
 
     oled.show()
+
+
+if __name__ == "__main__" :
+    # Code that runs only if this script is executed directly
+    demo()

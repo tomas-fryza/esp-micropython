@@ -67,9 +67,7 @@
            return False
 
 
-   # Code inside this block runs only if the script is executed directly
-   if __name__ == "__main__" :
-
+   def demo():
        # Example usage of the Button class
        btn = Button(27)
 
@@ -77,6 +75,11 @@
            print(f"Button {btn} pressed...")
        else:
            print(f"Button {btn} released...")
+
+
+   if __name__ == "__main__" :
+       # Code that runs only if this script is executed directly
+       demo()
    ```
 
    Some important parts:
@@ -128,9 +131,7 @@ Inheritance in Python is a core concept of object-oriented programming that allo
            # WRITE YOUR CODE HERE
 
 
-   # Code inside this block runs only if the script is executed directly
-   if __name__ == "__main__" :
-
+   def demo():
        ...
 
        # Example of using the Led class
@@ -146,7 +147,6 @@ Inheritance in Python is a core concept of object-oriented programming that allo
        print("Turning LED off...")
        led.off()
        time.sleep(1)
-
    ```
 
    Some important parts:
@@ -218,9 +218,7 @@ By adjusting the duty cycle, PWM can control the brightness of an LED. A higher 
            # WRITE YOUR CODE HERE
 
 
-   # Code inside this block runs only if the script is executed directly
-   if __name__ == "__main__" :
-
+   def demo():
        ...
 
        # Example of using the PwmLed class
