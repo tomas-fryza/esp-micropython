@@ -25,25 +25,15 @@ import time
 import dht12
 from sh1106 import SH1106_I2C
 
-
-def read_sensor():
-    sensor.measure()
-    return sensor.temperature(), sensor.humidity()
-
-
-def oled_setup(oled):
-    oled.contrast(50)  # Set contrast to 50 %
-    oled.text("Temp. [C]:", 0, 40)
-    oled.text("Humid.[%]:", 0, 52)
-
-
 # Init DHT12 sensor
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
 sensor = dht12.DHT12(i2c)
 
 # Init OLED display
 oled = SH1106_I2C(i2c)
-oled_setup(oled)
+oled.contrast(50)  # Set contrast to 50 %
+oled.text("Temp. [C]:", 0, 40)
+oled.text("Humid.[%]:", 0, 52)
 
 print(f"I2C configuration : {str(i2c)}")
 print("Start using I2C. Press `Ctrl+C` to stop")
@@ -51,7 +41,7 @@ print("Start using I2C. Press `Ctrl+C` to stop")
 try:
     # Forever loop
     while True:
-        temp, humidity = read_sensor()
+        temp, humidity = sensor.read_values()
         print(f"Temperature: {temp}°C, Humidity: {humidity}%")
         oled.fill_rect(85, 38, 120, 50, 0)
         oled.text(f"{temp}", 85, 40)
