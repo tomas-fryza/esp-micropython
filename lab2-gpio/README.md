@@ -43,7 +43,6 @@
 
    ```python
    import time
-   import sys
 
    print("Press `Ctrl+C` to stop")
 
@@ -57,9 +56,6 @@
        print("Program stopped. Exiting...")
 
        # Optional cleanup code
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
    This code includes the necessary imports, a forever loop, and the ability to interrupt/stop the program by pressing `Ctrl+C`. We will use this as a template for all future MicroPython applications.
@@ -97,9 +93,6 @@
 
        # Optional cleanup code
        led.off()
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
 6. Save the file as `blink.py` in your local folder, and run the code. The onboard LED should start blinking on and off every 0.5 seconds. To stop the execution, press `Ctrl+C` in Thonny's terminal.
@@ -165,7 +158,6 @@ For an active-high button:
    ```python
    from machine import Pin
    import time
-   import sys
 
    # Define the GPIO pin for the button including internal Pull-up
    button = Pin(27, Pin.IN, Pin.PULL_UP)
@@ -183,9 +175,6 @@ For an active-high button:
        print("Program stopped. Exiting...")
 
        # Optional cleanup code
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
 ### LEDs
@@ -231,7 +220,6 @@ A **matrix keypad** is a type of input device used to capture user input in the 
    ```python
    from machine import Pin
    import time
-   import sys
 
    # Define the GPIO pins for rows (outputs) and columns (inputs with pull-ups)
    row_pins = [Pin(pin, Pin.OUT) for pin in (19, 21, 22, 14)]
@@ -267,9 +255,6 @@ A **matrix keypad** is a type of input device used to capture user input in the 
        print("Program stopped. Exiting...")
 
        # Optional cleanup code
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
 3. Integrate the keypad code with LEDs to control individual LEDs based on keypad button presses.

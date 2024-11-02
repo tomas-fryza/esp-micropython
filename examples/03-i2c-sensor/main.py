@@ -79,6 +79,3 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     led.off()
-
-    # Stop program execution
-    sys.exit(0)

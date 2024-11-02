@@ -6,17 +6,14 @@ This module provides functions to connect and disconnect
 from a Wi-Fi network.
 
 Components:
-- ESP32 microcontroller
+- ESP32-based board
 
 Authors:
 - Nikhil Agnihotri, https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/
 - Tomas Fryza
 
-Creation Date:
-- 2023-06-17
-
-Last Modified:
-- 2024-11-02
+Creation date: 2023-06-17
+Last modified: 2024-11-02
 """
 
 import gc  # Garbage Collector interface (Memory management)

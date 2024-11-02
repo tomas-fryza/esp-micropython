@@ -7,16 +7,13 @@ sensor and transmits the collected data to ThingSpeak using
 Wi-Fi via either GET or POST requests.
 
 Components:
-- ESP32 microcontroller
+- ESP32-based board
+- DHT12 temperature and humidity sensor
 
-Author:
-- Tomas Fryza
+Author: Tomas Fryza
 
-Creation Date:
-- 2023-06-18
-
-Last Modified:
-- 2024-11-02
+Creation date: 2023-06-18
+Last modified: 2024-11-02
 """
 
 from machine import I2C

@@ -5,27 +5,21 @@ This MicroPython script blinks three LEDs connected to the ESP32
 microcontroller. The LEDs are controlled individually in a sequence.
 
 Components:
-  - ESP32 microcontroller
-  - LED0: GPIO pin 2 (onboard)
-  - LED1: GPIO pin 25
-  - LED2: GPIO pin 26
-  - BTN: GPIO pin 27 (optional)
-
-Instructions:
-1. Connect LEDs to GPIO pins
-2. Run the script
-3. Stop the code execution by pressing `Ctrl+C` key.
-   If it does not respond, press the onboard `reset` button.
+- ESP32-based board
+- LED0: GPIO pin 2 (onboard)
+- LED1: GPIO pin 25
+- LED2: GPIO pin 26
+- BTN: GPIO pin 27 (optional)
 
 Author: Tomas Fryza
-Creation Date: 2023-10-12
-Last Modified: 2024-09-27
+
+Creation date: 2023-10-12
+Last modified: 2024-11-02
 """
 
 # Load `Pin` class from `machine` module to access hardware
 from machine import Pin
 import time
-import sys
 
 # Define three LED pins
 led0 = Pin(2, Pin.OUT)
@@ -70,6 +64,3 @@ except KeyboardInterrupt:
     led0.off()
     led1.off()
     led2.off()
-
-    # Stop program execution
-    sys.exit(0)

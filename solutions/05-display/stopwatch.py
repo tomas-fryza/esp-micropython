@@ -6,21 +6,21 @@ The example uses Timer and LCD to display a counter in the form of
 value is updated every 100 milliseconds.
 
 Components:
-  - ESP32 microcontroller
-  - LCD display:
-     + RS: GPIO pin 26
-     + R/W: GND
-     + E: 25
-     + D[7:4]: 27, 9, 10, 13
+- ESP32-based board
+- LCD display:
+   + RS: GPIO pin 26
+   + R/W: GND
+   + E: 25
+   + D[7:4]: 27, 9, 10, 13
 
 Author: Tomas Fryza
-Creation Date: 2023-10-26
-Last Modified: 2024-10-08
+
+Creation date: 2023-10-26
+Last modified: 2024-11-02
 """
 
 from machine import Timer
 from lcd_hd44780 import LcdHd44780
-import sys
 
 
 def stopwatch_100ms(t):
@@ -80,6 +80,3 @@ except KeyboardInterrupt:
     # Optional cleanup code
     lcd.command(0x01)  # Clear display
     tim.deinit()       # Deinitialize the timer
-
-    # Stop program execution
-    sys.exit(0)

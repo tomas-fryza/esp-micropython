@@ -6,20 +6,20 @@ MicroPython. It initializes the LCD and write static text to
 the display.
 
 Components:
-  - ESP32 microcontroller
-  - LCD display:
-     + RS: GPIO pin 26
-     + R/W: GND
-     + E: 25
-     + D[7:4]: 27, 9, 10, 13
+- ESP32-based board
+- LCD display:
+   + RS: GPIO pin 26
+   + R/W: GND
+   + E: 25
+   + D[7:4]: 27, 9, 10, 13
 
 Author: Tomas Fryza
-Creation Date: 2023-10-20
-Last Modified: 2024-10-08
+
+Creation date: 2023-10-20
+Last modified: 2024-11-02
 """
 
 from lcd_hd44780 import LcdHd44780
-import sys
 
 # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
 lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
@@ -41,6 +41,3 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     lcd.command(0x01)  # Clear display
-
-    # Stop program execution
-    sys.exit(0)

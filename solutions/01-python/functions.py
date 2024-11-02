@@ -2,8 +2,9 @@
 Usage of MicroPython functions
 
 Author: Tomas Fryza
-Creation Date: 2023-10-12
-Last Modified: 2024-09-20
+
+Creation date: 2023-10-12
+Last modified: 2024-11-02
 """
 
 import time

@@ -2,7 +2,6 @@ from machine import I2C
 from machine import Pin
 import time
 import dht12
-import sys
 
 
 def read_sensor():
@@ -22,4 +21,3 @@ try:
 
 except KeyboardInterrupt:
     print("Ctrl+C pressed. Exiting...")
-    sys.exit(0)

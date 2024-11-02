@@ -7,17 +7,14 @@ microcontroller to a Wi-Fi network. It display network-interface
 and network-specific parameters.
 
 Components:
-- ESP32 microcontroller
+- ESP32-based board
 
 Authors:
 - Nikhil Agnihotri, https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/
 - Tomas Fryza
 
-Creation Date:
-- 2023-06-16
-
-Last Modified:
-- 2024-11-02
+Creation date: 2023-06-16
+Last modified: 2024-11-02
 """
 
 import network

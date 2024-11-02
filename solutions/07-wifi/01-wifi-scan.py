@@ -8,17 +8,14 @@ the RSSI (Received Signal Strength Indicator), channel, and
 SSID (Service Set Identifier) of each detected network.
 
 Components:
-- ESP32 microcontroller
+- ESP32-based board
 
 Authors:
 - Wokwi
 - Tomas Fryza
 
-Creation Date:
-- 2023-06-16
-
-Last Modified:
-- 2024-10-25
+Creation date: 2023-06-16
+Last modified: 2024-11-02
 """
 
 import network

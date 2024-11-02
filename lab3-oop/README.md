@@ -93,7 +93,7 @@
 
       * Note that `__name__` is a special built-in variable in Python that holds the name of the module (or script) currently being executed. If the script is being run directly (not imported), `__name__` will be set to `__main__`. The common usage of the `if __name__ == "__main__":` condition in Python is to allow a script to be used both as a **module** and as a **standalone program**. 
 
-4. Save the file as `io_control.py` in your local folder, run the code and test the button.
+4. Save the file as `hw_config.py` in your local folder, run the code and test the button.
 
 <a name="part2"></a>
 

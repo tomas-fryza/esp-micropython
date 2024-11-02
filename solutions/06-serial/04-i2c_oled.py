@@ -6,15 +6,17 @@ display with the SH1106 controller. The script requires
 the SH1106 driver library, stored in ESP32 device.
 
 Components:
-  - ESP32 microcontroller
-  - OLED display with SH1106 driver
+- ESP32-based board
+- OLED display with SH1106 driver
 
-Authors: Robert Hammelrath, https://github.com/robert-hh/SH1106
-         Martin Fitzpatrick, https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/
-         Raspberry Pi, https://github.com/raspberrypi/pico-micropython-examples/blob/master/i2c/1106oled/i2c_1106oled_with_freq.py
-         Tomas Fryza
-Creation Date: 2023-10-27
-Last Modified: 2024-10-22
+Authors:
+- Robert Hammelrath, https://github.com/robert-hh/SH1106
+- Martin Fitzpatrick, https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/
+- Raspberry Pi, https://github.com/raspberrypi/pico-micropython-examples/blob/master/i2c/1106oled/i2c_1106oled_with_freq.py
+- Tomas Fryza
+
+Creation date: 2023-10-27
+Last modified: 2024-11-02
 """
 
 from machine import I2C

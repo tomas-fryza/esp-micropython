@@ -6,24 +6,18 @@ and columns as input pins with pull-up resistors. It detects
 key presses and prints the pressed key.
 
 Components:
-  - ESP32 microcontroller
-  - Rows R1-R4: GPIO pins 19, 21, 22, 14 (set as Pin.OUT)
-  - Columns C1-C4: GPIO pins 12, 4, 16, 17 (set as Pin.IN with Pin.PULL_UP)
-
-Instructions:
-1. Connect rows and columns of 4x4 key pad to GPIO pins
-2. Run the script
-3. Stop the code execution by pressing `Ctrl+C` key.
-   If it does not respond, press the onboard `reset` button.
+- ESP32-based board
+- Rows R1-R4: GPIO pins 19, 21, 22, 14 (set as Pin.OUT)
+- Columns C1-C4: GPIO pins 12, 4, 16, 17 (set as Pin.IN with Pin.PULL_UP)
 
 Author: Tomas Fryza
-Creation Date: 2023-10-12
-Last Modified: 2024-09-27
+
+Creation date: 2023-10-12
+Last modified: 2024-11-02
 """
 
 from machine import Pin
 import time
-import sys
 
 # Define the GPIO pins for rows (outputs) and columns (inputs with pull-ups)
 row_pins = [Pin(pin, Pin.OUT) for pin in (19, 21, 22, 14)]
@@ -79,6 +73,3 @@ except KeyboardInterrupt:
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
-
-    # Stop program execution
-    sys.exit(0)

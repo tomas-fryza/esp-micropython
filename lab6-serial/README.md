@@ -156,7 +156,6 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    from machine import I2C
    from machine import Pin
    import time
-   import sys
 
    SENSOR_ADDR = 0x5c
 
@@ -184,9 +183,6 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
        print("Program stopped. Exiting...")
 
        # Optional cleanup code
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
 2. Extend the code and periodically read humidity and checksum values from DHT12 sensor. Verify the checksum byte, which is the sum of all previous four bytes.
@@ -293,7 +289,6 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    import time
    import dht12
    from sh1106 import SH1106_I2C
-   import sys
 
 
    def read_sensor():
@@ -330,9 +325,6 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
        # Optional cleanup code
        oled.poweroff()
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
 <a name="challenges"></a>

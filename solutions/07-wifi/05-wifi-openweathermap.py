@@ -7,20 +7,16 @@ weather data for a specified city from the OpenWeatherMap API.
 It prints out relevant weather information such as temperature,
 wind speed, and humidity.
 
-Notes:
+Notes: 
 - Get your API_KEY from https://openweathermap.org/
 
 Components:
-- ESP32 microcontroller
+- ESP32-based board
 
-Author:
-- Tomas Fryza
+Author: Tomas Fryza
 
-Creation Date:
-- 2023-10-26
-
-Last Modified:
-- 2024-11-02
+Creation date: 2023-10-26
+Last modified: 2024-11-02
 """
 
 import network

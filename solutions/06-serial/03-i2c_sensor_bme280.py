@@ -6,20 +6,21 @@ BME280 pressure, temperature, and humidity sensor. The
 script requires BME280 module, stored in ESP32 device.
 
 Components:
-  - ESP32 microcontroller
-  - BME280 sensor
+- ESP32-based board
+- BME280 sensor
 
-Authors: https://randomnerdtutorials.com/micropython-bme280-esp32-esp8266/
-         Tomas Fryza
-Creation Date: 2023-11-01
-Last Modified: 2024-10-23
+Authors:
+- https://randomnerdtutorials.com/micropython-bme280-esp32-esp8266/
+- Tomas Fryza
+
+Creation date: 2023-11-01
+Last modified: 2024-11-02
 """
 
 from machine import I2C
 from machine import Pin
 import time
 import bme280
-import sys
 
 # Init BME280 sensor
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
@@ -45,6 +46,3 @@ except KeyboardInterrupt:
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
-
-    # Stop program execution
-    sys.exit(0)

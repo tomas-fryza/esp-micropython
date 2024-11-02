@@ -3,21 +3,23 @@ Read RTC values using I2C bus
 
 This script demonstrates using I2C to read values from
 RTC (Real Time Clock) DS3231 device. The script requires
-io_control module, stored in ESP32 device.
+hw_config module, stored in ESP32 device.
 
 Components:
-  - ESP32 microcontroller
-  - RTC DS3231
+- ESP32-based board
+- RTC DS3231
 
-Authors: MicroPython, https://github.com/micropython/micropython/blob/master/examples/accel_i2c.py
-         Tomas Fryza
-Creation Date: 2024-10-24
-Last Modified: 2024-10-25
+Authors:
+- MicroPython, https://github.com/micropython/micropython/blob/master/examples/accel_i2c.py
+- Tomas Fryza
+
+Creation date: 2024-10-24
+Last modified: 2024-11-02
 """
 
 from machine import I2C
 from machine import Pin
-from io_control import Led
+from hw_config import Led
 import time
 
 RTC_ADDR = 0x68  # RTC DS3231

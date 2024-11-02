@@ -6,22 +6,17 @@ to an ESP32 microcontroller. It detects button presses (active LOW)
 and implements a simple debouncing mechanism.
 
 Components:
-  - ESP32 microcontroller
-  - Button connected to GPIO pin 27
-
-Instructions:
-1. Connect button to GPIO pin
-2. Run the script
-3. Stop the code execution by pressing `Ctrl+C` key
+- ESP32-based board
+- Button connected to GPIO pin 27
 
 Author: Tomas Fryza
-Creation Date: 2023-10-12
-Last Modified: 2024-09-27
+
+Creation date: 2023-10-12
+Last modified: 2024-11-02
 """
 
 from machine import Pin
 import time
-import sys
 
 # Define the GPIO pin for the button
 button = Pin(27, Pin.IN, Pin.PULL_UP)
@@ -47,6 +42,3 @@ except KeyboardInterrupt:
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
-
-    # Stop program execution
-    sys.exit(0)

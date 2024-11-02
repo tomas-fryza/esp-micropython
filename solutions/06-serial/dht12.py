@@ -3,8 +3,8 @@ MicroPython Aosong DHT12 I2C driver
 https://pypi.org/project/micropython-dht12/
 
 Components:
-  - ESP32 microcontroller
-  - DHT12 temperature and humidity sensor
+- ESP32-based board
+- DHT12 temperature and humidity sensor
 
 Updated: Tomas Fryza
 

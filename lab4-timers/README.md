@@ -27,7 +27,7 @@
 
 1. Students should study the concepts of interrupts and timers in embedded systems, including the role of Interrupt Service Routines (ISRs) and the difference between periodic and one-shot timer modes.
 
-2. Finish the definition of the custom module `io_control.py` for controlling the LEDs and buttons from the last lab.
+2. Finish the definition of the custom module `hw_config.py` for controlling the LEDs and buttons from the last lab.
 
 <a name="part1"></a>
 
@@ -63,7 +63,6 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
 
    ```python
    from machine import Timer
-   import sys
 
 
    def timer_handler(t):
@@ -93,9 +92,6 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
 
        # Optional cleanup code
        tim.deinit()  # Stop the timer
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
    Some important notes:
@@ -128,7 +124,7 @@ To achieve this, define global variables that keep track of time intervals, allo
    > * Use pins A0, ..., A4 as input only
    > * Do not use In-Package Flash pins
 
-2. Save the module `io_control.py` from the previous lab to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
+2. Save the module `hw_config.py` from the previous lab to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
 
    ![save to device](images/save_as.png)
 
@@ -136,8 +132,7 @@ To achieve this, define global variables that keep track of time intervals, allo
 
    ```python
    from machine import Timer
-   from io_control import Led
-   import sys
+   from hw_config import Led
 
    # Initialize global counter(s) for different task(s)
    counter_a = 0
@@ -182,9 +177,6 @@ To achieve this, define global variables that keep track of time intervals, allo
        # Optional cleanup code
        tim.deinit()  # Stop the timer
        led_onboard.off()
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
 Some important notes:

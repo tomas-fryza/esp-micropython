@@ -6,12 +6,15 @@ devices and print their addresses. This script is useful
 for identifying I2C devices connected to your microcontroller.
 
 Components:
-  - ESP32 microcontroller
-  - several I2C devices
+- ESP32-based board
+- several I2C devices
 
-Authors: MicroPython, Tomas Fryza
-Creation Date: 2023-06-17
-Last Modified: 2024-10-18
+Author:
+- MicroPython
+- Tomas Fryza
+
+Creation date: 2023-06-17
+Last modified: 2024-11-02
 """
 
 from machine import I2C

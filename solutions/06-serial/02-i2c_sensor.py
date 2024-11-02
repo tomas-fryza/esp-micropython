@@ -5,19 +5,20 @@ This script demonstrates using I2C to read values from
 DHT12 temperature and humidity sensor.
 
 Components:
-  - ESP32 microcontroller
-  - DHT12 temperature and humidity sensor
+- ESP32-based board
+- DHT12 temperature and humidity sensor
 
-Authors: MicroPython, https://github.com/micropython/micropython/blob/master/examples/accel_i2c.py
-         Tomas Fryza
-Creation Date: 2023-06-17
-Last Modified: 2024-10-24
+Authors:
+- MicroPython, https://github.com/micropython/micropython/blob/master/examples/accel_i2c.py
+- Tomas Fryza
+
+Creation date: 2023-06-17
+Last modified: 2024-11-02
 """
 
 from machine import I2C
 from machine import Pin
 import time
-import sys
 
 SENSOR_ADDR = 0x5c  # DHT12
 
@@ -50,6 +51,3 @@ except KeyboardInterrupt:
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
-
-    # Stop program execution
-    sys.exit(0)

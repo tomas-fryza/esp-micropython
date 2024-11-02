@@ -8,16 +8,12 @@ current UTC time, and then adjusts the RTC to the local
 timezone (CET/CEST).
 
 Components:
-- ESP32 microcontroller
+- ESP32-based board
 
-Author:
-- Tomas Fryza
+Author: Tomas Fryza
 
-Creation Date:
-- 2023-10-25
-
-Last Modified:
-- 2024-11-02
+Creation date: 2023-10-25
+Last modified: 2024-11-02
 """
 
 from machine import RTC

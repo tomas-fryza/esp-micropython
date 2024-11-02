@@ -3,7 +3,6 @@
 
 from machine import Pin
 import time
-import sys
 import neopixel
 # https://docs.micropython.org/en/latest/library/neopixel.html
 
@@ -37,6 +36,3 @@ except KeyboardInterrupt:
     led.off()
     neo[0] = (0, 0, 0)
     neo.write()
-
-    # Stop program execution
-    sys.exit(0)

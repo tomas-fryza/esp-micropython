@@ -6,22 +6,24 @@ switching it on and off. It serves as a simple example of
 how to control an output pin of a microcontroller.
 
 Components:
-  - ESP32 microcontroller
-  - LED connected to GPIO2 (on-board)
+- ESP32-based board
+- LED connected to GPIO2 (on-board)
 
 Instructions:
 1. Run the script
 2. Stop the code execution by pressing `Ctrl+C` key
 
-Author: Wokwi, Tomas Fryza
-Creation Date: 2023-06-12
-Last Modified: 2024-09-27
+Authors:
+- Wokwi
+- Tomas Fryza
+
+Creation date: 2023-06-12
+Last modified: 2024-11-02
 """
 
 # Import the `Pin` class from the `machine` module to access hardware
 from machine import Pin
 import time
-import sys
 
 # Initialize LED pin (e.g., GPIO2 for ESP32 board)
 led = Pin(2, Pin.OUT)
@@ -44,6 +46,3 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     led.off()
-
-    # Stop program execution
-    sys.exit(0)

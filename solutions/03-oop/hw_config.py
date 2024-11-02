@@ -1,18 +1,19 @@
 """
-Classes for common I/O components
+Classes to configure basic I/O components
 
 This file defines classes to manage common input/output
 components like buttons and LEDs, including PWM control
 for adjustable LED brightness.
 
 Components (if the script is executed directly):
-  - ESP32 microcontroller
-  - Button connected to GPIO pin 27
-  - LED connected to GPIO pin 2 (on-board)
+- ESP32-based board
+- Button connected to GPIO pin 27
+- LED connected to GPIO pin 2 (on-board)
 
 Author: Tomas Fryza
-Creation Date: 2024-09-28
-Last Modified: 2024-10-07
+
+Creation date: 2024-09-28
+Last modified: 2024-11-02
 """
 
 from machine import Pin

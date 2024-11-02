@@ -6,15 +6,17 @@ and displaying on an OLED with the SH1106 controller. The
 script requires SH1106 and DHT12 modules, stored in ESP32 device.
 
 Components:
-  - ESP32 microcontroller
-  - DHT12 temperature and humidity sensor
-  - OLED display with SH1106 driver
+- ESP32-based board
+- DHT12 temperature and humidity sensor
+- OLED display with SH1106 driver
 
-Authors: Robert Hammelrath, https://github.com/robert-hh/SH1106
-         Martin Fitzpatrick, https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/
-         Tomas Fryza
-Creation Date: 2023-10-27
-Last Modified: 2024-10-22
+Authors:
+- Robert Hammelrath, https://github.com/robert-hh/SH1106
+- Martin Fitzpatrick, https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/
+- Tomas Fryza
+
+Creation date: 2023-10-27
+Last modified: 2024-11-02
 """
 
 from machine import I2C
@@ -22,7 +24,6 @@ from machine import Pin
 import time
 import dht12
 from sh1106 import SH1106_I2C
-import sys
 
 
 def read_sensor():
@@ -64,6 +65,3 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     oled.poweroff()
-
-    # Stop program execution
-    sys.exit(0)

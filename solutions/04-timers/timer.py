@@ -8,15 +8,15 @@ handler function is called each time the timer period
 elapses.
 
 Components:
-  - ESP32 microcontroller
+- ESP32-based board
 
 Author: Tomas Fryza
-Creation Date: 2023-10-16
-Last Modified: 2024-09-27
+
+Creation date: 2023-10-16
+Last modified: 2024-11-02
 """
 
 from machine import Timer
-import sys
 
 
 def timer_handler(t):
@@ -52,6 +52,3 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     tim.deinit()  # Stop the timer
-
-    # Stop program execution
-    sys.exit(0)

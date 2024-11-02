@@ -220,6 +220,7 @@ In MicroPython, especially when using the `urequests` library for handling HTTP 
    response = urequests.get("https://catfact.ninja/fact")
    print(response.status_code)
    print(response.text)
+   
    # Close the response to free up resources
    response.close()
    ...

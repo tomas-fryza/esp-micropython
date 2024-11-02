@@ -7,18 +7,18 @@ intervals. The timer interrupt updates global counters, allowing
 tasks to run based on elapsed time.
 
 Components:
-  - ESP32 microcontroller
-  - LED connected to GPIO pin 2 (on-board)
-  - Two external LEDs connected to GPIO pin 25 and 26
+- ESP32-based board
+- LED connected to GPIO pin 2 (on-board)
+- Two external LEDs connected to GPIO pin 25 and 26
 
 Author: Tomas Fryza
-Creation Date: 2023-10-16
-Last Modified: 2024-10-08
+
+Creation date: 2023-10-16
+Last modified: 2024-11-02
 """
 
 from machine import Timer
-from io_control import Led
-import sys
+from hw_config import Led
 
 # Initialize global counter(s) for different task(s)
 counter_a = 0
@@ -85,6 +85,3 @@ except KeyboardInterrupt:
     # Optional cleanup code
     tim.deinit()  # Stop the timer
     led_onboard.off()
-
-    # Stop program execution
-    sys.exit(0)

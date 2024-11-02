@@ -7,18 +7,20 @@ with a short delay. The program can be interrupted using
 Ctrl+C.
 
 Components:
-  - ESP32 microcontroller
-  - LED connected to GPIO pin 2 (on-board)
+- ESP32-based board
+- LED connected to GPIO pin 2 (on-board)
 
-Author: Wokwi, Tomas Fryza
-Creation Date: 2023-09-21
-Last Modified: 2024-09-27
+Authors:
+- Wokwi
+- Tomas Fryza
+
+Creation date: 2023-09-21
+Last modified: 2024-11-02
 """
 
 # Import the `Pin` class from the `machine` module to access hardware
 from machine import Pin
 import time
-import sys
 
 # Initialize LED pin (e.g., GPIO2 for ESP32 board)
 led = Pin(2, Pin.OUT)
@@ -42,6 +44,3 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     led.off()
-
-    # Stop program execution
-    sys.exit(0)

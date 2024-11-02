@@ -6,17 +6,19 @@ and Timer3) based on 16-bit pre-scalers. Init all timers and
 wait for interrupt signals.
 
 Inspired by:
-    * https://www.upesy.com/blogs/tutorials/timer-esp32-with-micro-python-scripts#
-    * https://microcontrollerslab.com/micropython-timers-esp32-esp8266-generate-delay/
+- https://www.upesy.com/blogs/tutorials/timer-esp32-with-micro-python-scripts#
+- https://microcontrollerslab.com/micropython-timers-esp32-esp8266-generate-delay/
 
-Author: Wokwi, Tomas Fryza
-Creation Date: 2023-10-17
-Last Modified: 2024-10-08
+Authors:
+- Wokwi
+- Tomas Fryza
+
+Creation date: 2023-10-17
+Last modified: 2024-11-02
 """
 
 from machine import Timer
 from machine import Pin
-import sys
 
 
 def toggleLed(t):
@@ -89,6 +91,3 @@ except KeyboardInterrupt:
     tim1.deinit()
     tim2.deinit()
     tim3.deinit()
-
-    # Stop program execution
-    sys.exit(0)

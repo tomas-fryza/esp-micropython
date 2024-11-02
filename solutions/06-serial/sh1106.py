@@ -2,16 +2,16 @@
 MicroPython module for I2C OLED display with SH1106 driver.
 
 Components:
-  - ESP32 microcontroller
-  - OLED display with SH1106 driver
+- ESP32-based board
+- OLED display with SH1106 driver
 
-Authors: Shujen Chen et al. Raspberry Pi Pico Interfacing
-         and Programming with MicroPython
-         MicroPython SH1106 OLED driver, I2C and SPI interfaces
-         Tomas Fryza
-Creation Date: 2023-10-27
-Last Modified: 2024-10-22
+Authors:
+- Shujen Chen et al. Raspberry Pi Pico Interfacing and Programming with MicroPython
+- MicroPython SH1106 OLED driver, I2C and SPI interfaces
+- Tomas Fryza
 
+Creation date: 2023-10-27
+Last modified: 2024-11-02
 """
 
 from machine import Pin

@@ -109,7 +109,6 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
    ```python
    from lcd_hd44780 import LcdHd44780
-   import sys
 
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
@@ -117,7 +116,9 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
    # Default LCD screen
    lcd.write("Using LCD...")
 
+
    # WRITE YOUR CODE HERE
+
 
    print("Start using HD44780-based LCD. Press `Ctrl+C` to stop")
 
@@ -132,9 +133,6 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
        # Optional cleanup code
        lcd.command(0x01)  # Clear display
-
-       # Stop program execution
-       sys.exit(0)
    ```
 
 4. Try methods `move_to()` and `write()` to print the text on the LCD screen.
@@ -201,7 +199,6 @@ To display numerical values, they first need to be converted to strings.
    ```python
    from lcd_hd44780 import LcdHd44780
    from machine import Timer
-   import sys
 
    def stopwatch_100ms(t):
        """Interrupt handler of Timer executed every 100 millisecs"""
@@ -210,14 +207,17 @@ To display numerical values, they first need to be converted to strings.
        # Modify tenths of seconds
        # WRITE YOR CODE HERE
 
+
        # Display tenths of seconds
        # WRITE YOR CODE HERE
+
 
    # Initialize LCD (four-data pins order is [D4, D5, D6, D7])
    lcd = LcdHd44780(rs=26, e=25, d=[13, 10, 9, 27])
 
    # Default screen
    # WRITE YOR CODE HERE
+
 
    # Define 100-millisec timer
    tim = Timer(0)
