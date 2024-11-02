@@ -1,13 +1,18 @@
 """
 MicroPython Aosong DHT12 I2C driver
-https://pypi.org/project/micropython-dht12/
+
+This library lets you communicate with an Aosong DHT12
+temperature and humidity sensor over I2C.
 
 Components:
 - ESP32-based board
 - DHT12 temperature and humidity sensor
 
-Updated: Tomas Fryza
+Authors:
+- Mike Causer, https://pypi.org/project/micropython-dht12/
+- Tomas Fryza
 
+2024-11-02: Read values method added
 2023-11-10: Scanning method added
 """
 
@@ -45,3 +50,14 @@ class DHT12(DHTBaseI2C):
         if self.buf[3] & 0x80:
             t = -t
         return t
+
+    def read_values(self):
+        """
+        Read temperature and humidity from the sensor.
+
+        :returns: A tuple containing the temperature
+                  (float) and humidity (float) values.
+        :rtype: tuple
+        """
+        self.measure()
+        return self.temperature(), self.humidity()

@@ -298,11 +298,6 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
    API_KEY = "THINGSPEAK_WRITE_API_KEY"
 
 
-   def read_sensor():
-       sensor.measure()
-       return sensor.temperature(), sensor.humidity()
-
-
    def send_to_thingspeak(temp, humidity):
        API_URL = "https://api.thingspeak.com/update"
 
@@ -325,7 +320,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
    try:
        # Forever loop
        while True:
-           temp, humidity = read_sensor()
+           temp, humidity = sensor.read_values()
            print(f"Temperature: {temp}°C, Humidity: {humidity}%")
 
            my_wifi.connect(wifi, config.SSID, config.PSWD)

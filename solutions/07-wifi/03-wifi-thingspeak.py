@@ -3,8 +3,8 @@ Read DHT12 sensor values and send to ThingSpeak
 ===============================================
 
 This script connects to a DHT12 temperature and humidity
-sensor and transmits the collected data to ThingSpeak using
-Wi-Fi via either GET or POST requests.
+sensor and transmits the collected data to ThingSpeak
+using Wi-Fi via either GET or POST request.
 
 Components:
 - ESP32-based board
@@ -26,18 +26,6 @@ import urequests
 import time
 
 API_KEY = "THINGSPEAK_WRITE_API_KEY"
-
-
-def read_sensor():
-    """
-    Read temperature and humidity from the sensor.
-
-    :returns: A tuple containing the temperature
-              (float) and humidity (float).
-    :rtype: tuple
-    """
-    sensor.measure()
-    return sensor.temperature(), sensor.humidity()
 
 
 def send_to_thingspeak(temp, humidity):
@@ -75,7 +63,7 @@ print("Start using Wi-Fi. Press `Ctrl+C` to stop")
 try:
     # Forever loop
     while True:
-        temp, humidity = read_sensor()
+        temp, humidity = sensor.read_values()
         print(f"Temperature: {temp}°C, Humidity: {humidity}%")
 
         my_wifi.connect(wifi, config.SSID, config.PSWD)
