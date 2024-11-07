@@ -4,7 +4,7 @@
 
 *The goal of this project is for small teams of 3-4 students to explore a chosen topic, use the [labs's components](https://github.com/tomas-fryza/esp-micropython?tab=readme-ov-file#components-and-tools), develop solutions, simulate and implement them, create documentation, and present the results. Team members will organize and divide tasks among themselves.*
 
-* The students will work on the project for five weeks, ending with a presentation and a practical demonstration (simulations alone are not enough).
+* The students will work on the project for four weeks, ending with a presentation and a practical demonstration (simulations alone are not enough), see the course schedule in e-learning.
 
 * The ESP32 code must be written in MicroPython and must be implementable on an ESP32 FireBeetle board.
 
