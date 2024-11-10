@@ -1,12 +1,8 @@
 """
 Wi-Fi connection management
-===========================
 
 This module provides functions to connect and disconnect
 from a Wi-Fi network.
-
-Components:
-- ESP32-based board
 
 Authors:
 - Nikhil Agnihotri, https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/
@@ -79,7 +75,6 @@ def disconnect(wifi):
 
     :param wifi: The Wi-Fi interface object to disconnect.
     :type wifi: network.WLAN
-    :returns: None
     """
     if wifi.active():
         wifi.active(False)
@@ -102,7 +97,6 @@ def print_status(wifi):
     :param wifi: The Wi-Fi interface object whose status
                  is to be printed.
     :type wifi: network.WLAN
-    :returns: None
     """
     status = wifi.status()
     print(f"[WIFI] {status_messages.get(status)}")

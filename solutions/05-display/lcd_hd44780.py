@@ -5,20 +5,18 @@ This class provides a simple interface to control character LCDs
 based on the HD44780 driver. It allows to display text, control
 the cursor position on the LCD screen, and create the custom characters.
 
-Components (if the script is executed directly):
-- ESP32-based board
-- LCD display:
-   + RS: GPIO pin 26
-   + R/W: GND
-   + E: 25
-   + D[7:4]: 27, 9, 10, 13
-
 Authors:
+
 - Shujen Chen et al. Raspberry Pi Pico Interfacing and Programming with MicroPython
 - Tomas Fryza
 
-Creation date: 2023-10-17
-Last modified: 2024-11-02
+Creation date:
+
+- 2023-10-17
+
+Last modified:
+
+- 2024-11-02
 """
 
 from machine import Pin
