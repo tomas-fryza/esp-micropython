@@ -1,6 +1,5 @@
 """
 MicroPython Weather Fetcher
-===========================
 
 This script connects to a Wi-Fi network and fetches current
 weather data for a specified city from the OpenWeatherMap API.
@@ -10,17 +9,14 @@ wind speed, and humidity.
 Notes: 
 - Get your API_KEY from https://openweathermap.org/
 
-Components:
-- ESP32-based board
-
 Author: Tomas Fryza
 
 Creation date: 2023-10-26
-Last modified: 2024-11-02
+Last modified: 2024-11-11
 """
 
 import network
-import my_wifi
+import wifi_module
 import config
 import urequests
 import ujson
@@ -62,6 +58,6 @@ def read_openweathermap():
 
 # Create Station interface
 wifi = network.WLAN(network.STA_IF)
-my_wifi.connect(wifi, config.SSID, config.PSWD)
+wifi_module.connect(wifi, config.SSID, config.PSWD)
 read_openweathermap()
-my_wifi.disconnect(wifi)
+wifi_module.disconnect(wifi)

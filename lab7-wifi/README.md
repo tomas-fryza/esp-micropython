@@ -91,20 +91,20 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
    PSWD = "YOUR_WIFI_PASSWORD"
    ```
 
-2. Create a new file `my_wifi.py` and [copy/paste the functions](../solutions/07-wifi/my_wifi.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
+2. Create a new file `wifi_module.py` and [copy/paste the functions](../solutions/07-wifi/wifi_module.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
 
 3. Create a new file `02-wifi-sta.py` and use the following template to connect and disconnect the network.
 
    ```python
    import network
-   import my_wifi
+   import wifi_module
    import config
 
    # Initialize the Wi-Fi interface in Station mode
    wifi = network.WLAN(network.STA_IF)
 
    # Connect to SSID
-   my_wifi.connect(wifi, config.SSID, config.PSWD)
+   wifi_module.connect(wifi, config.SSID, config.PSWD)
    # Get the current IP-level network-interface parameters
    print("     IP               MASK            GATEWAY          DNS")
    print(wifi.ifconfig())
@@ -114,7 +114,7 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
 
 
    print(f"Is connected? {wifi.isconnected()}")
-   my_wifi.disconnect(wifi)
+   wifi_module.disconnect(wifi)
    print(f"Is connected? {wifi.isconnected()}")
    ```
 
@@ -289,7 +289,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
    from machine import Pin
    import dht12
    import network
-   import my_wifi
+   import wifi_module
    import config
    import urequests
    import time
@@ -322,9 +322,9 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
            temp, humidity = sensor.read_values()
            print(f"Temperature: {temp}°C, Humidity: {humidity}%")
 
-           my_wifi.connect(wifi, config.SSID, config.PSWD)
+           wifi_module.connect(wifi, config.SSID, config.PSWD)
            send_to_thingspeak(temp, humidity)
-           my_wifi.disconnect(wifi)
+           wifi_module.disconnect(wifi)
 
            time.sleep(60)
 
@@ -333,7 +333,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
        print("Program stopped. Exiting...")
 
        # Optional cleanup code
-       my_wifi.disconnect(wifi)
+       wifi_module.disconnect(wifi)
    ```
 
    Note that, you can also use the POST request instead of the GET one.
@@ -359,7 +359,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
    ```python
    from machine import RTC
    import network
-   import my_wifi
+   import wifi_module
    import config
    import ntptime
 
@@ -368,13 +368,13 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
    # Create Station interface
    wifi = network.WLAN(network.STA_IF)
-   my_wifi.connect(wifi, config.SSID, config.PSWD)
+   wifi_module.connect(wifi, config.SSID, config.PSWD)
 
    # Get UTC time from NTP server and set it to RTC
    ntptime.host = "cz.pool.ntp.org"
    ntptime.settime()
    print("Local RTC synchronized")
-   my_wifi.disconnect(wifi)
+   wifi_module.disconnect(wifi)
 
    # Create an independent clock object
    rtc = RTC()

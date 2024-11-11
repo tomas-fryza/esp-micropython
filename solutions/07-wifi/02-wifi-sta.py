@@ -1,24 +1,20 @@
 """
 Wi-Fi configuration and connection
-==================================
 
 This MicroPython script configures and connects an ESP32
 microcontroller to a Wi-Fi network. It display network-interface
 and network-specific parameters.
-
-Components:
-- ESP32-based board
 
 Authors:
 - Nikhil Agnihotri, https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/
 - Tomas Fryza
 
 Creation date: 2023-06-16
-Last modified: 2024-11-02
+Last modified: 2024-11-11
 """
 
 import network
-import my_wifi
+import wifi_module
 import config
 import urequests  # Network Request Module
 
@@ -26,7 +22,7 @@ import urequests  # Network Request Module
 wifi = network.WLAN(network.STA_IF)
 
 # Connect to SSID
-my_wifi.connect(wifi, config.SSID, config.PSWD)
+wifi_module.connect(wifi, config.SSID, config.PSWD)
 # Get the current IP-level network-interface parameters
 print("     IP               MASK            GATEWAY          DNS")
 print(wifi.ifconfig())
@@ -83,5 +79,5 @@ response.close()
 # Test if connected
 print("")
 print(f"Is connected? {wifi.isconnected()}")
-my_wifi.disconnect(wifi)
+wifi_module.disconnect(wifi)
 print(f"Is connected? {wifi.isconnected()}")

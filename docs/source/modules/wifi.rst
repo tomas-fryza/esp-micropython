@@ -1,7 +1,7 @@
 Wi-Fi
 =====
 
-.. automodule:: my_wifi
+.. automodule:: wifi_module
    :members:
    :undoc-members:
    :show-inheritance:
