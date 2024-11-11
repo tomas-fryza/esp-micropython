@@ -91,7 +91,7 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
    PSWD = "YOUR_WIFI_PASSWORD"
    ```
 
-2. Create a new file `wifi_module.py` and [copy/paste the functions](../solutions/07-wifi/wifi_module.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
+2. Create a new file `wifi_module.py` and [copy/paste the functions](../modules/wifi_module.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
 
 3. Create a new file `02-wifi-sta.py` and use the following template to connect and disconnect the network.
 
@@ -280,7 +280,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
 4. Get Channel API Key: In your channel settings, you'll find an Write API Key. This key is used to authenticate your device when sending data to ThingSpeak.
 
-5. Use [`dht12.py`](../solutions/06-serial/dht12.py) file from the previous lab and save a copy of this file to the MicroPython device.
+5. Use [`dht12.py`](../modules/dht12.py) file from the previous lab and save a copy of this file to the MicroPython device.
 
 6. Write a MicroPython script that reads data from the DHT12 sensor and sends it to ThingSpeak. Use the `urequests` library to make HTTP requests.
 

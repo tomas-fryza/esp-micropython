@@ -101,7 +101,7 @@ In the lab, we are using MicroPython module for HD44780-based LCDs developed by 
 
 1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
-2. Create a new file in Thonny and copy/paste the [LCD module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/05-display/lcd_hd44780.py) to it. Save the file `lcd_hd44780.py` to local folder and also to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
+2. Create a new file in Thonny and copy/paste the [LCD module code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/modules/lcd_hd44780.py) to it. Save the file `lcd_hd44780.py` to local folder and also to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
 
    ![save to device](../lab4-timers/images/save_as.png)
 

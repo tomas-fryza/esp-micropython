@@ -71,7 +71,7 @@ Note that, most I2C devices support repeated start condition. This means that be
 >
 > According to the list of [I2C addresses](https://learn.adafruit.com/i2c-addresses/the-list) the device could be humidity/temp or pressure sensor. The signals were really recorded when communicating with the humidity and temperature sensor.
 >
-> The data frame always follows the address one and contains eight data bits from the MSB to the LSB and is again terminated by an acknowledgment from the receiving side. Here, number `2` was written to the sensor. According to the [DHT12 sensor manual](https://github.com/tomas-fryza/digital-electronics-2/blob/master/docs/dht12_manual.pdf), this is the address of register, to which the integer part of measured temperature is stored. (The following register contains its decimal part.)
+> The data frame always follows the address one and contains eight data bits from the MSB to the LSB and is again terminated by an acknowledgment from the receiving side. Here, number `2` was written to the sensor. According to the [DHT12 sensor manual](https://github.com/tomas-fryza/esp-micropython/blob/master/docs/dht12_manual.pdf), this is the address of register, to which the integer part of measured temperature is stored. (The following register contains its decimal part.)
 >
 > | **Memory location** | **Description** |
 > | :-: | :-- |
@@ -204,9 +204,9 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    >
    > You can find a comprehensive tutorial on utilizing a logic analyzer in this [video](https://www.youtube.com/watch?v=CE4-T53Bhu0).
 
-5. (Optional) Use BME280 sensor and read humidity, temperature and preassure values.
+5. (Optional:) Use BME280 sensor and read humidity, temperature and preassure values.
 
-   * BME280 [class](../solutions/06-serial/bme280.py)
+   * BME280 [class](../modules/bme280.py)
    * Testing [script](../solutions/06-serial/03-i2c_sensor_bme280.py)
 
 <a name="part4"></a>
@@ -215,7 +215,7 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
 
 An OLED I2C display, or OLED I2C screen, is a type of display technology that combines an OLED (Organic Light Emitting Diode) panel with an I2C (Inter-Integrated Circuit) interface for communication. The I2C interface simplifies the connection between the display and a microcontroller, making it easier to control and integrate into various electronic projects.
 
-1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/solutions/06-serial/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
+1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/modules/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
 
 2. Create a new file `03-i2c_oled.py` and write a script to print text on the display.
 
@@ -279,7 +279,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 5. Combine temperature and OLED examples and print DHT12 sensor values on OLED display.
 
-   Create a new file `dht12.py` and [copy/paste](../solutions/06-serial/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Create a new script file `04-i2c_sensor_oled.py`, use the following code, read values from DHT12 sensor, and display them in Thonny`s Shell and OLED display.
+   Create a new file `dht12.py` and [copy/paste](../modules/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Create a new script file `04-i2c_sensor_oled.py`, use the following code, read values from DHT12 sensor, and display them in Thonny`s Shell and OLED display.
 
    ```python
    from machine import I2C
@@ -287,7 +287,6 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    import time
    import dht12
    from sh1106 import SH1106_I2C
-
 
    # Init DHT12 sensor
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
@@ -360,12 +359,12 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 4. Adafruit. [List of I2C addresses](https://learn.adafruit.com/i2c-addresses/the-list)
 
-5. Aosong. [Digital temperature DHT12](../../docs/dht12_manual.pdf)
+5. Aosong. [Digital temperature DHT12](../docs/dht12_manual.pdf)
 
 6. NXP. [I2C-bus specification and user manual](https://www.pololu.com/file/download/UM10204.pdf?file_id=0J435)
 
 7. Martin Fitzpatrick. [Driving I2C OLED displays with MicroPython](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/)
 
-8. Maxim Integrated. [DS3231, Extremely accurate I2C-Integrated RTC/TCXO/Crystal](../../docs/ds3231_manual.pdf)
+8. Maxim Integrated. [DS3231, Extremely accurate I2C-Integrated RTC/TCXO/Crystal](../docs/ds3231_manual.pdf)
 
 9. LastMinuteEngineers. [Interface DS3231 Precision RTC Module with Arduino](https://lastminuteengineers.com/ds3231-rtc-arduino-tutorial/)

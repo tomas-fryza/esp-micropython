@@ -27,13 +27,11 @@ Authors
 - Nikhil Agnihotri, `Engineers Garage <https://www.engineersgarage.com/micropython-wifi-network-esp8266-esp32/>`_
 - Tomas Fryza
 
-Creation Date
--------------
-2023-06-17
-
-Last Modified
--------------
-2024-11-11
+Modification history
+--------------------
+- **2024-11-11** : Added Sphinx comments.
+- **2024-11-02** : Added `print_status` methods.
+- **2023-06-17** : Created `connect` and `disconnect` methods.
 """
 
 import gc  # Garbage Collector interface (Memory management)
