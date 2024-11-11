@@ -1,5 +1,5 @@
-SH1106-based OLED
-=================
+SH1106-based OLED driver
+========================
 
 .. automodule:: sh1106
    :members:

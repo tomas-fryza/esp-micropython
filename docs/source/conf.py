@@ -54,7 +54,6 @@ def linkcode_resolve(domain, info):
         
         # Use `inspect.getsourcelines` to get the starting line number of the object
         source, start_lineno = inspect.getsourcelines(obj)
-        start_lineno += 2
 
         # Get the end line number by counting the lines in the source code of the object
         end_lineno = start_lineno + len(source) - 1

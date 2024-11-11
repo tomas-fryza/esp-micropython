@@ -26,7 +26,7 @@ This section covers all the key modules used in the MicroPython course.
 
 - ``Basic I/O components``: Learn about the essential I/O modules in MicroPython.
 - ``HD44780-based LCD``: Documentation on controlling an HD44780-based LCD.
-- ``SH1106-based OLED``: Instructions for using an SH1106-based OLED display.
+- ``SH1106-based OLED driver``: Instructions for using an SH1106-based OLED display.
 - ``DHT12 sensor driver``: Learn how to interface with the DHT12 temperature and humidity sensor.
 - ``BME280 sensor``: Documentation on using the BME280 sensor for temperature, humidity, and pressure readings.
 - ``Wi-Fi``: How to connect and interact with Wi-Fi networks using MicroPython.
