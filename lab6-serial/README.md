@@ -71,7 +71,7 @@ Note that, most I2C devices support repeated start condition. This means that be
 >
 > According to the list of [I2C addresses](https://learn.adafruit.com/i2c-addresses/the-list) the device could be humidity/temp or pressure sensor. The signals were really recorded when communicating with the humidity and temperature sensor.
 >
-> The data frame always follows the address one and contains eight data bits from the MSB to the LSB and is again terminated by an acknowledgment from the receiving side. Here, number `2` was written to the sensor. According to the [DHT12 sensor manual](https://github.com/tomas-fryza/esp-micropython/blob/master/docs/dht12_manual.pdf), this is the address of register, to which the integer part of measured temperature is stored. (The following register contains its decimal part.)
+> The data frame always follows the address one and contains eight data bits from the MSB to the LSB and is again terminated by an acknowledgment from the receiving side. Here, number `2` was written to the sensor. According to the [DHT12 sensor manual](../manuals/dht12_manual.pdf), this is the address of register, to which the integer part of measured temperature is stored. (The following register contains its decimal part.)
 >
 > | **Memory location** | **Description** |
 > | :-: | :-- |
@@ -105,15 +105,15 @@ The goal of this task is to find all devices connected to the I2C bus.
 
    ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
-   * Humidity/temperature [DHT12](../docs/dht12_manual.pdf) digital sensor
+   * Humidity/temperature [DHT12](../manuals/dht12_manual.pdf) digital sensor
 
    * SH1106 I2C [OLED display](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/) 128x64
 
    * Optional: Humidity/temperature/pressure [BME280](https://cdn-shop.adafruit.com/datasheets/BST-BME280_DS001-10.pdf) sensor
 
-   * Optional: Combined module with [RTC DS3231](../docs/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../docs/at24c32_manual.pdf) EEPROM memory
+   * Optional: Combined module with [RTC DS3231](../manuals/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../manuals/at24c32_manual.pdf) EEPROM memory
 
-   * Optional: [GY-521 module](../docs/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
+   * Optional: [GY-521 module](../manuals/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
 
 2. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
@@ -140,7 +140,7 @@ The goal of this task is to find all devices connected to the I2C bus.
 
 The goal of this task is to communicate with the DHT12 temperature and humidity sensor assigned to the I2C slave address `0x5c`.
 
-1. Create a new script file `02-i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../docs/dht12_manual.pdf), the internal DHT12 memory has the following structure.
+1. Create a new script file `02-i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../manuals/dht12_manual.pdf), the internal DHT12 memory has the following structure.
 
    | **Memory location** | **Description** |
    | :-: | :-- |
@@ -215,7 +215,7 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
 
 An OLED I2C display, or OLED I2C screen, is a type of display technology that combines an OLED (Organic Light Emitting Diode) panel with an I2C (Inter-Integrated Circuit) interface for communication. The I2C interface simplifies the connection between the display and a microcontroller, making it easier to control and integrate into various electronic projects.
 
-1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/main/modules/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
+1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](../modules/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
 
 2. Create a new file `03-i2c_oled.py` and write a script to print text on the display.
 
@@ -341,7 +341,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    2 device(s) detected
    ```
 
-2. Create a stopwatch using an RTC DS3231 (Real Time Clock) I2C device. Note that, according to the [DS3231 manual](../docs/ds3231_manual.pdf), the RTC memory has the following structure.
+2. Create a stopwatch using an RTC DS3231 (Real Time Clock) I2C device. Note that, according to the [DS3231 manual](../manuals/ds3231_manual.pdf), the RTC memory has the following structure.
 
    ![rtc_regs](images/rtc_registers.png)
 
@@ -359,12 +359,12 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 4. Adafruit. [List of I2C addresses](https://learn.adafruit.com/i2c-addresses/the-list)
 
-5. Aosong. [Digital temperature DHT12](../docs/dht12_manual.pdf)
+5. Aosong. [Digital temperature DHT12](../manuals/dht12_manual.pdf)
 
 6. NXP. [I2C-bus specification and user manual](https://www.pololu.com/file/download/UM10204.pdf?file_id=0J435)
 
 7. Martin Fitzpatrick. [Driving I2C OLED displays with MicroPython](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/)
 
-8. Maxim Integrated. [DS3231, Extremely accurate I2C-Integrated RTC/TCXO/Crystal](../docs/ds3231_manual.pdf)
+8. Maxim Integrated. [DS3231, Extremely accurate I2C-Integrated RTC/TCXO/Crystal](../manuals/ds3231_manual.pdf)
 
 9. LastMinuteEngineers. [Interface DS3231 Precision RTC Module with Arduino](https://lastminuteengineers.com/ds3231-rtc-arduino-tutorial/)

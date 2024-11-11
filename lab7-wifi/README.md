@@ -268,7 +268,7 @@ In MicroPython, especially when using the `urequests` library for handling HTTP 
 
 ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, analyze, and visualize data from your connected devices. It provides APIs for storing and retrieving data, making it easy to integrate IoT devices into your projects. One common use case for ThingSpeak is to store and display sensor data. Note that, ThingSpeak supports both, GET and POST types of HTTP request methods.
 
-1. Use breadboard, jumper wires, and connect I2C [DHT12](../docs/dht12_manual.pdf) sensor to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
+1. Use breadboard, jumper wires, and connect I2C [DHT12](../manuals/dht12_manual.pdf) sensor to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
 
    > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones is used.
 

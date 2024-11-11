@@ -229,10 +229,10 @@ The following hardware and software components are mainly used in the lab.
 | **Component** | **Link(s)** |
 | :-- | :-- |
 | ESP32 microcontroler | [Expressif](https://www.espressif.com/en/products/socs/esp32) |
-| FireBeetle board | [Schematic](docs/firebeetle_esp32_board_user_manual.pdf) & manual, [pinout](labs/03-gpio/images/DFR0478_pinout.png)
-| DHT12 | I2C humidity and temperature sensor: [data sheet](docs/dht12_manual.pdf) |
-| MPU6050 | I2C gyroscope and accelerometer: [data sheet](docs/dht12_manual.pdf) |
-| DS3231 | I2C real time clock: [data sheet](docs/ds3231_manual.pdf) |
+| FireBeetle board | [Schematic](manuals/firebeetle_esp32_board_user_manual.pdf) & manual, [pinout](lab2-gpio/images/DFR0478_pinout.png)
+| DHT12 | I2C humidity and temperature sensor: [data sheet](manuals/dht12_manual.pdf) |
+| MPU6050 | I2C gyroscope and accelerometer: [data sheet](manuals/dht12_manual.pdf) |
+| DS3231 | I2C real time clock: [data sheet](manuals/ds3231_manual.pdf) |
 | HC-SR04 | ultrasonic sensor: [datasheet](https://components101.com/ultrasonic-sensor-working-pinout-datasheet) |
 | Joystick PS2 | Analog [joystick PS2](https://arduino-shop.cz/arduino/884-arduino-joystick-ps2.html)
 | Logic analyzer | 24MHz 8-channel [logic analyzer](https://www.ebay.com/sch/i.html?LH_CAds=&_ex_kw=&_fpos=&_fspt=1&_mPrRngCbx=1&_nkw=24mhz%20logic%20analyzer&_sacat=&_sadis=&_sop=12&_udhi=&_udlo=): [software](https://www.saleae.com/)
