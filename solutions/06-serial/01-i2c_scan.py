@@ -5,11 +5,7 @@ Scan the I2C (Inter-Integrated Circuit) bus for connected
 devices and print their addresses. This script is useful
 for identifying I2C devices connected to your microcontroller.
 
-Components:
-- ESP32-based board
-- several I2C devices
-
-Author:
+Authors:
 - MicroPython
 - Tomas Fryza
 

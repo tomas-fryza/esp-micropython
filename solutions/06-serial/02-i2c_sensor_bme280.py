@@ -5,10 +5,6 @@ This script demonstrates using I2C to read values from
 BME280 pressure, temperature, and humidity sensor. The
 script requires BME280 module, stored in ESP32 device.
 
-Components:
-- ESP32-based board
-- BME280 sensor
-
 Authors:
 - https://randomnerdtutorials.com/micropython-bme280-esp32-esp8266/
 - Tomas Fryza

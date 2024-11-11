@@ -5,10 +5,6 @@ This script demonstrates using I2C to read values from
 RTC (Real Time Clock) DS3231 device. The script requires
 hw_config module, stored in ESP32 device.
 
-Components:
-- ESP32-based board
-- RTC DS3231
-
 Authors:
 - MicroPython, https://github.com/micropython/micropython/blob/master/examples/accel_i2c.py
 - Tomas Fryza

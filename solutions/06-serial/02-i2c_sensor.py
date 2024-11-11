@@ -4,10 +4,6 @@ Read sensor values using I2C bus
 This script demonstrates using I2C to read values from
 DHT12 temperature and humidity sensor.
 
-Components:
-- ESP32-based board
-- DHT12 temperature and humidity sensor
-
 Authors:
 - MicroPython, https://github.com/micropython/micropython/blob/master/examples/accel_i2c.py
 - Tomas Fryza

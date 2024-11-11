@@ -5,11 +5,6 @@ MicroPython script for reading data from DHT12 I2C sensor
 and displaying on an OLED with the SH1106 controller. The
 script requires SH1106 and DHT12 modules, stored in ESP32 device.
 
-Components:
-- ESP32-based board
-- DHT12 temperature and humidity sensor
-- OLED display with SH1106 driver
-
 Authors:
 - Robert Hammelrath, https://github.com/robert-hh/SH1106
 - Martin Fitzpatrick, https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/
