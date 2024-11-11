@@ -30,7 +30,7 @@ Authors
 Modification history
 --------------------
 - **2024-11-11** : Added Sphinx comments.
-- **2024-11-02** : Added `print_status` methods.
+- **2024-11-02** : Added `print_status` method.
 - **2023-06-17** : Created `connect` and `disconnect` methods.
 """
 
