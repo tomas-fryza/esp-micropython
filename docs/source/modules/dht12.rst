@@ -1,5 +1,5 @@
-DHT12 sensor
-============
+DHT12 sensor driver
+===================
 
 .. automodule:: dht12
    :members:
