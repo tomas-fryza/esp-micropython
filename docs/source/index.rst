@@ -6,13 +6,14 @@
 Welcome to MicroPython course's documentation!
 ==============================================
 
+.. image:: ../../manuals/snake.png
+   :align: center
+
 :Release: |release|
 :Date: |today|
 
 General documentation
 ---------------------
-
-This section covers the basic setup and installation steps for getting started with MicroPython.
 
 .. toctree::
    :maxdepth: 2
@@ -21,17 +22,6 @@ This section covers the basic setup and installation steps for getting started w
 
 Modules
 -------
-
-This section covers all the key modules used in the MicroPython course.
-
-- ``Basic I/O components``: Learn about the essential I/O modules in MicroPython.
-- ``HD44780-based LCD``: Documentation on controlling an HD44780-based LCD.
-- ``SH1106-based OLED driver``: Instructions for using an SH1106-based OLED display.
-- ``DHT12 sensor driver``: Learn how to interface with the DHT12 temperature and humidity sensor.
-- ``BME280 sensor``: Documentation on using the BME280 sensor for temperature, humidity, and pressure readings.
-- ``Wi-Fi``: How to connect and interact with Wi-Fi networks using MicroPython.
-
-Each of the topics above is explained in more detail in the following sections.
 
 .. toctree::
    :maxdepth: 1
