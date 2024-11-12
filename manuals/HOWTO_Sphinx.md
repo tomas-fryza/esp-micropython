@@ -212,7 +212,7 @@ Sphinx includes ways to automatically create the object definitions for your own
 
 ### Step 7: Deploying Sphinx documentation to GitHub Pages
 
-See [this exercise], how to use GitHub action to rebuild the documentation on `git push` command.
+See [this exercise](https://coderefinery.github.io/documentation/gh_workflow/), how to use GitHub action to rebuild the documentation on `git push` command.
 
 ### Tested on
 
