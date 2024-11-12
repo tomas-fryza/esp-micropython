@@ -17,7 +17,7 @@ Example
 -------
 .. code-block:: python
 
-    from dht12_module import DHT12
+    from dht12 import DHT12
     from machine import I2C, Pin
 
     # Initialize I2C interface
