@@ -1,167 +1,231 @@
 # Howto use Sphinx
 
+[Sphinx](https://www.sphinx-doc.org/en/master/index.html) is an open-source documentation generator primarily used for creating technical documentation for Python projects. It takes [reStructuredText](https://sphinx-tutorial.readthedocs.io/step-1/) (reST) files, processes them, and generates various output formats, including HTML, PDF, LaTeX, ePub, and more.
+
 ### Step 1: Install Sphinx
 
-Create virtual environment in project folder:
+1. Create virtual environment in project folder:
 
-```shell
-cd path-to-your-project
-python3 -m venv .venv
-source .venv/bin/activate
-```
+   ```shell
+   cd path-to-your-project
+   python3 -m venv .venv
+   source .venv/bin/activate
+   ```
 
-Install and check Sphinx:
+2. Install and check Sphinx:
 
-```shell
-pip install sphinx
-sphinx-build --version
-```
+   ```shell
+   pip install sphinx
+   sphinx-build --version
+   ```
 
 ### Step 2: Create Sphinx documentation structure
 
-```shell
-mkdir docs
-cd docs
-sphinx-quickstart
-# Set separate `source` and `build` directories and basic project parameters, like name, author(s), etc.
-```
+1. Set up the basic structure of the documentation project:
 
-See the documentation structure:
+   ```shell
+   mkdir docs
+   cd docs
+   sphinx-quickstart
+   # Set separate `source` and `build` directories and basic project parameters, like name, author(s), etc.
+   ```
 
-```shell
-tree .
-# On macOS, you need to install `brew install tree` first.
+   See the documentation structure:
 
-.
-├── Makefile
-├── build
-├── make.bat
-└── source
-    ├── _static
-    ├── _templates
-    ├── conf.py
-    └── index.rst
-```
+   ```shell
+   tree .
+   # On macOS, you need to install `brew install tree` first.
 
-Generate HTML doccumentation:
+   .
+   ├── Makefile        # Building the documentation on Unix-like systems (Linux, macOS)
+   ├── build           # Output folder for built dodumentation
+   ├── make.bat        # Building the docs on Windows systems
+   └── source
+       ├── _static     # Images, CSS files, or JavaScript files
+       ├── _templates  # Custom templates
+       ├── conf.py     # Configuration file for Sphinx settings
+       └── index.rst   # Root document, serves as the home page
+   ```
 
-```shell
-make html
+2. Generate HTML doccumentation:
 
-# Alternatively, if you're using Windows, use the command:
-make.bat html
+   ```shell
+   make html
 
-tree .
-```
+   # Alternatively, if you're using Windows, use the command:
+   make.bat html
+   ```
 
-Open `build/html/index.html` file and see initial (empty) documentation page in web browser.
+   Open `build/html/index.html` file and see initial (empty) documentation page in web browser.
 
-> **Note:** If you have LaTeX installed on your computer, you can generate documentation using the command: `make latexpdf` and find the pdf file in `build/latex/` folder.
+   > **Note:** If you have LaTeX installed on your computer, you can generate documentation using the command: `make latexpdf` and find the pdf file in `build/latex/` folder.
 
 ### Step 3: Update the theme
 
-The default Sphinx theme is the **Alabaster**. If you want to change it, see the list of themes on [Sphinx Themes Gallery](https://sphinx-themes.org/), select your favorite one(s), such as **Read the Docs**, **Furo**, etc. and download them to your computer.
+The default Sphinx theme is the **Alabaster**. If you want to change it, see the list of themes on [Sphinx Themes Gallery](https://sphinx-themes.org/), select your favorite one(s), such as **Read the Docs**, **Furo**, etc.
 
-```
-pip install sphinx-rtd-theme
-pip install furo
-```
+1. Download your favorite theme(s):
 
-Change the default `alabaster` theme by `sphinx_rtd_theme` or `furo` in `source/conf.py` file
+   ```shell
+   pip install sphinx-rtd-theme
+   pip install furo
+   ```
 
-```shell
-vim source/conf.py
+2. Change the default `alabaster` theme by `sphinx_rtd_theme` or `furo` in `source/conf.py` file
 
-...
-# html_theme = 'alabaster'
-html_theme = 'sphinx_rtd_theme'
-# html_theme = 'furo'
-...
-```
+   ```shell
+   ...
+   # html_theme = 'alabaster'
+   html_theme = 'sphinx_rtd_theme'
+   # html_theme = 'furo'
+   ...
+   ```
 
-and regenerate the documentation
+   and regenerate the documentation
 
-```shell
-make html
-```
+   ```shell
+   make html
+   ```
 
 ### Step 4: Create a new documentation file
 
-Create a new file in `source` folder:
+In the Sphinx documentation system, **reStructuredText** (lightweight markup language, often abbreviated as reST or `.rst`) files are plain text files used to write the content of your documentation. Each `.rst` file can represent a section or page of your documentation.
 
-```shell
-vim source/installation.rst
+1. Create a new `installation.rst` file in `source` folder and write its content, such as:
 
-Installation
-============
+   ```rst
+   Installation
+   ============
 
-1. Clone Repository
+   To get started with MicroPython, follow these steps to install and run it on your hardware.
 
-.. code-block:: console
+   1. Install the `MicroPython <https://micropython.org/>`_ firmware on your board.
 
-    $ git clone https://github.com/tomas-fryza/esp-micropython.git
+   2. Install the `Thonny IDE <https://thonny.org/>`_.
 
-2. Install Thonny IDE
+   3. Clone the course repository
 
-3. Run the examples from `examples` or `solution` folder.
-```
+      .. code-block:: console
 
-Update the `source/index.rst` and add the new documentation page at the end of the file:
+          $ git clone https://github.com/tomas-fryza/esp-micropython.git
 
-```shell
-vim source/index.rst
+   4. Run scripts from the :file:`examples` folder.
+   ```
 
-.. MicroPython Examples documentation master file, created by
-   sphinx-quickstart on Sun Nov 10 14:04:56 2024.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+2. Update the main `source/index.rst` file and add the new documentation page:
 
-MicroPython Examples documentation
-==================================
+   ```rst
+   .. MicroPython Examples documentation master file, created by
+      sphinx-quickstart on Sun Nov 10 14:04:56 2024.
+      You can adapt this file completely to your liking, but it should at least
+      contain the root `toctree` directive.
 
-Welcome to our MicroPython Documentation portal.
+   Welcome to MicroPython course's documentation!
+   ==============================================
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Contents:
+   General documentation
+   ---------------------
 
-   installation
-```
+   .. toctree::
+      :maxdepth: 2
 
-Regenerate the documentation and see reload the `index.html` page in web browser.
+      installation
+   ```
 
-```shell
-make html
-```
+3. Regenerate the documentation and reload the `index.html` page in web browser.
 
+   ```shell
+   make html
+   ```
 
+### Step 5: Add the Python module
 
+Sphinx includes ways to automatically create the object definitions for your own code.
 
-Step 6: Add the Python module
-=============================
+1. First, add the path to your Python modules and enable `autodoc` extension in Sphinx configuration file `sources/conf.py`
+
+   ```python
+   import sys
+   import os
+   sys.path.insert(0, os.path.abspath('../../modules'))
+   # Here, the source files are located in `modules` folder:
+   # .
+   # ├── docs
+   # │   ├── Makefile
+   # │   ├── build
+   # │   ├── make.bat
+   # │   └── source
+   # │       ├── conf.py
+   # │       ├── index.rst
+   # │       └── installation.rst
+   # └── modules
+   #     └── wifi_module.py
+
+   extensions = [
+       'sphinx.ext.autodoc',  # Core library for html generation from docstrings
+       ]
+   ```
+
+2. Create a new documentation page `wifi.rst` in `source` folder:
+
+   ```rst
+   Wi-Fi
+   =====
+
+   .. automodule:: wifi_module
+      :members:
+      :undoc-members:
+      :show-inheritance:
+   ```
+
+   The `automodule` directive tells Sphinx to automatically extract documentation from the `wifi_module` Python file.
+      * `:members:` includs all members (classes, functions, methods, etc.)
+      * `:undoc-members:` tells Sphinx to include also members that do not have docstrings
+      * `:show-inheritance:` option is used to show the class inheritance hierarchy in the generated documentation
+
+3. And finally, add the new documentation file to home page in `index.rst`
+
+   ```rst
+   ...
+   General documentation
+   ---------------------
+
+   .. toctree::
+      :maxdepth: 2
+
+      installation
+
+   Modules
+   -------
+
+   .. toctree::
+      :maxdepth: 1
+
+      wifi
+   ```
+
+4. Regenerate the documentation and reload the `index.html` page in web browser.
+
+   ```shell
+   make html
+   ```
+
+### Step 7: Commit your documentation
 
 TBD
-
-
-
-Step 7: Commit your documentation
-=================================
-
-TBD
-
-
 
 ### Tested on
 
-macOS
+| **Version**                | **Result (yyyy-mm-dd)** | **Note**
+| :------------------------- | :---------------------: | :-------
+| macOS Sonoma 14.6.1        | OK (2024-11-11)         | MacBook
 
+## References
 
+1. [Installing Sphinx](https://www.sphinx-doc.org/en/master/usage/installation.html)
 
-References
-==========
+2. Sphinx. [Getting started](https://www.sphinx-doc.org/en/master/usage/quickstart.html)
 
-- https://www.sphinx-doc.org/en/master/usage/installation.html
+3. youtube. [Sphinx - How to generate documentation from python doc strings](https://www.youtube.com/watch?app=desktop&v=BWIrhgCAae0&ab_channel=LearnProgrammingwithJoel)
 
-- https://www.youtube.com/watch?app=desktop&v=BWIrhgCAae0&ab_channel=LearnProgrammingwithJoel
-
-- https://www.youtube.com/watch?v=pB6nNb-o1AQ&ab_channel=MiddlewareTechnologies
+4. youtube. [How to Generate Python Code Documentation using Sphinx](https://www.youtube.com/watch?v=pB6nNb-o1AQ&ab_channel=MiddlewareTechnologies)

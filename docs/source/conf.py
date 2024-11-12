@@ -6,9 +6,10 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here.
 import sys
-from pathlib import Path
-
-sys.path.insert(0, str(Path('../..', 'modules').resolve()))
+# from pathlib import Path
+# sys.path.insert(0, str(Path('../..', 'modules').resolve()))
+import os
+sys.path.insert(0, os.path.abspath('../../modules'))
 
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
@@ -16,7 +17,7 @@ sys.path.insert(0, str(Path('../..', 'modules').resolve()))
 project = 'MicroPython course'
 copyright = '2023-2024, Tomas Fryza'
 author = 'Tomas Fryza'
-release = '0.3'
+release = '1.0'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
@@ -24,7 +25,7 @@ release = '0.3'
 extensions = [
     'sphinx.ext.duration',
     'sphinx.ext.autodoc',  # Core library for html generation from docstrings
-    'sphinx.ext.autosummary',
+    # 'sphinx.ext.autosummary',
     'sphinx.ext.linkcode',  # Enable linkcode for linking to external source code
     ]
 
