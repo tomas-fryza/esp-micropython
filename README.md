@@ -209,6 +209,8 @@ Pymakr allows you to connect, upload, and run MicroPython code on boards like th
 7. [Wi-Fi communication](lab7-wifi)
 8. [Project](lab8-project)
 
+Documentation for modules used in the labs is [available here](https://tomas-fryza.github.io/esp-micropython/).
+
 ## List of MicroPython examples
 
 * [Blink](examples/01-blink/main.py)

@@ -18,6 +18,12 @@ Example
     print("Toggling LED...")
     led.toggle()
 
+    # Example of using the PwmLed class
+    led = PwmLed(2)
+
+    print("Fading in...")
+    led.fade_in(duration=2)
+
 Author
 ------
 Tomas Fryza
