@@ -210,9 +210,9 @@ Sphinx includes ways to automatically create the object definitions for your own
    make html
    ```
 
-### Step 7: Commit your documentation
+### Step 7: Deploying Sphinx documentation to GitHub Pages
 
-TBD
+See [this exercise], how to use GitHub action to rebuild the documentation on `git push` command.
 
 ### Tested on
 
@@ -228,4 +228,4 @@ TBD
 
 3. youtube. [Sphinx - How to generate documentation from python doc strings](https://www.youtube.com/watch?app=desktop&v=BWIrhgCAae0&ab_channel=LearnProgrammingwithJoel)
 
-4. youtube. [How to Generate Python Code Documentation using Sphinx](https://www.youtube.com/watch?v=pB6nNb-o1AQ&ab_channel=MiddlewareTechnologies)
+4. CodeRefinery. [Deploying Sphinx documentation to GitHub Pages](https://coderefinery.github.io/documentation/gh_workflow/)
