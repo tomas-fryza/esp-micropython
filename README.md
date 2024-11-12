@@ -246,7 +246,7 @@ The following hardware and software components are mainly used in the lab.
 
 | **Version**                | **Result (yyyy-mm-dd)** | **Note**    |
 | :------------------------- | :---------------------: | :---------- |
-| macOS Sonoma 14.6.1        | OK (2024-09-03)         | Laptop      |
+| macOS Sonoma 14.6.1        | OK (2024-09-03)         | MacBook     |
 | Windows 10                 | OK (2023-09-18)         | Lab SC 6.61 |
 | Linux Mint 20.3 (Una)      | OK (2023-05-23)         | Laptop      |
 
