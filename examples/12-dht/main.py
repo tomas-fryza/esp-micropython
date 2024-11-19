@@ -6,8 +6,8 @@
 from machine import Pin
 import dht
 
-my_dht = dht.DHT22(Pin(18, Pin.IN, Pin.PULL_UP))
+my_dht = dht.DHT22(Pin(17, Pin.IN, Pin.PULL_UP))
 
 my_dht.measure()
-print(f"{my_dht.temperature()} °C")
-print(f"{my_dht.humidity()} %")
+print(f"Temperature: {my_dht.temperature()} °C")
+print(f"Humidity: {my_dht.humidity()} %")
