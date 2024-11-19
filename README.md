@@ -152,6 +152,10 @@ See MicroPython tutorials, such as [MicroPython Programming Basics with ESP32 an
 Test some other useful commands from [Quick reference for the ESP32](https://docs.micropython.org/en/latest/esp32/quickref.html):
 
 ```python
+# List built-in libraries
+# https://docs.micropython.org/en/latest/library/index.html
+>>> help("modules")
+
 # A platform identifier
 >>> import sys
 >>> sys.platform
