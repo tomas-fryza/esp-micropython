@@ -21,7 +21,7 @@ import dht12
 from sh1106 import SH1106_I2C
 
 # Init DHT12 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 sensor = dht12.DHT12(i2c)
 
 # Init OLED display

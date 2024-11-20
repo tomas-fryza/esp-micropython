@@ -33,7 +33,7 @@ RTC_UPDATE = False
 led = Led(2)
 led.off()
 
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 addrs = i2c.scan()
 if RTC_ADDR not in addrs:
     raise Exception(f"`{hex(RTC_ADDR)}` is not detected")

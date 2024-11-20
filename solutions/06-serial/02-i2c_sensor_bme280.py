@@ -19,7 +19,7 @@ import time
 import bme280
 
 # Init BME280 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 bme = bme280.BME280(i2c=i2c)
 
 print(f"I2C configuration : {str(i2c)}")
