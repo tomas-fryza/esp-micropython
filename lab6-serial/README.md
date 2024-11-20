@@ -124,7 +124,7 @@ The goal of this task is to find all devices connected to the I2C bus.
    from machine import Pin
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
    print("Scanning I2C... ", end="")
    addrs = i2c.scan()
@@ -157,10 +157,10 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    from machine import Pin
    import time
 
-   SENSOR_ADDR = 0x5c
+   SENSOR_ADDR = 0x5c  # DHT12
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
    # Check the sensor
    addrs = i2c.scan()
@@ -225,7 +225,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    from sh1106 import SH1106_I2C
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
    print(f"I2C configuration : {str(i2c)}")
 
    # Init OLED display
@@ -289,7 +289,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    from sh1106 import SH1106_I2C
 
    # Init DHT12 sensor
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
    sensor = dht12.DHT12(i2c)
 
    # Init OLED display
