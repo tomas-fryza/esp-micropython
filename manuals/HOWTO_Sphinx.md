@@ -64,13 +64,14 @@
 2. Generate HTML doccumentation:
 
    ```shell
+   # Linux, MacOS
    make html
 
-   # Alternatively, if you're using Windows, use the command:
+   # Windows
    make.bat html
    ```
 
-   Open `build/html/index.html` file and see initial (empty) documentation page in web browser.
+   Open `build/html/index.html` file in web browser and see the initial (empty) documentation page.
 
    > **Note:** If you have LaTeX installed on your computer, you can generate documentation using the command: `make latexpdf` and find the pdf file in `build/latex/` folder.
 
@@ -95,11 +96,17 @@ The default Sphinx theme is the **Alabaster**. If you want to change it, see the
    ...
    ```
 
-   and regenerate the documentation
+   regenerate the documentation
 
    ```shell
+   # Linux, MacOS
    make html
+
+   # Windows
+   make.bat html
    ```
+
+   and reload the `index.html` page in web browser.
 
 ### Step 4: Create a new documentation file
 
@@ -149,14 +156,18 @@ In the Sphinx documentation system, **reStructuredText** (lightweight markup lan
 3. Regenerate the documentation and reload the `index.html` page in web browser.
 
    ```shell
+   # Linux, MacOS
    make html
+
+   # Windows
+   make.bat html
    ```
 
 ### Step 5: Add the Python module
 
 Sphinx includes ways to automatically create the object definitions for your own code.
 
-1. First, add the path to your Python modules and enable `autodoc` extension in Sphinx configuration file `sources/conf.py`
+1. First, add the path to your Python modules and enable `sphinx.ext.autodoc` extension in Sphinx configuration file `sources/conf.py`
 
    ```python
    import sys
@@ -192,7 +203,7 @@ Sphinx includes ways to automatically create the object definitions for your own
       :show-inheritance:
    ```
 
-   The `automodule` directive tells Sphinx to automatically extract documentation from the `wifi_module` Python file.
+   The `automodule` directive tells Sphinx to automatically extract documentation from the `wifi_module.py` Python file from `modules` folder.
       * `:members:` includs all members (classes, functions, methods, etc.)
       * `:undoc-members:` tells Sphinx to include also members that do not have docstrings
       * `:show-inheritance:` option is used to show the class inheritance hierarchy in the generated documentation
@@ -221,8 +232,29 @@ Sphinx includes ways to automatically create the object definitions for your own
 4. Regenerate the documentation and reload the `index.html` page in web browser.
 
    ```shell
+   # Linux, MacOS
    make html
+
+   # Windows
+   make.bat html
    ```
+
+   This way you can add documentation to your other modules.
+
+   **Some useful notes:**
+   * You can list mock module(s), such as `machine` in `conf.py` file to avoid import errors in the build process:
+     ```python
+     autodoc_mock_imports = [
+         'machine',
+         ]
+     ```
+   * To add links to highlighted source code use the `sphinx.ext.viewcode` extension in `conf.py`:
+     ```python
+     extensions = [
+         'sphinx.ext.autodoc',  # Core library for html generation from docstrings
+         'sphinx.ext.viewcode',
+         ]
+     ```
 
 ### Step 7: Deploying Sphinx documentation to GitHub Pages
 
@@ -232,7 +264,20 @@ See [this exercise](https://coderefinery.github.io/documentation/gh_workflow/), 
 
 | **Version**                | **Result (yyyy-mm-dd)** | **Note**
 | :------------------------- | :---------------------: | :-------
+| Windows 10 22H2            | OK (2024-11-21)         | Lab SC 6.61
 | macOS Sonoma 14.6.1        | OK (2024-11-11)         | MacBook
+
+
+```bash
+# FYI: How to check OS version in Linux
+cat /etc/os-release
+
+# Or by Neofetch
+neofetch
+
+# For Windows with CMD
+WINVER
+```
 
 ## References
 
