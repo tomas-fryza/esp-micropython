@@ -4,13 +4,27 @@
 
 ### Step 1: Install Sphinx
 
-1. Create virtual environment in project folder:
+1. Install Python 3 programming language, open your terminal, and create and activate the virtual environment in project folder:
 
    ```shell
    cd path-to-your-project
-   python3 -m venv .venv
+   python -m venv .venv
+
+   # For Linux, MacOS
    source .venv/bin/activate
+
+   # For Windows with CMD
+   .venv\Scripts\activate.bat
+
+   # For Windows with Git Bash CLI
+   source .venv/Scripts/activate
    ```
+
+   > **Note**: To deactivate the virtual environment, simply run the following command in the terminal (on both Linux and Windows):
+   >
+   > ```shell
+   > deactivate
+   > ```
 
 2. Install and check Sphinx:
 
