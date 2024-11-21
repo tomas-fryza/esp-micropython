@@ -229,7 +229,7 @@ Sphinx includes ways to automatically create the object definitions for your own
       wifi
    ```
 
-4. Regenerate the documentation and reload the `index.html` page in web browser.
+4. Regenerate the documentation and reload the `index.html` page in web browser. This way you can add documentation to your other modules.
 
    ```shell
    # Linux, MacOS
@@ -239,22 +239,20 @@ Sphinx includes ways to automatically create the object definitions for your own
    make.bat html
    ```
 
-   This way you can add documentation to your other modules.
-
-   **Some useful notes:**
-   * You can list mock module(s), such as `machine` in `conf.py` file to avoid import errors in the build process:
-     ```python
-     autodoc_mock_imports = [
-         'machine',
-         ]
-     ```
-   * To add links to highlighted source code use the `sphinx.ext.viewcode` extension in `conf.py`:
-     ```python
-     extensions = [
-         'sphinx.ext.autodoc',  # Core library for html generation from docstrings
-         'sphinx.ext.viewcode',
-         ]
-     ```
+**Some useful notes:**
+* You can list mock module(s), such as `machine` in `conf.py` to avoid import errors in the build process:
+   ```python
+   autodoc_mock_imports = [
+      'machine',
+      ]
+   ```
+* To add links to highlighted source code use the `sphinx.ext.viewcode` extension in `conf.py`:
+   ```python
+   extensions = [
+      'sphinx.ext.autodoc',  # Core library for html generation from docstrings
+      'sphinx.ext.viewcode',
+      ]
+   ```
 
 ### Step 7: Deploying Sphinx documentation to GitHub Pages
 
