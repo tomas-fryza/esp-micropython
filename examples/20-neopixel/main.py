@@ -1,14 +1,14 @@
-# Complete project details at https://RandomNerdTutorials.com
+from machine import Pin
+from neopixel import NeoPixel
+import time
 
-import machine, neopixel
+n_leds = 60
+data_pin = 25
 
-n = 20
-pin = 25
+np = NeoPixel(Pin(data_pin), n_leds)
 
-np = neopixel.NeoPixel(machine.Pin(pin), n)
-
-np[0] = (255, 0, 0)
-np[3] = (125, 204, 223)
-np[7] = (120, 153, 23)
-np[10] = (255, 0, 153)
-np.write()
+for i in range(n_leds):
+    np[i] = (255, 0, 0)
+    np.write()
+    print(f"LED #{i}")
+    time.sleep_ms(250)
