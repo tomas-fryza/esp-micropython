@@ -50,7 +50,6 @@ class Button:
         Initialize the button on a specific GPIO pin with a pull-up resistor.
 
         :param pin_number: GPIO pin number where the button is connected.
-        :type pin_number: int
         """
         self.button = Pin(pin_number, Pin.IN, Pin.PULL_UP)
 
@@ -59,7 +58,6 @@ class Button:
         Check if the button is currently pressed using active-low logic.
 
         :return: `True` if the button is pressed; `False` otherwise.
-        :rtype: bool
         """
         if self.button.value() == 0:  # Pressed button returns 0
             return True
@@ -76,7 +74,6 @@ class Led(Pin):
         Initialize the LED on a specific GPIO pin.
 
         :param pin_number: GPIO pin number where the LED is connected.
-        :type pin_number: int
         """
         # Calls Parent's __init__ without needing `self`
         super().__init__(pin_number, Pin.OUT)
@@ -93,9 +90,7 @@ class Led(Pin):
 
         :param duration: Duration in seconds for each on/off cycle.
                          Default is 0.5 seconds.
-        :type duration: float
         :param times: Number of times the LED should blink. Default is 5.
-        :type times: int
         """
         for _ in range(times):
             self.on()
@@ -116,9 +111,7 @@ class PwmLed(PWM):
         starting with LED off.
 
         :param pin_number: GPIO pin number where the LED is connected.
-        :type pin_number: int
         :param frequency: PWM frequency for LED control. Default is 1000 Hz.
-        :type frequency: int
         """
         pin = Pin(pin_number, Pin.OUT)
         super().__init__(pin)
@@ -130,7 +123,6 @@ class PwmLed(PWM):
         Set the LED brightness using PWM.
 
         :param brightness: Brightness level as a percentage (0 to 100).
-        :type brightness: int
         """
         duty_cycle = int(brightness / 100 * 1023)  # Duty cycle 0 to 1023
         self.duty(duty_cycle)
@@ -141,7 +133,6 @@ class PwmLed(PWM):
 
         :param brightness: Brightness level as a percentage (0 to 100).
                            Default is 100%.
-        :type brightness: int
         """
         self.set_brightness(brightness)
 
@@ -157,7 +148,6 @@ class PwmLed(PWM):
 
         :param duration: Total duration of the fade-in effect, in seconds.
                          Default is 1 second.
-        :type duration: float
         """
         step_duration = duration / 100
         for i in range(100):
@@ -170,7 +160,6 @@ class PwmLed(PWM):
 
         :param duration: Total duration of the fade-out effect, in seconds.
                          Default is 1 second.
-        :type duration: float
         """
         step_duration = duration / 100
         for i in range(100, -1, -1):  # -1 to reach fully off

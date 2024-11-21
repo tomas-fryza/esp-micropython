@@ -47,14 +47,12 @@ def connect(wifi, ssid, password, timeout=10):
     specified timeout, it will terminate and return `False`.
     
     :param wifi: The Wi-Fi interface object to use for the connection.
-    :type wifi: network.WLAN
     :param str ssid: The SSID of the Wi-Fi network to connect to.
     :param str password: The password for the Wi-Fi network.
     :param int timeout: The maximum time in seconds to wait
                         for the connection attempt.
     :returns: `True` if connected successfully, `False` if
               the connection attempt timed out.
-    :rtype: bool
     """
     import time
 
@@ -90,7 +88,6 @@ def disconnect(wifi):
     the device is not connected to any Wi-Fi network.
 
     :param wifi: The Wi-Fi interface object to disconnect.
-    :type wifi: network.WLAN
     """
     if wifi.active():
         wifi.active(False)
@@ -109,7 +106,6 @@ def print_status(wifi):
 
     :param wifi: The Wi-Fi interface object whose status is to
                  be printed.
-    :type wifi: network.WLAN
     """
     status = wifi.status()
     print(f"[WIFI] {status_messages.get(status)}")

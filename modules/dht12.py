@@ -112,7 +112,6 @@ class DHT12(DHTBaseI2C):
         `measure` method. 
 
         :returns: The current humidity as a percentage.
-        :rtype: float
 
         :Example:
 
@@ -133,7 +132,6 @@ class DHT12(DHTBaseI2C):
         temperatures.
 
         :returns: The current temperature in degrees Celsius.
-        :rtype: float
 
         :Example:
 
@@ -155,7 +153,6 @@ class DHT12(DHTBaseI2C):
 
         :returns: A tuple containing the temperature (float)
                   and humidity (float) values.
-        :rtype: tuple
         """
         self.measure()
         return self.temperature(), self.humidity()
