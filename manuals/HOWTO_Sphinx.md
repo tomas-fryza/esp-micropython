@@ -265,24 +265,27 @@ See [this exercise](https://coderefinery.github.io/documentation/gh_workflow/), 
 | Windows 10 22H2            | OK (2024-11-21)         | Lab SC 6.61
 | macOS Sonoma 14.6.1        | OK (2024-11-11)         | MacBook
 
+> **FYI**: How to identify the version of the operating system from the command line.
+>
+> ```bash
+> # Linux:
+> cat /etc/os-release
+> # or
+> neofetch
+>
+> # macOS:
+> sw_vers
+>
+> # Windows:
+> WINVER
+> ```
 
-```bash
-# FYI: How to check OS version in Linux
-cat /etc/os-release
+## Links
 
-# Or by Neofetch
-neofetch
+* [Installing Sphinx](https://www.sphinx-doc.org/en/master/usage/installation.html)
 
-# For Windows with CMD
-WINVER
-```
+* [Getting started](https://www.sphinx-doc.org/en/master/usage/quickstart.html)
 
-## References
+* [Sphinx - How to generate documentation from python doc strings](https://www.youtube.com/watch?app=desktop&v=BWIrhgCAae0&ab_channel=LearnProgrammingwithJoel)
 
-1. [Installing Sphinx](https://www.sphinx-doc.org/en/master/usage/installation.html)
-
-2. Sphinx. [Getting started](https://www.sphinx-doc.org/en/master/usage/quickstart.html)
-
-3. youtube. [Sphinx - How to generate documentation from python doc strings](https://www.youtube.com/watch?app=desktop&v=BWIrhgCAae0&ab_channel=LearnProgrammingwithJoel)
-
-4. CodeRefinery. [Deploying Sphinx documentation to GitHub Pages](https://coderefinery.github.io/documentation/gh_workflow/)
+* [Deploying Sphinx documentation to GitHub Pages](https://coderefinery.github.io/documentation/gh_workflow/)
