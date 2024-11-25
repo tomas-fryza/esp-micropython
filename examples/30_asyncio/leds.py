@@ -5,6 +5,8 @@
 # See:
 # https://docs.micropython.org/en/latest/library/asyncio.html
 # https://bbc.github.io/cloudfit-public-docs/asyncio/asyncio-part-2.html
+# https://gpiocc.github.io/learn/micropython/esp/2020/06/13/martin-ku-asynchronous-programming-with-uasyncio-in-micropython.html
+# https://randomnerdtutorials.com/micropython-esp32-esp8266-asynchronous-programming/
 
 import asyncio
 
