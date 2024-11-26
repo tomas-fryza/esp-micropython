@@ -163,12 +163,14 @@ Test some other useful commands from [Quick reference for the ESP32](https://doc
 # Get the current frequency of the CPU and RTC time
 >>> import machine
 >>> help(machine)
->>> machine.freq()
+>>> freq = machine.freq()
+>>> print(f"Machine clock frequency: {freq/1000:,} MHz")
 >>> machine.RTC().datetime()
 
 # Get Flash size in Bytes
 >>> import esp
 >>> esp.flash_size()
+>>> print(f"Flash size: {esp.flash_size()/1000:,} kB")
 
 # Read the internal temperature (in Fahrenheit)
 >>> import esp32
