@@ -90,7 +90,7 @@
     >>> import machine
     >>> help(machine)
     >>> freq = machine.freq()
-    >>> print(f"Machine clock frequency: {freq/1000:,} MHz")
+    >>> print(f"Machine clock frequency: {freq/1000000:,} MHz")
     >>> machine.RTC().datetime()
 
     # Get Flash size in Bytes
