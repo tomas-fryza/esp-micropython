@@ -52,7 +52,7 @@
 
    .
    ├── Makefile        # Building the documentation on Unix-like systems (Linux, macOS)
-   ├── build           # Output folder for built dodumentation
+   ├── build           # Output folder for built documentation
    ├── make.bat        # Building the docs on Windows systems
    └── source
        ├── _static     # Images, CSS files, or JavaScript files
