@@ -1,6 +1,6 @@
 """
 This module provides functions for connecting to and
-disconnecting from a Wi-Fi  network using MicroPython on
+disconnecting from a Wi-Fi network using MicroPython on
 ESP8266 or ESP32 devices.
 
 Example
@@ -29,6 +29,7 @@ Authors
 
 Modification history
 --------------------
+- **2024-12-14** : Prefixes added to print statements.
 - **2024-11-11** : Added Sphinx comments.
 - **2024-11-02** : Added `print_status` method.
 - **2023-06-17** : Created `connect` and `disconnect` methods.
@@ -59,14 +60,14 @@ def connect(wifi, ssid, password, timeout=10):
     if not wifi.isconnected():
         wifi.active(True)
         wifi.connect(ssid, password)
-        print(f"Connecting to {ssid} (timeout {timeout} sec)...", end="")
+        print(f"[WIFI] Connecting to {ssid} (timeout {timeout} sec)...", end="")
 
         start_time = time.time()
 
         while not wifi.isconnected():
             # Check if the timeout has been reached
             if time.time() - start_time > timeout:
-                print("Connection attempt timed out.")
+                print("[WIFI] Connection attempt timed out.")
                 return False
 
             time.sleep(0.25)
@@ -76,7 +77,7 @@ def connect(wifi, ssid, password, timeout=10):
                 print(".", end="")
         print(" Done")
     else:
-        print("Already connected")
+        print("[WIFI] Already connected")
         if print_info:
             print_status(wifi)
     return True
@@ -93,7 +94,7 @@ def disconnect(wifi):
         wifi.active(False)
 
     if not wifi.isconnected():
-        print("Disconnected")
+        print("[WIFI] Disconnected")
 
     if print_info:
         print_status(wifi)
