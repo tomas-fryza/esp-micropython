@@ -43,12 +43,12 @@ def send_to_thingspeak(temp, humidity):
     # headers = {"Content-Type": "application/json"}
     # response = urequests.post(request_url, json=json, headers=headers)
 
-    print(f"Entry # sent to ThingSpeak: {response.text}")
+    print(f"ThingSpeak entry no.: {response.text}")
     response.close()
 
 
 # Connect to the DHT12 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 sensor = dht12.DHT12(i2c)
 
 # Create Station interface
