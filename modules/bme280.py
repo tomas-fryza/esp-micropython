@@ -261,26 +261,67 @@ class BME280:
         h = 419430400 if h > 419430400 else h
         return h >> 12
 
-    @property
+    # @property
     def temperature(self):
         "Return the temperature in degrees."
         t = self.read_temperature()
-        ti = t // 100
-        td = t - ti * 100
-        return "{}.{:02d}C".format(ti, td)
+        # ti = t // 100
+        # td = t - ti * 100
+        # return "{}.{:2d}".format(ti, td)
+        t = t / 100
+        return t
 
-    @property
+    # @property
     def pressure(self):
-        "Return the temperature in hPa."
+        "Return the pressure in hPa."
         p = self.read_pressure() // 256
-        pi = p // 100
-        pd = p - pi * 100
-        return "{}.{:02d}hPa".format(pi, pd)
+        p = p / 100
+        return p
 
-    @property
+    # @property
     def humidity(self):
         "Return the humidity in percent."
         h = self.read_humidity()
-        hi = h // 1024
-        hd = h * 100 // 1024 - hi * 100
-        return "{}.{:02d}%".format(hi, hd)
+        # hi = h // 1024
+        # hd = h * 100 // 1024 - hi * 100
+        # return "{}.{:2d}".format(hi, hd)
+        h = (h / 1024)
+        return h
+
+    def altitude(self, sea_level_pressure_hpa = 1013.25):
+        "Return the approximative altitude in meters."
+        p = self.pressure()
+        # Barometric formula
+        # https://www.omnicalculator.com/physics/air-pressure-at-altitude
+        altitude = 44330 * (1 - (p/sea_level_pressure_hpa) ** (1/5.255))
+        return altitude
+
+    def read_values(self):
+        """
+        Read temperature, humidity, pressure, and altitude
+        from the sensor.
+        """
+        return self.temperature(), self.humidity(), self.pressure(), self.altitude()
+
+
+def demo():
+    """
+    Demonstrates the usage of the `BME280` class by reading
+    temperature, humidity, and pressure.
+    """
+    from machine import I2C
+    from machine import Pin
+
+    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+    bme = BME280(i2c)
+
+    T, RH, P, A = bme.read_values()
+    print(f"Temperature     [°C] : {T:.1f}")
+    print(f"Humidity         [%] : {RH:.1f}")
+    print(f"Pressure       [hPa] : {P:.1f}")
+    print(f"Approx. altitude [m] : {A:.0f}")
+
+
+if __name__ == "__main__" :
+    # Code that runs only if this script is executed directly
+    demo()
