@@ -60,14 +60,14 @@ def connect(wifi, ssid, password, timeout=10):
     if not wifi.isconnected():
         wifi.active(True)
         wifi.connect(ssid, password)
-        print(f"[WIFI] Connecting to {ssid} (timeout {timeout} sec)...", end="")
+        print(f"wifi: Connecting to {ssid} (timeout {timeout} sec)...", end="")
 
         start_time = time.time()
 
         while not wifi.isconnected():
             # Check if the timeout has been reached
             if time.time() - start_time > timeout:
-                print("[WIFI] Connection attempt timed out.")
+                print("\r\n\x1b[31mwifi: Connection attempt timed out\x1b[0m")
                 return False
 
             time.sleep(0.25)
@@ -77,7 +77,7 @@ def connect(wifi, ssid, password, timeout=10):
                 print(".", end="")
         print(" Done")
     else:
-        print("[WIFI] Already connected")
+        print("wifi: Already connected")
         if print_info:
             print_status(wifi)
     return True
@@ -94,7 +94,7 @@ def disconnect(wifi):
         wifi.active(False)
 
     if not wifi.isconnected():
-        print("[WIFI] Disconnected")
+        print("wifi: Deactivated/disconnected")
 
     if print_info:
         print_status(wifi)
@@ -109,7 +109,7 @@ def print_status(wifi):
                  be printed.
     """
     status = wifi.status()
-    print(f"[WIFI] {status_messages.get(status)}")
+    print(f"wifi: {status_messages.get(status)}")
 
 
 status_messages = {
