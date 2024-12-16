@@ -1,6 +1,7 @@
 """
 MicroPython script to read data from a BME280 sensor and
-publish it to ThingSpeak using MQTT.
+publish it to ThingSpeak using MQTT (Message Queue Telemetry
+Transport Protocol).
 
 Authors
 -------
@@ -11,6 +12,7 @@ Authors
 
 Modification history
 --------------------
+- **2024-12-16** : print_log function added.
 - **2024-12-14** : Example created and tested.
 """
 
@@ -22,15 +24,39 @@ import network
 import wifi_module
 import config
 from umqtt.robust import MQTTClient
+import sys
 
-PUBLISH_TIME_SEC = 300
+PUBLISH_TIME_SEC = 60  # 300
 
 # MQTT parameters
 BROKER_ADDRESS = "mqtt3.thingspeak.com"
-MQTT_CLIENT_ID = "your_client_id"
 MQTT_USERNAME = "your_mqtt_username"
+MQTT_CLIENT_ID = "your_client_id"
 MQTT_PASSWORD = "your_mqtt_password"
 CHANNEL_ID = "your_thingspeak_channel_id"
+
+# Function to initialize the logging system
+def init_log_system():
+    # Record the start time of the application
+    global start_time
+    start_time = time.ticks_ms()
+
+# Function to print log messages with elapsed time and log level
+def print_log(level, message):
+    # Get the current time in milliseconds since the application start
+    elapsed_time = time.ticks_ms() - start_time
+    
+    # Format the log message
+    if level == "E":
+        level = "\x1b[31m" + level
+        message = message + "\x1b[0m"
+    log_message = f"{level} ({elapsed_time}) {message}"
+    
+    # Print the formatted log message to the serial monitor
+    print(log_message)
+
+# Initialize the log system
+init_log_system()
 
 # Setup I2C for BME280 sensor
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
@@ -39,8 +65,12 @@ T, RH, P, _ = bme.read_values()
 
 # Wi-Fi Station interface
 wifi = network.WLAN(network.STA_IF)
-wifi_module.connect(wifi, config.SSID, config.PSWD)
-
+status = wifi_module.connect(wifi, config.SSID, config.PSWD)
+if status == False:
+    print_log("E", "wifi: Failed to connect to Wi-Fi")
+    wifi_module.disconnect(wifi)
+    sys.exit()
+    
 # Setup MQTT client
 # Note: Connection uses unsecure TCP (port 1883)
 client = MQTTClient(
@@ -63,7 +93,7 @@ def publish_data(T, RH, P):
 
     # Check if the data has changed (ignore small fluctuations)
     # if (T != prev_T) or (RH != prev_RH) or (P != prev_P):
-    if abs(T - prev_T) > 0.1 or abs(RH - prev_RH) > 1 or abs(P - prev_P) > 1:
+    if abs(T-prev_T) > 0.1 or abs(RH-prev_RH) > 1 or abs(P-prev_P) > 1:
         # Prepare payload
         payload = "field1={:.1f}&field2={:.1f}&field3={:.1f}".format(T, RH, P)
 
@@ -71,27 +101,26 @@ def publish_data(T, RH, P):
             client.connect()
             client.publish(topic, payload)
             client.disconnect()
-            print(f"[I] Data published to topic: {topic}")
+            print_log("I", "mqtt: Data published to channel: {}".format(topic))
 
             # Update previous values after publishing
             prev_T = T
             prev_RH = RH
             prev_P = P
         except Exception as e:
-            print(f"[E] Failed to publish data: {type(e).__name__}{e}")
+            print_log("E", "mqtt: Failed to publish data: {}{}".formagt(type(e).__name__, e))
     else:
-        print("[I] No (small) changes in sensor data, skipping publish")
+        print_log("I", "mqtt: No/small changes, skipping publish")
 
-print("[I] Start publishing data to MQTT broker")
-print("[I] Press `Ctrl+C` to stop")
-print()
+print_log("I", "main: Start publishing data to MQTT broker")
+print_log("I", "main: Press `Ctrl+C` to stop")
 
 # Main loop to read and publish data
 try:
     while True:
         # Read the sensor data
         T, RH, P, _ = bme.read_values()
-        print(f"[BME280] temp(°C), humi(%), pres(hPa): {T:.1f}, {RH:.1f}, {P:.1f}")
+        print_log("I", "bme280: temp(°C), humi(%), pres(hPa): {:.1f}, {:.1f}, {:.1f}".format(T, RH, P))
 
         # Publish data if it has changed
         publish_data(T, RH, P)
@@ -101,11 +130,11 @@ try:
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
-    print("\r\n[I] Program stopped. Exiting...")
+    print_log("I", "main: Program stopped. Exiting...")
 
     # Optional cleanup code
     try:
         client.disconnect()
     except Exception as e:
-        print(f"[E] Failed to disconnect from MQTT server {type(e).__name__}{e}")
+        print_log("E", "mqtt: Failed to disconnect from MQTT server {}{}".format(type(e).__name__, e))
     wifi_module.disconnect(wifi)
