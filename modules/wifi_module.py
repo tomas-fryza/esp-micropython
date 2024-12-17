@@ -35,13 +35,14 @@ Modification history
 - **2023-06-17** : Created `connect` and `disconnect` methods.
 """
 
+import time
 import gc  # Garbage Collector interface (Memory management)
 gc.collect()
 
 print_info = False
 
 
-def connect(wifi, ssid, password, timeout=10):
+def connect(wifi, ssid, password):
     """
     Connect to a specified Wi-Fi network using the provided
     SSID and password. If the connection attempt exceeds the
@@ -50,32 +51,29 @@ def connect(wifi, ssid, password, timeout=10):
     :param wifi: The Wi-Fi interface object to use for the connection.
     :param str ssid: The SSID of the Wi-Fi network to connect to.
     :param str password: The password for the Wi-Fi network.
-    :param int timeout: The maximum time in seconds to wait
-                        for the connection attempt.
     :returns: `True` if connected successfully, `False` if
               the connection attempt timed out.
     """
-    import time
 
     if not wifi.isconnected():
         wifi.active(True)
+        print(f"wifi: Connecting to {ssid}...", end="")
         wifi.connect(ssid, password)
-        print(f"wifi: Connecting to {ssid} (timeout {timeout} sec)...", end="")
 
-        start_time = time.time()
-
-        while not wifi.isconnected():
-            # Check if the timeout has been reached
-            if time.time() - start_time > timeout:
-                print("\r\n\x1b[31mwifi: Connection attempt timed out\x1b[0m")
-                return False
-
-            time.sleep(0.25)
-            if print_info:
-                print_status(wifi)
+        for _ in range(40):
+            if wifi.isconnected():
+                print(" Done")
+                return True
             else:
-                print(".", end="")
-        print(" Done")
+                if print_info:
+                    print_status(wifi)
+                else:
+                    print(".", end="")
+                time.sleep_ms(250)
+
+        print("\r\n\x1b[31mwifi: Connection failed\x1b[0m")
+        wifi.disconnect()
+        return False
     else:
         print("wifi: Already connected")
         if print_info:
