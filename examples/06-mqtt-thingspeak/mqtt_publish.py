@@ -24,75 +24,39 @@ import network
 import wifi_module
 import config
 from umqtt.robust import MQTTClient
+import mqtt_credentials as mc
 import sys
 
 PUBLISH_TIME_SEC = 60  # 300
 
 # MQTT parameters
 BROKER_ADDRESS = "mqtt3.thingspeak.com"
-MQTT_USERNAME = "your_mqtt_username"
-MQTT_CLIENT_ID = "your_client_id"
-MQTT_PASSWORD = "your_mqtt_password"
-CHANNEL_ID = "your_thingspeak_channel_id"
+# MQTT_USERNAME = "your_mqtt_username"
+# MQTT_CLIENT_ID = "your_client_id"
+# MQTT_PASSWORD = "your_mqtt_password"
+# CHANNEL_ID = "your_thingspeak_channel_id"
 
-# Function to initialize the logging system
-def init_log_system():
-    # Record the start time of the application
-    global start_time
-    start_time = time.ticks_ms()
 
 # Function to print log messages with elapsed time and log level
 def print_log(level, message):
     # Get the current time in milliseconds since the application start
     elapsed_time = time.ticks_ms() - start_time
-    
+
     # Format the log message
     if level == "E":
         level = "\x1b[31m" + level
         message = message + "\x1b[0m"
     log_message = f"{level} ({elapsed_time}) {message}"
-    
+
     # Print the formatted log message to the serial monitor
     print(log_message)
 
-# Initialize the log system
-init_log_system()
-
-# Setup I2C for BME280 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-bme = bme280.BME280(i2c)
-T, RH, P, _ = bme.read_values()
-
-# Wi-Fi Station interface
-wifi = network.WLAN(network.STA_IF)
-status = wifi_module.connect(wifi, config.SSID, config.PSWD)
-if status == False:
-    print_log("E", "wifi: Failed to connect to Wi-Fi")
-    wifi_module.disconnect(wifi)
-    sys.exit()
-    
-# Setup MQTT client
-# Note: Connection uses unsecure TCP (port 1883)
-client = MQTTClient(
-    server=BROKER_ADDRESS,
-    client_id=MQTT_CLIENT_ID, 
-    user=MQTT_USERNAME, 
-    password=MQTT_PASSWORD, 
-    ssl=False)
-# MQTT topic
-topic = "channels/{}/publish".format(CHANNEL_ID)
-
-# Initialize previous sensor data
-prev_T = T + 10  # Make sure the first readings are published
-prev_RH = RH
-prev_P = P
 
 # Publish sensor data if changed
 def publish_data(T, RH, P):
     global prev_T, prev_RH, prev_P
 
     # Check if the data has changed (ignore small fluctuations)
-    # if (T != prev_T) or (RH != prev_RH) or (P != prev_P):
     if abs(T-prev_T) > 0.1 or abs(RH-prev_RH) > 1 or abs(P-prev_P) > 1:
         # Prepare payload
         payload = "field1={:.1f}&field2={:.1f}&field3={:.1f}".format(T, RH, P)
@@ -111,6 +75,35 @@ def publish_data(T, RH, P):
             print_log("E", "mqtt: Failed to publish data: {}{}".formagt(type(e).__name__, e))
     else:
         print_log("I", "mqtt: No/small changes, skipping publish")
+
+
+# Initialize start time for log system
+start_time = time.ticks_ms()
+
+# Setup I2C for BME280 sensor
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+bme = bme280.BME280(i2c)
+T, RH, P, _ = bme.read_values()
+
+# Wi-Fi Station interface
+wifi = network.WLAN(network.STA_IF)
+if not wifi_module.connect(wifi, config.SSID, config.PSWD):
+    sys.exit()
+
+# Setup MQTT client and topic
+# Note: Connection uses unsecure TCP (port 1883)
+client = MQTTClient(
+    server=BROKER_ADDRESS,
+    client_id=mc.MQTT_CLIENT_ID, 
+    user=mc.MQTT_USERNAME, 
+    password=mc.MQTT_PASSWORD, 
+    ssl=False)
+topic = "channels/{}/publish".format(mc.CHANNEL_ID)
+
+# Initialize previous sensor data
+prev_T = T + 10  # Make sure the first readings are published
+prev_RH = RH
+prev_P = P
 
 print_log("I", "main: Start publishing data to MQTT broker")
 print_log("I", "main: Press `Ctrl+C` to stop")
@@ -133,8 +126,4 @@ except KeyboardInterrupt:
     print_log("I", "main: Program stopped. Exiting...")
 
     # Optional cleanup code
-    try:
-        client.disconnect()
-    except Exception as e:
-        print_log("E", "mqtt: Failed to disconnect from MQTT server {}{}".format(type(e).__name__, e))
     wifi_module.disconnect(wifi)
