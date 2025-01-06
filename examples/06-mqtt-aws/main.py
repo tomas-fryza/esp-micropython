@@ -1,128 +1,92 @@
 # https://blog.caarels.com/posts/microPython_coreIOT_ptI/
 # https://aws.amazon.com/blogs/iot/using-micropython-to-get-started-with-aws-iot-core/
 # https://networklessons.com/cisco/evolving-technologies/connect-esp32-micropython-to-aws-iot
+# https://esp32io.com/tutorials/esp32-aws-iot
+# https://how2electronics.com/connecting-esp32-to-amazon-aws-iot-core-using-mqtt/
 
-import os
 import time
-import ujson
-import machine
 import network
+import ssl
 from umqtt.simple import MQTTClient
 
-#Enter your wifi SSID and password below.
-wifi_ssid = "WIRELESS_SSID"
-wifi_password = "WIRELESS_PASSWORD"
+# Configuration
+WIFI_SSID = "YOUR-WIFI"
+WIFI_PASSWORD = "YOUR-PASSWORD"
+AWS_ENDPOINT = "YOUR-ENDPOINT.amazonaws.com"
+AWS_CLIENT_ID = "ESP32"
+AWS_TOPIC = "esp32/pub"
 
-#Enter your AWS IoT endpoint. You can find it in the Settings page of
-#your AWS IoT Core console. 
-#https://docs.aws.amazon.com/iot/latest/developerguide/iot-connect-devices.html 
-# You can test in Terminal:
-# ping xxxxx.eu-central-1.amazonaws.com
-aws_endpoint = b'xxxxx.eu-central-1.amazonaws.com'
+# Paths to the certificates and private key
+CA_CERT_PATH = "/AmazonRootCA1.pem"
+CLIENT_CERT_PATH = "/certificate.pem.crt"
+PRIVATE_KEY_PATH = "/private.pem.key"
 
-#If you followed the blog, these names are already set.
-thing_name = "ESP32"
-client_id = "ESP32"
-private_key = "private.pem.key"
-private_cert = "certificate.pem.crt"
-
-#Read the files used to authenticate to AWS IoT Core
-with open(private_key, 'r') as f:
-    key = f.read()
-with open(private_cert, 'r') as f:
-    cert = f.read()
-
-#These are the topics we will subscribe to. We will publish updates to /update.
-#We will subscribe to the /update/delta topic to look for changes in the device shadow.
-topic_pub = thing_name + "/update"
-topic_sub = thing_name + "/update/delta"
-ssl_params = {"key":key, "cert":cert, "server_side":False}
-
-#Define pins for LED and light sensor. In this example we are using a FeatherS2.
-#The sensor and LED are built into the board, and no external connections are required.
-# light_sensor = machine.ADC(machine.Pin(4))
-# light_sensor.atten(machine.ADC.ATTN_11DB)
-led = machine.Pin(9, machine.Pin.OUT)
-info = os.uname()
-
-#Connect to the wireless network
-wlan = network.WLAN(network.STA_IF)
-wlan.active(True)
-if not wlan.isconnected():
-    print('Connecting to network...')
-    wlan.connect(wifi_ssid, wifi_password)
+# Connect to Wi-Fi
+def connect_wifi(ssid, password):
+    wlan = network.WLAN(network.STA_IF)
+    wlan.active(True)
+    wlan.connect(ssid, password)
     while not wlan.isconnected():
-        pass
+        time.sleep(1)
+    print('Connected to Wi-Fi:', wlan.ifconfig())
 
-    print('Connection successful')
-    print('Network config:', wlan.ifconfig())
+def create_ssl_context():
+    # Create an SSL context
+    ssl_context = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
 
-def mqtt_connect(client=client_id, endpoint=aws_endpoint, sslp=ssl_params):
-    mqtt = MQTTClient(client_id=client, server=endpoint, port=8883, keepalive=1200, ssl=True, ssl_params=sslp)
-    print("Connecting to AWS IoT...")
-    mqtt.connect()
-    print("Done")
-    return mqtt
+    # Load the CA certificate
+    ssl_context.load_verify_locations(cafile=CA_CERT_PATH)
 
-def mqtt_publish(client, topic=topic_pub, message=''):
-    print("Publishing message...")
-    client.publish(topic, message)
-    print(message)
+    # Load the client certificate and private key
+    ssl_context.load_cert_chain(certfile=CLIENT_CERT_PATH, keyfile=PRIVATE_KEY_PATH)
+    return ssl_context
 
-def mqtt_subscribe(topic, msg):
-    print("Message received...")
-    message = ujson.loads(msg)
-    print(topic, message)
-    if message['state']['led']:
-        led_state(message)
-    print("Done")
-
-def led_state(message):
-    led.value(message['state']['led']['onboard'])
-
-#We use our helper function to connect to AWS IoT Core.
-#The callback function mqtt_subscribe is what will be called if we 
-#get a new message on topic_sub.
-try:
-    mqtt = mqtt_connect()
-    mqtt.set_callback(mqtt_subscribe)
-    mqtt.subscribe(topic_sub)
-except:
-    print("Unable to connect to MQTT.")
-
-
-while True:
-#Check for messages.
+def publish_to_aws():
     try:
-        mqtt.check_msg()
-    except:
-        print("Unable to check for messages.")
+        while True:
+            # Read sensor data
+            # dht_sensor.measure()
+            # temperature = dht_sensor.temperature()
+            # humidity = dht_sensor.humidity()
+            temperature = 23.5
+            humidity = 33.3
 
-    mesg = ujson.dumps({
-        "state":{
-            "reported": {
-                "device": {
-                    "client": client_id,
-                    "uptime": time.ticks_ms(),
-                    "hardware": info[0],
-                    "firmware": info[2]
-                },
-#                 "sensors": {
-#                     "light": light_sensor.read()
-#                 },
-                "led": {
-                    "onboard": led.value()
-                }
-            }
-        }
-    })
+            ssl_context = create_ssl_context()
 
-#Using the message above, the device shadow is updated.
-    try:
-        mqtt_publish(client=mqtt, message=mesg)
-    except:
-        print("Unable to publish message.")
+            # Initialize MQTT client
+            mqtt_client = MQTTClient(
+                client_id=AWS_CLIENT_ID,
+                server=AWS_ENDPOINT,
+                port=8883,
+                keepalive=3600,
+                ssl=ssl_context
+            )
 
-#Wait for 10 seconds before checking for messages and publishing a new update.
-    print("Sleep for 10 seconds")
-    time.sleep(10)
+            # Connect to AWS
+            mqtt_client.connect()
+            print("Connected to {} MQTT Broker".format(AWS_ENDPOINT))
+
+            # Prepare the MQTT message
+            message = '{{"temperature": {}, "humidity": {}}}'.format(temperature, humidity)
+            # Publish message to AWS
+            mqtt_client.publish(AWS_TOPIC, message)
+            print("- topic:", AWS_TOPIC)
+            print("- payload:", message)
+
+            mqtt_client.disconnect()
+            print("Disconnected from AWS IoT")
+
+            # Wait 60 seconds before the next reading
+            time.sleep(60)
+
+    except Exception as e:
+        print("Error:", e)
+
+# Main function
+def main():
+    connect_wifi(WIFI_SSID, WIFI_PASSWORD)
+    publish_to_aws()
+
+# Run the main function
+if __name__ == "__main__":
+    main()
