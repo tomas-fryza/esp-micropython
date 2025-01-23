@@ -13,10 +13,11 @@
 # 4. Program the example
 #
 # See also:
-#
-#   https://github.com/pimoroni/pimoroni-pico/blob/main/micropython/modules/picographics/README.md
-#   https://allrite.blog/2022/09/12/pico-rss-news-feed-reader/
-#   https://www.youtube.com/watch?v=ytnBCw5TO9s&ab_channel=MakingStuffwithChrisDeHut
+# https://github.com/pimoroni/pimoroni-pico/blob/main/micropython/modules/picographics/README.md
+# https://allrite.blog/2022/09/12/pico-rss-news-feed-reader/
+# https://www.youtube.com/watch?v=ytnBCw5TO9s&ab_channel=MakingStuffwithChrisDeHut
+# https://shkspr.mobi/blog/2024/06/displaying-a-qr-code-in-micropython-on-the-tildagon-badge/
+# https://realpython.com/python-generate-qr-code/
 
 import time
 from pimoroni import Button
@@ -38,7 +39,7 @@ display = PicoGraphics(
     rotate=0)
 
 # display.set_backlight(0.5)
-display.set_font("bitmap8")
+display.set_font("bitmap8")  # bitmap6, bitmap8, bitmap14_outline
 
 # button_a = Button(12)
 # button_b = Button(13)
@@ -50,13 +51,58 @@ BLACK = 0
 clear()
 
 display.set_pen(BLACK)
+# text, x, y, wordwrap, scale
 display.text("Tomas", 3, 3, 240, 8)
-display.text('"Snowman" Fryza', 35, 67, 200, 2)
-display.text("Brno University of Technology", 152, 94, 200, 1)
+display.text('Fryza', 150, 67, 100, 2)
+display.text("Brno University of Technology", 2, 94, 200, 1)
 # display.line(10, 100, 286, 100)
 display.set_font("bitmap6")
-# display.text("Czechia", 155, 102, 100, 4)
-display.text("Czechoslovakia", 2, 102, 296, 4)
+display.text("Czechia", 2, 102, 100, 4)
+# display.text("Czechoslovakia", 2, 102, 296, 4)
+
+# QR code data
+qr_code = [
+    [1,1,1,1,1,1,1,0,1,1,1,0,0,0,1,0,0,0,1,1,1,1,1,1,1],
+    [1,0,0,0,0,0,1,0,1,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,1],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    [],
+    []]
+
+# Size of each QR code pixel on the canvas
+pixel_size = 5
+
+# Offset size in pixels
+offset_size = 46
+
+# Calculate the offset to start drawing the QR code (centre it within the available space)
+offset = 50 + offset_size
+
+# Loop through the array
+for row in range(9):
+    for col in range(9):
+        if qr_code[row][col] == 1:
+            x = (col * pixel_size) + offset
+            y = (row * pixel_size) + offset
+            display.rectangle(x, y, pixel_size, pixel_size)
+            print(x, y)
 
 display.update()
 
