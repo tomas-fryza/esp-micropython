@@ -1,5 +1,19 @@
 
-Sat 2024-12-14, 13:53, train PRG-->BRN (IEEE Annual meeting 2024)
+Tue Jan 28 20:49:58 WET 2025, airplane MAD > VIE (1st MC meeting, COST)
+Scanning Wi-Fi... 5 network(s)
+RSSI Channel 	SSID
+-44  (ch.11) 	IberiaWi-Fi
+-52  (ch.11) 	
+-61  (ch.6) 	IberiaWi-Fi
+-68  (ch.1) 	IberiaWi-Fi
+-72  (ch.1) 	
+
+Sun Jan 26 16:41:30 WET 2025, train Lisbon > Porto (1st MC meeting, COST)
+Scanning Wi-Fi... 1 network(s)
+RSSI Channel 	SSID
+-47  (ch.11) 	CP WIFI 2
+
+Sat 2024-12-14, 13:53, train PRG > BRN (IEEE Annual meeting 2024)
 Scanning Wi-Fi... 3 network(s)
 RSSI Channel 	SSID
 -47  (ch.11) 	CDWiFi
@@ -7,7 +21,7 @@ RSSI Channel 	SSID
 -81  (ch.6) 	CDWiFi
 
 
-Fri 2024-12-13, 06:58, train BRN-->PRG (IEEE Annual meeting 2024)
+Fri 2024-12-13, 06:58, train BRN > PRG (IEEE Annual meeting 2024)
 Scanning Wi-Fi... 4 network(s)
 RSSI Channel 	SSID
 -51  (ch.11) 	CDWiFi
@@ -16,7 +30,7 @@ RSSI Channel 	SSID
 -75  (ch.1) 	CDWiFi
 
 
-Fri 2024-06-21, 18:28, train PRG-->BRN (IEEE ExCom meeting)
+Fri 2024-06-21, 18:28, train PRG > BRN (IEEE ExCom meeting)
 Scanning Wi-Fi... 8 network(s)
 RSSI Channel    SSID
 -54  (ch.11)    OEBB
@@ -44,12 +58,12 @@ RSSI Channel 	SSID
 -96  (ch.11) 	vutbrno
 
 
-Tue 2023-12-19, 16:39, airplane VLC-->ZRH (PhD defence)
+Tue 2023-12-19, 16:39, airplane VLC > ZRH (PhD defence, Tom Bravenec)
 Scanning Wi-Fi... 0 network(s)
 RSSI Channel 	SSID
 
 
-Sun 2023-12-17, 09:11, airplane VIE-->VLC (PhD defence)
+Sun 2023-12-17, 09:11, airplane VIE > VLC (PhD defence, Tom Bravenec)
 Scanning Wi-Fi... 6 network(s)
 RSSI Channel 	SSID
 -38  (ch.11) 	
@@ -60,7 +74,7 @@ RSSI Channel 	SSID
 -52  (ch.1) 	
 
 
-Wed 2023-11-15, 7:24, train BRN-->PRG (Setkani MV techniky)
+Wed 2023-11-15, 7:24, train BRN > PRG (Setkání MV techniky)
 Scanning Wi-Fi... 6 network(s)
 RSSI Channel    SSID
 -53  (ch.11)    Galaxy A21s9D0C
