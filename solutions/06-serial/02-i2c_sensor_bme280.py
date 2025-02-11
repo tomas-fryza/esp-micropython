@@ -18,7 +18,7 @@ from machine import Pin
 import time
 import bme280
 
-# Connect to the BME280 sensor
+# Connect the BME280 sensor
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 bme = bme280.BME280(i2c)
 
@@ -27,7 +27,7 @@ T, RH, P, A = bme.read_values()
 time.sleep(1)
 
 print(f"I2C configuration: {str(i2c)}")
-print("")
+print()
 print("Start measuring. Press `Ctrl+C` to stop")
 
 try:
@@ -38,8 +38,9 @@ try:
         print(f"Humidity         [%] : {RH:.1f}")
         print(f"Pressure       [hPa] : {P:.1f}")
         print(f"Approx. altitude [m] : {A:.0f}")
+        print()
 
-        time.sleep(60)
+        time.sleep(10)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
