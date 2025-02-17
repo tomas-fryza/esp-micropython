@@ -5,8 +5,8 @@ for serial REPL and UART1 is used for serial data communication.
 Note that, only serial transmitters are used here.
 
 Inspired by:
-    * https://forum.micropython.org/viewtopic.php?t=6076
-    * https://github.com/loboris/MicroPython_ESP32_psRAM_LoBo/wiki/uart
+https://forum.micropython.org/viewtopic.php?t=6076
+https://github.com/loboris/MicroPython_ESP32_psRAM_LoBo/wiki/uart
 """
 
 from machine import Pin
@@ -17,11 +17,14 @@ from time import sleep_ms
 led = Pin(2, Pin.OUT)
 
 # Create two UART instances, one for REPL (TX=1, RX=3) and one
-# for other serail communication
+# for other serial communication
 uart0 = UART(0, tx=1, rx=3)
 uart0.init(baudrate=115200, bits=8, parity=None, stop=1)
+print(uart0)
+
 uart1 = UART(1, tx=25, rx=26)
 uart1.init(baudrate=9600, bits=8, parity=None, stop=1)
+print(uart1)
 
 while True:
     led.on()
