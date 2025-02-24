@@ -40,8 +40,8 @@ radio.mute(mute)
 print("Pi Pico RDA5807 FM Radio Example")
 print("press ? for help")
 while(1):
-    # command = sys.stdin.read(1)
-    command = "?"
+    command = sys.stdin.read(1)
+    # ?command = "?"
     if command == "?":
         print("Commands")
         print("========")
@@ -62,7 +62,7 @@ while(1):
         radio.update_rds()
         time.sleep_ms(100)
         print(radio.station_name)
-        print(radio.radio_text)
+        # print(radio.radio_text)
 
     if command == ".":
         print("seeking...")
@@ -89,4 +89,4 @@ while(1):
             mute = True
             radio.mute(mute)
 
-    time.sleep_ms(5000)
+    # time.sleep_ms(5000)
