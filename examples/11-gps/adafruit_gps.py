@@ -26,7 +26,11 @@
 GPS parsing module. Can parse simple NMEA data sentences from serial GPS
 modules to read latitude, longitude, and more.
 
-* Author(s): Tony DiCola, Alexandre Marquet.
+* Author(s): Tony DiCola, Alexandre Marque
+                https://github.com/alexmrqt/Adafruit_CircuitPython_GPS
+             Tomas Fryza:
+                2025-02-25: Added _parse_gpgll, _parse_gpvtg
+                2025-02-25: Small modifs
 
 Implementation Notes
 --------------------
@@ -42,8 +46,6 @@ Implementation Notes
     https://github.com/micropython/micropython
 
 """
-__version__ = "0.0.0-auto.0"
-__repo__ = "https://github.com/alexmrqt/Adafruit_CircuitPython_GPS.git"
 
 # Internal helper parsing functions.
 # These handle input that might be none or null and return none instead of
@@ -87,8 +89,8 @@ class GPS:
         self.horizontal_dilution = None
         self.altitude_m = None
         self.height_geoid = None
-        self.velocity_knots = None
-        self.speed_knots = None
+        # self.velocity_knots = None
+        self.speed = None
         self.track_angle_deg = None
 
     def update(self):
@@ -97,16 +99,21 @@ class GPS:
         nothing new was received.
         """
         # Grab a sentence and check its data type to call the appropriate
-        # parsing function.
+        # parsing function
         sentence = self._parse_sentence()
         if sentence is None:
             return False
         data_type, args = sentence
         data_type = data_type.upper()
+
         if data_type == b'GPGGA':      # GGA, 3d location fix
             self._parse_gpgga(args)
         elif data_type == b'GPRMC':    # RMC, minimum location info
             self._parse_gprmc(args)
+        elif data_type == b'GPGLL':    # GLL, geographic position
+            self._parse_gpgll(args)
+        elif data_type == b'GPVTG':    # VTG, track and ground speed
+            self._parse_gpvtg(args)
         return True
 
     def send_command(self, command, add_checksum=True):
@@ -133,6 +140,7 @@ class GPS:
     def _parse_sentence(self):
         # Parse any NMEA sentence that is available.
         sentence = self._uart.readline()
+        # print(sentence)
         if sentence is None or sentence == b'' or len(sentence) < 1:
             return None
         sentence = sentence.strip()
@@ -157,11 +165,12 @@ class GPS:
 
     def _parse_gpgga(self, args):
         # Parse the arguments (everything after data type) for NMEA GPGGA
-        # 3D location fix sentence.
+        # 3D location fix sentence
         data = args.split(b',')
         if data is None or len(data) != 14:
-            return  # Unexpected number of params.
-        # Parse fix time.
+            return  # Unexpected number of params
+
+        # Parse fix time
         time_utc = int(_parse_float(data[0]))
         if time_utc is not None:
             hours = time_utc // 10000
@@ -174,7 +183,8 @@ class GPS:
                     self.timestamp_utc[2], hours, mins, secs, 0, 0)
             else:
                 self.timestamp_utc = (0, 0, 0, hours, mins, secs, 0, 0)
-        # Parse latitude and longitude.
+
+        # Parse latitude and longitude
         self.latitude = _parse_degrees(data[1])
         if self.latitude is not None and \
            data[2] is not None and data[2].lower() == b's':
@@ -183,7 +193,8 @@ class GPS:
         if self.longitude is not None and \
            data[4] is not None and data[4].lower() == b'w':
             self.longitude *= -1.0
-        # Parse out fix quality and other simple numeric values.
+
+        # Parse out fix quality and other simple numeric values
         self.fix_quality = _parse_int(data[5])
         self.satellites = _parse_int(data[6])
         self.horizontal_dilution = _parse_float(data[7])
@@ -192,29 +203,32 @@ class GPS:
 
     def _parse_gprmc(self, args):
         # Parse the arguments (everything after data type) for NMEA GPRMC
-        # minimum location fix sentence.
+        # minimum location fix sentence
         data = args.split(b',')
         if data is None or len(data) < 11 or data[0] is None:
-            return  # Unexpected number of params.
-        # Parse fix time.
+            return  # Unexpected number of params
+
+        # Parse fix time
         time_utc = int(_parse_float(data[0]))
         if time_utc is not None:
             hours = time_utc // 10000
             mins = (time_utc // 100) % 100
             secs = time_utc % 100
-            # Set or update time to a friendly python time struct.
+            # Set or update time to a friendly python time struct
             if self.timestamp_utc is not None:
                 self.timestamp_utc = (
                     self.timestamp_utc[0], self.timestamp_utc[1],
                     self.timestamp_utc[2], hours, mins, secs, 0, 0)
             else:
                 self.timestamp_utc = (0, 0, 0, hours, mins, secs, 0, 0)
-        # Parse status (active/fixed or void).
+
+        # Parse status (active/fixed or void)
         status = data[1]
         self.fix_quality = 0
         if status is not None and status.lower() == b'a':
             self.fix_quality = 1
-        # Parse latitude and longitude.
+
+        # Parse latitude and longitude
         self.latitude = _parse_degrees(data[2])
         if self.latitude is not None and \
            data[3] is not None and data[3].lower() == b's':
@@ -223,10 +237,12 @@ class GPS:
         if self.longitude is not None and \
            data[5] is not None and data[5].lower() == b'w':
             self.longitude *= -1.0
-        # Parse out speed and other simple numeric values.
-        self.speed_knots = _parse_float(data[6])
+
+        # Parse out speed and other simple numeric values
+        self.speed = _parse_float(data[6]) * 1.852  # kilometers per hour = knots × 1.852
         self.track_angle_deg = _parse_float(data[7])
-        # Parse date.
+
+        # Parse date
         if data[8] is not None and len(data[8]) == 6:
             day = int(data[8][0:2])
             month = int(data[8][2:4])
@@ -234,13 +250,61 @@ class GPS:
                                              # This is a problem with the NMEA
                                              # spec and not this code.
             if self.timestamp_utc is not None:
-                # Replace the timestamp with an updated one.
+                # Replace the timestamp with an updated one
                 self.timestamp_utc = (year, month, day,
-                                                       self.timestamp_utc[3],
-                                                       self.timestamp_utc[4],
-                                                       self.timestamp_utc[5],
-                                                       0,
-                                                       0)
+                                      self.timestamp_utc[3],
+                                      self.timestamp_utc[4],
+                                      self.timestamp_utc[5],
+                                      0,
+                                      0)
             else:
-                # Time hasn't been set so create it.
+                # Time hasn't been set so create it
                 self.timestamp_utc = (year, month, day, 0, 0, 0, 0, 0)
+
+    def _parse_gpgll(self, args):
+        # Parse the arguments (everything after data type) for NMEA GPGLL
+        # geographic position
+        data = args.split(b',')
+        if data is None or len(data) < 6 or data[0] is None:
+            return  # Unexpected number of params
+
+        # Parse latitude and longitude
+        self.latitude = _parse_degrees(data[0])
+        if self.latitude is not None and \
+           data[1] is not None and data[1].lower() == b's':
+            self.latitude *= -1.0
+        self.longitude = _parse_degrees(data[2])
+        if self.longitude is not None and \
+           data[3] is not None and data[3].lower() == b'w':
+            self.longitude *= -1.0
+
+        # Parse fix time
+        time_utc = int(_parse_float(data[4]))
+        if time_utc is not None:
+            hours = time_utc // 10000
+            mins = (time_utc // 100) % 100
+            secs = time_utc % 100
+            # Set or update time to a friendly python time struct
+            if self.timestamp_utc is not None:
+                self.timestamp_utc = (
+                    self.timestamp_utc[0], self.timestamp_utc[1],
+                    self.timestamp_utc[2], hours, mins, secs, 0, 0)
+            else:
+                self.timestamp_utc = (0, 0, 0, hours, mins, secs, 0, 0)
+
+        # Parse status (active/fixed or void)
+        status = data[5]
+        self.fix_quality = 0
+        if status is not None and status.lower() == b'a':
+            self.fix_quality = 1
+
+    def _parse_gpvtg(self, args):
+        # Parse the arguments (everything after data type) for NMEA GPVTG
+        # track made good and ground speed
+        data = args.split(b',')
+        if data is None or len(data) < 8 or data[0] is None:
+            return  # Unexpected number of params
+
+        # Parse out speed and other simple numeric values
+        self.track_angle_deg = _parse_float(data[0])
+        self.speed = _parse_float(data[6]) # kilometers/hour
