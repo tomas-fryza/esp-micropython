@@ -14,9 +14,24 @@ GYRO_YOUT_H = 0x45
 GYRO_ZOUT_H = 0x47
 POWER_MGMT_1 = 0x6B
 
+# Accel limit | Sensitivity
+# 2g          | 16_384
+# 4g          | 8_192
+# 8g          | 4_096
+# 16g         | 2_048
+
+# Angular velocity limit | Sensitivity
+# 250deg/s               | 131
+# 500deg/s               | 65.5
+# 1000deg/s              | 32.8
+# 2000deg/s              | 16.4
+
 # Sensitivity scales
 ACCEL_SCALE = 16384.0  # Accelerometer scale for ±2g (16-bit)
 GYRO_SCALE = 131.0  # Gyroscope scale for ±250°/s (16-bit)
+
+# Other
+RAD_TO_DEG = 180.0 / math.pi
 
 
 class MPU6050:
@@ -48,6 +63,8 @@ class MPU6050:
         # Gyro_Y_H:L
         # Gyro_Z_H:L
         high, low = self.i2c.readfrom_mem(self.address, addr, 2)
+        time.sleep_ms(2)
+
         if not high & 0x80:
             return high << 8 | low
         return - (((high ^ 255) << 8) | (low ^ 255) + 1)
@@ -71,17 +88,22 @@ class MPU6050:
 
         # Convert to degrees per second
         gx = gx / GYRO_SCALE - self.gyro_offset_x
-        gy = gy / GYRO_SCALE - self.gyro_offset_x
-        gz = gz / GYRO_SCALE - self.gyro_offset_x
+        gy = gy / GYRO_SCALE - self.gyro_offset_y
+        gz = gz / GYRO_SCALE - self.gyro_offset_z
 
         return ax, ay, az, temp, gz, gy, gz
 
     def calibrate(self):
         # Calibrate the sensor by averaging several readings for both accelerometer and gyroscope
         print("Calibrating MPU6050, hold still... ", end="")
-        time.sleep(1)
+        time.sleep_ms(500)
 
-        n_samples = 200
+        # Discard first 100 measures
+        for _ in range(100):
+            ax, ay, az, temp, gx, gy, gz = self.get_values()
+            time.sleep_ms(2)
+
+        n_samples = 100
         for _ in range(n_samples):
             ax, ay, az, temp, gx, gy, gz = self.get_values()
             self.accel_offset_x += ax
@@ -90,7 +112,7 @@ class MPU6050:
             self.gyro_offset_x += gx
             self.gyro_offset_y += gy
             self.gyro_offset_z += gz
-            time.sleep_ms(10)
+            time.sleep_ms(2)
 
         self.accel_offset_x /= n_samples
         self.accel_offset_y /= n_samples
@@ -109,8 +131,8 @@ class MPU6050:
 
         # Calculate pitch and roll from accelerometer data
         # https://engineering.stackexchange.com/questions/3348/calculating-pitch-yaw-and-roll-from-mag-acc-and-gyro-data
-        pitch = math.atan2(-ax, math.sqrt(ay**2 + az**2)) * 180.0 / math.pi
-        roll = math.atan2(ay, az) * 180 / math.pi
+        pitch = math.atan2(-ax, math.sqrt(ay**2 + az**2)) * RAD_TO_DEG
+        roll = math.atan2(ay, az) * RAD_TO_DEG
 
         # Time difference in seconds
         current_time = time.ticks_ms()

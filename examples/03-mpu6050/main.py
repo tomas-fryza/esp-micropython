@@ -3,6 +3,9 @@
 # https://howtomechatronics.com/tutorials/arduino/arduino-and-mpu6050-accelerometer-and-gyroscope-tutorial/
 # https://how2electronics.com/interfacing-mpu6050-accelerometer-gyroscope-with-arduino/
 
+# The MPU6050 Explained
+# https://mjwhite8119.github.io/Robots/mpu6050
+
 from machine import Pin, I2C
 import time
 import mpu6050
@@ -10,7 +13,7 @@ import mpu6050
 led = Pin(2, Pin.OUT)
 
 # Connect the MPU6050 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=400_000)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21))  #, freq=100_000)
 print(f"I2C configuration: {str(i2c)}")
 
 mpu = mpu6050.MPU6050(i2c)
