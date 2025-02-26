@@ -6,9 +6,8 @@
 
 # https://github.com/franckinux/python-rd5807m/tree/master
 
-
-
-
+# MicroPython TechNotes: Rotary Encoder
+# https://techtotinker.com/2021/04/13/027-micropython-technotes-rotary-encoder/
 
 
 # Micropython builtin modules
@@ -23,7 +22,6 @@ import ssd1306              # OLED
 from bmp180 import BMP180   # Pressure meter
 # from MPU6050 import MPU6050 # Accelerometer + gyroscope
 import rda5807              # FM radio module
-
 
 # DHT11: Data - 4
 # Temperature + Humidity
@@ -67,7 +65,8 @@ radio = rda5807.Radio(i2c)
 time.sleep_ms(100)  # Let the radio initialize!!! Without the sleep the module does not work!
 # init with default settings
 radio.set_volume(1) # 0-15
-radio.set_frequency_MHz(103.0) # Radio Krokodyl (Brno)
+radio.set_frequency_MHz(103.0) # 103: Radio Krokodyl (Brno)
+                               # 88.3: Kiss (Brno)
 radio.mute(False)
 
 # Piezo buzzer 100ms beep
@@ -122,15 +121,23 @@ try:
         #    display.text('DHT11 meas. fail', 0, 0, 1)
         
         # FM Radio
-        display.text(str(radio.get_frequency_MHz())+' MHz', 0, 0, 1)
-        rssi = radio.get_signal_strength()
-        print(rssi, "dBm")
         radio.update_rds()
         # print(radio.get_rds_block_group()) # How to decode RDS?
-        print(radio.station_name)
+        radio_name = "".join(map(str, radio.station_name))
+        print(f"Stanice: {radio_name}")
+        display.text(str(radio_name), 0, 0, 1)
+
+        radio_text = "".join(map(str, radio.radio_text))
+        print(f"Text: {radio_text}")
+
+        display.text(str(radio.get_frequency_MHz())+' MHz', 0, 8, 1)
+
+        rssi = radio.get_signal_strength()
+        # print(rssi, "dBm")
+        display.text(str(rssi)+' dBm', 85, 8, 1)
 
         display.show()
-        time.sleep_ms(100)
+        time.sleep_ms(10)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
