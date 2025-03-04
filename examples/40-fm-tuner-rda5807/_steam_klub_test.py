@@ -33,6 +33,7 @@ rot = RotaryIRQ(pin_num_clk=32,
                 reverse=False,
                 range_mode=RotaryIRQ.RANGE_BOUNDED)
 vol = rot.value()
+mute = False
 
 # DHT11: Data - 4
 # Temperature + Humidity
@@ -77,7 +78,7 @@ time.sleep_ms(100)  # Let the radio initialize!!! Without the sleep the module d
 # init with default settings
 radio.set_volume(vol)  # 0-15
 radio.set_frequency_MHz(103.4)  # 103.4 - Blanik
-radio.mute(False)
+radio.mute(mute)
 
 # Piezo buzzer 100ms beep
 # buzzer.freq(4095)
@@ -89,15 +90,15 @@ radio.mute(False)
 
 # Custom function definitions
 def floatToStr(f: float):
-    return str(round(f, 2)) # Max 2 decimal digits
+    return str(round(f, 1)) # Max 1 decimal digit
 
 
 try:
     # Main loop
     while True:
         display.fill(0)
-        vol_new = rot.value()
 
+        vol_new = rot.value()
         if vol != vol_new:
             vol = vol_new
             # print('volume =', vol)
@@ -107,11 +108,16 @@ try:
         if (btn_grn.value() == 0):
             led.on()
             radio.seek_up()
+            led.off()
         elif (btn_red.value() == 0):
             led.on()
             radio.seek_down()
+            led.off()
         elif (btn_rot.value() == 0):
             led.on()
+            mute = not mute
+            radio.mute(True)
+            led.off()
         else:
             led.off()
 
