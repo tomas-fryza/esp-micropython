@@ -14,7 +14,6 @@
 import time
 from machine import Pin, SoftI2C, RTC, PWM
 from math import floor
-# from dht import DHT11
 
 # External modules
 import ssd1306              # OLED
@@ -22,6 +21,18 @@ import ssd1306              # OLED
 from bmp180 import BMP180   # Pressure meter
 # from MPU6050 import MPU6050 # Accelerometer + gyroscope
 import rda5807              # FM radio module
+# Rotary encoder
+from rotary_irq import RotaryIRQ
+
+rot = RotaryIRQ(pin_num_clk=32,
+                pin_num_dt=35,
+                min_val=0,
+                max_val=15,
+                pull_up=False,
+                half_step=True,
+                reverse=False,
+                range_mode=RotaryIRQ.RANGE_BOUNDED)
+vol = rot.value()
 
 # DHT11: Data - 4
 # Temperature + Humidity
@@ -53,9 +64,9 @@ bmp180.baseline = 101325
 # Led & buttons
 led = Pin(2, Pin.OUT)
 led.off()
-btn_gr = Pin(19, Pin.IN, Pin.PULL_UP)
-btn_rd = Pin(18, Pin.IN, Pin.PULL_UP)
-btn_rot = Pin(25, Pin.IN, Pin.PULL_UP)
+btn_grn = Pin(19, Pin.IN, Pin.PULL_UP)
+btn_red = Pin(18, Pin.IN, Pin.PULL_UP)
+btn_rot = Pin(33, Pin.IN, Pin.PULL_UP)
 
 # Accelero + gyroscope
 # mpu = MPU6050(i2c)
@@ -64,9 +75,8 @@ btn_rot = Pin(25, Pin.IN, Pin.PULL_UP)
 radio = rda5807.Radio(i2c)
 time.sleep_ms(100)  # Let the radio initialize!!! Without the sleep the module does not work!
 # init with default settings
-radio.set_volume(1) # 0-15
-radio.set_frequency_MHz(103.0) # 103: Radio Krokodyl (Brno)
-                               # 88.3: Kiss (Brno)
+radio.set_volume(vol)  # 0-15
+radio.set_frequency_MHz(103.4)  # 103.4 - Blanik
 radio.mute(False)
 
 # Piezo buzzer 100ms beep
@@ -85,18 +95,37 @@ def floatToStr(f: float):
 try:
     # Main loop
     while True:
-        if (btn_gr.value() == 0) or (btn_rd.value() == 0) or (btn_rot.value() == 0):
+        display.fill(0)
+        vol_new = rot.value()
+
+        if vol != vol_new:
+            vol = vol_new
+            # print('volume =', vol)
+            radio.set_volume(vol) # 0-15
+        display.text('vol: '+str(vol), 0, 16, 1)
+
+        if (btn_grn.value() == 0):
+            led.on()
+            radio.seek_up()
+        elif (btn_red.value() == 0):
+            led.on()
+            radio.seek_down()
+        elif (btn_rot.value() == 0):
             led.on()
         else:
             led.off()
 
-        display.fill(0)
-        
         # Lux + pressure meter + PIR + Capacitive touch
         # display.text(floatToStr(bh1750.measurement)+' lx', 0, 0, 1)
-        # display.text(floatToStr(bmp180.pressure/1000)+' kPa', 0, 8, 1)
-        # display.text(floatToStr(bmp180.temperature)+' \'C', 0, 16, 1)
+
+        pressure = f"{bmp180.pressure/100:.1f} hPa"
+        display.text(pressure, 60, 16, 1)
+
+        temperature = f"{bmp180.temperature:.1f} C"
+        display.text(temperature, 60, 24, 1)
+
         display.text('PIR: '+str(pir.value()), 0, 24, 1)
+
         # display.text('Touch: '+str(touch.value()), 56, 24, 1)
         
         # Accelerometer
@@ -122,13 +151,12 @@ try:
         
         # FM Radio
         radio.update_rds()
-        # print(radio.get_rds_block_group()) # How to decode RDS?
         radio_name = "".join(map(str, radio.station_name))
-        print(f"Stanice: {radio_name}")
         display.text(str(radio_name), 0, 0, 1)
+        # print(f"Stanice: {radio_name}")
 
         radio_text = "".join(map(str, radio.radio_text))
-        print(f"Text: {radio_text}")
+        print(f"RDS text: {radio_text}")
 
         display.text(str(radio.get_frequency_MHz())+' MHz', 0, 8, 1)
 
@@ -137,7 +165,7 @@ try:
         display.text(str(rssi)+' dBm', 85, 8, 1)
 
         display.show()
-        time.sleep_ms(10)
+        time.sleep_ms(5)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
