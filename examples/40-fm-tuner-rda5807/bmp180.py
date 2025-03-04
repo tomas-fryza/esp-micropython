@@ -62,7 +62,7 @@ class BMP180():
         self._MD = unp('>h', self._bmp_i2c.readfrom_mem(_bmp_addr, 0xBE, 2))[0]
 
         # settings to be adjusted by user
-        self.oversample_setting = 3
+        self.oversample_setting = 2
         self.baseline = 101325.0
 
         # output raw

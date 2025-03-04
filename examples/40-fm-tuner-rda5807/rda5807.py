@@ -111,10 +111,13 @@ class Radio:
         self.rtc = RTC()
         
         #read chip ID and check
+        print("Scanning for radio RDA5807... ", end="")
         data = self.read_reg(RDA5807M_REG_CHIPID)
-        if(data>>8 == 0x58):
-            print("Radio Found!")
-        
+        if (data>>8 == 0x58):
+            print("Done")
+        else:
+            print("Fail")
+
         #configure radio
         flags = RDA5807M_FLG_DHIZ | RDA5807M_FLG_BASS | RDA5807M_FLG_ENABLE | RDA5807M_FLG_NEW | RDA5807M_FLG_SEEKUP | RDA5807M_FLG_RDS
         self.write_reg(RDA5807M_REG_CONFIG, 0b11000001 | RDA5807M_FLG_RESET)
