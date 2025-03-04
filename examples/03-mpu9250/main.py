@@ -1,6 +1,15 @@
 # MicroPython MPU-9250 (MPU-6500 + AK8963) I2C driver
 # https://github.com/tuupola/micropython-mpu9250
 
+# Kalman filter
+# https://github.com/micropython-IMU/micropython-fusion?tab=readme-ov-file
+# Kalman for Arduino
+# https://how2electronics.com/measure-pitch-roll-yaw-with-mpu6050-hmc5883l-esp32/
+# https://github.com/nhatuan84/Arduino-KalmanFilter/tree/main
+# Kalman for ESP-IDF
+# https://github.com/JChunX/imu-kalman/tree/main
+
+
 import utime
 from machine import SoftI2C, Pin
 import math
