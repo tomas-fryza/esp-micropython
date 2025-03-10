@@ -50,6 +50,10 @@ def getGPS(gpsModule):
             # print(data)
 
         # GPGGA (GPS fix data and undulation)
+        # UTC time
+        # Location
+        # Num. of satellites in use
+        # Altitude
         if (data[0] == "b'$GPGGA" and len(data) == 15):
             if (data[1] and data[2] and data[3] and data[4] and data[5] and data[7] and data[9]):
 
@@ -67,6 +71,11 @@ def getGPS(gpsModule):
                 break
 
         # GPRMC (Recommended minimum specific GPS/transit data)
+        # UTC time
+        # Date
+        # Location
+        # Speed in kmph
+        # Track in degrees
         if (data[0] == "b'$GPRMC" and len(data) == 13):
             if (data[1] and data[3] and data[4] and data[5] and
                 data[6] and data[7] and data[8] and data[9]):
@@ -86,6 +95,8 @@ def getGPS(gpsModule):
                 break
 
         # GPGLL (Geographic position)
+        # UTC time
+        # Location
         if (data[0] == "b'$GPGLL" and len(data) == 8):
             if (data[1] and data[2] and data[3] and data[4] and
                 data[5]):
@@ -101,6 +112,8 @@ def getGPS(gpsModule):
                 break
 
         # $GPVTG, Track made good and ground speed
+        # Speed in kmph
+        # Track in degrees
         if (data[0] == "b'$GPVTG" and len(data) == 10):
             if (data[1] and data[7]):
 
