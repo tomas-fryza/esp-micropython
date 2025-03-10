@@ -12,7 +12,7 @@
 
 
 import utime
-from machine import SoftI2C, Pin
+from machine import SoftI2C, Pin, RTC
 import math
 from mpu9250 import MPU9250
 # from mpu6500 import MPU6500, SF_G, SF_DEG_S
@@ -71,6 +71,8 @@ def Kalman_filter(angle, gyroRate, accelAngle):
 toRad = 2.0*math.pi / 360
 toDeg = 1 / toRad
 
+rtc = RTC()
+
 i2c = SoftI2C(scl=Pin(22), sda=Pin(21))
 print(f"I2C configuration: {str(i2c)}")
 
@@ -93,6 +95,8 @@ lastTime = utime.ticks_ms()
 
 print("MPU9250 id: " + hex(sensor.whoami))
 print("\nPress `Ctrl+C` to stop\n")
+
+print("datetime,roll,pitch,yaw")
 
 try:
     while True:
@@ -127,9 +131,12 @@ try:
             yaw -= 2 * math.pi
         yaw = yaw * toDeg
 
+        (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
+        print(f"{year}-{month}-{day} {hrs}:{mins}:{secs}.{subsecs},", end="")
+
         # print(f"{roll:.1f},{pitch:.1f},{yaw:.1f},{temp:.1f}")
         print(f"{roll:.1f},{pitch:.1f},{yaw:.1f}")
-        utime.sleep_ms(20)  # 50 Hz
+        utime.sleep_ms(1)  # 50 Hz
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
