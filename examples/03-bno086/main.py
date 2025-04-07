@@ -9,6 +9,9 @@ from machine import I2C, Pin
 from utime import ticks_ms, sleep_ms
 import math
 from bno08x import *
+import gc
+gc.collect()
+# print(gc.mem_free())  # Check available memory
 
 I2C1_SDA = Pin(21)
 I2C1_SCL = Pin(22)
@@ -19,8 +22,8 @@ bno = BNO08X(i2c1, debug=False)
 print("BNO08x I2C connection : Done")
 
 bno.enable_feature(BNO_REPORT_ACCELEROMETER, 20)
-bno.enable_feature(BNO_REPORT_MAGNETOMETER,20 )
-bno.enable_feature(BNO_REPORT_GYROSCOPE,20 )
+bno.enable_feature(BNO_REPORT_MAGNETOMETER, 20)
+bno.enable_feature(BNO_REPORT_GYROSCOPE, 20)
 bno.enable_feature(BNO_REPORT_GAME_ROTATION_VECTOR, 10)
 bno.set_quaternion_euler_vector(BNO_REPORT_GAME_ROTATION_VECTOR)
 
@@ -37,14 +40,14 @@ try:
         sleep_ms(50)
         cpt += 1
         # print("cpt", cpt)
-#         accel_x, accel_y, accel_z = bno.acc
-#         print("Acceleration\tX: {:+.3f}\tY: {:+.3f}\tZ: {:+.3f}\tm/s²".format(accel_x, accel_y, accel_z))
-#         gyro_x, gyro_y, gyro_z = bno.gyro
-#         print("Gyroscope\tX: {:+.3f}\tY: {:+.3f}\tZ: {:+.3f}\trads/s".format(gyro_x, gyro_y, gyro_z))
-#         mag_x, mag_y, mag_z = bno.mag
-#         print("Magnetometer\tX: {:+.3f}\tY: {:+.3f}\tZ: {:+.3f}\tuT".format(mag_x, mag_y, mag_z))
-#         quat_i, quat_j, quat_k, quat_real = bno.quaternion
-#         print("Rot Vect Quat\tI: {:+.3f}\tJ: {:+.3f}\tK: {:+.3f}\tReal: {:+.3f}".format(quat_i, quat_j, quat_k, quat_real))
+        # accel_x, accel_y, accel_z = bno.acc
+        # print("Acceleration\tX: {:+.3f}\tY: {:+.3f}\tZ: {:+.3f}\tm/s²".format(accel_x, accel_y, accel_z))
+        # gyro_x, gyro_y, gyro_z = bno.gyro
+        # print("Gyroscope\tX: {:+.3f}\tY: {:+.3f}\tZ: {:+.3f}\trads/s".format(gyro_x, gyro_y, gyro_z))
+        # mag_x, mag_y, mag_z = bno.mag
+        # print("Magnetometer\tX: {:+.3f}\tY: {:+.3f}\tZ: {:+.3f}\tuT".format(mag_x, mag_y, mag_z))
+        # quat_i, quat_j, quat_k, quat_real = bno.quaternion
+        # print("Rot Vect Quat\tI: {:+.3f}\tJ: {:+.3f}\tK: {:+.3f}\tReal: {:+.3f}".format(quat_i, quat_j, quat_k, quat_real))
         R, T, P = bno.euler
         print("Euler Angle\tX: {:+.3f}\tY: {:+.3f}\tZ: {:+.3f}".format(R, T, P))
 #         print("===================================")
@@ -61,3 +64,4 @@ except KeyboardInterrupt:
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
+    gc.collect()  # Garbage collector (GC), Free unused memory
