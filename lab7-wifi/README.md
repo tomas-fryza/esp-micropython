@@ -84,7 +84,7 @@ In **Access Point mode (`network.AP_IF`)** the ESP32 acts as a Wi-Fi access poin
 
 The Wi-Fi modes can be activated or deactivated using the `active()` method of the `network` module. These modes can be used individually or in combination. For example, the ESP32 can operate in both Station and Access Point modes simultaneously (`network.WIFI_AP_STA`), allowing it to connect to an existing Wi-Fi network while also providing an access point for other devices.
 
-1. In Thonny, create a new `config.py` file, set the Wi-Fi credentions, and save it on the ESP32 device.
+1. In Thonny, create a new `WIFI_CONFIG.py` file, set the Wi-Fi credentions, and save it on the ESP32 device.
 
    ```python
    SSID = "YOUR_WIFI_SSID"
