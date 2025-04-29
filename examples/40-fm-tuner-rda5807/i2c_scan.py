@@ -15,12 +15,14 @@ Last modified: 2025-02-25
 Scanning I2C... 7 device(s) detected
 dec. hex.
 16   0x10 -- rda5807 (sequential access / RDA5800 mode)
-17   0x11 -- rda5807 (random access / RDA5807 mode !!!)
-35   0x23 -- bh1750 (light sensor)
-60   0x3c -- OLED (!!!)
+17   0x11 -- rda5807 (random access / RDA5807 mode)
+60   0x3c -- OLED
 96   0x60 -- rda5807 (TEA5767 compatible mode)
+119  0x77 -- bmp180 (pressure/temperature)
+
+Older version:
+35   0x23 -- bh1750 (light sensor)
 104  0x68 -- mpu6050 (accel/gyro/temp)
-119  0x77 -- bmp180 (pressure/temperature !!!)
 """
 
 from machine import I2C

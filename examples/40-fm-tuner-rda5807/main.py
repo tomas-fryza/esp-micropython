@@ -10,7 +10,7 @@ Author:
 - Tomas Fryza
 
 Creation date: 2025-04-28
-Last modified: 2025-04-28
+Last modified: 2025-04-29
 
 Inspired by:
   * https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
@@ -35,22 +35,46 @@ def init_display():
     """Initialize the OLED display and show startup screen."""
     i2c = SoftI2C(sda=Pin(21), scl=Pin(22))  #, freq=400_000)
     display = ssd1306.SSD1306_I2C(128, 64, i2c)
-    display.sleep(False)
     display.contrast(100)
+    display.fill(0)
+
+    print("Scanning I2C... ", end="")
+    display.text("Scanning I2C...", 0, 5)
+
+    addrs = i2c.scan()
+    # Scanning I2C... 5 device(s) detected
+    # dec. hex.
+    # 16   0x10 -- rda5807 (sequential access / RDA5800 mode)
+    # 17   0x11 -- rda5807 (random access / RDA5807 mode)
+    # 60   0x3c -- OLED
+    # 96   0x60 -- rda5807 (TEA5767 compatible mode)
+    # 119  0x77 -- bmp180 (pressure/temperature)
+    print(f"{len(addrs)} device(s) detected")
+
+    print("dec.\t hex.")
+    y = 16
+    for addr in addrs:
+        print(f"{addr}\t {hex(addr)}")
+        display.text(hex(addr), 0, y)
+        y += 8
+    display.show()  # Write the contents of the FrameBuffer to display memory
+    time.sleep(8)
     display.fill(0)
 
     # Draw logo (VUT Brno stylized)
     # https://www.designportal.cz/clanky/aktualizovano-vut-v-brne-bude-mit-nove-logo/
+    # x, y, width, height, color
     display.fill_rect(0, 0, 32, 32, 1)
-    display.fill_rect(5, 5, 14, 8, 0)
-    display.fill_rect(15, 9, 26, 11, 0)
-    display.fill_rect(15, 12, 18, 26, 0)
+    display.fill_rect(5, 5, 10, 4, 0)
+    display.fill_rect(15, 9, 12, 3, 0)
+    display.fill_rect(15, 12, 4, 15, 0)
+    # x, y, color
     display.pixel(19, 12, 0)
-
-    display.text("STEAM jcmm", 40, 0)
-    display.text("VUT Brno", 40, 12)
-    display.text("RadioElect.", 40, 24)
-    display.show()  # Write the contents of the FrameBuffer to display memory
+    # string, x, y
+    display.text("STEAM jcmm", 35, 5)
+    display.text("VUT Brno", 35, 16)
+    display.text("Radioelektr.", 35, 24)
+    display.show()
     return display
 
 def init_wifi():
@@ -72,16 +96,17 @@ def main():
     led.off()
 
     display = init_display()
-    wlan = init_wifi()
 
     # Initial LED blink and display invert animation
-    for _ in range(3):
+    for _ in range(5):
         led.on()
         display.invert(1)
         time.sleep(0.5)
         led.off()
         display.invert(0)
         time.sleep(0.5)
+
+    wlan = init_wifi()
 
     # Optional: Show MAC address
     # mac_bytes = wlan.config('mac')
@@ -91,7 +116,7 @@ def main():
     # display.text(f"{mac_str}", 0, 48)
     # display.show()
 
-    display.text("Strongest WiFi:", 0, 40)
+    display.text("Strongest Wi-Fi:", 0, 38)
     print("Scanning for Wi-Fi networks... Press Ctrl+C to stop.")
 
     try:
@@ -108,7 +133,7 @@ def main():
             else:
                 show_wifi(display, "<no networks>", 0)
                 print("No networks found")
-            time.sleep(2)
+            time.sleep(1)
 
     except KeyboardInterrupt:
         # This part runs when Ctrl+C is pressed
