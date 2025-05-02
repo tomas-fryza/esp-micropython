@@ -15,6 +15,7 @@ print(uart)
 
 # Create a GPS module instance.
 gps = adafruit_gps.GPS(uart)
+time.sleep(2)
 
 # Initialize the GPS module by changing what data it sends and at what rate.
 # These are NMEA extensions for PMTK_314_SET_NMEA_OUTPUT and
