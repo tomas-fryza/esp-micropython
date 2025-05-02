@@ -1,6 +1,16 @@
 import uasyncio as asyncio
 import sys
 import os
+import time
+
+# Get the starting time in milliseconds
+start = time.ticks_ms()
+
+
+def get_elapsed():
+    """Elapsed time helper."""
+    return time.ticks_diff(time.ticks_ms(), start)
+
 
 # Function to generate a unique file name with a three-digit integer
 def generate_filename():
@@ -20,27 +30,31 @@ def generate_filename():
     
     return new_file_name
 
+
 # Open file for writing (for Process 2)
 try:
     fname = generate_filename()
     file = open(fname, 'w')
     print(f"New file `{fname}` created")
 except OSError as e:
-    print("[!] Failed to open file:", e)
+    print(f"[!] Failed to open file: {e}")
     sys.exit()
+
 
 # Process 1: Print to serial monitor
 async def process_to_serial():
     while True:
-        print("This is being printed to the serial monitor")
+        print(f"[{get_elapsed()}] This is being printed to the serial monitor")
         await asyncio.sleep(1)
+
 
 # Process 2: Write to file
 async def process_to_file():
     while True:
-        file.write("This is being written to the file\n")
+        file.write(f"[{get_elapsed()}] This is being written to the file\n")
         file.flush()  # Ensure data is written immediately
-        await asyncio.sleep(1)
+        await asyncio.sleep_ms(1)
+
 
 # Main coroutine
 async def main():
@@ -53,6 +67,7 @@ async def main():
         await asyncio.gather(task1, task2)
     except asyncio.CancelledError:
         print("Tasks cancelled.")
+
 
 try:
     # Event loop used to schedule and run tasks
