@@ -140,7 +140,7 @@ class GPS:
     def _parse_sentence(self):
         # Parse any NMEA sentence that is available.
         sentence = self._uart.readline()
-        print(sentence)
+        # print(sentence)
         if sentence is None or sentence == b'' or len(sentence) < 1:
             return None
         sentence = sentence.strip()
