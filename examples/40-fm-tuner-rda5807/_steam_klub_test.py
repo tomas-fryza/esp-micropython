@@ -1,4 +1,8 @@
 
+# Schematic:
+# https://easyeda.com/editor#id=37887f9350854232a235cdf468bfeedc|aad7b1e50d564cfd87c74929a26a139c
+
+
 # https://101-things.readthedocs.io/en/latest/fm_radio.html
 # https://github.com/wagiminator/ATtiny85-TinyFMRadio/blob/master/software/TinyFMRadio.ino
 # https://github.com/pu2clr/RDA5807/tree/master/examples
@@ -52,7 +56,7 @@ pir = Pin(15, Pin.IN)
 i2c = SoftI2C(sda=Pin(21), scl=Pin(22), freq=400_000)
 
 # OLED
-display = ssd1306.SSD1306_I2C(128, 32, i2c) # using default address 0x3C
+display = ssd1306.SSD1306_I2C(128, 64, i2c) # using default address 0x3C
 
 # Lux meter
 # bh1750 = BH1750(0x23, i2c)
@@ -63,11 +67,11 @@ bmp180.oversample_sett = 2
 bmp180.baseline = 101325
 
 # Led & buttons
-led = Pin(2, Pin.OUT)
+led = Pin(19, Pin.OUT)
 led.off()
-btn_grn = Pin(19, Pin.IN, Pin.PULL_UP)
-btn_red = Pin(18, Pin.IN, Pin.PULL_UP)
-btn_rot = Pin(33, Pin.IN, Pin.PULL_UP)
+btn_grn = Pin(4, Pin.IN)  #, Pin.PULL_UP)
+btn_red = Pin(0, Pin.IN)  #, Pin.PULL_UP)
+btn_rot = Pin(33, Pin.IN)  #, Pin.PULL_UP)
 
 # Accelero + gyroscope
 # mpu = MPU6050(i2c)
@@ -116,8 +120,9 @@ try:
         elif (btn_rot.value() == 0):
             led.on()
             mute = not mute
-            radio.mute(True)
+            radio.mute(mute)
             led.off()
+            print(mute)
         else:
             led.off()
 
@@ -162,7 +167,7 @@ try:
         # print(f"Stanice: {radio_name}")
 
         radio_text = "".join(map(str, radio.radio_text))
-        print(f"RDS text: {radio_text}")
+        # print(f"RDS text: {radio_text}")
 
         display.text(str(radio.get_frequency_MHz())+' MHz', 0, 8, 1)
 
@@ -178,4 +183,5 @@ except KeyboardInterrupt:
     print("\nProgram stopped. Exiting...")
 
     # Optional cleanup code
+    radio.mute(True)
     led.off()
