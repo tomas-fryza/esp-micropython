@@ -68,7 +68,7 @@ bmp180.baseline = 101325
 
 # Led & buttons
 led = Pin(19, Pin.OUT)
-led.off()
+led.value(1)
 btn_grn = Pin(4, Pin.IN)  #, Pin.PULL_UP)
 btn_red = Pin(0, Pin.IN)  #, Pin.PULL_UP)
 btn_rot = Pin(33, Pin.IN)  #, Pin.PULL_UP)
@@ -84,13 +84,20 @@ radio.set_volume(vol)  # 0-15
 radio.set_frequency_MHz(103.4)  # 103.4 - Blanik
 radio.mute(mute)
 
+# PAM8008 class-D amplifier
+shdn = Pin(26, Pin.OUT)
+shdn.value(1)
+mute_pin = Pin(27, Pin.OUT)
+mute_pin.value(0)
+volume = Pin(25, Pin.OUT)
+volume.value(0)
+
 # Piezo buzzer 100ms beep
 # buzzer.freq(4095)
 # buzzer.duty(50)
 # time.sleep(0.1)
 # buzzer.duty(0)
 # buzzer.deinit()
-
 
 # Custom function definitions
 def floatToStr(f: float):

@@ -10,34 +10,31 @@ Author:
 - Tomas Fryza
 
 Creation date: 2025-04-28
-Last modified: 2025-04-29
+Last modified: 2025-05-18
 
 Inspired by:
   * https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
 """
 
 # MicroPython builtin modules
+from machine import Pin
+from machine import SoftI2C
 import time
-from machine import Pin, SoftI2C
 import network
-import esp
-esp.osdebug(None)  # Optional: disable debug output
 
 # External modules
 import ssd1306  # OLED display
 
-# Constants
-I2C_SDA = 21
-I2C_SCL = 22
-LED_PIN = 2
 
-def init_display():
+def init_display(i2c):
     """Initialize the OLED display and show startup screen."""
-    i2c = SoftI2C(sda=Pin(21), scl=Pin(22))  #, freq=400_000)
     display = ssd1306.SSD1306_I2C(128, 64, i2c)
     display.contrast(100)
     display.fill(0)
+    return display
 
+
+def i2c_scan(display):
     print("Scanning I2C... ", end="")
     display.text("Scanning I2C...", 0, 5)
 
@@ -58,11 +55,13 @@ def init_display():
         display.text(hex(addr), 0, y)
         y += 8
     display.show()  # Write the contents of the FrameBuffer to display memory
-    time.sleep(8)
-    display.fill(0)
 
-    # Draw logo (VUT Brno stylized)
-    # https://www.designportal.cz/clanky/aktualizovano-vut-v-brne-bude-mit-nove-logo/
+
+def show_logo(display):
+    """
+    Draw logo (VUT Brno stylized)
+    https://www.designportal.cz/clanky/aktualizovano-vut-v-brne-bude-mit-nove-logo/
+    """
     # x, y, width, height, color
     display.fill_rect(0, 0, 32, 32, 1)
     display.fill_rect(5, 5, 10, 4, 0)
@@ -75,7 +74,7 @@ def init_display():
     display.text("VUT Brno", 35, 16)
     display.text("Radioelektr.", 35, 24)
     display.show()
-    return display
+
 
 def init_wifi():
     """Initialize WLAN interface."""
@@ -84,6 +83,7 @@ def init_wifi():
     wlan.active(True)  # Activate the interface if it's not already
     return wlan
 
+
 def show_wifi(display, ssid, rssi):
     """Display SSID and RSSI on the screen."""
     display.fill_rect(0, 48, 128, 16, 0)  # Clear only lower portion
@@ -91,59 +91,57 @@ def show_wifi(display, ssid, rssi):
     display.text(f"{rssi} dBm", 0, 56)
     display.show()
 
-def main():
-    led = Pin(LED_PIN, Pin.OUT)
-    led.off()
 
-    display = init_display()
+i2c = SoftI2C(sda=Pin(21), scl=Pin(22))
 
-    # Initial LED blink and display invert animation
-    for _ in range(5):
-        led.on()
-        display.invert(1)
-        time.sleep(0.5)
-        led.off()
-        display.invert(0)
-        time.sleep(0.5)
+display = init_display(i2c)
+i2c_scan(display)
+time.sleep(5)
+display.fill(0)
 
-    wlan = init_wifi()
+# Display invert animation
+show_logo(display)
+for _ in range(3):
+    display.invert(1)
+    time.sleep(0.5)
+    display.invert(0)
+    time.sleep(0.5)
 
-    # Optional: Show MAC address
-    # mac_bytes = wlan.config('mac')
-    # mac_str = ':'.join(f'{b:02x}' for b in mac_bytes)
+wlan = init_wifi()
 
-    # display.text("MAC:", 0, 40)
-    # display.text(f"{mac_str}", 0, 48)
-    # display.show()
+# Optional: Show MAC address
+# mac_bytes = wlan.config('mac')
+# mac_str = ':'.join(f'{b:02x}' for b in mac_bytes)
 
-    display.text("Strongest Wi-Fi:", 0, 38)
-    print("Scanning for Wi-Fi networks... Press Ctrl+C to stop.")
+# display.text("MAC:", 0, 38)
+# display.text(f"{mac_str}", 0, 48)
+# display.show()
+# print(f"ESP32 MAC address: {mac_str}")
+# time.sleep(5)
 
-    try:
-        # Forever loop
-        while True:
-            networks = wlan.scan()
-            if networks:
-                # Each network is: (ssid, bssid, channel, RSSI, authmode, hidden)
-                ssid = networks[0][0].decode("utf-8")
-                rssi = networks[0][3]
+display.text("Strongest Wi-Fi:", 0, 38)
+print("Scanning for Wi-Fi networks... Press Ctrl+C to stop.")
 
-                show_wifi(display, ssid, rssi)
-                print(f"Strongest: {ssid} ({rssi} dBm)")
-            else:
-                show_wifi(display, "<no networks>", 0)
-                print("No networks found")
-            time.sleep(1)
+try:
+    # Forever loop
+    while True:
+        networks = wlan.scan()
+        if networks:
+            # Each network is: (ssid, bssid, channel, RSSI, authmode, hidden)
+            ssid = networks[0][0].decode("utf-8")
+            rssi = networks[0][3]
 
-    except KeyboardInterrupt:
-        # This part runs when Ctrl+C is pressed
-        print("Program interrupted. Cleaning up...")
+            show_wifi(display, ssid, rssi)
+            print(f"Strongest: {ssid} ({rssi} dBm)")
+        else:
+            show_wifi(display, "<no networks>", 0)
+            print("No networks found")
+        time.sleep(1)
 
-        # Optional cleanup code
-        display.poweroff()
-        led.off()
-        wlan.active(False)
+except KeyboardInterrupt:
+    # This part runs when Ctrl+C is pressed
+    print("Program stopped. Exiting...")
 
-# Only run if not imported
-if __name__ == "__main__":
-    main()
+    # Optional cleanup code
+    display.poweroff()
+    wlan.active(False)
