@@ -1,18 +1,17 @@
 """
 FM radio & sensors
 
-This MicroPython script integrates an OLED display, FM radio module,
-rotary encoder, PIR motion sensor, and BMP180 pressure sensor. Key
-functionalities include controlling the FM radio's volume and frequency,
-displaying temperature and pressure data, motion detection with the PIR
-sensor, and updating the OLED display with real-time sensor readings.
+Key functionalities of this MicroPython script include controlling
+the FM radio's volume and frequency, measuring temperature and
+pressure data, and updating the OLED display with real-time
+sensor readings.
 
 Authors:
 - Tomas Fryza
 - Ondrej Kolar
 
 Creation date: 2025-01-23
-Last modified: 2025-03-05
+Last modified: 2025-05-19
 
 Inspired by:
 FM RDA5807M

@@ -1,8 +1,8 @@
 """
 MicroPython demo for ESP32: Wi-Fi scanner with OLED display
 
-This script initializes the OLED display (SSD1306) and continuously scans 
-for the strongest Wi-Fi network.
+This script initializes the OLED display (SSD1306) and continuously
+scans for the strongest Wi-Fi network.
 
 Requires: SSD1306 OLED library, I2C connectivity
 
@@ -136,7 +136,7 @@ try:
         else:
             show_wifi(display, "<no networks>", 0)
             print("No networks found")
-        time.sleep(1)
+        time.sleep(5)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed

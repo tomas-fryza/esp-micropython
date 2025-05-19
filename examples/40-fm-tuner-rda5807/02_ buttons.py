@@ -1,6 +1,31 @@
+"""
+Buttons
+
+Authors:
+- Tomas Fryza
+
+Creation date: 2025-05-18
+Last modified: 2025-05-19
+"""
+
 from machine import Pin
 from machine import PWM
 import time
+
+
+# Set your pins
+PIN_LED_0 = 19
+PIN_LED_1 = 18
+PIN_LED_2 = 5
+PIN_LED_3 = 17
+
+PIN_BTN_0 = 4  # Left
+PIN_BTN_1 = 0  # Right
+PIN_BTN_2 = 2  # Up
+PIN_BTN_3 = 15  # Down
+PIN_ROT_BTN = 33  # Rotary encoder
+
+PIN_BUZ = 13  # Buzzer
 
 
 # Interrupt callbacks
@@ -11,8 +36,8 @@ def btn_0_isr(pin):
         led_0.value(not led_0.value())
         print(f"Btn pressed: {pin}")
         print(f"LED value: {led_0.value()}")
-    
-    
+
+
 def btn_1_isr(pin):
     time.sleep_ms(20)
     if pin.value() == 0:
@@ -52,19 +77,17 @@ def beep(freq=1500, duration_ms=60, duty_cycle=40):
 
 
 # LEDs
-led_builtin = Pin(2, Pin.OUT)
-led_builtin.off()
-led_0 = Pin(19, Pin.OUT)
-led_1 = Pin(18, Pin.OUT)
-led_2 = Pin(5, Pin.OUT)	
-led_3 = Pin(17, Pin.OUT)
+led_0 = Pin(PIN_LED_0, Pin.OUT)
+led_1 = Pin(PIN_LED_1, Pin.OUT)
+led_2 = Pin(PIN_LED_2, Pin.OUT)
+led_3 = Pin(PIN_LED_3, Pin.OUT)
 
 # Buttons
-btn_0 = Pin(4, Pin.IN)
-btn_1 = Pin(0, Pin.IN)
-btn_2 = Pin(2, Pin.IN)
-btn_3 = Pin(15, Pin.IN)
-btn_rot = Pin(33, Pin.IN)
+btn_0 = Pin(PIN_BTN_0, Pin.IN)
+btn_1 = Pin(PIN_BTN_1, Pin.IN)
+btn_2 = Pin(PIN_BTN_2, Pin.IN)
+btn_3 = Pin(PIN_BTN_3, Pin.IN)
+btn_rot = Pin(PIN_ROT_BTN, Pin.IN)
 
 # Attach buttons' interrupts
 btn_0.irq(trigger=Pin.IRQ_FALLING, handler=btn_0_isr)
@@ -74,7 +97,7 @@ btn_3.irq(trigger=Pin.IRQ_FALLING, handler=btn_3_isr)
 btn_rot.irq(trigger=Pin.IRQ_FALLING, handler=btn_rot_isr)
 
 # Start buzzer with duty=0 (silent)
-buzzer = PWM(Pin(13, Pin.OUT), duty=0)
+buzzer = PWM(Pin(PIN_BUZ, Pin.OUT), duty=0)
 
 print("Press `Ctrl+C` to stop")
 
