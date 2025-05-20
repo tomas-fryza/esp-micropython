@@ -7,7 +7,7 @@ Authors:
 - Tomas Fryza
 
 Creation date: 2025-03-05
-Last modified: 2025-05-19
+Last modified: 2025-05-20
 
 Inspired by:
   * https://techtotinker.com/2021/04/13/027-micropython-technotes-rotary-encoder/
@@ -30,7 +30,7 @@ PIN_BUZ = 13  # Buzzer
 
 
 def btn_rot_isr(pin):
-    time.sleep_ms(20)
+    time.sleep_ms(50)
     if pin.value() == 0:
         print(f"Rot. encoder pressed: {pin}")
         beep()

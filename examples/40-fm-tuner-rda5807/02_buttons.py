@@ -5,7 +5,7 @@ Authors:
 - Tomas Fryza
 
 Creation date: 2025-05-18
-Last modified: 2025-05-19
+Last modified: 2025-05-20
 """
 
 from machine import Pin
@@ -31,7 +31,7 @@ PIN_BUZ = 13  # Buzzer
 # Interrupt callbacks
 def btn_0_isr(pin):
     # Debounce delay
-    time.sleep_ms(20)
+    time.sleep_ms(50)
     if pin.value() == 0:  # Button pressed (active-low)
         led_0.value(not led_0.value())
         print(f"Btn pressed: {pin}")
@@ -39,7 +39,7 @@ def btn_0_isr(pin):
 
 
 def btn_1_isr(pin):
-    time.sleep_ms(20)
+    time.sleep_ms(50)
     if pin.value() == 0:
         led_1.value(not led_1.value())
         print(f"Btn pressed: {pin}")
@@ -47,7 +47,7 @@ def btn_1_isr(pin):
 
 
 def btn_2_isr(pin):
-    time.sleep_ms(20)
+    time.sleep_ms(50)
     if pin.value() == 0:
         led_2.value(not led_2.value())
         print(f"Btn pressed: {pin}")
@@ -55,7 +55,7 @@ def btn_2_isr(pin):
 
 
 def btn_3_isr(pin):
-    time.sleep_ms(20)
+    time.sleep_ms(50)
     if pin.value() == 0:
         led_3.value(not led_3.value())
         print(f"Btn pressed: {pin}")
@@ -63,7 +63,7 @@ def btn_3_isr(pin):
 
 
 def btn_rot_isr(pin):
-    time.sleep_ms(20)
+    time.sleep_ms(50)
     if pin.value() == 0:
         print(f"Rot. encoder pressed: {pin}")
         beep()
