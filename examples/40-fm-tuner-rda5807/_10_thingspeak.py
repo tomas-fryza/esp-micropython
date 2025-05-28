@@ -56,8 +56,9 @@ def send_to_thingspeak(temp, humidity):
 
 
 # Connect to the DHT12 sensor
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-# sensor = dht12.DHT12(i2c)
+# i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+i2c = SoftI2C(sda=Pin(21), scl=Pin(22))
+bmp180 = BMP180(i2c)
 
 # Create Station interface
 wifi = network.WLAN(network.STA_IF)
@@ -66,11 +67,23 @@ print("Start using Wi-Fi. Press `Ctrl+C` to stop")
 try:
     # Forever loop
     while True:
-        temp, humidity = 20, 30  # sensor.read_values()
-        print(f"Temperature: {temp}°C, Humidity: {humidity}%")
+        # temp, humidity = 20, 30  # sensor.read_values()
+        pressure = f"{bmp180.pressure/100:.1f} hPa"
+        display.text(pressure, 60, 16, 1)
+        print(f"{pressure}")
+
+        temperature = f"{bmp180.temperature:.1f} C"
+        display.text(temperature, 60, 24, 1)
+        print(f"{temperature}")
+
+        altiture = f"{bmp180.altitude:.1f} m"
+        display.text(altitude, 60, 32, 1)
+        print(f"{altitude}")
+
+        display.text('PIR: '+str(pir.value()), 0, 24, 1)
 
         wifi_utils.connect(wifi, config.SSID, config.PSWD)
-        send_to_thingspeak(temp, humidity)
+        send_to_thingspeak(temperature, pressure)
         wifi_utils.disconnect(wifi)
 
         time.sleep(60)
