@@ -1,10 +1,9 @@
 """
-NTP time synchronization and RTC management
+ESP32 RTC Clock Sync with NTP and Timezone Offset
 
-This script connects to a Wi-Fi network, synchronizes the
-Real-Time Clock (RTC) with an NTP server to obtain the
-current UTC time, and then adjusts the RTC to the local
-timezone (CET/CEST).
+This script connects to Wi-Fi, synchronizes the ESP32's RTC with
+an NTP server, adjusts for a specified timezone offset (CET/CEST),
+and prints the local time periodically.
 
 Requires: wifi_utils module and config script
 
@@ -12,7 +11,7 @@ Author(s):
 - Tomas Fryza
 
 Creation date: 2023-10-25
-Last modified: 2025-05-26
+Last modified: 2025-05-28
 """
 
 from machine import RTC
@@ -22,36 +21,53 @@ import config
 import ntptime
 import time
 
-TIMEZONE_OFFSET = 2  # UTC+1:00 for CET (Central European Time)
-                     # UTC+2:00 for CEST (Central European Summer Time)
+TIMEZONE_OFFSET = 2  # CEST, Central European Summer Time (UTC+2)
+                     # CET, Central European Time (UTC+1)
 
-# Create Station interface
-wifi = network.WLAN(network.STA_IF)
-wifi_utils.connect(wifi, config.SSID, config.PSWD)
 
-# Get UTC time from NTP server and set it to RTC
-ntptime.host = "cz.pool.ntp.org"
-ntptime.settime()
-print("Local RTC synchronized")
-wifi_utils.disconnect(wifi)
+def sync_time():
+    print("Connecting to Wi-Fi...")
+    wifi = network.WLAN(network.STA_IF)
+    wifi_utils.connect(wifi, config.SSID, config.PSWD)
 
-# Create an independent clock object
+    try:
+        ntptime.host = "cz.pool.ntp.org"
+        ntptime.settime()
+        print("NTP time synchronized.")
+    except Exception as e:
+        print("Failed to sync time via NTP:", e)
+    finally:
+        wifi_utils.disconnect(wifi)
+        print("Wi-Fi disconnected.")
+
+
+def apply_timezone_offset(rtc):
+    (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
+    hrs = (hrs + TIMEZONE_OFFSET) % 24  # wrap around 24-hour clock
+    rtc.init((year, month, day, wday, hrs, mins, secs, subsecs))
+    print("Timezone offset applied.")
+
+
+def print_current_time(rtc):
+    (year, month, day, wday, hrs, mins, secs, _) = rtc.datetime()
+    print(f"{year:04d}-{month:02d}-{day:02d} {hrs:02d}:{mins:02d}:{secs:02d}")
+
+
 rtc = RTC()
-
-print("UTC time after NTP update:")
-print(rtc.datetime())
-(year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
-print("Update timezone:")
-rtc.init((year, month, day, wday, hrs+TIMEZONE_OFFSET, mins, secs, subsecs))
+sync_time()
+print("RTC after NTP sync (UTC):")
 print(rtc.datetime())
 
-print("Start using RTC. Press `Ctrl+C` to stop")
+apply_timezone_offset(rtc)
+print("RTC with timezone offset:")
+print(rtc.datetime())
+
+print("Press `Ctrl+C` to stop")
 
 try:
     # Forever loop
     while True:
-        (year, month, day, wday, hrs, mins, secs, subsecs) = rtc.datetime()
-        print(f"{year}-{month}-{day} {hrs}:{mins}:{secs}")
+        print_current_time(rtc)
         time.sleep(5)
 
 except KeyboardInterrupt:
