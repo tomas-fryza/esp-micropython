@@ -7,7 +7,7 @@ from neopixel import NeoPixel
 import time
 
 
-np = NeoPixel(Pin(2), 1)
+np = NeoPixel(Pin(5), 1)
 
 # Draw a red gradient
 for i in range(16):

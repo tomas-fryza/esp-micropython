@@ -9,7 +9,7 @@ MicroSD card adapter pins:
    MISO   | GPIO19
    MOSI   | GPIO23
    SCK    | GPIO18
-   CS     | GPIO13
+   CS     | GPIO13 (D7)
 
 Author(s):
 - M. Pugazhendi (muthuswamy.pugazhendi@gmail.com)
@@ -33,8 +33,6 @@ from sdcard import SDCard
 # Setup SPI interface
 spi = SPI(2,  # HSPI (or use 1 for VSPI)
           baudrate=10_000_000,
-          polarity=0,
-          phase=0,
           sck=Pin(18),
           mosi=Pin(23),
           miso=Pin(19))
