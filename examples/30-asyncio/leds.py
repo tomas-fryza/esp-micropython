@@ -8,9 +8,9 @@
 #   https://gpiocc.github.io/learn/micropython/esp/2020/06/13/martin-ku-asynchronous-programming-with-uasyncio-in-micropython.html
 #   https://randomnerdtutorials.com/micropython-esp32-esp8266-asynchronous-programming/
 
-import uasyncio as asyncio
 from machine import Pin
 import time
+import uasyncio as asyncio
 
 # Get the starting time in milliseconds
 start = time.ticks_ms()
@@ -20,13 +20,14 @@ red_led = Pin(7, Pin.OUT)
 green_led = Pin(5, Pin.OUT)
 
 # Elapsed time helper
-def get_elapsed():
-    return time.ticks_diff(time.ticks_ms(), start)
+def elapsed():
+    now = time.ticks_ms()
+    return time.ticks_diff(now, start)
 
 # Define coroutine functions
 async def blink_red_led():
     while True:
-        print(f"[{get_elapsed()}] Red toggling")
+        print(f"[{elapsed()}] Red toggling")
         red_led.value(not red_led.value())
 
         # Non-blocking async sleep
@@ -36,13 +37,13 @@ async def blink_red_led():
 
 async def blink_green_led():    
     while True:
-        print(f"[{get_elapsed()}] Green toggling")
+        print(f"[{elapsed()}] Green toggling")
         green_led.value(not green_led.value())
         await asyncio.sleep(2)
 
 async def main():
     # Log elapsed time
-    print(f"[{get_elapsed()}] Starting tasks...")
+    print(f"[{elapsed()}] Starting tasks...")
 
     # Create tasks for blinking two LEDs concurrently
     task1 = asyncio.create_task(blink_red_led())

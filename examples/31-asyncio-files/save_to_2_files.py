@@ -5,9 +5,10 @@ import os
 import time
 
 
-def get_elapsed():
+def elapsed():
     """Elapsed time helper."""
-    return time.ticks_diff(time.ticks_ms(), start)
+    now = time.ticks_ms()
+    return time.ticks_diff(now, start)
 
 
 def generate_filename(prefix):
@@ -35,7 +36,7 @@ async def process_to_file1():
         with open(fname, 'w') as f:
             print(f"New file `{fname}` created")
             while True:
-                f.write(f"[{get_elapsed()}] Task 1\n")
+                f.write(f"[{elapsed()}] Task 1\n")
                 f.flush()  # Ensure data is written immediately
                 await asyncio.sleep_ms(1)
     except OSError as e:
@@ -54,7 +55,7 @@ async def process_to_file2():
         sys.exit()
 
     while True:
-        file.write(f"[{get_elapsed()}] Task 2\n")
+        file.write(f"[{elapsed()}] Task 2\n")
         file.flush()  # Ensure data is written immediately
         await asyncio.sleep(1)
 

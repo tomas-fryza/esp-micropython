@@ -7,9 +7,10 @@ import time
 start = time.ticks_ms()
 
 
-def get_elapsed():
+def elapsed():
     """Elapsed time helper."""
-    return time.ticks_diff(time.ticks_ms(), start)
+    now = time.ticks_ms()
+    return time.ticks_diff(now, start)
 
 
 # Function to generate a unique file name with a three-digit integer
@@ -44,14 +45,14 @@ except OSError as e:
 # Process 1: Print to serial monitor
 async def process_to_serial():
     while True:
-        print(f"[{get_elapsed()}] This is being printed to the serial monitor")
+        print(f"[{elapsed()}] This is being printed to the serial monitor")
         await asyncio.sleep(1)
 
 
 # Process 2: Write to file
 async def process_to_file():
     while True:
-        file.write(f"[{get_elapsed()}] This is being written to the file\n")
+        file.write(f"[{elapsed()}] This is being written to the file\n")
         file.flush()  # Ensure data is written immediately
         await asyncio.sleep_ms(1)
 
