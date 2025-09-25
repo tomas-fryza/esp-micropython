@@ -7,7 +7,7 @@
 from machine import UART
 import utime as time
 
-import adafruit_gps
+from gps import adafruit_gps
 
 # Create a GPS module instance.
 uart = UART(2, baudrate=9600)  #, timeout_chars=3000)  #, pins=('P8','P2'))
