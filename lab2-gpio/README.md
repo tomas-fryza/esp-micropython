@@ -3,7 +3,7 @@
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Blink example](#part1)
 * [Part 2: ESP32 pinout and Breadboard](#part2)
-* [Part 3: Push buttons and LEDs](#part3)
+* [Part 3: LEDs and push buttons](#part3)
 * [Challenges](#challenges)
 * [References](#references)
 
@@ -11,9 +11,8 @@
 
 * ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
-* Push button
 * 2 LEDs, 2 resistors
-* 4x4 matrix keypad
+* Push button
 * Jumper wires
 
 ### Learning objectives
@@ -21,7 +20,7 @@
 * Use a breadboard for prototyping.
 * Configure input/output pins of ESP32.
 * Understand the distinction between active-low and active-high connections.
-* Utilize basic I/O components, such as buttons, LEDs, and keypads, in MicroPython.
+* Utilize basic I/O components, such as buttons and LEDs in MicroPython.
 
 <a name="preparation"></a>
 
@@ -35,11 +34,34 @@
 
 ## Part 1: Blink example
 
-1. Connect the ESP32: Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
+1. Connect the ESP32: Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32`. You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset your board.
 
    ![interpreter](../lab1-python/images/select_interpreter2.png)
 
-2. Create a New File: Create a new file in Thonny and enter the following MicroPython code:
+   > **Note:** Your USB port can be different.
+
+2. Using Thonny REPL: Open the Thonny shell (REPL) to interact with the ESP32. You can now send Python commands directly to the board. The ESP32 has an onboard LED typically connected to GPIO pin 2. To turn the LED on and off, type the following in the REPL:
+
+   ```python
+   from machine import Pin
+   led = Pin(2, Pin.OUT)
+
+   led.on()
+   led.off()
+
+   led.value(1)
+   led.value()
+
+   led.value(not led.value())
+   ```
+
+   The `machine` module in MicroPython provides access to low-level hardware functions, such as controlling GPIO pins on the ESP32 board. You can import the entire module or specific parts (classes) of it by:
+   
+   ```python
+   from machine import Pin
+   ```
+
+3. Create a New File: Create a new file in Thonny and enter the following MicroPython code:
 
    ```python
    import time
@@ -58,21 +80,7 @@
        # Optional cleanup code
    ```
 
-   This code includes the necessary imports, a forever loop, and the ability to interrupt/stop the program by pressing `Ctrl+C`. We will use this as a template for all future MicroPython applications.
-
-   > **NOTE:** If you are running the code interactively via the MicroPython REPL (Read-Eval-Print Loop), you can stop the execution by sending a keyboard interrupt (`Ctrl+C`). This works when you are connected to the ESP32's REPL via a terminal or a serial console. When you press `Ctrl+C`, it raises a `KeyboardInterrupt` exception on the main thread, stopping the code execution and returning you to the REPL prompt.
-
-3. The `machine` module in MicroPython provides access to low-level hardware functions, such as controlling GPIO pins on the ESP32 board. You can import the entire module or specific parts (classes) of it:
-   
-   ```python
-   from machine import Pin
-   ```
-
-   Set Up the LED: The onboard LED is typically connected to GPIO Pin 2 on most ESP32 boards. Define a pin for the LED:
-
-   ```python
-   led = Pin(2, Pin.OUT)
-   ```
+   This code includes the necessary imports, a forever loop, and the ability to interrupt/stop the program. When you press `Ctrl+C`, it raises a `KeyboardInterrupt` exception on the main thread, stopping the code execution and returning you to the REPL prompt. **We will use this as a template for all future MicroPython applications.**
 
 4. Blinking LED Code: The following code creates an infinite loop where the LED turns on for 0.5 seconds, then off for 0.5 seconds, continuously. The ESP32 controls the onboard LED by sending a HIGH (1) or LOW (0) signal to GPIO Pin 2, which is connected to the LED. The `time.sleep()` function ensures the LED stays on or off for a specific duration.
 
@@ -123,13 +131,54 @@ The main grid consists of multiple rows and columns. Each row typically contains
 
 <a name="part3"></a>
 
-## Part 3: Push buttons and LEDs
+## Part 3: LEDs and push buttons
 
 Active-low and active-high are two different methods of connecting and controlling electronic components, such as LEDs (Light Emitting Diodes) and buttons, to an ESP32 GPIO pin. These methods determine the logic levels required to activate (turn on) or deactivate (turn off) the component.
 
 In an **active-low** configuration, the component is activated or considered "on" when the GPIO pin is at a logic LOW (0V or GND) state. When the GPIO pin transitions to a logic HIGH state (3.3V or VCC), the component is turned off.
 
 In an **active-high** configuration, the component is activated when the GPIO pin is at a logic HIGH (3.3V or VCC) state. When the GPIO pin transitions to a logic LOW state (0V or GND), the component is turned off.
+
+### LEDs
+
+For an active-low LED:
+
+* The GPIO pin is connected to the cathode (shorter lead) of the LED.
+* The the anode (longer lead) is connected to resistor and 3.3V.
+* The LED lights up when the GPIO pin is set to LOW (0).
+
+For an active-high LED:
+
+* The GPIO pin is connected to the anode (longer lead) of the LED.
+* The cathode (shorter lead) is connected to resistor and GND.
+* The LED lights up when the GPIO pin is set to HIGH (1).
+
+   ![active-low_active-high_led](images/gpio_high_low_easyEda.png)
+
+   ![two-pin-led_pinout](images/LED-polarity.png)
+
+1. Use breadboard, jumper wires and connect at least one LED with a resistor to ESP32 GPIO pins in active-high way. Use GPIO pin number 25 or 26.
+
+   > **IMPORTANT:** On the FireBeetle board, GPIO pins 3 and 1 are dedicated to serial communication with the interactive console via UART. To maintain interactivity, it's advisable to refrain from using these pins for other purposes.
+
+2. Write an application that turns multiple LEDs (including the onboard one) on and off sequentially.
+
+3. Calculating the LED resistor value: Calculate the appropriate resistor value for an LED. The goal is to limit the current flowing through the LED to prevent damage. Use Ohm's Law to calculate the resistance required based on the following:
+
+   * Supply voltage (Vs): 3.3V (Typical for ESP32)
+   * LED forward voltage (Vf): 2.0V (Typical for standard red LED)
+   * Desired current (I): 20mA (Typical for an LED)
+
+   | **LED Color**  | **Typical Forward Voltage (Vf)** |
+   |----------------|-------------------------------|
+   | Red            | 1.8 – 2.2 V                   |
+   | Green          | 2.0 – 3.2 V                   |
+   | Yellow         | 2.0 – 2.2 V                   |
+   | Blue           | 3.0 – 3.5 V                   |
+   | White          | 3.0 – 3.5 V                   |
+   | Orange/Amber   | 2.0 – 2.2 V                   |
+
+   > **Note:** Note: These are typical values for standard 5mm or SMD LEDs. Actual Vf can vary slightly based on the manufacturer and LED type.
 
 ### Buttons
 
@@ -153,69 +202,38 @@ For an active-high button:
 
 1. Use breadboard, jumper wires and connect one push button to ESP32 GPIO pin in active-low way. Use GPIO pin number 27.
 
-2. Extend the previous example, and blink the onboard LED only then the button is pressed.
+2. Extend the previous code to keep the onboard LED blinking continuously, while the other LED(s) should blink only when the button is pressed.
 
    ```python
-   from machine import Pin
-   import time
+   ...
 
    # Define the GPIO pin for the button including internal Pull-up
-   button = Pin(27, Pin.IN, Pin.PULL_UP)
+   btn = Pin(27, Pin.IN, Pin.PULL_UP)
 
    try:
        # Forever loop
        while True:
            # Check if the button is pressed (active LOW)
-           if button.value() == 0:
+           if btn.value() == 0:
 
                # WRITE YOUR CODE HERE
 
-   except KeyboardInterrupt:
-       # This part runs when Ctrl+C is pressed
-       print("Program stopped. Exiting...")
-
-       # Optional cleanup code
+   ...
    ```
-
-### LEDs
-
-For an active-low LED:
-
-* The GPIO pin is connected to the cathode (shorter lead) of the LED.
-* The the anode (longer lead) is connected to resistor and VCC (3.3V).
-* The LED lights up when the GPIO pin is set to LOW (0).
-
-For an active-high LED:
-
-* The GPIO pin is connected to the anode (longer lead) of the LED.
-* The cathode (shorter lead) is connected to resistor and GND.
-* The LED lights up when the GPIO pin is set to HIGH (1).
-
-   ![active-low_active-high_led](images/gpio_high_low_easyEda.png)
-
-   ![two-pin-led_pinout](images/LED-polarity.png)
-
-1. Use breadboard, jumper wires and connect at least one LED with a resistor to ESP32 GPIO pins in active-high way. Use GPIO pin number 25 or 26.
-
-   > **IMPORTANT:** On the FireBeetle board, GPIO pins 3 and 1 are dedicated to serial communication with the interactive console via UART. To maintain interactivity, it's advisable to refrain from using these pins for other purposes.
-
-2. Write an application when the multiple LEDs (including onboard one) are blinking only if push button is pressed.
-
-   Alternatively, you can use a [3-pin LED](https://lednique.com/leds-with-more-than-two-pins/) with two different colours. The middle lead is a common cathos or anode
-
-   ![three-pin-led_pinout](images/3-pin_led.png)
 
 <a name="challenges"></a>
 
 ## Challenges
 
-A **matrix keypad** is a type of input device used to capture user input in the form of numbers, letters, or other characters. It consists of an array of buttons arranged in rows and columns, where each button press represents a unique combination of a row and a column. Matrix keypads are commonly used in various electronic devices, such as calculators and security systems.
+1. Write a MicroPython program that uses all connected LEDs to create a **Knight Rider-style** light pattern whenever a button is pressed. While the button is held down, the LEDs should light up one after another from one end to the other and then reverse direction in a continuous loop. As soon as the button is released, the LEDs should stop and turn off.
 
-1. Connect the rows and columns of the 4x4 matrix keypad to the GPIO pins of the microcontroller. For example, you might connect the rows (R1-R4) to GPIO pins 19, 21, 22, 14 (set as `Pin.OUT`), and the columns (C1-C4) to GPIO pins 12, 4, 16, 17 (set as `Pin.IN, Pin.PULL_UP`).
+2. A **matrix keypad** is a type of input device used to capture user input in the form of numbers, letters, or other characters. It consists of an array of buttons arranged in rows and columns, where each button press represents a unique combination of a row and a column. Matrix keypads are commonly used in various electronic devices, such as calculators and security systems.
+
+Connect the rows and columns of the 4x4 matrix keypad to the GPIO pins of the microcontroller. For example, you might connect the rows (R1-R4) to GPIO pins 19, 21, 22, 14 (set as `Pin.OUT`), and the columns (C1-C4) to GPIO pins 12, 4, 16, 17 (set as `Pin.IN, Pin.PULL_UP`).
 
     ![keypad_pinouts](images/keypad_pinouts.png)
 
-2. Write the code for keypad scanning.
+3. Write the code for keypad scanning.
 
    ```python
    from machine import Pin
@@ -257,9 +275,9 @@ A **matrix keypad** is a type of input device used to capture user input in the 
        # Optional cleanup code
    ```
 
-3. Integrate the keypad code with LEDs to control individual LEDs based on keypad button presses.
+4. Integrate the keypad code with LEDs to control individual LEDs based on keypad button presses.
 
-4. Create a simple, interactive door lock system using a 4x4 keypad, a button, and LEDs. The goal is to simulate a password-protected door:
+5. Create a simple, interactive door lock system using a 4x4 keypad, a button, and LEDs. The goal is to simulate a password-protected door:
 
    * User enters a 4-digit code
    * If an incorrect digit is entered, an "Access Denied" LED blinks.
