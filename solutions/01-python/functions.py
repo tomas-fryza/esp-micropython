@@ -12,14 +12,14 @@ import time
 values = range(0, 100)
 for i in values:
     print(f"{i}%", end="\r")
-    time.sleep(.05)  # Wait for 50 milliseconds
+    time.sleep_ms(50)
 print("\nProcess complete!")
 
 symbols = ["/", "-", "\\", "|"]
 for i in range(10):
     for symbol in symbols:
         print(f"Processing... {symbol}", end="\r")
-        time.sleep(.05)
+        time.sleep_ms(50)
 print("Processing... Done")
 
 
@@ -38,7 +38,7 @@ def factorial(n):
         return result
 
 n = 7
-result = factorial(7)
+result = factorial(n)
 print(f"The factorial of {n} is {result}")
 
 
