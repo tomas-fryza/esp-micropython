@@ -9,7 +9,7 @@ MicroSD card adapter pins:
    MISO   | GPIO19
    MOSI   | GPIO23
    SCK    | GPIO18
-   CS     | GPIO13 (D7)
+   CS     | GPIO12 (D13)
 
 Author(s):
 - M. Pugazhendi (muthuswamy.pugazhendi@gmail.com)
@@ -31,14 +31,14 @@ import os
 from sdcard import SDCard
 
 # Setup SPI interface
-spi = SPI(2,  # HSPI (or use 1 for VSPI)
-          baudrate=10_000_000,
+spi = SPI(1,  # HSPI (or use 1 for VSPI)
+          baudrate=1_320_000,
           sck=Pin(18),
           mosi=Pin(23),
           miso=Pin(19))
 
-# Connect SD card (CS on GPIO13)
-sd = SDCard(spi, Pin(13))
+# Connect SD card
+sd = SDCard(spi, Pin(12))
 
 # Mount the SD card at /sd
 os.mount(sd, '/sd')

@@ -62,7 +62,7 @@ class SDCard:
         self.cs.init(self.cs.OUT, value=1)
 
         # init SPI bus; use low data rate for initialisation
-        self.init_spi(100000)
+        self.init_spi(100_000)
 
         # clock card at least 100 cycles with cs high
         for i in range(16):
@@ -105,7 +105,7 @@ class SDCard:
             raise OSError("can't set 512 block size")
 
         # set to high data rate now that it's initialised
-        self.init_spi(1320000)
+        self.init_spi(1_320_000)
 
     def init_card_v1(self):
         for i in range(_CMD_TIMEOUT):
