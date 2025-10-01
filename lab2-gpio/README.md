@@ -169,14 +169,14 @@ For an active-high LED:
    * LED forward voltage (Vf): 2.0V (Typical for standard red LED)
    * Desired current (I): 20mA (Typical for an LED)
 
-   | **LED Color**  | **Typical Forward Voltage (Vf)** |
-   |----------------|-------------------------------|
-   | Red            | 1.8 – 2.2 V                   |
-   | Green          | 2.0 – 3.2 V                   |
-   | Yellow         | 2.0 – 2.2 V                   |
-   | Blue           | 3.0 – 3.5 V                   |
-   | White          | 3.0 – 3.5 V                   |
-   | Orange/Amber   | 2.0 – 2.2 V                   |
+   | **LED Color** | **Typical Forward Voltage (Vf)** |
+   |---------------|----------------------------------|
+   | Red           | 1.8 - 2.2 V                      |
+   | Orange        | 1.9 - 2.2 V                      |
+   | Yellow        | 1.9 - 2.2 V                      |
+   | Green         | 2.0 - 3.1 V                      |
+   | Blue          | 2.8 - 3.7 V                      |
+   | White         | 3.0 - 3.5 V                      |
 
    > **Note:** Note: These are typical values for standard 5mm or SMD LEDs. Actual Vf can vary slightly based on the manufacturer and LED type.
 
@@ -229,23 +229,32 @@ For an active-high button:
 
 2. A **matrix keypad** is a type of input device used to capture user input in the form of numbers, letters, or other characters. It consists of an array of buttons arranged in rows and columns, where each button press represents a unique combination of a row and a column. Matrix keypads are commonly used in various electronic devices, such as calculators and security systems.
 
-Connect the rows and columns of the 4x4 matrix keypad to the GPIO pins of the microcontroller. For example, you might connect the rows (R1-R4) to GPIO pins 19, 21, 22, 14 (set as `Pin.OUT`), and the columns (C1-C4) to GPIO pins 12, 4, 16, 17 (set as `Pin.IN, Pin.PULL_UP`).
+Connect the rows and columns of the 4x4 matrix keypad to the GPIO pins of the microcontroller. For example, you might connect the rows (outputs, R1-R4) to GPIO pins 19, 21, 22, 14 (set as `Pin.OUT`), and the columns (inputs, C1-C4) to GPIO pins 12, 4, 16, 17 (set as `Pin.IN, Pin.PULL_UP`).
 
-    ![keypad_pinouts](images/keypad_pinouts.png)
+   ![keypad_pinouts](images/keypad_pinouts.png)
 
-3. Write the code for keypad scanning.
+3. Complete the following code, scan the keupad and print the key pressed.
 
    ```python
    from machine import Pin
    import time
 
-   # Define the GPIO pins for rows (outputs) and columns (inputs with pull-ups)
+   # Define key layout for a 4x4 keypad
+   keys = [
+       ['1', '2', '3', 'A'],
+       ['4', '5', '6', 'B'],
+       ['7', '8', '9', 'C'],
+       ['*', '0', '#', 'D']
+   ]
+
+   # Define GPIO pins for rows (outputs)
    row_pins = [Pin(pin, Pin.OUT) for pin in (19, 21, 22, 14)]
+
+   # Define GPIO pins for columns (inputs with pull-ups)
    col_pins = [Pin(pin, Pin.IN, Pin.PULL_UP) for pin in (12, 4, 16, 17)]
 
-   def scan_keypad():
-       key = None
 
+   def scan_keypad():
        for row_num in range(len(row_pins)):
            # Set the current row LOW and the rest HIGH
            # WRITE YOUR CODE HERE
@@ -254,18 +263,15 @@ Connect the rows and columns of the 4x4 matrix keypad to the GPIO pins of the mi
                # Read the column input
                # WRITE YOUR CODE HERE
 
-      return key
 
-
-   print("Press the button on the keypad...")
-   print("Press `Ctrl+C` to stop")
+   print("Press a key on the 4x4 keypad (Ctrl+C to exit)")
 
    try:
        # Forever loop
        while True:
-           key_pressed = scan_keypad()
-           if key_pressed:
-               print(f"Key pressed: {key_pressed}")
+           key = scan_keypad()
+           if key:
+               print(f"Key pressed: {key}")
                time.sleep(0.01)  # Short debounce delay
 
    except KeyboardInterrupt:
@@ -275,13 +281,13 @@ Connect the rows and columns of the 4x4 matrix keypad to the GPIO pins of the mi
        # Optional cleanup code
    ```
 
-4. Integrate the keypad code with LEDs to control individual LEDs based on keypad button presses.
+4. Modify the keypad code to control separate LEDs, with each key mapped to an individual LED action.
 
-5. Create a simple, interactive door lock system using a 4x4 keypad, a button, and LEDs. The goal is to simulate a password-protected door:
+5. Create a simple, interactive door lock system using a 4x4 keypad, a push button, and two LEDs. The goal is to simulate a password-protected door:
 
-   * User enters a 4-digit code
-   * If an incorrect digit is entered, an "Access Denied" LED blinks.
-   * If the correct password is entered, an "Access Granted" LED lights up, simulating the door unlocking.
+   * The user enters a 4-digit code using the keypad.
+   * If any digit is incorrect, the "Access Denied" LED blinks.
+   * If the correct password is entered, the "Access Granted" LED lights up, simulating the door unlocking.
    * A physical button acts as the door handle. When the door is unlocked, pressing the button simulates opening the door.
 
 <a name="references"></a>
