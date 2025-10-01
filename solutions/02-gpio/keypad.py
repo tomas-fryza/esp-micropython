@@ -13,7 +13,7 @@ Components:
 Author: Tomas Fryza
 
 Creation date: 2023-10-12
-Last modified: 2024-11-02
+Last modified: 2025-10-01
 """
 
 from machine import Pin

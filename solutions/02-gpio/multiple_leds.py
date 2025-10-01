@@ -26,9 +26,6 @@ led0 = Pin(2, Pin.OUT)
 led1 = Pin(25, Pin.OUT)
 led2 = Pin(26, Pin.OUT)
 
-# Uncomment the following line if you want to use a button
-# button = Pin(27, Pin.IN, Pin.PULL_UP)
-
 print(f"Start blinking LEDs: {led0, led1, led2}...")
 print("Press `Ctrl+C` to stop")
 
