@@ -1,9 +1,10 @@
 # Lab 3: Object-oriented programming
 
 * [Pre-Lab preparation](#preparation)
-* [Part 1: Button class](#part1)
-* [Part 2: Inheritance and Led class](#part2)
-* [Part 3: PWM and LED](#part3)
+* [Part 1: Class and attributes](#part1)
+* [Part 2: Button class](#part2)
+* [Part 3: Inheritance and Led class](#part3)
+* [Optional: PWM and LED](#part4)
 * [Challenges](#challenges)
 * [References](#references)
 
@@ -16,7 +17,8 @@
 
 ### Learning objectives
 
-* Understand key object-oriented programming (OOP) concepts like encapsulation, inheritance, and polymorphism.
+* Understand and implement classes, objects, attributes, and methods.
+* Learn the key object-oriented programming (OOP) concepts like encapsulation, inheritance, and polymorphism.
 * Define and use classes and objects in MicroPython.
 * Apply OOP to manage hardware components like LEDs, buttons, or sensors.
 
@@ -30,7 +32,103 @@
 
 <a name="part1"></a>
 
-## Part 1: Button class
+## Part 1: Class and attributes
+
+1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32`. You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
+
+2. Test the following code and see how each **instance** has independent **attributes**.
+
+   ```python
+   class Dog:
+       def __init__(self, name, breed):
+           self.name = name    # instance attribute
+           self.breed = breed  # instance attribute
+
+   # Creating two objects
+   dog1 = Dog("Buddy", "Golden Retriever")
+   dog2 = Dog("Max", "Labrador")
+
+   print(dog1.name)  # Buddy
+   print(dog2.name)  # Max
+
+   # Changing one instance does not affect the other
+   dog1.name = "Charlie"
+   print(dog1.name)  # Charlie
+   print(dog2.name)  # Max
+   ```
+
+3. Test the **class attribute** which is shared across all objects. Here, changing `Dog.species` changes it for all objects.
+
+   ```python
+   class Dog:
+       species = "Canis familiaris"  # class attribute
+
+       def __init__(self, name):
+           self.name = name          # instance attribute
+
+   # Create objects
+   dog1 = Dog("Rex")
+   dog2 = Dog("Fido")
+
+   # Accessing class attribute
+   print(dog1.species)  # Canis familiaris
+   print(dog2.species)  # Canis familiaris
+
+   # Changing the class attribute
+   Dog.species = "Domestic Dog"
+   print(dog1.species)  # Domestic Dog
+   print(dog2.species)  # Domestic Dog
+   ```
+
+   > **Note:** If you set an attribute with the same name on the object, it **shadows** the class attribute for that instance.
+   >
+   > ```python
+   > # Override class attribute with instance attribute
+   > dog1.species = "Wolf"
+   > print(dog1.species)  # Wolf (from instance)
+   > print(Dog.species)   # Canis familiaris (original class attribute)
+   > ```
+
+4. Test the following practical use of class attributes. Here, you can use class attributes to track shared information, like number of objects created.
+
+   ```python
+   class Dog:
+       count = 0      # class attribute to count dogs
+       all_dogs = []  # class attribute to track all instances
+
+       def __init__(self, name):
+           self.name = name
+           Dog.count += 1
+           Dog.all_dogs.append(self)
+
+   dog1 = Dog("Luna")
+   dog2 = Dog("Charlie")
+
+   print("Number of dogs:", Dog.count)  # 2
+
+   for dog in Dog.all_dogs:
+       print(dog.name)
+   ```
+
+   Another example how to use class attributes:
+
+   ```python
+   class Dog:
+       ...
+       all_dogs = []  # class attribute to track all instances
+
+       def __init__(self, name):
+           ...
+           Dog.all_dogs.append(self)
+
+   ...
+   for dog in Dog.all_dogs:
+       print(dog.name)
+   ```
+
+<a name="part2"></a>
+
+## Part 2: Button class
 
 1. Use breadboard, jumper wires and connect one push button to ESP32 GPIO pin 27 in active-low way.
 
@@ -42,29 +140,21 @@
    > * Use pins A0, ..., A4 as input only
    > * Do not use In-Package Flash pins
 
-2. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
-
-3. Create a new file in Thonny and enter the following MicroPython code which is a **class definition** for the `Button` class. It is a blueprint for creating objects that represent a physical button with active-low logic connected to the ESP32 (or other microcontroller) GPIO pin.
+2. Create a new file in Thonny and enter the following MicroPython code which is a **class definition** for the `Button` class. It is a blueprint for creating objects that represent a physical button with active-low logic connected to the ESP32 (or other microcontroller) GPIO pin.
 
    ```python
    from machine import Pin
 
 
    class Button:
-       """
-       A class to manage a button connected to a GPIO pin with pull-up resistor.
-       """
-
+       """A class to manage a button connected to a GPIO pin with internal pull-up resistor"""
        def __init__(self, pin_number):
-           """Initialize the button on a specific GPIO pin with
-              pull-up resistor."""
+           """Constructor with a specific GPIO pin and pull-up resistor."""
            self.button = Pin(pin_number, Pin.IN, Pin.PULL_UP)
 
        def is_pressed(self):
            """Check if the button is currently pressed (active-low logic)."""
-           if self.button.value() == 0:  # Pressed button returns 0
-               return True
-           return False
+           return not self.button.value()  # Pressed button returns 1
 
 
    def demo():
@@ -96,11 +186,11 @@
 
       * Note that `__name__` is a special built-in variable in Python that holds the name of the module (or script) currently being executed. If the script is being run directly (not imported), `__name__` will be set to `__main__`. The common usage of the `if __name__ == "__main__":` condition in Python is to allow a script to be used both as a **module** and as a **standalone program**. 
 
-4. Save the file as `hw_config.py` in your local folder, run the code and test the button.
+3. Save the file as `hw_config.py` in your local folder, run the code and test the button.
 
-<a name="part2"></a>
+<a name="part3"></a>
 
-## Part 2: Inheritance and Led class
+## Part 3: Inheritance and Led class
 
 Inheritance in Python is a core concept of object-oriented programming that allows a class (called a **child** or **subclass**) to inherit attributes and methods from another class (called a **parent** or **superclass**). This enables the child class to use or extend the functionality of the parent class without rewriting the same code.
 
@@ -113,14 +203,15 @@ Inheritance in Python is a core concept of object-oriented programming that allo
    ...
 
    class Led(Pin):  # Led is a subclass of Pin
-       """
-       A class to control an LED connected to a specified GPIO pin.
-       """
-
+       """A class to control an LED connected to a specified GPIO pin."""
        def __init__(self, pin_number):
            """Initialize the LED on a specific GPIO pin."""
            # Calls Parent's __init__ without needing `self`
            super().__init__(pin_number, Pin.OUT)
+
+        def on(self):
+            """Redefined method from Pin class"""
+            self.led.value(1)
 
        def toggle(self):
            """Toggle the LED state."""
@@ -159,9 +250,11 @@ Inheritance in Python is a core concept of object-oriented programming that allo
 
 2.  Complete and test `toggle()` and `blink()` methods.
 
-<a name="part3"></a>
+3. Write a program that toggles the LED state (on/off) every time the button is pressed.
 
-## Part 3: PWM and LED
+<a name="part4"></a>
+
+## Optional: PWM and LED
 
 PWM (Pulse Width Modulation) is a technique used to control the amount of energy supplied to a device by rapidly switching the power supply on and off. The ratio of the time the signal is on (high) to the time it is off (low) is called the duty cycle, [expressed as a percentage](https://www.realdigital.org/doc/6136c69c3acc4bf52bc2653a067e36cc).
 
@@ -260,11 +353,9 @@ By adjusting the duty cycle, PWM can control the brightness of an LED. A higher 
 
 ## Challenges
 
-1. Write a program that toggles the LED state (on/off) every time the button is pressed.
+1. Control the brightness of an LED using a button. Write a program that increases the brightness by 20% each time the button is pressed. Once it reaches 100%, the next press should reset it to 0%.
 
-2. Control the brightness of an LED using a button. Write a program that increases the brightness by 20% each time the button is pressed. Once it reaches 100%, the next press should reset it to 0%.
-
-3. Create different blinking patterns for an LED based on button presses. Write a program that cycles through three different blinking patterns (e.g., fast, slow, and a double blink) each time the button is pressed.
+2. Create different blinking patterns for an LED based on button presses. Write a program that cycles through three different blinking patterns (e.g., fast, slow, and a double blink) each time the button is pressed.
 
 <a name="references"></a>
 
