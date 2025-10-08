@@ -157,7 +157,9 @@
            return not self.button.value()  # Pressed button returns 1
 
 
-   def demo():
+   if __name__ == "__main__" :
+       # Code that runs only if this script is executed directly, not imported
+
        # Example usage of the Button class
        btn = Button(27)
 
@@ -165,14 +167,9 @@
            print(f"Button {btn} pressed...")
        else:
            print(f"Button {btn} released...")
-
-
-   if __name__ == "__main__" :
-       # Code that runs only if this script is executed directly
-       demo()
    ```
 
-   Some important parts:
+   Some important notes:
 
       * The `__init__` method is the **constructor** that is automatically called when a new instance of the Button class is created.
 
@@ -209,9 +206,12 @@ Inheritance in Python is a core concept of object-oriented programming that allo
            # Calls Parent's __init__ without needing `self`
            super().__init__(pin_number, Pin.OUT)
 
-        def on(self):
-            """Redefined method from Pin class"""
-            self.led.value(1)
+       def on(self):
+           """Redefined method from Pin class"""
+           self.value(1)
+
+       def off(self):
+           # WRITE YOUR CODE HERE
 
        def toggle(self):
            """Toggle the LED state."""
@@ -222,7 +222,7 @@ Inheritance in Python is a core concept of object-oriented programming that allo
            # WRITE YOUR CODE HERE
 
 
-   def demo():
+   if __name__ == "__main__" :
        ...
 
        # Example of using the Led class
@@ -248,9 +248,19 @@ Inheritance in Python is a core concept of object-oriented programming that allo
 
       * Methods `self.on()` and `self.off()` rely on the `on()` and `off()` methods, which come from the `Pin` class. This shows how the `Led` class can use methods inherited from its parent class to implement higher-level functionality like blinking.
 
-2.  Complete and test `toggle()` and `blink()` methods.
+2.  Complete and test `off()`, `toggle()`, and `blink()` methods.
 
-3. Write a program that toggles the LED state (on/off) every time the button is pressed.
+3. To test if a class is superclass or subclass of another class in Python, you can use the built-in functions `issubclass()` and `isinstance()`.
+
+   The `issubclass()` checks if a class is a subclass of another class. It returns `True` if the first argument is a subclass of the second. The `isinstance()` function checks if an object is an instance of a class or a subclass of that class. It returns `True` if the object is an instance of the specified class or any subclass thereof.
+
+   ```python
+       print("Testing class relationship...")
+       print(issubclass(Led, Pin))
+       print(isinstance(led, Led))
+   ```
+
+4. Write a program that toggles the LED state (on/off) every time the button is pressed.
 
 <a name="part4"></a>
 
@@ -311,7 +321,7 @@ By adjusting the duty cycle, PWM can control the brightness of an LED. A higher 
            # WRITE YOUR CODE HERE
 
 
-   def demo():
+   if __name__ == "__main__" :
        ...
 
        # Example of using the PwmLed class
@@ -329,8 +339,8 @@ By adjusting the duty cycle, PWM can control the brightness of an LED. A higher 
        time.sleep(1)
    ```
 
-   Some important parts:
-      
+   Some important notes:
+
       * The frequency `freq` can be a value between 0 and 78125. A frequency of 1000 Hz can be used to control the LED brightness.
 
       * The duty cycle can be a value between 0 and 1023. In which 1023 corresponds to 100% duty cycle (full brightness), and 0 corresponds to 0% duty cycle.
@@ -338,16 +348,6 @@ By adjusting the duty cycle, PWM can control the brightness of an LED. A higher 
       * The `range()` function has the following syntax: `range(start, stop, step)`. By default, the `step` parameter is equal to 1.
 
 2.  Complete and test `on()`, `off()`, and `fade_out()` methods.
-
-3. To test if a class is a superclass or a subclass of another class in Python, you can use the built-in functions `issubclass()` and `isinstance()`.
-
-   The `issubclass()` checks if a class is a subclass of another class. It returns `True` if the first argument is a subclass of the second. The `isinstance()` function checks if an object is an instance of a class or a subclass of that class. It returns `True` if the object is an instance of the specified class or any subclass thereof.
-
-   ```python
-       print("Testing class relationship...")
-       print(issubclass(Led, PwmLed))
-       print(isinstance(led, PWM))
-   ```
 
 <a name="challenges"></a>
 
