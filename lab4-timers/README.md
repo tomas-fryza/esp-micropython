@@ -106,7 +106,11 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
       * In Python, the `pass` keyword is a null operation; it serves as a placeholder in code where a statement is syntactically required but you don't want to execute any code.
       * Note that the timer is running even when program is stopped. Call `tim.deinit()` to stop and clean up the timer, releasing any associated resources.
 
-3. Modify the template above, define a GPIO pin 2 and blink the on-board LED with a period of 1 sec. Try different Timer modes.
+3. Save the module `hw_config.py` from the previous lab to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
+
+   ![save to device](images/save_as.png)
+
+4. Modify the template above, use class `Led` from `hw_config`, define a GPIO pin 2 and blink the on-board LED with a period of 1 sec. Try different Timer modes.
 
 <a name="part3"></a>
 
@@ -122,16 +126,13 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
    > * Use pins A0, ..., A4 as input only
    > * Do not use In-Package Flash pins
 
-2. Save the module `hw_config.py` from the previous lab to the ESP32 memory: **File > Save as... > MicroPython device**. Now, you can accsess classes defined within this Python file.
-
-   ![save to device](images/save_as.png)
-
-3. The button will trigger an interrupt when pressed, and we'll print a message to the console. Note that, the callback will be triggered when the pin value either falls (button pressed) or rises (button released).
+2. The button will trigger an interrupt when pressed, and we'll print a message to the console. Note that, the callback will be triggered when the pin value either falls (button pressed) or rises (button released).
 
    * `Pin.IRQ_FALLING`: This triggers the interrupt when the pin goes from HIGH to LOW (button press).
    * `Pin.IRQ_RISING`: This triggers the interrupt when the pin goes from LOW to HIGH (button release).
 
    ```python
+   ...
    from machine import Pin
    from hw_config import Button
 
@@ -145,7 +146,7 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
    # Attach the interrupt to the button pin
    button.irq(trigger=Pin.IRQ_FALLING | Pin.IRQ_RISING, handler=button_callback)
 
-   print("Press the button to see the output...")
+   print("Press the button")
 
    try:
        ...
@@ -172,24 +173,26 @@ To achieve this, define global variables that keep track of time intervals, allo
 2. Create a new source file in your local folder and use the following code to control a single task `a` by Timer interrupt.
 
    ```python
+   ...
    from machine import Timer
    from hw_config import Led
+   import time
 
-   # Initialize global counter(s) for different task(s)
-   counter_a = 0
+   # Initialize global counter for different task(s)
+   cnt = 0
 
 
    def timer_handler(t):
        """Interrupt handler for Timer runs every 1 millisecond."""
-       global counter_a
-
-       # Increment counter(s)
-       counter_a += 1
+       global cnt
+       cnt += 1
 
 
    def task_a():
        print(f"Task A executed: onboard LED at {led_onboard}")
        led_onboard.toggle()
+
+   ...
 
 
    # Create and initialize the timer
@@ -199,7 +202,7 @@ To achieve this, define global variables that keep track of time intervals, allo
             callback=timer_handler)
 
    # Create object(s) for LED(s)
-   led_onboard = Led(2)
+   led = Led(2)
 
    print("Timer started. Press `Ctrl+C` to stop")
 
@@ -207,9 +210,11 @@ To achieve this, define global variables that keep track of time intervals, allo
        # Forever loop
        while True:
            # Task A (every 500ms)
-           if counter_a >= 500:
-               counter_a = 0  # Reset the counter
+           if cnt % 500 == 0:
                task_a()  # Run the task
+           ...
+           time.sleep_ms(1)
+
 
    except KeyboardInterrupt:
        # This part runs when Ctrl+C is pressed
@@ -217,14 +222,15 @@ To achieve this, define global variables that keep track of time intervals, allo
 
        # Optional cleanup code
        tim.deinit()  # Stop the timer
-       led_onboard.off()
+       led.off()
+       ...
    ```
 
 Some important notes:
 
    * Modules you are importing must be stored on ESP32 device.
    * You must use the `global` keyword for variables (defined at the module level, ie outside of any function) that you want to modify inside a function, such as the counter variables in the interrupt handler.
-   * You can access global objects (like `led_onboard`) directly without needing to declare them as `global`, provided you are not trying to reassign them.
+   * You can access global objects (like `led`) directly without needing to declare them as `global`, provided you are not trying to reassign them.
 
 3. Enhance the previous timer code by adding two counters and corresponding tasks that will blink two external LEDs at different intervals.
 
