@@ -1,9 +1,10 @@
-# Lab 4: Timers
+# Lab 4: Timers and interrupts
 
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Interrupts](#part1)
 * [Part 2: ESP32 timers](#part2)
-* [Part 3: Simple timer-controled tasks](#part3)
+* [Part 3: Push button interrupt](#part3)
+* [Part 4: Simple timer-controled tasks](#part4)
 * [Challenges](#challenges)
 * [References](#references)
 
@@ -12,6 +13,7 @@
 * ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
 * 2 LEDs, 2 resistors
+* Push button
 * Jumper wires
 
 ### Learning objectives
@@ -108,13 +110,9 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
 
 <a name="part3"></a>
 
-## Part 3: Simple timer-controled tasks
+## Part 3: Push button interrupt
 
-Using the main timer interrupt of the ESP32 in MicroPython is an effective way to precisely control timing for multiple tasks or applications. You can implement a fine-grained time domain (e.g., milliseconds) and have each task run based on its own multiple of this base period (e.g., every 1 ms, 10 ms, 100 ms), providing precise and customizable intervals.
-
-To achieve this, define global variables that keep track of time intervals, allowing for synchronization between the timer interrupt and the main loop. Within the timer interrupt, increment these variables regularly. Both the timer interrupt and the main program loop can then access these variables to perform tasks based on the elapsed time.
-
-1. Use breadboard, jumper wires and connect two additional LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
+1. Use breadboard, jumer wires, and connect a push button to ESP32. One side of the push button is connected to GPIO 27, the other side is connected to GND. We'll enable the internal pull-up resistor for the input pin to ensure that when the button is not pressed, the pin reads HIGH.
 
    ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
 
@@ -128,7 +126,50 @@ To achieve this, define global variables that keep track of time intervals, allo
 
    ![save to device](images/save_as.png)
 
-3. Create a new source file in your local folder and use the following code to control a single task `a` by Timer interrupt.
+3. The button will trigger an interrupt when pressed, and we'll print a message to the console. Note that, the callback will be triggered when the pin value either falls (button pressed) or rises (button released).
+
+   * `Pin.IRQ_FALLING`: This triggers the interrupt when the pin goes from HIGH to LOW (button press).
+   * `Pin.IRQ_RISING`: This triggers the interrupt when the pin goes from LOW to HIGH (button release).
+
+   ```python
+   from machine import Pin
+   from hw_config import Button
+
+   # Define the button pin (GPIO 27)
+   btn = Button(27)
+
+   # Define the callback function to handle the interrupt
+   def button_callback(pin):
+      # WRITE YOR CODE HERE
+
+   # Attach the interrupt to the button pin
+   button.irq(trigger=Pin.IRQ_FALLING | Pin.IRQ_RISING, handler=button_callback)
+
+   print("Press the button to see the output...")
+
+   try:
+       ...
+   except KeyboardInterrupt:
+       # This part runs when Ctrl+C is pressed
+       print("Program stopped. Exiting...")
+
+       # Optional cleanup code
+       button.irq(handler=None)  # Deinit the interrupt
+   ```
+
+   Here, the `button_pressed(pin)` is the callback function that will be called when the button press causes the interrupt. The `pin` object is passed to the callback function automatically and represents the pin (GPIO 27) that triggered the interrupt.
+
+<a name="part4"></a>
+
+## Part 4: Simple timer-controled tasks
+
+Using the main timer interrupt of the ESP32 in MicroPython is an effective way to precisely control timing for multiple tasks or applications. You can implement a fine-grained time domain (e.g., milliseconds) and have each task run based on its own multiple of this base period (e.g., every 1 ms, 10 ms, 100 ms), providing precise and customizable intervals.
+
+To achieve this, define global variables that keep track of time intervals, allowing for synchronization between the timer interrupt and the main loop. Within the timer interrupt, increment these variables regularly. Both the timer interrupt and the main program loop can then access these variables to perform tasks based on the elapsed time.
+
+1. Use breadboard, jumper wires and connect two additional LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
+
+2. Create a new source file in your local folder and use the following code to control a single task `a` by Timer interrupt.
 
    ```python
    from machine import Timer
@@ -185,7 +226,7 @@ Some important notes:
    * You must use the `global` keyword for variables (defined at the module level, ie outside of any function) that you want to modify inside a function, such as the counter variables in the interrupt handler.
    * You can access global objects (like `led_onboard`) directly without needing to declare them as `global`, provided you are not trying to reassign them.
 
-4. Enhance the previous timer code by adding two counters and corresponding tasks that will blink two external LEDs at different intervals.
+3. Enhance the previous timer code by adding two counters and corresponding tasks that will blink two external LEDs at different intervals.
 
 <a name="challenges"></a>
 
