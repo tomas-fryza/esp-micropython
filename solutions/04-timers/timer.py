@@ -13,7 +13,7 @@ Components:
 Author: Tomas Fryza
 
 Creation date: 2023-10-16
-Last modified: 2024-11-02
+Last modified: 2025-10-12
 """
 
 from machine import Timer
@@ -31,7 +31,7 @@ def timer_handler(t):
 
 # Create an object for 64-bit Timer ID 0
 # The ESP32 has 4 hardware timers numbered 0 to 3.
-tim = Timer(O)
+tim = Timer(0)
 
 # Initialize the timer to call the handler every 1000 s
 tim.init(period=1000,             # Timer period in milliseconds
