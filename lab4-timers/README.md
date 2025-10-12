@@ -149,7 +149,7 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
    print("Press the button")
 
    try:
-       ...
+       pass
    except KeyboardInterrupt:
        # This part runs when Ctrl+C is pressed
        print("Program stopped. Exiting...")
@@ -158,7 +158,7 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
        button.irq(handler=None)  # Deinit the interrupt
    ```
 
-   Here, the `button_pressed(pin)` is the callback function that will be called when the button press causes the interrupt. The `pin` object is passed to the callback function automatically and represents the pin (GPIO 27) that triggered the interrupt.
+   Here, the `button_callback(pin)` is the callback function that will be called when the button press causes the interrupt. The `pin` object is passed to the callback function automatically and represents the pin (GPIO 27) that triggered the interrupt.
 
 <a name="part4"></a>
 
@@ -166,11 +166,11 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
 
 Using the main timer interrupt of the ESP32 in MicroPython is an effective way to precisely control timing for multiple tasks or applications. You can implement a fine-grained time domain (e.g., milliseconds) and have each task run based on its own multiple of this base period (e.g., every 1 ms, 10 ms, 100 ms), providing precise and customizable intervals.
 
-To achieve this, define global variables that keep track of time intervals, allowing for synchronization between the timer interrupt and the main loop. Within the timer interrupt, increment these variables regularly. Both the timer interrupt and the main program loop can then access these variables to perform tasks based on the elapsed time.
+To achieve this, define global variables that keep track of time intervals, allowing for synchronization between the timer interrupt and the main loop. Within the timer interrupt, increment counter and flag variables regularly. Both the timer interrupt and the main program loop can then access these variables to perform tasks based on the elapsed time.
 
-1. Use breadboard, jumper wires and connect two additional LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
+1. Optional: Use breadboard, jumper wires and connect two additional LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
 
-2. Create a new source file in your local folder and use the following code to control a single task `a` by Timer interrupt.
+2. Create a new source file in your local folder and use the following code to control `task_a` by Timer interrupt.
 
    ```python
    ...
@@ -181,40 +181,37 @@ To achieve this, define global variables that keep track of time intervals, allo
    # Initialize global counter for different task(s)
    cnt = 0
 
+   # Task run flag(s) (set in interrupt, read in main loop)
+   task_a_run = False
+
+   # Task period(s) in milliseconds
+   PERIOD_A = 500
+
 
    def timer_handler(t):
        """Interrupt handler for Timer runs every 1 millisecond."""
-       global cnt
+       global cnt, task_a_run
        cnt += 1
 
+       if cnt % PERIOD_A == 0:
+           task_a_run = True
 
    def task_a():
-       print(f"Task A executed: onboard LED at {led_onboard}")
-       led_onboard.toggle()
-
-   ...
+       print(f"[{cnt} ms] Task A: LED toggle")
 
 
-   # Create and initialize the timer
+   # Start the timer and interrupt every 1 millisecond
    tim = Timer(0)
-   tim.init(period=1,  # 1 millisecond
-            mode=Timer.PERIODIC,
-            callback=timer_handler)
+   tim.init(period=1, mode=Timer.PERIODIC, callback=timer_handler)
 
-   # Create object(s) for LED(s)
-   led = Led(2)
-
-   print("Timer started. Press `Ctrl+C` to stop")
+   print("Interrupt-based scheduler running. Press Ctrl+C to stop.")
 
    try:
        # Forever loop
        while True:
-           # Task A (every 500ms)
-           if cnt % 500 == 0:
-               task_a()  # Run the task
-           ...
-           time.sleep_ms(1)
-
+           if task_a_run:
+               task_a()
+               task_a_run = False
 
    except KeyboardInterrupt:
        # This part runs when Ctrl+C is pressed
@@ -222,8 +219,6 @@ To achieve this, define global variables that keep track of time intervals, allo
 
        # Optional cleanup code
        tim.deinit()  # Stop the timer
-       led.off()
-       ...
    ```
 
 Some important notes:
