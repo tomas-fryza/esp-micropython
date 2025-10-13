@@ -18,7 +18,6 @@ Last modified: 2025-10-12
 
 from machine import Timer
 from hw_config import Led
-import time
 
 # Initialize global counter for different task(s)
 cnt = 0

@@ -21,7 +21,7 @@
 * Understand interrupts, including what they are and how they function within a microcontroller.
 * Use internal microcontroller timers.
 * Write and modify MicroPython code to initialize and use the timer in the ESP32.
-* Develop an understanding of how to schedule multiple tasks based on timer interrupts.
+* How to implement basic multi-tasking using Timer to handle simultaneous tasks.
 
 <a name="preparation"></a>
 
