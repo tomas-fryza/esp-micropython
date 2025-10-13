@@ -195,13 +195,13 @@ Test some other useful commands from [Quick reference for the ESP32](https://doc
 
 Thonny is an integrated development environment (IDE) designed primarily for Python programming. It provides a user-friendly and beginner-friendly environment for writing, running, and debugging Python code. It can also be used with MicroPython for programming microcontrollers like the ESP8266, ESP32, Raspberry Pi Pico, etc. [Thonny](https://thonny.org/) is available for multiple platforms, including Windows, macOS, and Linux.
 
+### Visual Studio Code with MicroPico extension
+
+[MicroPico](https://github.com/paulober/MicroPico) is a Visual Studio Code extension designed to simplify and accelerate the development of MicroPython projects for the Raspberry Pi Pico and Pico W boards (and ESP32). This tool streamlines the coding process, providing code highlighting, auto-completion, code snippets, and project management features
+
 ### Mu Editor
 
 [Mu](https://codewith.mu/) is another simple Python editor with built-in support for MicroPython. It has an intuitive user interface with easy-to-access buttons for uploading code and interacting with the board. Mu is designed for beginners and education, with features like a REPL, plotter, and simple code running on devices like the BBC micro and ESP32.
-
-### Visual Studio Code with Pymakr extension
-
-Pymakr allows you to connect, upload, and run MicroPython code on boards like the ESP32. It includes features like auto-completion, real-time terminal access to the board, and a file manager.
 
 ## Labs
 
@@ -209,7 +209,7 @@ Pymakr allows you to connect, upload, and run MicroPython code on boards like th
 2. [Control of GPIO pins](lab2-gpio)
 3. [Object-oriented programming](lab3-oop)
 4. [Timers](lab4-timers)
-5. [LCD (Liquid Crystal Display)](lab5-display)
+5. [ADC (Analog-to-Digital Converter)](lab5-adc)
 6. [I2C serial communication](lab6-serial)
 7. [Wi-Fi communication](lab7-wifi)
 8. [Project](lab8-project)

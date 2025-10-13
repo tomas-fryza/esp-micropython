@@ -2,7 +2,7 @@
 
 * [Pre-Lab preparation](#preparation)
 * [Part 1: Analog-to-Digital Conversion](#part1)
-* [Part 2: 2-axis analog joystick](#part2)
+* [Part 2: Two-axis analog joystick](#part2)
 * [Challenges](#challenges)
 * [References](#references)
 
@@ -23,12 +23,13 @@
 
 ## Pre-Lab preparation
 
-1. xxx
+**1. Review Analog-to-Digital Conversion (ADC) concepts:**
 
+   Refresh your understanding of analog-to-digital conversion. This includes what an ADC is, its role in embedded systems, and how it converts varying analog input voltages into corresponding digital values. Be sure to understand the resolution of the ESP32’s ADC and its typical input voltage range (0–3.3V).
 
+**2. Complete previous lab tasks involving ESP32 timers:**
 
-
-2. Finish the 3-task example from the last lab using the internal Timer.
+   Make sure you have completed all tasks from the previous lab session, which focused on using the ESP32 Timer module. These foundational exercises are important for building timing-based functionality that may be integrated with ADC readings in this lab.
 
 <a name="part1"></a>
 
@@ -42,13 +43,7 @@ This process essentially maps a continuous voltage (analog) to a discrete value 
 
 1. Use breadboard, jumer wires, and connect a joystick module (with 2-axis and a button) to ESP32. **Connect the +5V of the joystick to the 3.3V pin on the ESP32** because 3.3V is safe for ESP32. Connect the X and Y pins of the joystick to two analog pins on the ESP32 (for example, GPIO36 and GPIO39). Connect the SW pin (the button) to any digital pin (e.g., GPIO27) on the ESP32 to read the button press.
 
-   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
-
-   > **Notes:**
-   > * NC = Empty, Not Connected
-   > * VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
-   > * Use pins A0, ..., A4 as input only
-   > * Do not use In-Package Flash pins
+   ![schema_joystick](images/schema_joystick.png)
 
 2. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32`. You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
@@ -111,7 +106,7 @@ This process essentially maps a continuous voltage (analog) to a discrete value 
 
 <a name="part2"></a>
 
-## Part 2: 2-axis analog joystick
+## Part 2: Two-axis analog joystick
 
 A 2-axis joystick module typically has two potentiometers: one for the X-axis and one for the Y-axis. These provide analog voltage readings that range from 0 to 3.3V (or 0 to 4095 depending on ADC resolution). The joystick's rest position typically gives a neutral output, while moving the joystick in different directions will change the readings in both axes.
 
@@ -130,11 +125,6 @@ A 2-axis joystick module typically has two potentiometers: one for the X-axis an
 ## Challenges
 
 1. Convert X- and Y- axis values to something meaningful, like LED brightness, PWM duty cycle, etc.
-
-2. xxx
-
-
-
 
 <a name="references"></a>
 
