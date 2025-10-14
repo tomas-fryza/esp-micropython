@@ -268,7 +268,7 @@ To display numerical values, they first need to be converted to strings.
 
 3. Quinapalus. [LCD pattern library](https://www.quinapalus.com/hd44780udg.html)
 
-4. [LCd Display Screenshot Generator](http://avtanski.net/projects/lcd/)
+4. [LCD Display Screenshot Generator](http://avtanski.net/projects/lcd/)
 
 5. eTech Tom. [Arduino Progress Bar Graph Tutorial](https://www.youtube.com/watch?app=desktop&v=rKP1AA-hizw)
 
