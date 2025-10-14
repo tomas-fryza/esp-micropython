@@ -118,13 +118,7 @@ Timer interrupts are an efficient way to run non-blocking functions at specific 
 
 1. Use breadboard, jumer wires, and connect a push button to ESP32. One side of the push button is connected to GPIO 27, the other side is connected to GND. We'll enable the internal pull-up resistor for the input pin to ensure that when the button is not pressed, the pin reads HIGH.
 
-   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
-
-   > **Notes:**
-   > * NC = Empty, Not Connected
-   > * VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
-   > * Use pins A0, ..., A4 as input only
-   > * Do not use In-Package Flash pins
+   ![schema_button](images/schema_button.png)
 
 2. The button will trigger an interrupt when pressed, and we'll print a message to the console. Note that, the callback will be triggered when the pin value either falls (button pressed) or rises (button released).
 
@@ -169,6 +163,8 @@ Using the main timer interrupt of the ESP32 in MicroPython is an effective way t
 To achieve this, define global variables that keep track of time intervals, allowing for synchronization between the timer interrupt and the main loop. Within the timer interrupt, increment counter and flag variables regularly. Both the timer interrupt and the main program loop can then access these variables to perform tasks based on the elapsed time.
 
 1. Optional: Use breadboard, jumper wires and connect two additional LEDs and resistors to ESP32 GPIO pins 25 and 26 in active-high way.
+
+   ![schema_leds](images/schema_leds.png)
 
 2. Create a new source file in your local folder and use the following code to control `task_a` by Timer interrupt.
 

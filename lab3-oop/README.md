@@ -132,29 +132,27 @@
 
 1. Use breadboard, jumper wires and connect one push button to ESP32 GPIO pin 27 in active-low way.
 
-   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
+   ![schema_button](../lab4-timers/images/schema_button.png)
 
-   > **Notes:**
-   > * NC = Empty, Not Connected
-   > * VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
-   > * Use pins A0, ..., A4 as input only
-   > * Do not use In-Package Flash pins
-
-2. Create a new file in Thonny and enter the following MicroPython code which is a **class definition** for the `Button` class. It is a blueprint for creating objects that represent a physical button with active-low logic connected to the ESP32 (or other microcontroller) GPIO pin.
+2. Create a new file in Thonny and enter the following MicroPython code which is a **class definition** for the `Button` class. It is a blueprint for creating objects that represent a physical button with active-low logic connected to the ESP32 (or other microcontroller) GPIO pin. Note that, `Button` here is the child class of `Pin`.
 
    ```python
    from machine import Pin
 
 
-   class Button:
+   class Button(Pin):
        """A class to manage a button connected to a GPIO pin with internal pull-up resistor"""
-       def __init__(self, pin_number):
+       def __init__(self, pin_number, mode=Pin.PULL_UP):
            """Constructor with a specific GPIO pin and pull-up resistor."""
-           self.button = Pin(pin_number, Pin.IN, Pin.PULL_UP)
+           self.button = Pin(pin_number, Pin.IN, mode)
 
        def is_pressed(self):
            """Check if the button is currently pressed (active-low logic)."""
            return not self.button.value()  # Pressed button returns 1
+
+       # def is_released(self):
+
+       # def read_button_state():
 
 
    if __name__ == "__main__" :
@@ -173,7 +171,9 @@
 
       * The `__init__` method is the **constructor** that is automatically called when a new instance of the Button class is created.
 
-      * Parameter (`pin_number`) represents the GPIO pin number where the button is connected.
+      * Parameter `pin_number` represents the GPIO pin number where the button is connected.
+
+      * The `mode` parameter represents the option to enable the internal resistor.
 
       * In Python, `self` is a reference to the current instance of the class and is used to access instance variables and methods within the class.
 
@@ -184,6 +184,8 @@
       * Note that `__name__` is a special built-in variable in Python that holds the name of the module (or script) currently being executed. If the script is being run directly (not imported), `__name__` will be set to `__main__`. The common usage of the `if __name__ == "__main__":` condition in Python is to allow a script to be used both as a **module** and as a **standalone program**. 
 
 3. Save the file as `hw_config.py` in your local folder, run the code and test the button.
+
+4. Complete the proposed function `is_released()` and `read_button_state()`.
 
 <a name="part3"></a>
 
@@ -262,19 +264,21 @@ Inheritance in Python is a core concept of object-oriented programming that allo
 
 4. Write a program that toggles the LED state (on/off) every time the button is pressed.
 
-<a name="part4"></a>
+<a name="challenges"></a>
 
-## Optional: PWM and LED
+## Challenges
 
-PWM (Pulse Width Modulation) is a technique used to control the amount of energy supplied to a device by rapidly switching the power supply on and off. The ratio of the time the signal is on (high) to the time it is off (low) is called the duty cycle, [expressed as a percentage](https://www.realdigital.org/doc/6136c69c3acc4bf52bc2653a067e36cc).
+1. Create different blinking patterns for an LED based on button presses. Write a program that cycles through three different blinking patterns (e.g., fast, slow, and a double blink) each time the button is pressed.
 
-![pwm signal](images/pwm_signal.svg)
+2. PWM (Pulse Width Modulation) is a technique used to control the amount of energy supplied to a device by rapidly switching the power supply on and off. The ratio of the time the signal is on (high) to the time it is off (low) is called the duty cycle, [expressed as a percentage](https://www.realdigital.org/doc/6136c69c3acc4bf52bc2653a067e36cc).
 
-By adjusting the duty cycle, PWM can control the brightness of an LED. A higher duty cycle means the LED is on more often and appears brighter, while a lower duty cycle dims the LED. For example, a 50% duty cycle keeps the LED at half brightness, while 100% makes it fully bright.
+   ![pwm signal](images/pwm_signal.svg)
 
-![pwm led](images/pwm_led.png)
+   By adjusting the duty cycle, PWM can control the brightness of an LED. A higher duty cycle means the LED is on more often and appears brighter, while a lower duty cycle dims the LED. For example, a 50% duty cycle keeps the LED at half brightness, while 100% makes it fully bright.
 
-1. Using the `PWM` class from `machine` module, create a subclass to complement the pin behavior for the LEDs. Use methods `self.freq()` and `self.duty()` inherited from the `PWM` class.
+   ![pwm led](images/pwm_led.png)
+
+   Using the `PWM` class from `machine` module, create a subclass to complement the pin behavior for the LEDs. Use methods `self.freq()` and `self.duty()` inherited from the `PWM` class.
 
    ```python
    from machine import Pin
@@ -347,15 +351,9 @@ By adjusting the duty cycle, PWM can control the brightness of an LED. A higher 
 
       * The `range()` function has the following syntax: `range(start, stop, step)`. By default, the `step` parameter is equal to 1.
 
-2.  Complete and test `on()`, `off()`, and `fade_out()` methods.
+3. Complete and test `on()`, `off()`, and `fade_out()` methods.
 
-<a name="challenges"></a>
-
-## Challenges
-
-1. Control the brightness of an LED using a button. Write a program that increases the brightness by 20% each time the button is pressed. Once it reaches 100%, the next press should reset it to 0%.
-
-2. Create different blinking patterns for an LED based on button presses. Write a program that cycles through three different blinking patterns (e.g., fast, slow, and a double blink) each time the button is pressed.
+4. Control the brightness of an LED using a button. Write a program that increases the brightness by 20% each time the button is pressed. Once it reaches 100%, the next press should reset it to 0%.
 
 <a name="references"></a>
 

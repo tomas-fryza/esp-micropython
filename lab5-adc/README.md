@@ -56,7 +56,7 @@ This process essentially maps a continuous voltage (analog) to a discrete value 
    # Initialize ADC channels
    adc1 = ADC(Pin(36))  # Channel X on pin A0
    # Set ADC attenuation for wider voltage range
-   adc1.atten(ADC.ATTN_11DB)  # Approc. 0-3.3V range
+   adc1.atten(ADC.ATTN_11DB)  # Approx. 0-3.3V range
 
    print("ADC started. Press `Ctrl+C` to stop")
 
@@ -126,10 +126,16 @@ A 2-axis joystick module typically has two potentiometers: one for the X-axis an
 
 1. Convert X- and Y- axis values to something meaningful, like LED brightness, PWM duty cycle, etc.
 
+2. Use an ESP32 microcontroller and a Light Dependent Resistor (LDR) to build a simple light sensing system. The system should measure the ambient light intensity and display the value on the serial monitor.
+
+   ![schema_ldr](images/schema_ldr.png)
+
 <a name="references"></a>
 
 ## References
 
-1. EETech Media, LLC. [Voltage Divider Calculator](https://www.allaboutcircuits.com/tools/voltage-divider-calculator/)
+1. Components101. [Introduction to Analog to Digital Converters (ADC Converters)](https://components101.com/articles/analog-to-digital-adc-converters)
 
-2. Components101. [Introduction to Analog to Digital Converters (ADC Converters)](https://components101.com/articles/analog-to-digital-adc-converters)
+2. Newbiely.com. [ESP32 MicroPython Light Sensor](https://newbiely.com/tutorials/esp32-micropython/esp32-micropython-light-sensor)
+
+3. EETech Media, LLC. [Voltage Divider Calculator](https://www.allaboutcircuits.com/tools/voltage-divider-calculator/)

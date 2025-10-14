@@ -116,6 +116,7 @@ The ESP32 microcontroller board has a number of **GPIO (General Purpose Input/Ou
    > **Notes:**
    > * NC = Empty, Not Connected
    > * VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
+   > * GPIO pins 3 and 1 are dedicated to serial communication with the interactive console via UART. To maintain interactivity, it's advisable to refrain from using these pins for other purposes.
    > * Use pins A0, ..., A4 as input only
    > * Do not use In-Package Flash pins
 
@@ -153,13 +154,11 @@ For an active-high LED:
 * The cathode (shorter lead) is connected to resistor and GND.
 * The LED lights up when the GPIO pin is set to HIGH (1).
 
-   ![active-low_active-high_led](images/gpio_high_low_easyEda.png)
+1. Use breadboard, jumper wires and connect at least one LED with a resistor to ESP32 GPIO pins in active-high way. Use GPIO pin number 25. Optional: Connect another LED to GPIO 26 in active-low way.
+
+   ![schema_leds](images/schema_leds.png)
 
    ![two-pin-led_pinout](images/LED-polarity.png)
-
-1. Use breadboard, jumper wires and connect at least one LED with a resistor to ESP32 GPIO pins in active-high way. Use GPIO pin number 25 or 26.
-
-   > **IMPORTANT:** On the FireBeetle board, GPIO pins 3 and 1 are dedicated to serial communication with the interactive console via UART. To maintain interactivity, it's advisable to refrain from using these pins for other purposes.
 
 2. Write an application that turns multiple LEDs (including the onboard one) on and off sequentially.
 
@@ -202,6 +201,8 @@ For an active-high button:
 
 1. Use breadboard, jumper wires and connect one push button to ESP32 GPIO pin in active-low way. Use GPIO pin number 27.
 
+   ![schema_leds_button](images/schema_leds_button.png)
+
 2. Extend the previous code to keep the onboard LED blinking continuously, while the other LED(s) should blink only when the button is pressed.
 
    ```python
@@ -230,6 +231,8 @@ For an active-high button:
 2. A **matrix keypad** is a type of input device used to capture user input in the form of numbers, letters, or other characters. It consists of an array of buttons arranged in rows and columns, where each button press represents a unique combination of a row and a column. Matrix keypads are commonly used in various electronic devices, such as calculators and security systems.
 
 Connect the rows and columns of the 4x4 matrix keypad to the GPIO pins of the microcontroller. For example, you might connect the rows (outputs, R1-R4) to GPIO pins 19, 21, 22, 14 (set as `Pin.OUT`), and the columns (inputs, C1-C4) to GPIO pins 12, 4, 16, 17 (set as `Pin.IN, Pin.PULL_UP`).
+
+   ![schema_keypad](images/schema_keypad.png)
 
    ![keypad_pinouts](images/keypad_pinouts.png)
 

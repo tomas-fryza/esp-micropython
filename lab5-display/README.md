@@ -73,17 +73,18 @@ In the lab, the Digilent PmodCLP display module is used. The display consists of
 
 When a command is given to LCD, the command register (RS = 0) is selected and when data is sent to LCD, the data register (RS = 1) is selected. A **command** is an instruction entered on the LCD in order to perform the required function. In order to display textual information, **data** is send to LCD.
 
-![LCD_digilent_pinout](images/cmodclp_signals.png)
+1. Use breadboard, jumper wires, and connect LCD signals to ESP32 GPIO pins as follows:
 
-1. Use breadboard, jumper wires, and connect LCD signals to ESP32 GPIO pins as follows: RS - GPIO 26, R/W - GND, E - GPIO 25, D7:4 - GPIO 27, 9, 10, 13, VCC - 3.3V, GND - GND.
+   * RS - GPIO 26
+   * R/W - GND
+   * E - GPIO 25
+   * VCC - 3.3V
+   * GND - GND
+   * D7:4 - GPIO 27, 9, 10, 13
 
-   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
+   ![schema_cmod_plc](images/schema_pmodclp.png)
 
-   > **Notes:**
-   > * NC = Empty, Not Connected
-   > * VCC = VCC (5V under USB power supply, Around 3.7V under 3.7V lipo battery power supply)
-   > * Use pins A0, ..., A4 as input only
-   > * Do not use In-Package Flash pins
+   ![LCD_digilent_pinout](images/cmodclp_signals.png)
 
 <a name="part2"></a>
 
