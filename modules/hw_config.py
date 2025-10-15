@@ -30,6 +30,7 @@ Tomas Fryza
 
 Modification history
 --------------------
+- **2025-10-15** : Button redefined so that it inherits from Pin.
 - **2024-11-11** : Added Sphinx-style comments for documentation.
 - **2024-10-26** : Added `demo` method to demonstrate usage of the classes.
 - **2024-09-28** : File created, initial release.
@@ -40,7 +41,7 @@ from machine import PWM
 import time
 
 
-class Button:
+class Button(Pin):
     """
     A class to manage a button connected to a GPIO pin with a pull-up resistor.
     """
