@@ -33,7 +33,7 @@ def timer_handler(t):
 # The ESP32 has 4 hardware timers numbered 0 to 3.
 tim = Timer(0)
 
-# Initialize the timer to call the handler every 1000 s
+# Initialize the timer to call the handler every 1000 ms
 tim.init(period=1000,             # Timer period in milliseconds
          mode=Timer.PERIODIC,     # Set the timer to repeat after each period
          callback=timer_handler)  # Function to call when the timer triggers
