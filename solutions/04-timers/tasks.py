@@ -6,57 +6,68 @@ periodically. It features three tasks that execute at different
 intervals. The timer interrupt updates global counter and flags,
 allowing tasks to run based on elapsed time.
 
-Components:
-- ESP32-based board
-- LED connected to GPIO pin 2 (on-board)
-
 Author: Tomas Fryza
 
 Creation date: 2023-10-16
-Last modified: 2025-10-12
+Last modified: 2025-10-15
 """
 
 from machine import Timer
 from hw_config import Led
 
-# Initialize global counter for different task(s)
+# Global millisecond counter
 cnt = 0
 
 # Task run flags (set in interrupt, read in main loop)
-task_a_run = False
-task_b_run = False
-task_c_run = False
+flag_a = False
+flag_b = False
+flag_c = False
 
 # Task periods in milliseconds
-PERIOD_A = 500
-PERIOD_B = 500
-PERIOD_C = 1100
-
-
-def timer_handler(t):
-    """Interrupt handler for Timer runs every 1ms, sets task flags."""
-    global cnt, task_a_run, task_b_run, task_c_run
-    cnt += 1
-
-    if cnt % PERIOD_A == 0:
-        task_a_run = True
-    if cnt % PERIOD_B == 0:
-        task_b_run = True
-    if cnt % PERIOD_C == 0:
-        task_c_run = True
+period_a = 1000
+period_b = 900
+period_c = 1100
 
 
 def task_a():
-    print(f"[{cnt} ms] Task A: LED toggle")
+    print(f"[{cnt}] Task A: LED toggle")
     led.toggle()
 
 
 def task_b():
-    print(f"[{cnt} ms] Task B")
+    print(f"[{cnt}] Task B")
 
 
 def task_c():
-    print(f"[{cnt} ms] Task C")
+    print(f"[{cnt}] Task C")
+
+
+def timer_handler(t):
+    """Interrupt handler for Timer runs every 1ms, sets task flags."""
+    global cnt, flag_a, flag_b, flag_c
+    cnt += 1
+
+    if cnt % period_a == 0:
+        flag_a = True
+    if cnt % period_b == 0:
+        flag_b = True
+    if cnt % period_c == 0:
+        flag_c = True
+
+
+def run_tasks():
+    global flag_a, flag_b, flag_c
+    if flag_a:
+        task_a()
+        flag_a = False
+
+    if flag_b:
+        task_b()
+        flag_b = False
+
+    if flag_c:
+        task_c()
+        flag_c = False
 
 
 # Start the timer and interrupt every 1 millisecond
@@ -71,17 +82,7 @@ print("Interrupt-based scheduler running. Press Ctrl+C to stop.")
 try:
     # Forever loop
     while True:
-        if task_a_run:
-            task_a()
-            task_a_run = False
-
-        if task_b_run:
-            task_b()
-            task_b_run = False
-
-        if task_c_run:
-            task_c()
-            task_c_run = False
+        run_tasks()
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
