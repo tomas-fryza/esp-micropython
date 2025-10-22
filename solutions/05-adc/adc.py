@@ -1,9 +1,9 @@
 from machine import ADC, Pin
 import time
 
-
 # Initialize ADC channels
 adc1 = ADC(Pin(36))  # Channel X on pin A0
+
 # Set ADC attenuation for wider voltage range
 adc1.atten(ADC.ATTN_11DB)
 
