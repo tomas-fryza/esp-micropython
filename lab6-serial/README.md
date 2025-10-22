@@ -115,9 +115,9 @@ The goal of this task is to find all devices connected to the I2C bus.
 
    * Optional: [GY-521 module](../manuals/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
 
-2. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
+2. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32`. You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
-3. Create a new file in Thonny and perform a scan to detect the slave addresses of connected I2C devices. Endeavor to determine the corresponding device associated with each address.
+3. Create a new file `i2c_scan.py` in Thonny and perform a scan to detect the slave addresses of connected I2C devices. Endeavor to determine the corresponding device associated with each address.
 
    ```python
    from machine import I2C
@@ -140,7 +140,7 @@ The goal of this task is to find all devices connected to the I2C bus.
 
 The goal of this task is to communicate with the DHT12 temperature and humidity sensor assigned to the I2C slave address `0x5c`.
 
-1. Create a new script file `02-i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../manuals/dht12_manual.pdf), the internal DHT12 memory has the following structure.
+1. Create a new script file `i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../manuals/dht12_manual.pdf), the internal DHT12 memory has the following structure.
 
    | **Memory location** | **Description** |
    | :-: | :-- |
@@ -325,7 +325,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 1. Transform the output of the I2C scanner application into a hexadecimal table format, as illustrated in the example below. Please be aware that the term `RA` signifies I2C addresses that are [reserved](https://www.pololu.com/file/download/UM10204.pdf?file_id=0J435) and not available for use with slave circuits.
 
-   ```Makefile
+   ```python
    Scanning I2C...
 
          .0 .1 .2 .3 .4 .5 .6 .7 .8 .9 .a .b .c .d .e .f
