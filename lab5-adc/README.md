@@ -10,7 +10,7 @@
  
 * ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
-* 2 analog joystick modules
+* 2-axis joystick module
 * Jumper wires
 
 ### Learning objectives
@@ -47,7 +47,7 @@ This process essentially maps a continuous voltage (analog) to a discrete value 
 
 2. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32`. You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
-3. Create a new file in Thonny and copy and paste the following MicroPython code, which serves as a template for using the ADC.
+3. Create a new file `adc.py` in Thonny and copy and paste the following MicroPython code, which serves as a template for using the ADC.
 
    ```python
    from machine import ADC, Pin
@@ -55,6 +55,7 @@ This process essentially maps a continuous voltage (analog) to a discrete value 
 
    # Initialize ADC channels
    adc1 = ADC(Pin(36))  # Channel X on pin A0
+
    # Set ADC attenuation for wider voltage range
    adc1.atten(ADC.ATTN_11DB)  # Approx. 0-3.3V range
 
@@ -92,9 +93,27 @@ This process essentially maps a continuous voltage (analog) to a discrete value 
    V_{in} = \left(\frac{D_{out}}{4095}\right)\cdot 3.3
    -->
 
-   Where Dout is the raw ADC reading from `adc1.read()` (between 0 and 4095) and Vin is the corresponding input voltage.
+   Where D_out is the raw ADC reading from `adc1.read()` (between 0 and 4095) and V_in is the corresponding input voltage.
 
-5. ADCs can produce noisy or fluctuating readings due to various factors such as electromagnetic interference or slight variations in the input signal. To mitigate this noise and obtain more accurate readings, we can average multiple ADC samples. By taking the mean of several consecutive samples, random noise tends to cancel out, while the true signal remains stable. This technique is especially useful when you need more reliable data for tasks like sensor reading or feedback control.
+5. Propose a function which returns both values and which you call from the main loop.
+
+   ```python
+   ...
+   def read_adc():
+      ...
+      return val1, volt1
+
+   try:
+       # Forever loop
+       while True:
+           val1, volt1 = read_adc()
+
+           print(f"X: {val1}\t {volt1} V")
+           time.sleep(.5)
+   ...
+   ```
+
+6. ADCs can produce noisy or fluctuating readings due to various factors such as electromagnetic interference or slight variations in the input signal. To mitigate this noise and obtain more accurate readings, we can average multiple ADC samples. By taking the mean of several consecutive samples, random noise tends to cancel out, while the true signal remains stable. This technique is especially useful when you need more reliable data for tasks like sensor reading or feedback control.
 
    In this exercise, you will modify your script to read multiple ADC samples (e.g., 10 samples) and calculate the average voltage for smoother and more stable output. If you collect n samples, the average ADC value can be calculated as:
 
