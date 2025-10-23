@@ -12,7 +12,7 @@ Authors:
 - Tomas Fryza
 
 Creation date: 2023-10-27
-Last modified: 2024-11-02
+Last modified: 2025-10-23
 """
 
 from machine import I2C
@@ -24,15 +24,15 @@ i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 print(f"I2C configuration : {str(i2c)}")
 
 # Init OLED display
-oled = SH1106_I2C(i2c)
+display = SH1106_I2C(i2c)
 
 # Add some text at (x, y)
-oled.text("Using OLED and", 0, 40)
-oled.text("ESP32", 50, 50)
+display.text("Using OLED and", 0, 40)
+display.text("ESP32", 50, 50)
 
 
 # WRITE YOUR CODE HERE
 
 
 # Finally update the OLED display so the text is displayed
-oled.show()
+display.show()

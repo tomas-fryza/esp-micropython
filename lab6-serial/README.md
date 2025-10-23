@@ -99,19 +99,19 @@ Note that, most I2C devices support repeated start condition. This means that be
 
 The goal of this task is to find all devices connected to the I2C bus.
 
-1. Use breadboard, jumper wires, and connect I2C devices to ESP32 GPIO pins as follows: SDA - GPIO 21, SCL - GPIO 22, VCC - 3.3V, GND - GND.
+1. Use breadboard, jumper wires, and connect I2C devices to ESP32 GPIO pins.
 
    > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones are used.
 
-   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
-
-   * Humidity/temperature [DHT12](../manuals/dht12_manual.pdf) digital sensor
+   ![schema_i2c](images/schema_i2c.png)
 
    * SH1106 I2C [OLED display](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/) 128x64
 
-   * Optional: Humidity/temperature/pressure [BME280](https://cdn-shop.adafruit.com/datasheets/BST-BME280_DS001-10.pdf) sensor
+   * Humidity/temperature [DHT12](../manuals/dht12_manual.pdf) digital sensor
 
    * Optional: Combined module with [RTC DS3231](../manuals/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../manuals/at24c32_manual.pdf) EEPROM memory
+
+   * Optional: Humidity/temperature/pressure [BME280](https://cdn-shop.adafruit.com/datasheets/BST-BME280_DS001-10.pdf) sensor
 
    * Optional: [GY-521 module](../manuals/mpu-6050_datasheet.pdf) (MPU-6050 Microelectromechanical systems that features a 3-axis gyroscope, a 3-axis accelerometer, a digital motion processor (DMP), and a temperature sensor).
 
@@ -217,7 +217,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](../modules/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
 
-2. Create a new file `03-i2c_oled.py` and write a script to print text on the display.
+2. Create a new file `03-i2c_display.py` and write a script to print text on the display.
 
    ```python
    from machine import I2C
@@ -229,34 +229,34 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    print(f"I2C configuration : {str(i2c)}")
 
    # Init OLED display
-   oled = SH1106_I2C(i2c)
+   display = SH1106_I2C(i2c)
 
    # Add some text at (x, y)
-   oled.text("Using OLED and", 0, 40)
-   oled.text("ESP32", 50, 50)
+   display.text("Using OLED and", 0, 40)
+   display.text("ESP32", 50, 50)
 
 
    # WRITE YOUR CODE HERE
 
 
    # Finally update the OLED display so the text is displayed
-   oled.show()
+   display.show()
    ```
 
 3. Use other methods from `sh1106` [class](https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/) and draw lines and rectangles on the display. Here is the list of availabe methods for basic graphics.
 
    | **Method name** | **Description** | **Example** |
    | :-- | :-- | :-- |
-   | `oled.text(text, x, y)` | Display `text` at position `x`, `y` | `oled.text("Using OLED...", 0, 0)` |
-   | `oled.pixel(x, y, color)` | Display one pixel at position. Optional `color`: 1 - visible, 0 - background color | `oled.pixel(10, 20, 1)`
-   | `oled.hline(x, y, w, color)` | Horizontal line with width `w` and `color` | `oled.hline(0, 64, 128, 1)` |
-   | `oled.vline(x, y, h, color)` | Vertical line with height `h` | `oled.vline(9, 8, 22, 1)` |
-   | `oled.line(x1, y1, x2, y2, color)` | Diagonal line | `oled.line(0, 0, 128, 64, 1)` |
-   | `oled.rect(x, y, w, h, color)` | Rectangle | `oled.rect(0, 0, 128, 64, 1)` |
-   | `oled.fill_rect(x, y, w, h, color)` | Filled rectangle | `oled.fill_rect(0, 0, 32, 32, 1)` |
-   | `oled.fill(color)` | Fill the whole screen (clear screen) | `oled.fill(0)` |
+   | `display.text(text, x, y)` | Display `text` at position `x`, `y` | `display.text("Using OLED...", 0, 0)` |
+   | `display.pixel(x, y, color)` | Display one pixel at position. Optional `color`: 1 - visible, 0 - background color | `display.pixel(10, 20, 1)`
+   | `display.hline(x, y, w, color)` | Horizontal line with width `w` and `color` | `display.hline(0, 64, 128, 1)` |
+   | `display.vline(x, y, h, color)` | Vertical line with height `h` | `display.vline(9, 8, 22, 1)` |
+   | `display.line(x1, y1, x2, y2, color)` | Diagonal line | `display.line(0, 0, 128, 64, 1)` |
+   | `display.rect(x, y, w, h, color)` | Rectangle | `display.rect(0, 0, 128, 64, 1)` |
+   | `display.fill_rect(x, y, w, h, color)` | Filled rectangle | `display.fill_rect(0, 0, 32, 32, 1)` |
+   | `display.fill(color)` | Fill the whole screen (clear screen) | `display.fill(0)` |
 
-4. Define a binary matrix, suggest your picture/icon, use the `oled.pixel()` method, and print it on the display.
+4. Define a binary matrix, suggest your picture/icon, use the `display.pixel()` method, and print it on the display.
 
    ```python
    # Binary icon
@@ -274,12 +274,12 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    pos_x, pos_y = 100, 50
    for j, row in enumerate(icon):
        for i, val in enumerate(row):
-           oled.pixel(i+pos_x, j+pos_y, val) 
+           display.pixel(i+pos_x, j+pos_y, val) 
    ```
 
 5. Combine temperature and OLED examples and print DHT12 sensor values on OLED display.
 
-   Create a new file `dht12.py` and [copy/paste](../modules/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Create a new script file `04-i2c_sensor_oled.py`, use the following code, read values from DHT12 sensor, and display them in Thonny`s Shell and OLED display.
+   Create a new file `dht12.py` and [copy/paste](../modules/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Create a new script file `04-i2c_sensor_display.py`, use the following code, read values from DHT12 sensor, and display them in Thonny`s Shell and OLED display.
 
    ```python
    from machine import I2C
@@ -308,7 +308,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
            # WRITE YOUR CODE HERE
 
 
-           oled.show()
+           display.show()
            time.sleep(5)
 
    except KeyboardInterrupt:
@@ -316,7 +316,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
        print("Program stopped. Exiting...")
 
        # Optional cleanup code
-       oled.poweroff()
+       display.poweroff()
    ```
 
 <a name="challenges"></a>

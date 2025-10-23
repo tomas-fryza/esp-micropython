@@ -25,10 +25,10 @@ i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 sensor = dht12.DHT12(i2c)
 
 # Init OLED display
-oled = SH1106_I2C(i2c)
-oled.contrast(50)  # Set contrast to 50 %
-oled.text("Temp. [C]:", 0, 40)
-oled.text("Humid.[%]:", 0, 52)
+display = SH1106_I2C(i2c)
+display.contrast(50)  # Set contrast to 50 %
+display.text("Temp. [C]:", 0, 40)
+display.text("Humid.[%]:", 0, 52)
 
 print(f"I2C configuration : {str(i2c)}")
 print("Start using I2C. Press `Ctrl+C` to stop")
@@ -38,10 +38,10 @@ try:
     while True:
         temp, humidity = sensor.read_values()
         print(f"Temperature: {temp}°C, Humidity: {humidity}%")
-        oled.fill_rect(85, 38, 120, 50, 0)
-        oled.text(f"{temp}", 85, 40)
-        oled.text(f"{humidity}", 85, 52)
-        oled.show()
+        display.fill_rect(85, 38, 120, 50, 0)
+        display.text(f"{temp}", 85, 40)
+        display.text(f"{humidity}", 85, 52)
+        display.show()
         time.sleep(5)
 
 except KeyboardInterrupt:
@@ -49,4 +49,4 @@ except KeyboardInterrupt:
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
-    oled.poweroff()
+    display.poweroff()
