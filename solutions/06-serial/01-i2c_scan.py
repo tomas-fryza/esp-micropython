@@ -11,7 +11,15 @@ Authors:
 
 Creation date: 2023-06-17
 Last modified: 2024-11-02
-"""
+
+ Some known devices:
+ - 0x3c - OLED display
+ - 0x57 - EEPROM
+ - 0x5c - Temp+Humid
+ - 0x68 - RTC
+ - 0x68 - GY521
+ - 0x76 - BME280
+ """
 
 from machine import I2C
 from machine import Pin

@@ -12,8 +12,8 @@
  
 * ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
-* DHT12 humidity/temperature sensor
-  * Optional: RTC DS3231 and AT24C32 EEPROM memory module
+* RTC DS3231 and AT24C32 EEPROM memory module
+  * Optional: DHT12 humidity/temperature sensor
   * Optional: GY-521 module with MPU-6050 microelectromechanical systems
 * SH1106 I2C OLED display 128x64
 * Logic analyzer
@@ -107,9 +107,9 @@ The goal of this task is to find all devices connected to the I2C bus.
 
    * SH1106 I2C [OLED display](https://randomnerdtutorials.com/esp32-ssd1306-oled-display-arduino-ide/) 128x64
 
-   * Humidity/temperature [DHT12](../manuals/dht12_manual.pdf) digital sensor
+   * Combined module with [RTC DS3231](../manuals/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../manuals/at24c32_manual.pdf) EEPROM memory
 
-   * Optional: Combined module with [RTC DS3231](../manuals/ds3231_manual.pdf) (Real Time Clock) and [AT24C32](../manuals/at24c32_manual.pdf) EEPROM memory
+   * Optional: Humidity/temperature [DHT12](../manuals/dht12_manual.pdf) digital sensor
 
    * Optional: Humidity/temperature/pressure [BME280](https://cdn-shop.adafruit.com/datasheets/BST-BME280_DS001-10.pdf) sensor
 
@@ -138,34 +138,25 @@ The goal of this task is to find all devices connected to the I2C bus.
 
 ## Part 3: Communication with I2C devices
 
-The goal of this task is to communicate with the DHT12 temperature and humidity sensor assigned to the I2C slave address `0x5c`.
+1. Create a new script file `i2c_rtc.py` and read data from RTC DS3231 (Real Time Clock) I2C device. Note that, according to the [DS3231 manual](../manuals/ds3231_manual.pdf), the RTC memory has the following structure.
 
-1. Create a new script file `i2c_sensor.py` and read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../manuals/dht12_manual.pdf), the internal DHT12 memory has the following structure.
+   ![rtc_regs](images/rtc_registers.png)
 
-   | **Memory location** | **Description** |
-   | :-: | :-- |
-   | 0x00 | Humidity integer part |
-   | 0x01 | Humidity decimal part |
-   | 0x02 | Temperature integer part |
-   | 0x03 | Temperature decimal part |
-   | 0x04 | Checksum |
-
-   Use the following code to get the humidity value, stored in two bytes, starting at address 0.
+   Use the following code to get hours, minutes, and seconds stored in three bytes, starting at address 0.
 
    ```python
-   from machine import I2C
-   from machine import Pin
+   from machine import Pin, I2C
    import time
 
-   SENSOR_ADDR = 0x5c  # DHT12
+   SLA_ADDR = ...  # Get the address from the previous task
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
    # Check the sensor
    addrs = i2c.scan()
-   if SENSOR_ADDR not in addrs:
-       raise Exception(f"`{hex(SENSOR_ADDR)}` is not detected")
+   if SLA_ADDR not in addrs:
+       raise Exception(f"`{hex(SLA_ADDR)}` is not detected")
 
    print(f"I2C configuration : {str(i2c)}")
    print("Start using I2C. Press `Ctrl+C` to stop")
@@ -173,10 +164,12 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    try:
        # Forever loop
        while True:
-           # Read 2 bytes from `SENSOR_ADDR` device, starting at address 0
-           val = i2c.readfrom_mem(SENSOR_ADDR, 0, 2)
-           print(f"{val[0]}.{val[1]} %")
-           time.sleep(5)
+           # From `SLA_ADDR` device, read 3 bytes, starting at address 0
+           val = i2c.readfrom_mem(SLA_ADDR, 0, 3)
+
+           # PRINT THE TIME FROM RTC
+
+           time.sleep(1)
 
    except KeyboardInterrupt:
        # This part runs when Ctrl+C is pressed
@@ -185,9 +178,7 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
        # Optional cleanup code
    ```
 
-2. Extend the code and periodically read humidity and checksum values from DHT12 sensor. Verify the checksum byte, which is the sum of all previous four bytes.
-
-3. Use the MicroPython manual and find the description of the following methods from [I2C class](https://docs.micropython.org/en/latest/library/machine.I2C.html):
+2. Use the MicroPython manual and find the description of the following methods from [I2C class](https://docs.micropython.org/en/latest/library/machine.I2C.html):
 
    * `I2C.scan()`
    * `I2C.readfrom()`
@@ -198,16 +189,13 @@ The goal of this task is to communicate with the DHT12 temperature and humidity 
    * `I2C.readfrom_mem_into()`
    * `I2C.writeto_mem()`
 
-4. Connect the logic analyzer to the I2C bus wires (SCL and SDA) between the microcontroller and the sensor. Launch the logic analyzer software Logic and **Start** the capture. Saleae Logic software offers a decoding feature to transform the captured signals into meaningful I2C messages. Click to **+ button** in **Analyzers** part and setup **I2C** decoder.
+   Modify your code and set the initial (correct) time to RTC device first.
 
-   > **Note:** To perform this analysis, you will need a logic analyzer such as [Saleae](https://www.saleae.com/) or [similar](https://www.amazon.com/KeeYees-Analyzer-Device-Channel-Arduino/dp/B07K6HXDH1/ref=sr_1_6?keywords=saleae+logic+analyzer&qid=1667214875&qu=eyJxc2MiOiI0LjIyIiwicXNhIjoiMy45NSIsInFzcCI6IjMuMDMifQ%3D%3D&sprefix=saleae+%2Caps%2C169&sr=8-6) device. Additionally, you should download and install the [Saleae Logic 1](https://support.saleae.com/logic-software/legacy-software/older-software-releases#logic-1-x-download-links) software on your computer.
+3. Connect the logic analyzer to the I2C bus wires (SCL and SDA) between the microcontroller and the sensor. Launch the logic analyzer software Logic and **Start** the capture. Saleae Logic software offers a decoding feature to transform the captured signals into meaningful I2C messages. Click to **+ button** in **Analyzers** part and setup **I2C** decoder.
+
+   > **Note:** To perform this analysis, you will need a logic analyzer such as [Saleae](https://www.saleae.com/) or [similar](https://www.amazon.com/KeeYees-Analyzer-Device-Channel-Arduino/dp/B07K6HXDH1/ref=sr_1_6?keywords=saleae+logic+analyzer&qid=1667214875&qu=eyJxc2MiOiI0LjIyIiwicXNhIjoiMy45NSIsInFzcCI6IjMuMDMifQ%3D%3D&sprefix=saleae+%2Caps%2C169&sr=8-6) device. Additionally, you should download and install the [Saleae Logic](https://www.saleae.com/pages/downloads) software on your computer.
    >
    > You can find a comprehensive tutorial on utilizing a logic analyzer in this [video](https://www.youtube.com/watch?v=CE4-T53Bhu0).
-
-5. (Optional:) Use BME280 sensor and read humidity, temperature and preassure values.
-
-   * BME280 [class](../modules/bme280.py)
-   * Testing [script](../solutions/06-serial/03-i2c_sensor_bme280.py)
 
 <a name="part4"></a>
 
@@ -217,11 +205,10 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](../modules/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
 
-2. Create a new file `03-i2c_display.py` and write a script to print text on the display.
+2. Create a new file `i2c_display.py` and write a script to print text on the display.
 
    ```python
-   from machine import I2C
-   from machine import Pin
+   from machine import Pin, I2C
    from sh1106 import SH1106_I2C
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
@@ -277,47 +264,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
            display.pixel(i+pos_x, j+pos_y, val) 
    ```
 
-5. Combine temperature and OLED examples and print DHT12 sensor values on OLED display.
-
-   Create a new file `dht12.py` and [copy/paste](../modules/dht12.py) the class for DHT12 sensor. Save a copy of this file to the MicroPython device. Create a new script file `04-i2c_sensor_display.py`, use the following code, read values from DHT12 sensor, and display them in Thonny`s Shell and OLED display.
-
-   ```python
-   from machine import I2C
-   from machine import Pin
-   import time
-   import dht12
-   from sh1106 import SH1106_I2C
-
-   # Init DHT12 sensor
-   i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-   sensor = dht12.DHT12(i2c)
-
-   # Init OLED display
-   oled = SH1106_I2C(i2c)
-
-   print(f"I2C configuration : {str(i2c)}")
-   print("Start using I2C. Press `Ctrl+C` to stop")
-
-   try:
-       # Forever loop
-       while True:
-           temp, humidity = sensor.read_values()
-           print(f"Temperature: {temp}°C, Humidity: {humidity}%")
-
-
-           # WRITE YOUR CODE HERE
-
-
-           display.show()
-           time.sleep(5)
-
-   except KeyboardInterrupt:
-       # This part runs when Ctrl+C is pressed
-       print("Program stopped. Exiting...")
-
-       # Optional cleanup code
-       display.poweroff()
-   ```
+5. Combine RTC and OLED examples and print current time on OLED display.
 
 <a name="challenges"></a>
 
@@ -334,18 +281,29 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
    0x2.: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
    0x3.: -- -- -- -- -- -- -- -- -- -- -- -- 3c -- -- --
    0x4.: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-   0x5.: -- -- -- -- -- -- -- -- -- -- -- -- 5c -- -- --
-   0x6.: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+   0x5.: -- -- -- -- -- -- -- 57 -- -- -- -- -- -- -- --
+   0x6.: -- -- -- -- -- -- -- -- 68 -- -- -- -- -- -- --
    0x7.: -- -- -- -- -- -- -- -- RA RA RA RA RA RA RA RA
    
-   2 device(s) detected
+   3 device(s) detected
    ```
 
-2. Create a stopwatch using an RTC DS3231 (Real Time Clock) I2C device. Note that, according to the [DS3231 manual](../manuals/ds3231_manual.pdf), the RTC memory has the following structure.
+2. Read data from humidity/temperature DHT12 sensor. Note that, according to the [DHT12 manual](../manuals/dht12_manual.pdf), the internal DHT12 memory has the following structure.
 
-   ![rtc_regs](images/rtc_registers.png)
+   | **Memory location** | **Description** |
+   | :-: | :-- |
+   | 0x00 | Humidity integer part |
+   | 0x01 | Humidity decimal part |
+   | 0x02 | Temperature integer part |
+   | 0x03 | Temperature decimal part |
+   | 0x04 | Checksum |
 
 3. Build an environmental monitoring system using an ESP32 board, I2C communication, and common sensors. The goal is to collect data on temperature, humidity, and air quality, and display this information on an OLED display.
+
+4. Use BME280 sensor and read humidity, temperature and preassure values.
+
+   * BME280 [class](../modules/bme280.py)
+   * Testing [script](../solutions/06-serial/03-i2c_bme280.py)
 
 <a name="references"></a>
 

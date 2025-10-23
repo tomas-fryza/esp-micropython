@@ -23,6 +23,7 @@ RTC_HRS = 0x08
 RTC_MIN = 0x22
 RTC_SEC = 0x00
 RTC_UPDATE = False
+
 # Addr. #7 |   #6      #5      #4    | #3  #2  #1  #0
 #  0:   0  |       10 seconds        |    seconds
 #  1:   0  |       10 minutes        |    minutes
@@ -49,11 +50,11 @@ print("Start using I2C. Press `Ctrl+C` to stop")
 try:
     # Forever loop
     while True:
-        led.toggle()
-        # Read 3 bytes from `RTC_ADDR` device, starting at address 0
+        led.on()
+        # From `RTC_ADDR` device, read 3 bytes starting at address 0
         a = i2c.readfrom_mem(RTC_ADDR, 0, 3)
         print(f"{a[2]:x}:{a[1]:x}.{a[0]:x}")
-        led.toggle()
+        led.off()
         time.sleep(1)
 
 except KeyboardInterrupt:
