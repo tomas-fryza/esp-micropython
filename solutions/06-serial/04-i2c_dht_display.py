@@ -14,8 +14,7 @@ Creation date: 2023-10-27
 Last modified: 2024-11-02
 """
 
-from machine import I2C
-from machine import Pin
+from machine import I2C, Pin
 import time
 import dht12
 from sh1106 import SH1106_I2C

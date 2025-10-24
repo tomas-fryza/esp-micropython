@@ -13,9 +13,9 @@
 * ESP32 board with pre-installed MicroPython firmware, USB cable
 * Breadboard
 * RTC DS3231 and AT24C32 EEPROM memory module
+* SH1106 I2C OLED display 128x64
   * Optional: DHT12 humidity/temperature sensor
   * Optional: GY-521 module with MPU-6050 microelectromechanical systems
-* SH1106 I2C OLED display 128x64
 * Logic analyzer
 * Jumper wires
 
@@ -120,8 +120,7 @@ The goal of this task is to find all devices connected to the I2C bus.
 3. Create a new file `i2c_scan.py` in Thonny and perform a scan to detect the slave addresses of connected I2C devices. Endeavor to determine the corresponding device associated with each address.
 
    ```python
-   from machine import I2C
-   from machine import Pin
+   from machine import I2C, Pin
 
    # Init I2C using pins GP22 & GP21 (default I2C0 pins)
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
@@ -154,8 +153,7 @@ The goal of this task is to find all devices connected to the I2C bus.
    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 
    # Check the sensor
-   addrs = i2c.scan()
-   if SLA_ADDR not in addrs:
+   if SLA_ADDR not in i2c.scan():
        raise Exception(f"`{hex(SLA_ADDR)}` is not detected")
 
    print(f"I2C configuration : {str(i2c)}")
@@ -165,9 +163,9 @@ The goal of this task is to find all devices connected to the I2C bus.
        # Forever loop
        while True:
            # From `SLA_ADDR` device, read 3 bytes, starting at address 0
-           val = i2c.readfrom_mem(SLA_ADDR, 0, 3)
+           t = i2c.readfrom_mem(SLA_ADDR, 0, 3)
 
-           # PRINT THE TIME FROM RTC
+           # PRINT TIME FROM RTC
 
            time.sleep(1)
 
@@ -264,7 +262,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
            display.pixel(i+pos_x, j+pos_y, val) 
    ```
 
-5. Combine RTC and OLED examples and print current time on OLED display.
+5. Combine both, RTC and OLED examples and print the current time on OLED display.
 
 <a name="challenges"></a>
 

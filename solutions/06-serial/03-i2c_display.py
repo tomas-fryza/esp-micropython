@@ -15,8 +15,7 @@ Creation date: 2023-10-27
 Last modified: 2025-10-23
 """
 
-from machine import I2C
-from machine import Pin
+from machine import I2C, Pin
 from sh1106 import SH1106_I2C
 
 # Init I2C using pins GP22 & GP21 (default I2C0 pins)

@@ -21,8 +21,7 @@ Last modified: 2024-11-02
  - 0x76 - BME280
  """
 
-from machine import I2C
-from machine import Pin
+from machine import I2C, Pin
 
 # Init I2C using pins GP22 & GP21 (default I2C0 pins)
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
