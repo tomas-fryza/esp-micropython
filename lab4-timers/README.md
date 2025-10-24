@@ -166,64 +166,62 @@ Using the main timer interrupt of the ESP32 in MicroPython is an effective way t
 
 To achieve this, define global variables that keep track of time intervals, allowing for synchronization between the timer interrupt and the main loop. Within the timer interrupt, increment counter and flag variables regularly. Both the timer interrupt and the main program loop can then access these variables to perform tasks based on the elapsed time.
 
-1. Create a new source file `tasks.py` and use the following code to run the periodic `task_a` by Timer interrupts.
+1. Create a new source file `tasks.py` and use the following code to run one periodic task.
 
    ```python
    from machine import Timer
+   from hw_config import Led
 
-   # Global millisecond counter
-   cnt = 0
+   led = Led(2)
 
-   # Task run flag(s) (set in interrupt, read in main loop)
-   flag_a = False
-
-   # Task period(s) in milliseconds
-   period_a = 500
+   tick_ms = 0
 
 
    def task_a():
-       print(f"[{cnt}] Task A")
+       print(f"[{tick_ms}] Task A: LED toggle")
+       led.toggle()
 
 
-   def timer_handler(t):
-       """Interrupt handler for Timer runs every 1ms, sets task flags."""
-       global cnt, flag_a
-       cnt += 1
-
-       if cnt % period_a == 0:
-           flag_a = True
+    # Define all periodic tasks in one table
+    tasks = [
+        {"func": task_a, "period": 500, "flag": False},
+    ]
 
 
-   def run_tasks():
-       global flag_a
-       if flag_a:
-           task_a()
-           flag_a = False
+    def timer_handler(t):
+        """Interrupt handler for Timer runs every 1ms, sets task flags."""
+        global tick_ms
+        tick_ms += 1
+
+        for task in tasks:
+            if tick_ms % task["period"] == 0:
+                task["flag"] = True
 
 
-   # Start the timer and interrupt every 1 millisecond
-   tim = Timer(0)
-   tim.init(period=1, mode=Timer.PERIODIC, callback=timer_handler)
+    # 1 ms base tick for the whole system
+    Timer(0).init(period=1, mode=Timer.PERIODIC, callback=timer_handler)
 
-   print("Interrupt-based scheduler running. Press Ctrl+C to stop.")
+    print("Interrupt-based scheduler running. Press Ctrl+C to stop.")
+    try:
+        # Forever loop
+        while True:
+            for task in tasks:
+                if task["flag"]:
+                    task["func"]()
+                    task["flag"] = False
 
-   try:
-       # Forever loop
-       while True:
-           run_tasks()
+    except KeyboardInterrupt:
+        # This part runs when Ctrl+C is pressed
+        print("Program stopped. Exiting...")
 
-   except KeyboardInterrupt:
-       # This part runs when Ctrl+C is pressed
-       print("Program stopped. Exiting...")
-
-       # Optional cleanup code
-       tim.deinit()  # Stop the timer
+        # Optional cleanup code
+        led.off()
    ```
 
 Some important notes:
 
    * Uses a hardware timer to trigger every 1 ms.
-   * Each timer interrupt increments a global counter `cnt`. When `cnt` modulo the task period hits zero, it sets a flag.
+   * Each timer interrupt increments a global counter `tick_ms`. When `tick_ms` modulo the task period hits zero, it sets a flag.
    * You must use the `global` keyword for variables (defined at the module level, ie outside of any function) that you want to modify inside a function, such as the counter variables in the interrupt handler.
    * You can access global objects (like `led`) directly without needing to declare them as `global`, provided you are not trying to reassign them.
 

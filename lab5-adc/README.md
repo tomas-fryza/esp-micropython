@@ -137,7 +137,7 @@ A 2-axis joystick module typically has two potentiometers: one for the X-axis an
 
    Use the `Button` and `Led` classes from the `hw_config.py` script (from previous labs) to handle the joystick button press and control an LED.
 
-3. Use the multi-tasking code from the previous lab. Program one task to read both joystick axes and a second task to read the button value. Use Timer 0 as a 1-ms counter, with the joystick task executing every 250 ms (4 times per second) and the button task executing every 10 ms (100 times per second).
+3. Use the multi-tasking code from the [previous lab](../lab4-timers/) and program one task to read both joystick axes and a second task to read the button value. Use Timer 0 as a 1-ms counter, with the joystick task executing every 250 ms (4 times per second) and the button task executing every 10 ms (100 times per second).
 
 <a name="challenges"></a>
 

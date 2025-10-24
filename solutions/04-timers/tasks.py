@@ -2,92 +2,69 @@
 Timer-based task management
 
 This script utilizes the ESP32's Timer0 to manage multiple tasks 
-periodically. It features three tasks that execute at different
-intervals. The timer interrupt updates global counter and flags,
-allowing tasks to run based on elapsed time.
+periodically. The tasks are defined within a dictionary, including
+name and period.
 
 Author: Tomas Fryza
 
 Creation date: 2023-10-16
-Last modified: 2025-10-15
+Last modified: 2025-10-24
 """
 
 from machine import Timer
 from hw_config import Led
 
-# Global millisecond counter
-cnt = 0
+tick_ms = 0
 
-# Task run flags (set in interrupt, read in main loop)
-flag_a = False
-flag_b = False
-flag_c = False
-
-# Task periods in milliseconds
-period_a = 1000
-period_b = 900
-period_c = 1100
+led = Led(2)
 
 
 def task_a():
-    print(f"[{cnt}] Task A: LED toggle")
+    print(f"[{tick_ms}] Task A: LED toggle")
     led.toggle()
 
 
 def task_b():
-    print(f"[{cnt}] Task B")
+    print(f"[{tick_ms}] Task B")
 
 
 def task_c():
-    print(f"[{cnt}] Task C")
+    print(f"[{tick_ms}] Task C")
+
+
+# Define all periodic tasks in one table
+tasks = [
+    {"func": task_a, "period": 500, "flag": False},
+    {"func": task_b, "period": 250, "flag": False},
+    {"func": task_c, "period": 750, "flag": False},
+]
 
 
 def timer_handler(t):
     """Interrupt handler for Timer runs every 1ms, sets task flags."""
-    global cnt, flag_a, flag_b, flag_c
-    cnt += 1
+    global tick_ms
+    tick_ms += 1
 
-    if cnt % period_a == 0:
-        flag_a = True
-    if cnt % period_b == 0:
-        flag_b = True
-    if cnt % period_c == 0:
-        flag_c = True
+    for task in tasks:
+        if tick_ms % task["period"] == 0:
+            task["flag"] = True
 
 
-def run_tasks():
-    global flag_a, flag_b, flag_c
-    if flag_a:
-        task_a()
-        flag_a = False
-
-    if flag_b:
-        task_b()
-        flag_b = False
-
-    if flag_c:
-        task_c()
-        flag_c = False
-
-
-# Start the timer and interrupt every 1 millisecond
-tim = Timer(0)
-tim.init(period=1, mode=Timer.PERIODIC, callback=timer_handler)
-
-# Create object(s) for LED(s)
-led = Led(2)
+# 1 ms base tick for the whole system
+Timer(0).init(period=1, mode=Timer.PERIODIC, callback=timer_handler)
 
 print("Interrupt-based scheduler running. Press Ctrl+C to stop.")
-
 try:
     # Forever loop
     while True:
-        run_tasks()
+        for task in tasks:
+            if task["flag"]:
+                task["func"]()
+                task["flag"] = False
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
-    tim.deinit()  # Stop the timer
     led.off()
