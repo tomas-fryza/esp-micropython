@@ -9,12 +9,12 @@ timezone (CET/CEST).
 Author: Tomas Fryza
 
 Creation date: 2023-10-25
-Last modified: 2024-11-11
+Last modified: 2025-10-25
 """
 
 from machine import RTC
 import network
-import wifi_module
+import wifi_utils
 import config
 import ntptime
 import time
@@ -24,13 +24,13 @@ TIMEZONE_OFFSET = 1  # UTC+1:00 for CET (Central European Time)
 
 # Create Station interface
 wifi = network.WLAN(network.STA_IF)
-wifi_module.connect(wifi, config.SSID, config.PSWD)
+wifi_utils.connect(wifi, config.SSID, config.PSWD)
 
 # Get UTC time from NTP server and set it to RTC
 ntptime.host = "cz.pool.ntp.org"
 ntptime.settime()
 print("Local RTC synchronized")
-wifi_module.disconnect(wifi)
+wifi_utils.disconnect(wifi)
 
 # Create an independent clock object
 rtc = RTC()

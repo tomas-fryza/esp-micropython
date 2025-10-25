@@ -15,7 +15,7 @@ from machine import I2C
 from machine import Pin
 import dht12
 import network
-import wifi_module
+import wifi_utils
 import config
 import urequests
 import time
@@ -34,14 +34,14 @@ def send_to_thingspeak(temp, humidity):
 
     # Select GET or POST request
     # Make the GET request
-    request_url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
-    response = urequests.get(request_url)
+    url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
+    response = urequests.get(url)
 
     # Make the POST request
-    # request_url = f"{API_URL}?api_key={API_KEY}"
-    # json = {"field1": temp, "field2": humidity}
+    # url = f"{API_URL}?api_key={API_KEY}"
+    # payload = {"field1": temp, "field2": humidity}
     # headers = {"Content-Type": "application/json"}
-    # response = urequests.post(request_url, json=json, headers=headers)
+    # response = urequests.post(url, json=payload, headers=headers)
 
     print(f"ThingSpeak entry no.: {response.text}")
     response.close()
@@ -61,9 +61,9 @@ try:
         temp, humidity = sensor.read_values()
         print(f"Temperature: {temp}°C, Humidity: {humidity}%")
 
-        wifi_module.connect(wifi, config.SSID, config.PSWD)
+        wifi_utils.connect(wifi, config.SSID, config.PSWD)
         send_to_thingspeak(temp, humidity)
-        wifi_module.disconnect(wifi)
+        wifi_utils.disconnect(wifi)
 
         time.sleep(60)
 
@@ -72,4 +72,4 @@ except KeyboardInterrupt:
     print("Program stopped. Exiting...")
 
     # Optional cleanup code
-    wifi_module.disconnect(wifi)
+    wifi_utils.disconnect(wifi)

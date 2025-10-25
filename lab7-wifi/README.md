@@ -39,9 +39,9 @@ The Wi-Fi scanning process on the ESP32 involves searching for available Wi-Fi n
 
 ![wifi-scan](images/ESP32-WiFi-Scan-Networks_Wi-Fi-Scan.png)
 
-1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32` or `ESP8266` (depending on your board). You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
+1. Ensure your ESP32 board is connected to your computer via a USB cable. Open the Thonny IDE and set the interpreter to `ESP32`. You can click the red **Stop/Restart** button or press the on-board reset button if necessary to reset the board.
 
-2. Create a new file in Thonny and create an instance of the `WLAN` class from the `network` module, specifying the desired Station mode, activate the Wi-Fi interface, and perform the Wi-Fi scan.
+2. Create a new file `wifi-scan.py` in Thonny and create an instance of the `WLAN` class from the `network` module, specifying the desired Station mode, activate the Wi-Fi interface, and perform the Wi-Fi scan.
 
    ```python
    import network
@@ -84,27 +84,27 @@ In **Access Point mode (`network.AP_IF`)** the ESP32 acts as a Wi-Fi access poin
 
 The Wi-Fi modes can be activated or deactivated using the `active()` method of the `network` module. These modes can be used individually or in combination. For example, the ESP32 can operate in both Station and Access Point modes simultaneously (`network.WIFI_AP_STA`), allowing it to connect to an existing Wi-Fi network while also providing an access point for other devices.
 
-1. In Thonny, create a new `WIFI_CONFIG.py` file, set the Wi-Fi credentions, and save it on the ESP32 device.
+1. In Thonny, create a new `config.py` file, set the Wi-Fi credentions, and save it on the ESP32 device.
 
    ```python
    SSID = "YOUR_WIFI_SSID"
    PSWD = "YOUR_WIFI_PASSWORD"
    ```
 
-2. Create a new file `wifi_module.py` and [copy/paste the functions](../modules/wifi_module.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
+2. Create a new file `wifi_utils.py` and [copy/paste the functions](../modules/wifi_utils.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
 
-3. Create a new file `02-wifi-sta.py` and use the following template to connect and disconnect the network.
+3. Create a new file `wifi-sta.py` and use the following template to connect and disconnect the network.
 
    ```python
    import network
-   import wifi_module
+   import wifi_utils
    import config
 
    # Initialize the Wi-Fi interface in Station mode
    wifi = network.WLAN(network.STA_IF)
 
    # Connect to SSID
-   wifi_module.connect(wifi, config.SSID, config.PSWD)
+   wifi_utils.connect(wifi, config.SSID, config.PSWD)
    # Get the current IP-level network-interface parameters
    print("     IP               MASK            GATEWAY          DNS")
    print(wifi.ifconfig())
@@ -114,19 +114,19 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
 
 
    print(f"Is connected? {wifi.isconnected()}")
-   wifi_module.disconnect(wifi)
+   wifi_utils.disconnect(wifi)
    print(f"Is connected? {wifi.isconnected()}")
    ```
 
    When working with the `network.WLAN` class, the `ifconfig()` is used to get or set the IP configuration of the interface.
 
-4. Using the `WLAN.status()` method, we get the network link status according to the following table.
+4. Using the `WLAN.status()` method, we get the [current status](https://docs.micropython.org/en/latest/library/network.WLAN.html) of the wireless connection.
 
    ```python
    print(wifi.status())
    ```
 
-   | **Status#** | **Status name** | **Description** |
+   | **Status #** | **Status name** | **Description** |
    | :-: | :-- | :-- |
    | `1000` | `STAT_IDLE` | There is no connection or activity |
    | `1001` | `STAT_CONNECTING` | Connecting in progress |
@@ -148,8 +148,8 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
    | `mac` | MAC address | bytes |
    | `ssid` | WiFi access point name | string |
    | `channel` | WiFi channel | integer |
-   | `hidden` | Whether SSID is hidden | boolean |
-   | `security` | Security protocol supported | enumeration |
+   | `hidden` | Whether SSID is hidden (for AP mode only) | boolean |
+   | `security` | Security protocol supported (for AP mode only) | enumeration |
    | `hostname` | The hostname that will be sent to DHCP (STA interfaces) | string |
    | `reconnects` | Number of reconnect attempts to make | integer, 0=none, -1=unlimited |
    | `txpower` | Maximum transmit power in dBm | integer or float |
@@ -216,9 +216,13 @@ In MicroPython, especially when using the `urequests` library for handling HTTP 
    import urequests  # Network Request Module
 
    ...
-   print("Make the GET request")
-   response = urequests.get("https://catfact.ninja/fact")
+   print("----- GET request -----")
+   url = "http://api.open-notify.org/iss-now.json"
+   response = urequests.get(url)
+
+   print("GET status code: ", end="")
    print(response.status_code)
+   print("GET text:")
    print(response.text)
    
    # Close the response to free up resources
@@ -226,30 +230,34 @@ In MicroPython, especially when using the `urequests` library for handling HTTP 
    ...
    ```
 
-   Print other response attributes.
-
-   Try other GET APIs:
-      - Cat Fact API: https://catfact.ninja/fact
+   Print other response attributes and other request APIs:
+      - Current ISS positions: http://api.open-notify.org/iss-now.json
+      - List of astronauts in space: http://api.open-notify.org/astros.json
+      - Current weather in Brno: https://api.open-meteo.com/v1/forecast?latitude=49.19522&longitude=16.60796&current_weather=true
+      - Sunrise, Sunset in Brno: https://suntracker.freeapi.me/?lat=49.19522&lon=16.60796
+      - Euro to Czech Koruna conversion: https://hexarate.paikama.co/api/rates/latest/EUR?target=CZK
+      - CoinGecko API (bitcoin EUR price): https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur
+      - Cat fact API: https://catfact.ninja/fact
       - Joke API: https://v2.jokeapi.dev/joke/Programming
       - Time API: https://timeapi.io/api/time/current/zone?timeZone=Europe/Prague
-      - CoinGecko API: https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=eur
+      - Anagram solver: https://anagram.freeapi.me/
+      - Random facts: https://f-api.ir/api/facts/random
+      - Random facts: https://uselessfacts.jsph.pl/api/v2/facts/random?language=en
 
 2. Test the POST request as well.
 
    ```python
    ...
-   print("Make the POST request")
-   json = {"fromTimeZone": "Europe/Prague",
-          "dateTime": "2024-10-26 15:33:00",
-          "toTimeZone": "America/Los_Angeles",
-          "dstAmbiguity": ""}
+   print("----- POST request -----")
+   url = "https://api.mathjs.org/v4/"
+   payload = {"expr": ["2+2", "sqrt(2)", "sin(pi/2)"]}
    headers = {"Content-Type": "application/json"}
-   response = urequests.post("https://timeapi.io/api/conversion/converttimezone",
-                             json=json,
-                             headers=headers)
+   response = urequests.post(url, json=payload, headers=headers)
+
+   print("POST status code: ", end="")
    print(response.status_code)
+   print("POST text:")
    print(response.text)
-   response.close()
    ...
    ```
 
@@ -272,7 +280,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
    > **Note:** Connect the components on the breadboard only when the supply voltage/USB is disconnected! There is no need to connect external pull-up resistors on the SDA and SCL pins, because the internal ones is used.
 
-   ![firebeetle_pinout](../lab2-gpio/images/DFR0478_pinout3.png)
+   ![schema_i2c](../lab6-serial/images/schema_i2c.png)
 
 2. Create a ThingSpeak Account: If you don't have a ThingSpeak account, get started for free at [ThingSpeak](https://thingspeak.mathworks.com/).
 
@@ -285,11 +293,10 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 6. Write a MicroPython script that reads data from the DHT12 sensor and sends it to ThingSpeak. Use the `urequests` library to make HTTP requests.
 
    ```python
-   from machine import I2C
-   from machine import Pin
+   from machine import I2C, Pin
    import dht12
    import network
-   import wifi_module
+   import wifi_utils
    import config
    import urequests
    import time
@@ -301,8 +308,8 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
        API_URL = "https://api.thingspeak.com/update"
 
        # GET request
-       request_url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
-       response = urequests.get(request_url)
+       url = f"{API_URL}?api_key={API_KEY}&field1={temp}&field2={humidity}"
+       response = urequests.get(url)
 
        print(f"Entry # sent to ThingSpeak: {response.text}")
        response.close()
@@ -322,9 +329,9 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
            temp, humidity = sensor.read_values()
            print(f"Temperature: {temp}°C, Humidity: {humidity}%")
 
-           wifi_module.connect(wifi, config.SSID, config.PSWD)
+           wifi_utils.connect(wifi, config.SSID, config.PSWD)
            send_to_thingspeak(temp, humidity)
-           wifi_module.disconnect(wifi)
+           wifi_utils.disconnect(wifi)
 
            time.sleep(60)
 
@@ -333,7 +340,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
        print("Program stopped. Exiting...")
 
        # Optional cleanup code
-       wifi_module.disconnect(wifi)
+       wifi_utils.disconnect(wifi)
    ```
 
    Note that, you can also use the POST request instead of the GET one.
@@ -341,10 +348,10 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
    ```python
    ...
    # POST request
-   request_url = f"{API_URL}?api_key={API_KEY}"
-   json = {"field1": temp, "field2": humidity}
+   url = f"{API_URL}?api_key={API_KEY}"
+   payload = {"field1": temp, "field2": humidity}
    headers = {"Content-Type": "application/json"}
-   response = urequests.post(request_url, json=json, headers=headers)
+   response = urequests.post(url, json=payload, headers=headers)
    ...
    ```
 
@@ -359,7 +366,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
    ```python
    from machine import RTC
    import network
-   import wifi_module
+   import wifi_utils
    import config
    import ntptime
 
@@ -368,13 +375,13 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
    # Create Station interface
    wifi = network.WLAN(network.STA_IF)
-   wifi_module.connect(wifi, config.SSID, config.PSWD)
+   wifi_utils.connect(wifi, config.SSID, config.PSWD)
 
    # Get UTC time from NTP server and set it to RTC
    ntptime.host = "cz.pool.ntp.org"
    ntptime.settime()
    print("Local RTC synchronized")
-   wifi_module.disconnect(wifi)
+   wifi_utils.disconnect(wifi)
 
    # Create an independent clock object
    rtc = RTC()
@@ -410,3 +417,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 4. [OpenWeather](https://openweathermap.org/)
 
 5. Mozilla Corporation. [HTTP response status codes](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status)
+
+6. FreeAPI.me. [Simple, Reliable APIs for Everyone](https://freeapi.me/)
+
+7. ADGStudios. [Free Historical Stocks API](https://stocks.adgstudios.co.za/)

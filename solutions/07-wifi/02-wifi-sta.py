@@ -10,11 +10,11 @@ Authors:
 - Tomas Fryza
 
 Creation date: 2023-06-16
-Last modified: 2024-11-11
+Last modified: 2025-10-25
 """
 
 import network
-import wifi_module
+import wifi_utils
 import config
 import urequests  # Network Request Module
 
@@ -22,7 +22,7 @@ import urequests  # Network Request Module
 wifi = network.WLAN(network.STA_IF)
 
 # Connect to SSID
-wifi_module.connect(wifi, config.SSID, config.PSWD)
+wifi_utils.connect(wifi, config.SSID, config.PSWD)
 # Get the current IP-level network-interface parameters
 print("     IP               MASK            GATEWAY          DNS")
 print(wifi.ifconfig())
@@ -31,8 +31,15 @@ print(wifi.ifconfig())
 # WRITE YOUR CODE HERE
 
 
+# Get RSSI and network link Status
+print()
+print(wifi.status())
+rssi = wifi.status("rssi")
+print(f"Signal strength (RSSI): {rssi} dBm")
+
+
 # Get Wi-Fi network-specific parameters
-print("")
+print()
 prm = wifi.config("mac")
 print("MAC address:", ':'.join([f"{b:02x}" for b in prm]))
 prm = wifi.config("ssid")
@@ -46,38 +53,44 @@ print(f"Number of reconnect attemps: {prm}")
 prm = wifi.config("txpower")
 print(f"Maximum transmit power: {prm} dBm")
 
-# Get RSSI and network link Status
-print("")
-rssi = wifi.status("rssi")
-print(f"Signal strength (RSSI): {rssi} dBm")
-print(wifi.status())
 
-print("Make the GET request")
-response = urequests.get("https://catfact.ninja/fact")
+print()
+print("----- GET request -----")
+url = "http://api.open-notify.org/iss-now.json"
+response = urequests.get(url)
+
+print("GET status code: ", end="")
 print(response.status_code)
+print("GET reason: ", end="")
 print(response.reason)
+print("GET text:")
 print(response.text)
+print("GET headers:")
 print(response.headers)
 # Close the response to free up resources
 response.close()
 
-print("Make the POST request")
-json = {"fromTimeZone": "Europe/Prague",
-       "dateTime": "2024-10-26 15:33:00",
-       "toTimeZone": "America/Los_Angeles",
-       "dstAmbiguity": ""}
+
+print()
+print("----- POST request -----")
+url = "https://api.mathjs.org/v4/"
+payload = {"expr": ["2+2", "sqrt(2)", "sin(pi/4)"]}
 headers = {"Content-Type": "application/json"}
-response = urequests.post("https://timeapi.io/api/conversion/converttimezone",
-                          json=json,
-                          headers=headers)
+response = urequests.post(url, json=payload, headers=headers)
+
+print("POST status code: ", end="")
 print(response.status_code)
+print("POST reason: ", end="")
 print(response.reason)
+print("POST text:")
 print(response.text)
-print(response.headers)
+# print("POST headers:")
+# print(response.headers)
 response.close()
 
+
 # Test if connected
-print("")
+print()
 print(f"Is connected? {wifi.isconnected()}")
-wifi_module.disconnect(wifi)
+wifi_utils.disconnect(wifi)
 print(f"Is connected? {wifi.isconnected()}")

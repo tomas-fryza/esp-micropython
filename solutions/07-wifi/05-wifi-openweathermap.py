@@ -12,11 +12,11 @@ Notes:
 Author: Tomas Fryza
 
 Creation date: 2023-10-26
-Last modified: 2024-11-11
+Last modified: 2025-10-25
 """
 
 import network
-import wifi_module
+import wifi_utils
 import config
 import urequests
 import ujson
@@ -58,6 +58,6 @@ def read_openweathermap():
 
 # Create Station interface
 wifi = network.WLAN(network.STA_IF)
-wifi_module.connect(wifi, config.SSID, config.PSWD)
+wifi_utils.connect(wifi, config.SSID, config.PSWD)
 read_openweathermap()
-wifi_module.disconnect(wifi)
+wifi_utils.disconnect(wifi)
