@@ -136,7 +136,22 @@ In MicroPython, you can use the following control characters and escape sequence
    print("\nProcess complete!")
    ```
 
-2. Write a Python function that calculates the factorial of a given number `n`. The function should take one input parameter, `n`, and return the result of `n!` (`n` factorial), which is the product of all positive integers from 1 to `n`. Note that you can use **if** statements and **while** loops.
+2. Implement a function that generates the first *n* Fibonacci numbers. The Fibonacci sequence is defined such that each number is the sum of the two preceding ones (0, 1, 1, 2, 3, 5, 8, ...). Use the `time` module to measure the elapsed execution time.
+
+   ```python
+   import time
+
+   def fibonacci():
+      start_time = time.ticks_us()  # Start time in microseconds
+
+      # WRITE YOUR CODE HERE
+
+      end_time = time.ticks_us()
+      duration = end_time - start_time
+      ...
+   ```
+
+3. Write a Python function that calculates the factorial of a given number `n`. The function should take one input parameter, `n`, and return the result of `n!` (`n` factorial), which is the product of all positive integers from 1 to `n`. Note that you can use **if** statements and **while** loops.
 
    For example:
       * factorial(5) should return 120 because 5! = 5 * 4 * 3 * 2 * 1 = 120.
@@ -150,26 +165,6 @@ In MicroPython, you can use the following control characters and escape sequence
 
    # Example usage
    print(factorial(7))
-   ```
-
-3. Write a Python function that prints a right-angled triangle made up of asterisks (`*`). The function should take one parameter, which specifies the number of lines in the triangle. Each subsequent line should contain one additional asterisk, starting with one asterisk on the first line, two on the second line, and so on. 
-
-   For example, if the parameter is `5`, the output should look like this:
-
-   ```shell
-   *
-   **
-   ***
-   ****
-   *****
-   ```
-
-   ```python
-   def triangle(lines):
-       # WRITE YOUR CODE HERE
-
-   # Example usage
-   triangle(5)
    ```
 
 4. Write a Python function to solve a quadratic equation of the form `ax^2 + bx + c = 0`, where `a`, `b`, and `c` are real numbers. The function should take three input parameters: `a`, `b`, and `c`. Use the quadratic formula to find the solutions:
@@ -213,7 +208,25 @@ In MicroPython, you can use the following control characters and escape sequence
 
 1. Write a Python function that determines whether a given number is prime or not and generate all prime numbers up to 1000.
 
-2. Implement a function to generate Fibonacci numbers. This is a classic sequence where each number is the sum of the two preceding ones (0, 1, 1, 2, 3, 5, 8, ...).
+2. Write a Python function that prints a right-angled triangle made up of asterisks (`*`). The function should take one parameter, which specifies the number of lines in the triangle. Each subsequent line should contain one additional asterisk, starting with one asterisk on the first line, two on the second line, and so on. 
+
+   For example, if the parameter is `5`, the output should look like this:
+
+   ```shell
+   *
+   **
+   ***
+   ****
+   *****
+   ```
+
+   ```python
+   def triangle(lines):
+       # WRITE YOUR CODE HERE
+
+   # Example usage
+   triangle(5)
+   ```
 
 3. See the following example and use different [ANSI Escape Sequences](https://gist.github.com/fnky/458719343aabd01cfb17a3a4f7296797) to modify style and color of the printed text:
 

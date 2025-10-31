@@ -11,7 +11,7 @@ import time
 
 values = range(0, 100)
 for i in values:
-    print(f"{i}%", end="\r")
+    print(f"{i} %", end="\r")
     time.sleep_ms(50)
 print("\nProcess complete!")
 
@@ -48,6 +48,23 @@ def triangle(lines):
         print("#" * (i+1))
 
 triangle(5)
+
+
+def fibonacci():
+    a, b = 0, 1
+    start_time = time.ticks_us()  # Start time in microseconds
+
+    for _ in range(100):
+        a, b = b, a+b
+
+    end_time = time.ticks_us()
+    duration = end_time - start_time
+    
+    print(f"Last calculated value: {b}")
+    print(f"Time elapsed: {duration} us")
+
+fibonacci()
+
 
 
 import math   # Import mathematical module
