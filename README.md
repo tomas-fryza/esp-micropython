@@ -7,7 +7,7 @@
 * [Components and tools](#components-and-tools)
 * [Links](#links)
 
-The repository contains MicroPython lab exercises for [*Erasmus course*](https://www.vut.cz/en/students/courses/detail/279596) at Brno University of Technology, Czechia. The course focuses on advanced digital circuits, microprocessor technology, and use of MicroPython language for programming 32-bit microcontrollers. The course provides practical experience in the design and implementation of embedded systems, allowing students to deepen their programming skills and understanding of individual components within microprocessor systems.
+The repository contains MicroPython lab exercises for [*Erasmus course*](https://www.vut.cz/en/students/courses/detail/290428) at Brno University of Technology, Czechia. The course focuses on advanced digital circuits, microprocessor technology, and use of MicroPython language for programming 32-bit microcontrollers. The course provides practical experience in the design and implementation of embedded systems, allowing students to deepen their programming skills and understanding of individual components within microprocessor systems.
 
    ![firebeetle_multiple-leds](lab6-serial/images/photo_oled.jpg)
 

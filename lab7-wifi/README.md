@@ -292,7 +292,7 @@ ThingSpeak is an Internet of Things (IoT) platform that allows you to collect, a
 
 4. Get Channel API Key: In your channel settings, you'll find an Write API Key. This key is used to authenticate your device when sending data to ThingSpeak.
 
-5. Use [`dht12.py`](../modules/dht12.py) file from the previous lab and save a copy of this file to the MicroPython device.
+5. Use [`dht12.py`](../modules/dht12.py) file from the previous lab and save a copy of this file to the MicroPython device. See the [Sphinx documentation](https://tomas-fryza.github.io/esp-micropython/modules/dht12.html) for this class.
 
 6. Write a MicroPython script that reads data from the DHT12 sensor and sends it to ThingSpeak. Use the `urequests` library to make HTTP requests.
 

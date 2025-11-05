@@ -57,6 +57,8 @@ A push button interrupt on the ESP32 using MicroPython refers to setting up a ha
 
    ![save to device](images/save_as.png)
 
+   See the [Sphinx documentation](https://tomas-fryza.github.io/esp-micropython/modules/hw_config.html) for these classes.
+
 4. Create a new script file `button.py`, save it to *This computer*, and test the following application. The button will trigger an interrupt when pressed, and a message will be printed to the console. Note that the callback can be triggered when the pin value either falls (button pressed) or rises (button released).
 
    * `Pin.IRQ_FALLING`: This triggers the interrupt when the pin goes from HIGH to LOW (button press).

@@ -203,6 +203,8 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 1. Create a new file `sh1106.py`, consinsting the class for OLED display with SH1106 driver and copy/paste [the code](../modules/sh1106.py) to it. To import and use the class, the copy of file must be stored in the ESP32 device.
 
+   See the [Sphinx documentation](https://tomas-fryza.github.io/esp-micropython/modules/oled.html) for this class.
+
 2. Create a new file `i2c_display.py` and write a script to print text on the display.
 
    ```python
@@ -300,7 +302,7 @@ An OLED I2C display, or OLED I2C screen, is a type of display technology that co
 
 4. Use BME280 sensor and read humidity, temperature and preassure values.
 
-   * BME280 [class](../modules/bme280.py)
+   * BME280 [class](../modules/bme280.py) (See the [Sphinx documentation](https://tomas-fryza.github.io/esp-micropython/modules/bme280.html) for this class.)
    * Testing [script](../solutions/06-serial/03-i2c_bme280.py)
 
 <a name="references"></a>
