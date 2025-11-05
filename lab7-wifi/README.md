@@ -91,7 +91,9 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
    PSWD = "YOUR_WIFI_PASSWORD"
    ```
 
-2. Create a new file `wifi_utils.py` and [copy/paste the functions](../modules/wifi_utils.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
+2. Create a new file `wifi_utils.py` and [copy/paste the functions](https://raw.githubusercontent.com/tomas-fryza/esp-micropython/refs/heads/main/modules/wifi_utils.py) to connect and disconnect the Wi-Fi network. Save this file on the ESP32 device as well.
+
+   See the [Sphinx documentation](https://tomas-fryza.github.io/esp-micropython/modules/wifi.html) for this module.
 
 3. Create a new file `wifi-sta.py` and use the following template to connect and disconnect the network.
 
@@ -120,6 +122,7 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
 
    When working with the `network.WLAN` class, the `ifconfig()` is used to get or set the IP configuration of the interface.
 
+<!--
 4. Using the `WLAN.status()` method, we get the [current status](https://docs.micropython.org/en/latest/library/network.WLAN.html) of the wireless connection.
 
    ```python
@@ -140,8 +143,9 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
    ```python
    print(wifi.status("rssi"))
    ```
+-->
 
-5. Using the `WLAN.config()` method, we get or set general network interface parameters. This method allow to work with additional parameters, which include network-specific and hardware-specific parameters according to the table.
+4. Using the `WLAN.config()` method, we get or set general network interface parameters. This method allow to work with additional parameters, which include network-specific and hardware-specific parameters according to the table.
 
    | **Parameter** | **Description** | **Type** |
    | :-- | :-- | :-- |
@@ -157,13 +161,11 @@ The Wi-Fi modes can be activated or deactivated using the `active()` method of t
    ```python
    prm = wifi.config("mac")
    print("MAC address:", ':'.join([f"{b:02x}" for b in prm]))
-   prm = wifi.config("ssid")
-   print(f"Wi-Fi access point name: {prm}")
    ```
 
    Try other parameters from the table.
 
-6. In case of STA mode, method `WLAN.isconnected()` returns `True` if connected to a WiFi access point and has a valid IP address. In AP mode returns `True` when a station is connected.
+7. In case of STA mode, method `WLAN.isconnected()` returns `True` if connected to a WiFi access point and has a valid IP address. In AP mode returns `True` when a station is connected.
 
    ```python
    print(f"Is connected? {wifi.isconnected()}")
@@ -217,6 +219,7 @@ In MicroPython, especially when using the `urequests` library for handling HTTP 
 
    ...
    print("----- GET request -----")
+   # Uniform Resource Locator -- A specific address used to access resources on the internet
    url = "http://api.open-notify.org/iss-now.json"
    response = urequests.get(url)
 
@@ -258,6 +261,7 @@ In MicroPython, especially when using the `urequests` library for handling HTTP 
    print(response.status_code)
    print("POST text:")
    print(response.text)
+   response.close()
    ...
    ```
 
