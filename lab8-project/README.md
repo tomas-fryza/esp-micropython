@@ -1,117 +1,95 @@
-# Project
+# Student team project guidelines: Micropython-code projects 2025/26
 
-## Instructions
+## Overview
 
-*The goal of this project is for small teams of 3-4 students to explore a chosen topic, use the [labs's components](https://github.com/tomas-fryza/esp-micropython?tab=readme-ov-file#components-and-tools), develop solutions, simulate and implement them, create documentation, and present the results. Team members will organize and divide tasks among themselves.*
+Student teams (3-4 students) will design and develop an ESP32-based system to address a selected problem or application area. The project will be completed in three phases: **Design**, **Build**, and **Demonstration**.
 
-* The students will work on the project for four weeks, ending with a presentation and a practical demonstration (simulations alone are not enough), see the course schedule in e-learning.
+* Students solve the project in the laboratory according to the course schedule.
 
-* The ESP32 code must be written in MicroPython and must be implementable on an ESP32 FireBeetle board.
+* The code must be written in MicroPython and must be implementable on an ESP32 FireBeetle board.
 
 * If needed, use the simulation tools, such as [wokwi](https://wokwi.com/), [Falstad](https://www.falstad.com/circuit/circuitjs.html), etc.
 
-* Draw illustrative flowcharts for all important functions/interrupt routines.
-
-* Design a block diagram or circuit diagram of your application (EasyEDA, KiCAD, Eagle, ...).
-
-* Optionally, design a PCB and/or 3D-printable enclosure for your solution.
-
-* Use modules from the labs. Create own modules (and documentation) for the new components.
+* Use modules/classes from the labs. Create your own (and documentation) for the new components. Strictly follow licenses for third-party libraries!
 
 * Follow coding standards in your codes.
 
-* Strictly follow licenses for third-party libraries !
+---
 
-* Create a public [GitHub](https://github.com/) (or any other online software development platform) repository for your project and publish all files here.
+## Phase 1: Design (Project proposal)
 
-* Provide a list of all tools used during the project, including Machine Learning (some are listed [here](https://github.com/tomas-fryza/esp-micropython/wiki)).
+### Objective
+Plan, design, and justify your project idea before implementation.
 
-* A PowerPoint-style presentation is not required; a good `README.md` on GitHub is sufficient.
+### Deliverable
+A **public [GitHub](https://github.com/)** repository for your project includes:
 
-* During the presentation, you can play a short video (max 1 minute) with subtitles or explanatory captions.
+1. **Problem statement and solution overview**
+   - Clearly describe the problem being addressed.
+   - Explain how your proposed solution uses MCU to solve it.
 
-# Recommended README.md file structure
+2. **List of hardware components**
+   - Provide a list of sensors, actuators, and other electronic components intended for use.
+   - Include justification for your component choices (why each part is needed).
 
-### Team members
+3. **Software design**
+   - Present system-level **block diagrams**, **flowcharts**, or **pseudocode** showing the planned software logic and control flow.
 
-* Member 1 (responsible for ...)
-* Member 2 (responsible for ...)
-* Member 3 (responsible for ...)
+---
 
-## Hardware description
+## Phase 2: Build (Prototype development)
 
-Describe your implementation and include block or circuit diagram(s).
+### Objective
+Implement and test a working prototype based on your approved proposal.
 
-## Software description
+### Notes
+- Teams may use university laboratories and facilities for hardware assembly.
+- Circuit construction may include passive and active components on a breadboard or custom PCB (if available).
 
-Include flowcharts of your algorithm(s) and direct links to the source files. Present the modules you used in the project.
+### Deliverables
 
-## Instructions and photos
+1. **Prototype demonstration video**
+   - A **maximum 3-minute video** showing the prototype's functionality.
+   - Clearly explain the system's features, operation, and performance.
 
-Describe how to use the application. Add photos or videos of your application.
+2. **Source code submission**
+   - Submit well-documented MicroPython code to GitHub.
+   - Highlight key functions, algorithms, and any custom libraries used.
 
-## References and tools
+3. **Technical documentation**
+   - Include **block diagrams**, **circuit schematics**, and **justifications** for major design choices (hardware and software).
 
-1. Put here the references and online tools you used.
-2. ...
+4. **Pitch poster (A3 or larger)**
+   - A visually appealing poster summarizing:
+     - Project concept and motivation
+     - System design and functionality
+     - Value, applications, and potential impact
 
-# MPA-DIE topic 2024/25
+---
 
-Complete the free online course at coursera.org by Edge Impulse [Introduction to Embedded Machine Learning](https://www.coursera.org/learn/introduction-to-embedded-machine-learning)
+## Phase 3: Demonstration
 
-Solve a machine learning project using the ESP32 or your Smart phone and [Edge Impulse tool](https://edgeimpulse.com/).
+### Objective
+Present and defend your project in front of instructors and peers.
 
-# BPA-DE2 topics 2024/25
+### Expectations
+- Teams will **showcase their working prototype** and **poster** during the demonstration session.
+- Each member should be prepared to explain their contribution and answer technical questions about the design, implementation, and testing.
 
-### Measurement/Control/Visualization of the environment for tropical plants
+   ![chatgpt](images/chatgpt-vs-developers.png)
 
-The goal of the project would be to create a system that measures key environmental parameters (such as temperature, humidity, light levels, soil moisture) for tropical plants. This system should also allow the user to control or adjust environmental conditions and visualize the data.
+---
 
-Inspiration:
-* [Climate Chamber System](https://projecthub.arduino.cc/ms_peach/climate-chamber-system-c545de)
+## Topics 2025/26
 
-Possible components:
-* Plant terrarium
-* I2C temperature and humidity sensor
-* Photoresistor
-* Soil moisture sensor
-* OLED display
-* RGB LED strip Neopixel WS2812B
-* Relays
-* Brushless DC fan, NMOS transistor
-* ESP8266 Wi-Fi module
+### 1. Indoor air quality monitoring system
+Measure temperature, humidity, CO2, and particulate matter (PM2.5/PM10) using sensors such as DHTx, MQx, SQP4x, SDS011, etc. Display data on a display and send it to a web dashboard.
 
-### GPS tracker
+### 2. FM radio receiver with digital tuning
+Build an FM receiver using a tuner module (e.g., Si4703). Include a display to show frequency and simple buttons for tuning. Consider an RDS (Radio Data System).
 
-(*Max 2 teams.*)
+### 3. Portable environmental data logger with timestamping
+Collect and store environmental data (temperature, pressure, light, motion, etc.) to an SD card or internal memory. Include a real-time clock for timestamping. Export data to computer.
 
-A GPS-based environmental sensor data logger that integrates GPS functionality for location tracking along with environmental sensor(s) to monitor and log environmental conditions. The system captures and stores sensor data such as temperature, humidity, air quality, or other relevant environmental metrics. The logged data, along with its corresponding location information, can be displayed and exported for further analysis. The project aims to provide real-time monitoring, data storage, and export capabilities.
-
-Possible components:
-* GPS module
-* I2C temperature, humidity sensor, and presure sensor
-* Photoresistor
-* air quality sensors
-* OLED display
-
-### Digital clock
-
-(*Max 2 teams.*)
-
-Design and implement a digital clock using NeoPixel displays. The clock will display the current time, support alarms, and synchronize with network time servers (NTP) to ensure accurate timekeeping. Set up physical buttons or touch/proximity input to interact with the clock (e.g., set time, set alarms, snooze alarms). Implement basic functions to control the NeoPixel LEDs (e.g., setting color, brightness, and individual pixel control).
-
-Optional updates:
-* In addition to the standard digital time display, implement a mode that shows time in binary format. You can display each digit (hour, minute, second) in binary using a set of LEDs, where each LED represents a bit (0 or 1). This could be a cool and educational feature.
-* Integrate a temperature/humidity sensor to measure indoor temperature.
-* Implement an automatic night mode that reduces the display brightness in low-light conditions or based on a set schedule.
-* Implement a feature that allows the clock to display time in multiple time zones.
-
-Possible components:
-* [NeoPixel displays](https://www.vokolo.cz/rubriky/navody/navod-na-stavbu-hodin-neopixsegment/)
-* RGB LED strip Neopixel WS2812B
-* I2C temperature and humidity sensor
-* Photoresistor
-
-### ESP-NOW mesh network with ESP32
-
-ESP-NOW is a wireless communication protocol developed by Espressif for low-power, peer-to-peer communication between ESP32 devices. It allows multiple ESP32 boards to communicate directly with each other without the need for a Wi-Fi router, making it ideal for applications where low-latency and energy efficiency are important. In this project, ESP-NOW can be used to enable real-time data exchange between two or more devices, such as synchronizing a digital clock across multiple locations or sending sensor data between a master and slave device.
+### 4. Audio spectrum analyzer
+Build a real-time audio spectrum analyzer using a microphone. Use a Fast Fourier Transform (FFT) to convert audio signals into a frequency spectrum and display the results on an OLED screen. Optionally, data could be logged to an SD card for analysis.
