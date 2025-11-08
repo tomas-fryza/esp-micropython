@@ -10,7 +10,7 @@ Student teams (3-4 students) will design and develop an ESP32-based system to ad
 
 * If needed, use the simulation tools, such as [wokwi](https://wokwi.com/), [Falstad](https://www.falstad.com/circuit/circuitjs.html), etc.
 
-* Use modules/classes from the labs. Create your own (and documentation) for the new components. Strictly follow licenses for third-party libraries!
+* Use modules/classes from the labs. Create your own (and documentation in Sphinx) for the new components. Strictly follow licenses for third-party libraries!
 
 * Follow coding standards in your codes.
 
