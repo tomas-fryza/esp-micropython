@@ -82,7 +82,7 @@ Present and defend your project in front of instructors and peers.
 
 ## Topics 2025/26 (for BPA-DE2 only)
 
-> **Note:** Students from MPA-DIE enroll and complete a free online course [Introduction to Embedded Machine Learning](https://www.coursera.org/learn/introduction-to-embedded-machine-learning) and propose their own project topic.
+> **Note:** Students from MPA-DIE enroll and complete a free online course [Introduction to Embedded Machine Learning](https://www.coursera.org/learn/introduction-to-embedded-machine-learning) and propose their own project topic. Use the [Edge Impulse](https://edgeimpulse.com/) tool for the project.
 
 ### 1. Indoor air quality monitoring system
 Measure temperature, humidity, CO2, and particulate matter (PM2.5/PM10) using sensors such as DHTx, MQx, SQP4x, SDS011, etc. Display data on a display and send it to a web dashboard.
