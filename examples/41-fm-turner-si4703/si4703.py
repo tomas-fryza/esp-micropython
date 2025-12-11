@@ -258,7 +258,7 @@ if __name__ == "__main__":
     SCL_PIN = 22
     RESET_PIN = 12
 
-    i2c = I2C(1, scl=Pin(SCL_PIN), sda=Pin(SDIO_PIN), freq=100_000)
+    i2c = I2C(0, scl=Pin(SCL_PIN), sda=Pin(SDIO_PIN), freq=100_000)
     radio = Radio(i2c, Pin(RESET_PIN, Pin.OUT))
 
     radio.Init()
