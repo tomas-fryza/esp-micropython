@@ -10,7 +10,7 @@ import utime as time
 from gps import adafruit_gps
 
 # Create a GPS module instance.
-uart = UART(2, baudrate=9600)  #, timeout_chars=3000)  #, pins=('P8','P2'))
+uart = UART(2, baudrate=115_200)  #, timeout_chars=3000)  #, pins=('P8','P2'))
 print(uart)
 
 # Create a GPS module instance.
@@ -40,6 +40,9 @@ gps.send_command('PMTK220,1000')
 # You can also speed up the rate, but don't go too fast or else you can lose
 # data during parsing.  This would be twice a second (2hz, 500ms delay):
 # gps.send_command('PMTK220,500')
+
+# Set baudrate to 115_200
+gps.send_command("PMTK251,115200")
 
 # Main loop runs forever printing the location, etc. every second.
 last_print = time.ticks_ms()
