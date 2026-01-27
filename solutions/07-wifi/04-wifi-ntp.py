@@ -27,7 +27,7 @@ wifi = network.WLAN(network.STA_IF)
 wifi_utils.connect(wifi, config.SSID, config.PSWD)
 
 # Get UTC time from NTP server and set it to RTC
-ntptime.host = "cz.pool.ntp.org"
+# ntptime.host = "cz.pool.ntp.org"
 ntptime.settime()
 print("Local RTC synchronized")
 wifi_utils.disconnect(wifi)
