@@ -1,289 +1,357 @@
-from machine import Timer, Pin
-import machine
-import network
-import urequests
-import json
-import neopixel
+from machine import Pin, Timer, I2C
+from neopixel import NeoPixel
 import time
-# import _thread
-import wifi_module
-import WIFI_CONFIG
+import config
+import random
 
-# Based on Berman Noam, Bron Matthieu, Clouard Adam
-# https://github.com/matthieubron/project-bpa-de2
 
-# Configuration of NeoPixel
-pin_neopixel = 5
-np = neopixel.NeoPixel(Pin(pin_neopixel), 58)
+LED_PIN = 2
+BUTTON_PIN = 27
+NEOPIXEL_PIN = 17
+NEOPIXEL_NUM = 58
+DHT_ADDR = 0x5c
 
-# GPIO Configuration
-btn_w = Pin(27, Pin.IN, Pin.PULL_UP)  # White button
-btn_w.irq(trigger = Pin.IRQ_FALLING, handler=lambda pin: handle_debounced(pin, change_color))
+LONG_PRESS_MSEC = 3000
 
-led_status = Pin(2, Pin.OUT)
-led_status.off()
+led = Pin(LED_PIN, Pin.OUT)
+btn = Pin(BUTTON_PIN, Pin.IN, Pin.PULL_UP)
+strip = NeoPixel(Pin(NEOPIXEL_PIN, Pin.OUT), NEOPIXEL_NUM)
 
-# Variables Configuration
-hour = 0
-minute = 0
-second = 0
+DIGITS = [
+    range(0, 14),     # D0 - hour tens
+    range(14, 28),    # D1 - hour ones
+    range(30, 44),    # D2 - minute tens
+    range(44, 58),    # D3 - minute ones
+]
 
-# Different colors for the display
-colors = [(255,255,255),(127,0,255),(0,0,255),(0,255,0),(255,0,0)]
-color_index = 4
-turnoff_color = [(0,0,0)]
-turnoff_color_index = 0
+COLON = [28, 29]
+COLON_BOTH  = 0
+COLON_UPPER = 1
+COLON_LOWER = 2
+COLON_NONE  = 3
 
-# Bounce button
-last_press_times = {}
+#      2  3
+#   1        4
+#   0        5
+#     12 13
+#  11        6
+#  10        7
+#      9  8
 
-# Creation of the dictionnary for the LED
-chiffres_leds = {
-    0: {
-        0: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
-        1: [4, 5, 6, 7],
-        2: [2, 3, 4, 5, 8, 9, 10, 11, 12, 13],
-        3: [2, 3, 4, 5, 6, 7, 8, 9, 12, 13],
-        4: [0, 1, 4, 5, 6, 7, 12, 13],
-        5: [0, 1, 2, 3, 6, 7, 8, 9, 12, 13],
-        6: [0, 1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 13],
-        7: [2, 3, 4, 5, 6, 7],
-        8: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
-        9: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 12, 13]
-    },
-    1: {
-        0: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25],
-        1: [18, 19, 20, 21],
-        2: [16, 17, 18, 19, 22, 23, 24, 25, 26, 27],
-        3: [16, 17, 18, 19, 20, 21, 22, 23, 26, 27],
-        4: [14, 15, 18, 19, 20, 21, 26, 27],
-        5: [14, 15, 16, 17, 20, 21, 22, 23, 26, 27],
-        6: [14, 15, 16, 17, 20, 21, 22, 23, 24, 25, 26, 27],
-        7: [16, 17, 18, 19, 20, 21],
-        8: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27],
-        9: [14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 26, 27]
-    },
-    2: {
-        0: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41],
-        1: [34, 35, 36, 37],
-        2: [32, 33, 34, 35, 38, 39, 40, 41, 42, 43],
-        3: [32, 33, 34, 35, 36, 37, 38, 39, 42, 43],
-        4: [30, 31, 34, 35, 36, 37, 42, 43],
-        5: [30, 31, 32, 33, 36, 37, 38, 39, 42, 43],
-        6: [30, 31, 32, 33, 36, 37, 38, 39, 40, 41, 42, 43],
-        7: [32, 33, 34, 35, 36, 37],
-        8: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43],
-        9: [30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 42, 43]
-    },
-    3: {
-        0: [44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55],
-        1: [48, 49, 50, 51],
-        2: [46, 47, 48, 49, 52, 53, 54, 55, 56, 57],
-        3: [46, 47, 48, 49, 50, 51, 52, 53, 56, 57],
-        4: [44, 45, 48, 49, 50, 51, 56, 57],
-        5: [44, 45, 46, 47, 50, 51, 52, 53, 56, 57],
-        6: [44, 45, 46, 47, 50, 51, 52, 53, 54, 55, 56, 57],
-        7: [46, 47, 48, 49, 50, 51],
-        8: [44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 54, 55, 56, 57],
-        9: [44, 45, 46, 47, 48, 49, 50, 51, 52, 53, 56, 57]
-
-    },
-    4 : [28,29],
-    5 : [30,31,32,33,34,35,42,43],
-    6 : [44,45,46,47,52,53,54,55]
+FONT = {
+    0: (2,3, 4,5, 6,7, 9,8, 11,10, 1,0),
+    1: (4,5, 6,7),
+    2: (2,3, 4,5, 12,13, 11,10, 9,8),
+    3: (2,3, 4,5, 6,7, 9,8, 12,13),
+    4: (1,0, 12,13, 4,5, 6,7),
+    5: (2,3, 1,0, 12,13, 6,7, 9,8),
+    6: (2,3, 1,0, 12,13, 11,10, 6,7, 9,8),
+    7: (2,3, 4,5, 6,7),
+    8: (2,3, 4,5, 6,7, 9,8, 11,10, 1,0, 12,13),
+    9: (2,3, 1,0, 4,5, 12,13, 6,7, 9,8),
 }
+DEGREE_SYMBOL = (2,3, 4,5, 12,13, 1,0)
+LETTER_C = (2,3, 1,0, 11,10, 9,8)
+LETTER_F = (2,3, 1,0, 12,13, 11,10)
 
-wifi = network.WLAN(network.STA_IF)
+colors = [
+    (255,   0,   0),   # Red
+    (255, 255,   0),   # Yellow
+    (128, 255,   0),   # Lime
+    (0,   255,   0),   # Green
+    (0,   255, 255),   # Cyan
+    (0,   128, 255),   # Sky Blue
+    (0,     0, 255),   # Blue
+    (75,    0, 130),   # Indigo
+    (255,  20, 147),   # Pink
+    (255, 255, 255),   # White
+    (64,   64,  64),   # Dim White
+    (32,   32,  32),   # Dimer White
+    (8,     8,   8),   # Dimest White
+    (0,     0,   0),   # Off
+]
+color_index = random.randrange(len(colors)-1)
+print(f"[neopixel] change color to {colors[color_index]}")
 
-
-"""
-This function sends a request to get the current time
-and puts it in the different variables
-
-@return		hours_req		the current hour
-@return		minute_req		the courrent minute
-@return		second_req		the current seconde
-"""
-def get_time():
-    print("Get time from timeapi.io... ", end="")
-    response = urequests.get("https://timeapi.io/api/time/current/zone?timeZone=Europe/Prague")
-
-    if response.status_code == 200:
-        print("Done")
-        result = response.json()
-
-        hour_req = result.get("hour")
-        minute_req = result.get("minute")
-        second_req = result.get("seconds")
-        print("Hour:", hour_req)
-        print("Minute:", minute_req)
-        print("Second:",second_req)
-
-        response.close()
-        return hour_req, minute_req, second_req
-    else:
-        print("Error: ", response.status_code)
-        response.close()
-        return None, None, None
+tick_ms = 0
+year, month, day, hour, minute, second = 0, 0, 0, 0, 0, 0
+temp_c = None
+temp_f = None
+display_mode = 0  # 0=date, 1=time, 2=temperature_c, 3=temperature_f
 
 
-"""
-This function takes care of the incrementation of the time
-and uses display_time to show the values on the digital clock
+def draw_digit(strip, digit_index, value, color):
+    base = DIGITS[digit_index]
+    segments_on = FONT.get(value, ())
 
-@param _	Identify the pin that triggered the interruption
-"""
-def update_time(_):
-    global hour, minute, second
-    second +=1
-    if second >=60:
-        second = 0
-        minute +=1
-    if minute >=60:
-        minute = 0
-        hour +=1
-    if hour >=24:
-        hour = 0
-
-"""
-This function is used to set specific number on Leds
-
-@param neopixel_index		Indicates on which neopixel the number should be display
-@param number				Refers to the number in the dictionnary that corresponds to a segment of Leds
-@param color_index			Index that gives the information on which color to chose in the table colors
-"""
-def display_number(neopixel_index,number,color_index):
-
-    leds = chiffres_leds[neopixel_index][number]
-    for led in leds:
-        np[led] = colors[color_index]
-
-
-"""
-This function is used to set the two points on the Led
-
-@param two_points_index		Refers to the index of the two Leds that control the two points on the clock
-@param color_index		    Index that gives the information on which color to chose in the table colors
-"""
-def display_2points(two_points_index, color_index):
-
-    leds = chiffres_leds.get(two_points_index, [])
-    for led in leds:
-        np[led] = colors[color_index]
-
-
-"""
-This function displays the current time on the digital clock
-
-@param hour			Current hour
-@param minute		Current minute
-@param color_index	Index that gives the information on which color to chose in the table colors
-"""
-def display_time(hour, minute, color_index):
-
-    #Reset the clock by putting all led black corresponds to the number 8 on our device
-
-    turn_off(0,8,0)
-    turn_off(1,8,0)
-    turn_off(2,8,0)
-    turn_off(3,8,0)
-
-    display_number(0,hour // 10,color_index)
-    display_number(1,hour % 10,color_index)
-    display_2points(4,color_index)
-    display_number(2,minute // 10,color_index)
-    display_number(3,minute % 10,color_index)
-    np.write()
-
-
-"""
-This function turns off the Leds on the neopixel
-
-@param neopixel_index		Indicates on which neopixel the number should be display
-@param number				Refers to the number in the dictionnary that corresponds to a segment of Leds
-@param turnoff_color_index	Index that gives the information on which color to chose in the table turnoff_color
-"""
-def turn_off(neopixel_index, number, turnoff_color_index):
-    leds = chiffres_leds[neopixel_index][number]
-    for led in leds:
-        np[led] = turnoff_color[turnoff_color_index]
-
-
-"""
-This function turns off the Leds of the two points
-
-@param two_points_index		Refers to the index of the two Leds that control the two points on the clock
-"""
-def turn_off_2points(two_points_index):
-    leds = chiffres_leds[two_points_index]
-    for led in leds:
-        np[led] = (0,0,0)
-
-
-"""
-This function makes sure that there is no bounce when we press a button
-
-@param pin		correspond to the pin of the button
-@param callback	call the associated function
-"""
-def handle_debounced(pin, callback):
-    global last_press_times
-
-    debounce_time = 200
-
-    current_time = time.ticks_ms()
-    last_time = last_press_times.get(pin, 0)
-
-    if time.ticks_diff(current_time, last_time) > debounce_time:
-        last_press_times[pin] = current_time
-        callback(pin)
-
-
-"""
-This function is in charge of the color displayed
-
-@param pin	Identify the pin that triggered the interruption
-"""
-def change_color(pin):
-    global color_index, last_press_time
-
-    print("Button pressed")
-    if btn_w.value() == 0:
-        if color_index <= len(colors)-2:  # "-2" bcs we're gonna add "1"
-            color_index += 1
+    for i, led in enumerate(base):
+        if i in segments_on:
+            strip[led] = color
         else:
-            color_index = 0
+            strip[led] = (0, 0, 0)
 
 
-led_status.on()
-wifi_module.connect(wifi, WIFI_CONFIG.SSID, WIFI_CONFIG.PSWD)
-for i in range(5):
-    hour, minute, second = get_time()
-    if hour and minute and second:
-        break
-wifi_module.disconnect(wifi)
-led_status.off()
+def draw_4digits(strip, left, right, color, colon_mode=COLON_BOTH):
+    l_tens = left // 10
+    l_ones = left % 10
+    r_tens = right // 10
+    r_ones = right % 10
 
-tim = Timer(0)
-tim.init(period=1000, mode=Timer.PERIODIC, callback=update_time)
+    draw_digit(strip, 0, l_tens, color)
+    draw_digit(strip, 1, l_ones, color)
+    draw_digit(strip, 2, r_tens, color)
+    draw_digit(strip, 3, r_ones, color)
 
+    # --- colon handling ---
+    if colon_mode == COLON_BOTH:
+        strip[COLON[0]] = color
+        strip[COLON[1]] = color
+
+    elif colon_mode == COLON_LOWER:
+        strip[COLON[0]] = color
+        strip[COLON[1]] = (0, 0, 0)
+
+    elif colon_mode == COLON_UPPER:
+        strip[COLON[0]] = (0, 0, 0)
+        strip[COLON[1]] = color
+
+    else:  # COLON_NONE
+        strip[COLON[0]] = (0, 0, 0)
+        strip[COLON[1]] = (0, 0, 0)
+
+
+def draw_symbol(strip, digit_index, segments, color):
+    base = DIGITS[digit_index]
+
+    for i, led in enumerate(base):
+        strip[led] = color if i in segments else (0, 0, 0)
+
+
+def is_europe_dst(tm):
+    """
+    Determine if European Daylight Saving Time (CEST) is in effect.
+
+    Standard time (CET, UTC+1): from last Sunday of October to last Sunday of March
+    Daylight saving (CEST, UTC+2): from last Sunday of March to last Sunday of October
+    """
+
+    year = tm[0]
+    month = tm[1]
+    day = tm[2]
+    weekday = tm[6]  # 0=Mon ... 6=Sun
+
+    # DST starts: last Sunday of March
+    if month < 3 or month > 10:
+        return False
+    if month > 3 and month < 10:
+        return True
+
+    # Compute last Sunday of March / October
+    if month == 3:  # March
+        last_sunday = 31 - (time.mktime((year, 3, 31, 0, 0, 0, 0, 0)) // 86400 + 3) % 7
+        return day >= last_sunday
+    elif month == 10:  # October
+        last_sunday = 31 - (time.mktime((year, 10, 31, 0, 0, 0, 0, 0)) // 86400 + 3) % 7
+        return day < last_sunday
+    return False
+
+
+def sync_rtc(ssid, password, timezone=1):
+    import network, ntptime
+    from machine import RTC
+    import wifi_utils
+    import time
+
+    led.on()
+
+    wifi = network.WLAN(network.STA_IF)
+    wifi_utils.connect(wifi, ssid, password)
+
+    try:
+        ntptime.settime()  # UTC
+        now = time.time()
+        print(f"[rtc] Get UTC: {now}")
+
+    except OSError as e:
+        print("[E] Failed to set RTC:", e)
+        led.off()
+        return False
+
+    finally:
+        wifi_utils.disconnect(wifi)
+
+    # Determine DST
+    t_utc = time.localtime(now)
+    if is_europe_dst(t_utc):
+        tz_sec = (timezone + 1) * 3600  # DST adds +1 hour
+        print(f"[rtc] European Daylight Saving Time (CEST) is in effect")
+    else:
+        tz_sec = timezone * 3600
+
+    # Apply timezone
+    t = time.localtime(now + tz_sec)
+
+    rtc = RTC()
+    rtc.datetime((
+        t[0],  # year
+        t[1],  # month
+        t[2],  # day
+        t[6],  # weekday
+        t[3],  # hour
+        t[4],  # minute
+        t[5],  # second
+        0
+    ))
+
+    print(f"[rtc] Timezone applied: {t}")
+    led.off()
+
+    return True
+
+
+def task_handle_button():
+    """Check button state and call the correct function."""
+    global press_start, long_handled
+
+    if not btn.value():  # Pressed (LOW)
+        if press_start is None:
+            press_start = time.ticks_ms()
+            long_handled = False
+        else:
+            if (not long_handled and
+                time.ticks_diff(time.ticks_ms(), press_start) >= LONG_PRESS_MSEC):
+                long_press_fn()
+                long_handled = True
+    else:  # Released
+        if press_start is not None and not long_handled:
+            short_press_fn()
+        press_start = None
+        long_handled = False
+
+
+def short_press_fn():
+    global color_index, display_mode
+    
+    color_index = (color_index + 1) % len(colors)
+    print(f"[neopixel] change color to {colors[color_index]}")
+
+    # display_mode = 0
+    task_refresh_display()
+
+
+def long_press_fn():
+    sync_rtc(config.SSID, config.PSWD)
+
+
+def task_read_rtc():
+    global year, month, day, hour, minute, second
+
+    t = time.localtime()
+    year, month, day, hour, minute, second, _, _ = t
+
+
+def task_switch_mode():
+    global display_mode
+
+    display_mode = (display_mode + 1) % 4
+    task_refresh_display()
+
+
+def task_refresh_display():
+    if display_mode == 0:
+        # --- Time ---
+        print(f"{hour:02d}:{minute:02d}:{second:02d}")
+        draw_4digits(strip, hour, minute, colors[color_index], COLON_BOTH)
+        strip.write()
+
+    elif display_mode == 1:
+        # --- Date ---
+        print(f"{year:04d}-{month:02d}-{day:02d}")
+        draw_4digits(strip, day, month, colors[color_index], COLON_LOWER)
+        strip.write()
+
+    elif display_mode == 2:
+        # --- Temperature deg C
+        print(f"{temp_c} degC")
+
+        draw_4digits(strip, temp_c, 0, colors[color_index], COLON_NONE)
+        draw_symbol(strip, 2, DEGREE_SYMBOL, colors[color_index])
+        draw_symbol(strip, 3, LETTER_C, colors[color_index])
+        strip.write()
+
+    elif display_mode == 3:
+        # --- Temperature deg F
+        print(f"{temp_f} degF")
+
+        draw_4digits(strip, temp_f, 0, colors[color_index], COLON_NONE)
+        draw_symbol(strip, 2, DEGREE_SYMBOL, colors[color_index])
+        draw_symbol(strip, 3, LETTER_F, colors[color_index])
+        strip.write()
+
+
+def task_read_temperature():
+    global temp_c, temp_f
+
+    # Read 4 bytes from DHT12 sensor
+    # 0x00: humid int
+    # 0x01: humid dec
+    # 0x02: temp int
+    # 0x03: temp dec
+    # 0x04: checksum
+    a = i2c.readfrom_mem(DHT_ADDR, 0, 4)
+    temp = a[2] + a[3]*0.1
+    temp_c = round(temp)
+    temp_f = int(temp * 9 / 5 + 32 + 0.5)
+
+    print(f"[dht12] temperature: {temp} degC, {temp_f} degF, humid: {a[0]}.{a[1]} %")
+    print(temp_c)
+    print(temp_f)
+
+
+# --- Define all periodic tasks in one table ---
+tasks = [
+    {"func": task_handle_button, "period_ms": 100, "flag": False},
+    {"func": task_read_rtc, "period_ms": 1_000, "flag": False},
+    {"func": task_switch_mode, "period_ms": 10_000,  "flag": False},
+    {"func": task_read_temperature, "period_ms": 60_000,  "flag": False},
+]
+
+
+def timer_handler(t):
+    """Interrupt handler for Timer sets task flags."""
+    global tick_ms
+    tick_ms += 1
+
+    for task in tasks:
+        if tick_ms % task["period_ms"] == 0:
+            task["flag"] = True
+
+
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+display_mode = 0  # Time
+
+sync_rtc(config.SSID, config.PSWD)
+task_read_rtc()
+task_read_temperature()
+task_refresh_display()
+
+# --- State for button handling ---
+press_start = None
+long_handled = False
+
+# --- Base tick for the whole system ---
+Timer(0).init(period=1, mode=Timer.PERIODIC, callback=timer_handler)
+
+# --- Main loop ---
 try:
     while True:
-        display_time(hour, minute, color_index)
-        time.sleep(0.1)
+        for task in tasks:
+            if task["flag"]:
+                task["func"]()
+                task["flag"] = False
 
 except KeyboardInterrupt:
-    # This part runs when Ctrl+C is pressed
     print("Program stopped. Exiting...")
-
-    # Optional cleanup code
-    led_status.off()
-    tim.deinit()  # Stop the timer
-    btn_w.irq(trigger=0, handler=update_time)  # Disable the interruption
-
-    turn_off(0,8,0)  # Turn the disaply off
-    turn_off(1,8,0)
-    turn_off(2,8,0)
-    turn_off(3,8,0)
-    turn_off_2points(4)
-    np.write()
+    led.off()
+    draw_4digits(strip, hour, minute, colors[-1], COLON_NONE)  # Off
+    strip.write()

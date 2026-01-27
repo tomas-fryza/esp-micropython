@@ -57,7 +57,7 @@ def connect(wifi, ssid, password):
 
     if not wifi.isconnected():
         wifi.active(True)
-        print(f"wifi: Connecting to {ssid}...", end="")
+        print(f"[wifi] Connecting to {ssid}...", end="")
         wifi.connect(ssid, password)
 
         for _ in range(40):
@@ -71,11 +71,11 @@ def connect(wifi, ssid, password):
                     print(".", end="")
                 time.sleep_ms(250)
 
-        print("\r\n\x1b[31mwifi: Connection failed\x1b[0m")
+        print("\r\n\x1b[31m[wifi] Connection failed\x1b[0m")
         wifi.disconnect()
         return False
     else:
-        print("wifi: Already connected")
+        print("[wifi] Already connected")
         if print_info:
             print_status(wifi)
     return True
@@ -92,7 +92,7 @@ def disconnect(wifi):
         wifi.active(False)
 
     if not wifi.isconnected():
-        print("wifi: Deactivated/disconnected")
+        print("[wifi] Deactivated/disconnected")
 
     if print_info:
         print_status(wifi)
@@ -107,16 +107,16 @@ def print_status(wifi):
                  be printed.
     """
     status = wifi.status()
-    print(f"wifi: {status_messages.get(status)}")
+    print(f"[wifi] {status_messages.get(status)}")
 
 
 status_messages = {
     1000: "STAT_IDLE -- 1000",
     1001: "STAT_CONNECTING -- 1001",
     1010: "STAT_GOT_IP -- 1010",
+    200: "STAT_BEACON_TIMEOUT -- 200",
     201: "STAT_NO_AP_FOUND -- 201",
     202: "STAT_WRONG_PASSWORD -- 202",
-    200: "STAT_BEACON_TIMEOUT -- 200",
     203: "STAT_ASSOC_FAIL -- 203",
     204: "STAT_HANDSHAKE_TIMEOUT -- 204"
 }

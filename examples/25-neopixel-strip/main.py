@@ -46,5 +46,5 @@ def demo(np):
 # GND
 # 15/A4 (FireBeetle v2)
 # 5/D8 (FireBeetle)
-np = NeoPixel(Pin(5), 60)  # 60 LEDs
+np = NeoPixel(Pin(17), 60)  # 60 LEDs
 demo(np)
