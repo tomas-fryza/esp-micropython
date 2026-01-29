@@ -53,6 +53,8 @@ FONT = {
 DEGREE_SYMBOL = (2,3, 4,5, 12,13, 1,0)
 LETTER_C = (2,3, 1,0, 11,10, 9,8)
 LETTER_F = (2,3, 1,0, 12,13, 11,10)
+LETTER_H = (1,0, 11,10, 4,5, 6,7, 12,13)
+LETTER_U = (11,10, 6,7, 9,8)
 
 colors = [
     (255,   0,   0),   # Red
@@ -77,7 +79,8 @@ tick_ms = 0
 year, month, day, hour, minute, second = 0, 0, 0, 0, 0, 0
 temp_c = None
 temp_f = None
-display_mode = 0  # 0=date, 1=time, 2=temperature_c, 3=temperature_f
+humid = None
+display_mode = 0  # 0=date, 1=time, 2=temperature_c, 3=temperature_f, 4=humidity
 
 
 def draw_digit(strip, digit_index, value, color):
@@ -253,7 +256,7 @@ def task_read_rtc():
 def task_switch_mode():
     global display_mode
 
-    display_mode = (display_mode + 1) % 4
+    display_mode = (display_mode + 1) % 5
     task_refresh_display()
 
 
@@ -288,9 +291,18 @@ def task_refresh_display():
         draw_symbol(strip, 3, LETTER_F, colors[color_index])
         strip.write()
 
+    elif display_mode == 4:
+        # --- Humidity
+        print(f"{humid} %")
 
-def task_read_temperature():
-    global temp_c, temp_f
+        draw_4digits(strip, humid, 0, colors[color_index], COLON_NONE)
+        draw_symbol(strip, 2, LETTER_H, colors[color_index])
+        draw_symbol(strip, 3, LETTER_U, colors[color_index])
+        strip.write()
+
+
+def task_read_temperature_humidity():
+    global temp_c, temp_f, humid
 
     # Read 4 bytes from DHT12 sensor
     # 0x00: humid int
@@ -299,6 +311,7 @@ def task_read_temperature():
     # 0x03: temp dec
     # 0x04: checksum
     a = i2c.readfrom_mem(DHT_ADDR, 0, 4)
+    humid = a[0]
     temp = a[2] + a[3]*0.1
     temp_c = round(temp)
     temp_f = int(temp * 9 / 5 + 32 + 0.5)
@@ -306,6 +319,7 @@ def task_read_temperature():
     print(f"[dht12] temperature: {temp} degC, {temp_f} degF, humid: {a[0]}.{a[1]} %")
     print(temp_c)
     print(temp_f)
+    print(humid)
 
 
 # --- Define all periodic tasks in one table ---
@@ -313,7 +327,7 @@ tasks = [
     {"func": task_handle_button, "period_ms": 100, "flag": False},
     {"func": task_read_rtc, "period_ms": 1_000, "flag": False},
     {"func": task_switch_mode, "period_ms": 10_000,  "flag": False},
-    {"func": task_read_temperature, "period_ms": 60_000,  "flag": False},
+    {"func": task_read_temperature_humidity, "period_ms": 60_000,  "flag": False},
 ]
 
 
@@ -332,7 +346,7 @@ display_mode = 0  # Time
 
 sync_rtc(config.SSID, config.PSWD)
 task_read_rtc()
-task_read_temperature()
+task_read_temperature_humidity()
 task_refresh_display()
 
 # --- State for button handling ---
