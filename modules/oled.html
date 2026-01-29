@@ -1,0 +1,281 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SH1106-based OLED driver &mdash; MicroPython course 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="DHT12 sensor driver" href="dht12.html" />
+    <link rel="prev" title="HD44780-based LCD driver" href="lcd.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MicroPython course
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="hw_config.html">Basic I/O components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lcd.html">HD44780-based LCD driver</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">SH1106-based OLED driver</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#authors">Authors:</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modification-history">Modification history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#sh1106.SH1106_I2C"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.DEV_ADDR"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.DEV_ADDR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.HEIGHT"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.HEIGHT</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.HIGH_COLUMN_ADDR"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.HIGH_COLUMN_ADDR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.LOW_COLUMN_ADDR"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.LOW_COLUMN_ADDR</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.PAGES"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.PAGES</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.PAGE_ADDRESS"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.PAGE_ADDRESS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.WIDTH"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.WIDTH</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.contrast"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.contrast()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.poweroff"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.poweroff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.poweron"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.poweron()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.show"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.show()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.sleep"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.sleep()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.write_cmd"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.write_cmd()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#sh1106.SH1106_I2C.write_data"><code class="docutils literal notranslate"><span class="pre">SH1106_I2C.write_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#sh1106.demo"><code class="docutils literal notranslate"><span class="pre">demo()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="dht12.html">DHT12 sensor driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bme280.html">BME280 sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wifi.html">Wi-Fi</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MicroPython course</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">SH1106-based OLED driver</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/oled.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-sh1106">
+<span id="sh1106-based-oled-driver"></span><h1>SH1106-based OLED driver<a class="headerlink" href="#module-sh1106" title="Link to this heading"></a></h1>
+<p>This module provides an interface for controlling an OLED display using
+the SH1106 driver over the I2C protocol. It allows users to control the
+display’s power, contrast, and pixel data, as well as render text and
+images. It inherits from the <cite>framebuf.FrameBuffer</cite> class to enable drawing
+on the display’s buffer and updating the OLED screen.</p>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">sh1106</span> <span class="kn">import</span> <span class="n">SH1106_I2C</span>
+
+<span class="c1"># Init OLED display</span>
+<span class="n">i2c</span> <span class="o">=</span> <span class="n">I2C</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">scl</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="mi">22</span><span class="p">),</span> <span class="n">sda</span><span class="o">=</span><span class="n">Pin</span><span class="p">(</span><span class="mi">21</span><span class="p">),</span> <span class="n">freq</span><span class="o">=</span><span class="mi">400_000</span><span class="p">)</span>
+<span class="n">oled</span> <span class="o">=</span> <span class="n">SH1106_I2C</span><span class="p">(</span><span class="n">i2c</span><span class="p">)</span>
+
+<span class="c1"># Add some text at (x, y)</span>
+<span class="n">oled</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;Using OLED and&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">40</span><span class="p">)</span>
+<span class="n">oled</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="s2">&quot;ESP32&quot;</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Update the OLED display so the text is displayed</span>
+<span class="n">oled</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="authors">
+<h2>Authors:<a class="headerlink" href="#authors" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Shujen Chen et al., Raspberry Pi Pico Interfacing and Programming with MicroPython</p></li>
+<li><p>MicroPython SH1106 OLED driver, I2C and SPI interfaces</p></li>
+<li><p>Tomas Fryza</p></li>
+</ul>
+</section>
+<section id="modification-history">
+<h2>Modification history<a class="headerlink" href="#modification-history" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>2024-11-11</strong> : Added Sphinx-style comments for documentation.</p></li>
+<li><p><strong>2024-11-02</strong> : Added <cite>demo</cite> method to demonstrate usage of the display.</p></li>
+<li><p><strong>2023-10-27</strong> : File created, initial release.</p></li>
+</ul>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">sh1106.</span></span><span class="sig-name descname"><span class="pre">SH1106_I2C</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L44-L134"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">FrameBuffer</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.DEV_ADDR">
+<span class="sig-name descname"><span class="pre">DEV_ADDR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">60</span></span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/sh1106.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.DEV_ADDR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.HEIGHT">
+<span class="sig-name descname"><span class="pre">HEIGHT</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">64</span></span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/sh1106.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.HEIGHT" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.HIGH_COLUMN_ADDR">
+<span class="sig-name descname"><span class="pre">HIGH_COLUMN_ADDR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">16</span></span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/sh1106.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.HIGH_COLUMN_ADDR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.LOW_COLUMN_ADDR">
+<span class="sig-name descname"><span class="pre">LOW_COLUMN_ADDR</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/sh1106.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.LOW_COLUMN_ADDR" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.PAGES">
+<span class="sig-name descname"><span class="pre">PAGES</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/sh1106.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.PAGES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.PAGE_ADDRESS">
+<span class="sig-name descname"><span class="pre">PAGE_ADDRESS</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">176</span></span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/sh1106.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.PAGE_ADDRESS" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.WIDTH">
+<span class="sig-name descname"><span class="pre">WIDTH</span></span><span class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">128</span></span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/sh1106.py"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.WIDTH" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.contrast">
+<span class="sig-name descname"><span class="pre">contrast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L88-L95"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.contrast" title="Link to this definition"></a></dt>
+<dd><p>Set the contrast of the OLED display.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>val</strong> – Contrast value (0 to 255).</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.poweroff">
+<span class="sig-name descname"><span class="pre">poweroff</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L80-L82"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.poweroff" title="Link to this definition"></a></dt>
+<dd><p>Turn off the OLED display.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.poweron">
+<span class="sig-name descname"><span class="pre">poweron</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L76-L78"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.poweron" title="Link to this definition"></a></dt>
+<dd><p>Turn on the OLED display.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.show">
+<span class="sig-name descname"><span class="pre">show</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L97-L105"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.show" title="Link to this definition"></a></dt>
+<dd><p>Refresh the OLED display with the current buffer data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.sleep">
+<span class="sig-name descname"><span class="pre">sleep</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L84-L86"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.sleep" title="Link to this definition"></a></dt>
+<dd><p>Put the OLED display into sleep mode or wake it up.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.write_cmd">
+<span class="sig-name descname"><span class="pre">write_cmd</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cmd</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L60-L66"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.write_cmd" title="Link to this definition"></a></dt>
+<dd><p>Write a command byte to the SH1106 OLED display.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>cmd</strong> – The command byte to be sent to the display.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="sh1106.SH1106_I2C.write_data">
+<span class="sig-name descname"><span class="pre">write_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L68-L74"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.SH1106_I2C.write_data" title="Link to this definition"></a></dt>
+<dd><p>Write a data buffer to the SH1106 OLED display.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>data</strong> – A byte array containing the data to be sent.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="sh1106.demo">
+<span class="sig-prename descclassname"><span class="pre">sh1106.</span></span><span class="sig-name descname"><span class="pre">demo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/sh1106.py#L137-L185"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#sh1106.demo" title="Link to this definition"></a></dt>
+<dd><p>Demo function to showcase the usage of the SH1106 OLED display.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="lcd.html" class="btn btn-neutral float-left" title="HD44780-based LCD driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="dht12.html" class="btn btn-neutral float-right" title="DHT12 sensor driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2024, Tomas Fryza.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
