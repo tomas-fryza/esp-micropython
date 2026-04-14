@@ -4,13 +4,13 @@ MicroPython demo for ESP32: Wi-Fi scanner with OLED display
 This script initializes the OLED display (SSD1306) and continuously
 scans for the strongest Wi-Fi network.
 
-Requires: SSD1306 OLED library, I2C connectivity
+Requires: SH1106 or SSD1306 OLED library, I2C connectivity
 
 Author:
 - Tomas Fryza
 
 Creation date: 2025-04-28
-Last modified: 2025-05-18
+Last modified: 2026-04-14
 
 Inspired by:
   * https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
@@ -18,7 +18,7 @@ Inspired by:
 
 # MicroPython builtin modules
 from machine import Pin
-from machine import SoftI2C, I2C
+from machine import I2C
 import time
 import network
 
@@ -34,29 +34,6 @@ def init_display(i2c):
     display.contrast(100)
     display.fill(0)
     return display
-
-
-def i2c_scan(display):
-    print("Scanning I2C... ", end="")
-    display.text("Scanning I2C...", 0, 5)
-
-    addrs = i2c.scan()
-    # Scanning I2C... 5 device(s) detected
-    # dec. hex.
-    # 16   0x10 -- rda5807 (sequential access / RDA5800 mode)
-    # 17   0x11 -- rda5807 (random access / RDA5807 mode)
-    # 60   0x3c -- OLED
-    # 96   0x60 -- rda5807 (TEA5767 compatible mode)
-    # 119  0x77 -- bmp180 (pressure/temperature)
-    print(f"{len(addrs)} device(s) detected")
-
-    print("dec.\t hex.")
-    y = 16
-    for addr in addrs:
-        print(f"{addr}\t {hex(addr)}")
-        display.text(hex(addr), 0, y)
-        y += 8
-    display.show()  # Write the contents of the FrameBuffer to display memory
 
 
 def show_logo(display):
@@ -94,25 +71,18 @@ def show_wifi(display, ssid, rssi):
     display.show()
 
 
+led = Pin(2, Pin.OUT)
+
 # i2c = SoftI2C(sda=Pin(21), scl=Pin(22))
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 print(f"I2C configuration : {str(i2c)}")
 
 display = init_display(i2c)
-i2c_scan(display)
-time.sleep(5)
 display.fill(0)
 
-# Display invert animation
 show_logo(display)
-# for _ in range(3):
-#     display.invert(1)
-#     time.sleep(0.5)
-#     display.invert(0)
-#     time.sleep(0.5)
 
 wlan = init_wifi()
-
 # Optional: Show MAC address
 # mac_bytes = wlan.config('mac')
 # mac_str = ':'.join(f'{b:02x}' for b in mac_bytes)
@@ -129,6 +99,7 @@ print("Scanning for Wi-Fi networks... Press Ctrl+C to stop.")
 try:
     # Forever loop
     while True:
+        led.on()
         networks = wlan.scan()
         if networks:
             # Each network is: (ssid, bssid, channel, RSSI, authmode, hidden)
@@ -140,7 +111,8 @@ try:
         else:
             show_wifi(display, "<no networks>", 0)
             print("No networks found")
-        time.sleep(5)
+        led.off()
+        time.sleep(1)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
@@ -148,4 +120,5 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     display.poweroff()
+    led.off()
     wlan.active(False)

@@ -16,22 +16,28 @@ Last modified: 2025-05-18
 
 # MicroPython builtin modules
 from machine import Pin
-from machine import SoftI2C
+from machine import SoftI2C, I2C
 import time
 
 # External modules
-import ssd1306  # OLED display
+# import ssd1306  # OLED display
+from sh1106 import SH1106_I2C
 
 
 def init_display(i2c):
     """Initialize the OLED display and show startup screen."""
-    display = ssd1306.SSD1306_I2C(128, 64, i2c)
+    # display = ssd1306.SSD1306_I2C(128, 64, i2c)
+    display = SH1106_I2C(i2c)
     display.contrast(100)
     display.fill(0)
     return display
 
 
-i2c = SoftI2C(sda=Pin(21), scl=Pin(22))
+# i2c = SoftI2C(sda=Pin(21), scl=Pin(22))
+# Init I2C using pins GP22 & GP21 (default I2C0 pins)
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+print(f"I2C configuration : {str(i2c)}")
+
 display = init_display(i2c)
 
 # string, x, y
