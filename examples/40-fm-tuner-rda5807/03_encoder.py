@@ -55,7 +55,7 @@ btn_rot = Pin(PIN_ROT_BTN, Pin.IN)
 btn_rot.irq(trigger=Pin.IRQ_FALLING, handler=btn_rot_isr)
 
 # Start buzzer with duty=0 (silent)
-buzzer = PWM(Pin(PIN_BUZ, Pin.OUT), duty=0)
+# buzzer = PWM(Pin(PIN_BUZ, Pin.OUT), duty=0)
 
 print("Press `Ctrl+C` to stop")
 
@@ -77,4 +77,4 @@ except KeyboardInterrupt:
 
     # Optional cleanup code
     btn_rot.irq(handler=None)
-    buzzer.deinit()
+    # buzzer.deinit()

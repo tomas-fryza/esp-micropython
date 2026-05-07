@@ -19,10 +19,10 @@ PIN_LED_1 = 18
 PIN_LED_2 = 5
 PIN_LED_3 = 17
 
-PIN_BTN_0 = 4  # Left
-PIN_BTN_1 = 0  # Right
-PIN_BTN_2 = 2  # Up
-PIN_BTN_3 = 15  # Down
+PIN_BTN_0 = 27  # Left
+PIN_BTN_1 = 26  # Right
+PIN_BTN_2 = 25  # Up
+PIN_BTN_3 = 14  # Down
 PIN_ROT_BTN = 33  # Rotary encoder
 
 PIN_BUZ = 13  # Buzzer
@@ -97,7 +97,7 @@ btn_3.irq(trigger=Pin.IRQ_FALLING, handler=btn_3_isr)
 btn_rot.irq(trigger=Pin.IRQ_FALLING, handler=btn_rot_isr)
 
 # Start buzzer with duty=0 (silent)
-buzzer = PWM(Pin(PIN_BUZ, Pin.OUT), duty=0)
+# buzzer = PWM(Pin(PIN_BUZ, Pin.OUT), duty=0)
 
 print("Press `Ctrl+C` to stop")
 
@@ -120,4 +120,4 @@ except KeyboardInterrupt:
     btn_2.irq(handler=None)
     btn_3.irq(handler=None)
     btn_rot.irq(handler=None)
-    buzzer.deinit()
+    # buzzer.deinit()

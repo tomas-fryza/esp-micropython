@@ -23,13 +23,13 @@ import time
 import network
 
 # External modules
-# import ssd1306  # OLED display
+# from ssd1306 import SSD1306_I2C
 from sh1106 import SH1106_I2C
 
 
 def init_display(i2c):
     """Initialize the OLED display and show startup screen."""
-    # display = ssd1306.SSD1306_I2C(128, 64, i2c)
+    # display = SSD1306_I2C(128, 64, i2c)
     display = SH1106_I2C(i2c)
     display.contrast(100)
     display.fill(0)
