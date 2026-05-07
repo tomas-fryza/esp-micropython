@@ -1,0 +1,64 @@
+"""
+I2C OLED display SH1106 + DHT12 sensor
+
+MicroPython script for reading data from DHT12 I2C sensor
+and displaying on an OLED with the SH1106 controller. The
+script requires SH1106 and DHT12 modules, stored in ESP32 device.
+
+Authors:
+- Robert Hammelrath, https://github.com/robert-hh/SH1106
+- Martin Fitzpatrick, https://blog.martinfitzpatrick.com/oled-displays-i2c-micropython/
+- Tomas Fryza
+
+Creation date: 2023-10-27
+Last modified: 2026-04-07
+"""
+
+# MicroPython builtin modules
+from machine import I2C, Pin
+import time
+
+# External modules
+import dht12
+from sh1106 import SH1106_I2C
+
+# Init DHT12 sensor
+i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+sensor = dht12.DHT12(i2c)
+
+# Init OLED display
+display = SH1106_I2C(i2c)
+# display.contrast(50)  # Set contrast to 50 %
+display.text("Temp. [C]:", 0, 40)
+display.text("Humid.[%]:", 0, 52)
+
+led = Pin(2, Pin.OUT)
+
+# print(f"I2C configuration : {str(i2c)}")
+print("Read temperature and humidity every 5 secs.")
+print()
+print("Press `Ctrl+C` to stop")
+print()
+print("Temper.\t Humidity")
+
+try:
+    while True:
+        led.on()
+        temp, humid = sensor.read_values()
+        print(f"{temp} °C\t {humid} %")
+
+        display.fill_rect(85, 38, 120, 50, 0)
+        display.text(f"{temp}", 85, 40)
+        display.text(f"{humid}", 85, 52)
+        display.show()
+        led.off()
+
+        time.sleep(5)
+
+except KeyboardInterrupt:
+    print()
+    print("Program stopped. Exiting...")
+
+    # Optional cleanup code
+    display.poweroff()
+    led.off()
