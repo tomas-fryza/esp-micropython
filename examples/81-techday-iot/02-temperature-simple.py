@@ -15,8 +15,8 @@ Last modified: 2026-05-07
 """
 
 # MicroPython builtin modules
-from machine import I2C, Pin
-import time
+from machine import Pin, I2C
+from time import sleep
 
 # External module(s)
 from dht12 import DHT12
@@ -25,16 +25,16 @@ from dht12 import DHT12
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 sensor = DHT12(i2c)
 
+print()
 print("Press `Ctrl+C` to stop")
 print()
-print("Temper.\t Humidity")
 
 try:
     while True:
         temp, humid = sensor.read_values()
-        print(f"{temp} °C\t {humid} %")
+        print(f"T={temp} °C, H={humid} %")
 
-        time.sleep(5)
+        sleep(10)
 
 except KeyboardInterrupt:
     print()

@@ -10,17 +10,16 @@ Author:
 - Tomas Fryza
 
 Creation date: 2025-04-28
-Last modified: 2026-05-07
+Last modified: 2026-05-08
 
 Inspired by:
   * https://docs.micropython.org/en/latest/esp8266/tutorial/ssd1306.html
 """
 
 # MicroPython builtin modules
-from machine import Pin
-from machine import I2C
-import time
-import network
+from machine import Pin, I2C
+from time import sleep
+from network import WLAN, STA_IF
 
 # External modules
 from sh1106 import SH1106_I2C
@@ -31,7 +30,6 @@ def init_display(i2c):
     """Initialize the OLED display and show startup screen."""
     display = SH1106_I2C(i2c)
     # display = SSD1306_I2C(128, 64, i2c)
-    display.contrast(100)
     display.fill(0)
     return display
 
@@ -58,7 +56,7 @@ def show_logo(display):
 def init_wifi():
     """Initialize WLAN interface."""
     # Create a WLAN object (for STA mode, i.e., station/client mode)
-    wlan = network.WLAN(network.STA_IF)
+    wlan = WLAN(STA_IF)
     wlan.active(True)  # Activate the interface if it's not already
     return wlan
 
@@ -72,14 +70,13 @@ def show_wifi(display, ssid, rssi):
 
 
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-print(f"I2C configuration : {str(i2c)}")
 
 display = init_display(i2c)
 display.fill(0)
 show_logo(display)
 
 led = Pin(2, Pin.OUT)
-wlan = init_wifi()
+wifi = init_wifi()
 
 display.text("Strongest Wi-Fi:", 0, 38)
 print("Scanning for Wi-Fi networks every 5 secs.")
@@ -90,7 +87,11 @@ print()
 try:
     while True:
         led.on()
-        networks = wlan.scan()
+
+        display.fill_rect(0, 48, 128, 16, 0)  # Clear only lower portion
+        display.show()
+
+        networks = wifi.scan()
         if networks:
             # Each network is: (ssid, bssid, channel, RSSI, authmode, hidden)
             ssid = networks[0][0].decode("utf-8")
@@ -101,8 +102,10 @@ try:
         else:
             show_wifi(display, "<no networks>", 0)
             print("No networks found")
+
         led.off()
-        time.sleep(5)
+
+        sleep(5)
 
 except KeyboardInterrupt:
     print()
@@ -111,4 +114,4 @@ except KeyboardInterrupt:
     # Optional cleanup code
     display.poweroff()
     led.off()
-    wlan.active(False)
+    wifi.active(False)

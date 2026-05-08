@@ -11,15 +11,15 @@ Authors:
 - Tomas Fryza
 
 Creation date: 2023-06-16
-Last modified: 2026-05-07
+Last modified: 2026-05-08
 """
 
 # MicroPython builtin modules
-import network
-import time
+from network import WLAN, STA_IF
+from time import sleep
 
 # Initialize the Wi-Fi interface in Station mode and activate it
-wifi = network.WLAN(network.STA_IF)
+wifi = WLAN(STA_IF)
 wifi.active(True)
 
 try:
@@ -37,7 +37,7 @@ try:
             ssid = net[0].decode("utf-8")  # SSID (network name)
             print(f"{rssi}\t(ch.{channel})\t{ssid}")
 
-        time.sleep(5)
+        sleep(10)
 
 except KeyboardInterrupt:
     print()

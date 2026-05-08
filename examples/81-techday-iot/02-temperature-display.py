@@ -15,37 +15,34 @@ Last modified: 2026-05-07
 """
 
 # MicroPython builtin modules
-from machine import I2C, Pin
-import time
+from machine import I2C, Pin, I2C
+from time import sleep
 
 # External modules
-import dht12
+from dht12 import DHT12
 from sh1106 import SH1106_I2C
 
 # Init DHT12 sensor
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-sensor = dht12.DHT12(i2c)
+sensor = DHT12(i2c)
 
 # Init OLED display
 display = SH1106_I2C(i2c)
-# display.contrast(50)  # Set contrast to 50 %
 display.text("Temp. [C]:", 0, 40)
 display.text("Humid.[%]:", 0, 52)
 
 led = Pin(2, Pin.OUT)
 
-# print(f"I2C configuration : {str(i2c)}")
-print("Read temperature and humidity every 5 secs.")
+print("Read temperature and humidity every 10 secs.")
 print()
 print("Press `Ctrl+C` to stop")
 print()
-print("Temper.\t Humidity")
 
 try:
     while True:
         led.on()
         temp, humid = sensor.read_values()
-        print(f"{temp} °C\t {humid} %")
+        print(f"T={temp} °C, H={humid} %")
 
         display.fill_rect(85, 38, 120, 50, 0)
         display.text(f"{temp}", 85, 40)
@@ -53,7 +50,7 @@ try:
         display.show()
         led.off()
 
-        time.sleep(5)
+        sleep(10)
 
 except KeyboardInterrupt:
     print()

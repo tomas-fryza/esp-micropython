@@ -3,7 +3,7 @@ Onboard LED blink
 """
 
 from machine import Pin
-import time
+from time import sleep_ms
 
 led = Pin(2, Pin.OUT)
 
@@ -13,9 +13,9 @@ try:
     # Forever loop
     while True:
         led.on()
-        time.sleep_ms(100)
+        sleep_ms(100)
         led.off()
-        time.sleep_ms(900)
+        sleep_ms(900)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
