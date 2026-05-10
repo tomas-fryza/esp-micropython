@@ -10,7 +10,7 @@ Authors:
 - Ondrej Kolar
 
 Creation date: 2025-01-23
-Last modified: 2026-05-10
+Last modified: 2025-06-03
 
 Inspired by:
   * https://101-things.readthedocs.io/en/latest/fm_radio.html
@@ -20,54 +20,62 @@ Inspired by:
 """
 
 # Micropython builtin modules
-from machine import Pin, I2C
+from machine import Pin
+from machine import SoftI2C, I2C
+from machine import PWM
 import time
 
 # External modules
+# import ssd1306                    # OLED display
 from sh1106 import SH1106_I2C
 from rotary_irq import RotaryIRQ  # Rotary encoder
 import rda5807                    # FM radio module
+# from bmp180 import BMP180         # Temperature/Pressure sensor
 
 
-# --- Set your pins --------------------------
-BTN_LEFT = 26
-BTN_RIGHT = 14
+# Set your pins
+PIN_BTN_0 = 26  # Left
+PIN_BTN_1 = 14  # Right
 
-LED_0 = 19
-LED_1 = 18
-LED_2 = 5
+PIN_LED_0 = 19
+PIN_LED_1 = 18
+PIN_LED_2 = 5
 
-# Rotary encoder
-ROT_BTN = 33
-ROT_A = 35  # Warning: No internal pull-up on pin 35
-ROT_B = 32
-# --------------------------------------------
+PIN_ROT_BTN = 33  # Rotary encoder
+PIN_ROT_A = 35
+PIN_ROT_B = 32
+
+# PIN_SHDN = 26  # PAM8008 class-D amplifier
+# PIN_MUTE = 27
+# PIN_VOLUME = 25
 
 
 def init_display(i2c):
     """Initialize the OLED display and show startup screen."""
+    # display = ssd1306.SSD1306_I2C(128, 64, i2c)
     display = SH1106_I2C(i2c)
     display.fill(0)
     return display
 
 
 # Interrupt callbacks
-def btn_left_isr(pin):
-    led_down.on()
-    time.sleep_ms(20)  # Debounce delay
+def btn_0_isr(pin):  # Left button
+    led_0.on()
+    # Debounce delay
+    time.sleep_ms(20)
     if pin.value() == 0:  # Button pressed (active-low)
         print(f"Btn {pin} pressed: Seek down")
         radio.seek_down()
-    led_down.off()
+    led_0.off()
 
 
-def btn_right_isr(pin):
-    led_up.on()
+def btn_1_isr(pin):  # Right button
+    led_1.on()
     time.sleep_ms(20)
     if pin.value() == 0:
         print(f"Btn {pin} pressed: Seek up")
         radio.seek_up()
-    led_up.off()
+    led_1.off()
 
 
 def btn_rot_isr(pin):
@@ -78,33 +86,37 @@ def btn_rot_isr(pin):
         mute = not mute
         radio.mute(mute)
         print(f"Mute radio: {mute}")
-        led_mute.value(not led_mute.value())
+        led_2.value(not led_2.value())
 
 
 if __name__ == "__main__":
-    i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+    i2c = SoftI2C(sda=Pin(21), scl=Pin(22))
+    # i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+
+    # I2C devices
+    # bmp180 = BMP180(i2c)
     display = init_display(i2c)
     radio = rda5807.Radio(i2c)
     time.sleep_ms(100)  # Let the radio initialize !!! Otherwise the module does not work !!!
 
     # Buttons
-    btn_left = Pin(BTN_LEFT, Pin.IN, Pin.PULL_UP)
-    btn_right = Pin(BTN_RIGHT, Pin.IN, Pin.PULL_UP)
-    btn_rot = Pin(ROT_BTN, Pin.IN, Pin.PULL_UP)
+    btn_0 = Pin(PIN_BTN_0, Pin.IN, Pin.PULL_UP)
+    btn_1 = Pin(PIN_BTN_1, Pin.IN, Pin.PULL_UP)
+    btn_rot = Pin(PIN_ROT_BTN, Pin.IN, Pin.PULL_UP)
 
     # Attach buttons' interrupts
-    btn_left.irq(trigger=Pin.IRQ_FALLING, handler=btn_left_isr)
-    btn_right.irq(trigger=Pin.IRQ_FALLING, handler=btn_right_isr)
+    btn_0.irq(trigger=Pin.IRQ_FALLING, handler=btn_0_isr)
+    btn_1.irq(trigger=Pin.IRQ_FALLING, handler=btn_1_isr)
     btn_rot.irq(trigger=Pin.IRQ_FALLING, handler=btn_rot_isr)
 
     # LEDs
-    led_up = Pin(LED_0, Pin.OUT)
-    led_down = Pin(LED_1, Pin.OUT)
-    led_mute = Pin(LED_2, Pin.OUT)
+    led_0 = Pin(PIN_LED_0, Pin.OUT)
+    led_1 = Pin(PIN_LED_1, Pin.OUT)
+    led_2 = Pin(PIN_LED_2, Pin.OUT)
 
     # Rotary encoder
-    rot = RotaryIRQ(pin_num_clk=ROT_A,
-                    pin_num_dt=ROT_B,
+    rot = RotaryIRQ(pin_num_clk=PIN_ROT_A,
+                    pin_num_dt=PIN_ROT_B,
                     min_val=0,
                     max_val=15,
                     half_step=True,
@@ -112,6 +124,7 @@ if __name__ == "__main__":
                     range_mode=RotaryIRQ.RANGE_BOUNDED,  # Stops at min/max values
                     pull_up=True)
     prev_val = rot.value()
+    # prev_val = 10
 
     # Set FM module
     radio.set_frequency_MHz(88.3)  # 88.3 - Kiss
@@ -120,19 +133,33 @@ if __name__ == "__main__":
     radio.mute(mute)
     radio_text = ""
 
+    # PAM8008 class-D amplifier
+    # shdn = Pin(PIN_SHDN, Pin.OUT)
+    # shdn.value(1)  # Disable shutdown
+    # mute_pin = Pin(PIN_MUTE, Pin.OUT)
+    # mute_pin.value(0)  # Disable mute
+    # volume = Pin(PIN_VOLUME, Pin.OUT)
+    # volume.value(0)  # Set maximal volume
+
     print("Press `Ctrl+C` to stop")
 
     try:
+        # Forever loop
         while True:
             # Clear display
             display.fill(0)
 
+            # Sensor
+            # temperature = bmp180.temperature
+            # pressure = bmp180.pressure/100
+
             # Rotary
             current_val = rot.value()
-            current_val = 10
+            # current_val = 5
             if current_val != prev_val:
-                print(f"Volume: {current_val}")
                 radio.set_volume(current_val)
+
+                print(f"Volume: {current_val}")
                 prev_val = current_val
 
             # FM Radio
@@ -151,21 +178,26 @@ if __name__ == "__main__":
             rssi = radio.get_signal_strength()
             display.text(f"signal: {str(rssi)} dBm", 0, 32, 1)
 
+            # display.text(f"temp.: {temperature:.1f} C", 0, 48, 1)
+            # display.text(f"press: {pressure:.1f} hPa", 0, 56, 1)
+
             display.show()
-            time.sleep(1)
+            time.sleep_ms(1000)
 
     except KeyboardInterrupt:
         # This part runs when Ctrl+C is pressed
         print("\nProgram stopped. Exiting...")
 
         # Optional cleanup code
-        btn_left.irq(handler=None)  # Disables IRQ triggers
-        btn_right.irq(handler=None)
+        btn_0.irq(handler=None)  # Disables IRQ triggers
+        btn_1.irq(handler=None)
         btn_rot.irq(handler=None)
 
-        led_up.off()
-        led_down.off()
-        led_mute.off()
+        led_0.off()
+        led_1.off()
+        led_2.off()
 
+        # buzzer.deinit()
         display.poweroff()
         radio.mute(True)
+        # shdn.value(0)

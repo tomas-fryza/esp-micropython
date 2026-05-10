@@ -28,7 +28,7 @@ def init_display(i2c):
     """Initialize the OLED display and show startup screen."""
     # display = ssd1306.SSD1306_I2C(128, 64, i2c)
     display = SH1106_I2C(i2c)
-    display.contrast(100)
+    # display.contrast(100)
     display.fill(0)
     return display
 

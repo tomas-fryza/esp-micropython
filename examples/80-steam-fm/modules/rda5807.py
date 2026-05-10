@@ -378,7 +378,7 @@ class Radio:
                 else:
                     hours = hours_utc - utc_offset
                 try:
-                    self.rtc.datetime((2000, 01, 01, 01, int(hours), int(minutes), 0, 0))
+                    self.rtc.datetime((2000, 1, 1, 1, int(hours), int(minutes), 0, 0))
                 except OSError:
                     pass
                 

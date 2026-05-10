@@ -3,9 +3,10 @@ Buttons
 
 Authors:
 - Tomas Fryza
+- https://easyeda.com/editor#id=4e272acacecf42169229b9288f3defe5|5251c125583f4b4985e5f40a20381136
 
 Creation date: 2025-05-18
-Last modified: 2025-05-20
+Last modified: 2026-05-10
 """
 
 from machine import Pin
@@ -17,15 +18,13 @@ import time
 PIN_LED_0 = 19
 PIN_LED_1 = 18
 PIN_LED_2 = 5
-PIN_LED_3 = 17
+PIN_LED_3 = 2
 
-PIN_BTN_0 = 27  # Left
-PIN_BTN_1 = 26  # Right
+PIN_BTN_0 = 26  # Left
+PIN_BTN_1 = 14  # Right
 PIN_BTN_2 = 25  # Up
-PIN_BTN_3 = 14  # Down
+PIN_BTN_3 = 27  # Down
 PIN_ROT_BTN = 33  # Rotary encoder
-
-PIN_BUZ = 13  # Buzzer
 
 
 # Interrupt callbacks
@@ -66,14 +65,6 @@ def btn_rot_isr(pin):
     time.sleep_ms(50)
     if pin.value() == 0:
         print(f"Rot. encoder pressed: {pin}")
-        beep()
-
-
-def beep(freq=1500, duration_ms=60, duty_cycle=40):
-    buzzer.freq(freq)
-    buzzer.duty(duty_cycle)
-    time.sleep_ms(duration_ms)
-    buzzer.duty(0)
 
 
 # LEDs
@@ -83,11 +74,11 @@ led_2 = Pin(PIN_LED_2, Pin.OUT)
 led_3 = Pin(PIN_LED_3, Pin.OUT)
 
 # Buttons
-btn_0 = Pin(PIN_BTN_0, Pin.IN)
-btn_1 = Pin(PIN_BTN_1, Pin.IN)
-btn_2 = Pin(PIN_BTN_2, Pin.IN)
-btn_3 = Pin(PIN_BTN_3, Pin.IN)
-btn_rot = Pin(PIN_ROT_BTN, Pin.IN)
+btn_0 = Pin(PIN_BTN_0, Pin.IN, pull=Pin.PULL_UP)
+btn_1 = Pin(PIN_BTN_1, Pin.IN, pull=Pin.PULL_UP)
+btn_2 = Pin(PIN_BTN_2, Pin.IN, pull=Pin.PULL_UP)
+btn_3 = Pin(PIN_BTN_3, Pin.IN, pull=Pin.PULL_UP)
+btn_rot = Pin(PIN_ROT_BTN, Pin.IN, pull=Pin.PULL_UP)
 
 # Attach buttons' interrupts
 btn_0.irq(trigger=Pin.IRQ_FALLING, handler=btn_0_isr)
