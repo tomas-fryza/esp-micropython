@@ -107,8 +107,6 @@ if __name__ == "__main__":
                     pin_num_dt=ROT_B,
                     min_val=0,
                     max_val=15,
-                    half_step=True,
-                    reverse=False,
                     range_mode=RotaryIRQ.RANGE_BOUNDED,  # Stops at min/max values
                     pull_up=True)
     prev_val = rot.value()
@@ -129,7 +127,6 @@ if __name__ == "__main__":
 
             # Rotary
             current_val = rot.value()
-            current_val = 10
             if current_val != prev_val:
                 print(f"Volume: {current_val}")
                 radio.set_volume(current_val)
