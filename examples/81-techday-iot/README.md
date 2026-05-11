@@ -1,4 +1,4 @@
-# TechDay 2026, Workshop Měříme svět kolem nás
+# TechDay FEKT VUT, Workshop "Měříme svět kolem nás"
 
 ## Hardware
 
@@ -18,7 +18,7 @@
 
 ### Úkol 1: Blikání LED
 
-Načtení částí modulů v jazyce MicroPython, vytvoření objektu z třídy `Pin` a změna výstupní hodnoty napětí pinu `2` v nekonečné smyčce.
+Načtení částí modulů v jazyce MicroPython, vytvoření objektu z třídy `Pin` a změna výstupní hodnoty napětí na pinu `2` v nekonečné smyčce. (Na GPIO pinu číslo 2 je nejčastěji připojena LED dioda na vývojových deskách.)
 
 ```python
 from machine import Pin
@@ -34,7 +34,7 @@ while True:
     sleep_ms(900)
 ```
 
-Přidání kódu pro ošetření přerušení, které je generováno klávesovou skratkou `Ctrl+C` a které ukončí vykonávání kódu na ESP32.
+Přidání kódu pro ošetření přerušení, které je generováno klávesovou zkratkou `Ctrl+C` a které ukončí vykonávání kódu na ESP32.
 
 ```python
 try:
@@ -54,7 +54,7 @@ except KeyboardInterrupt:
 
 ### Úkol 2: Komunikace se senzorem pomocí I2C
 
-Načtení potřebných modulů. Pozor, podle typu senzorů je použita jiná třída `DHT12` nebo `BME280`.
+Načtení potřebných modulů. Pozor, podle typu senzorů je použita třída `DHT12` nebo `BME280`.
 
 ```python
 # MicroPython builtin modules
@@ -87,7 +87,7 @@ try:
 
 ### Úkol 3: Odeslání dat přes Wi-Fi do cloudu
 
-Využití online platformy [ThingSpeak](https://thingspeak.mathworks.com/)
+Využití online platformy [ThingSpeak](https://thingspeak.mathworks.com/).
 
 | Channel | API key | Public view |
 | :--:    | :--:    | :--         |
@@ -99,6 +99,8 @@ Využití online platformy [ThingSpeak](https://thingspeak.mathworks.com/)
 [Řešení](03-iot.py)
 
 ### Bonus: Skenování Wi-Fi
+
+ESP32 je--ve skenovaním módu--schopno prohledat dostupné přístupové body k Wi-Fi síti v pásmu 2.4 GHz, seřadit je dle síly signálu a získat základní parametry.
 
    ![wifi-scan](images/ESP32-WiFi-Scan-Networks_Wi-Fi-Scan.png)
 
