@@ -20,11 +20,13 @@ from time import sleep
 
 # External modules
 from dht12 import DHT12
+from bme280 import BME280
 from sh1106 import SH1106_I2C
 
 # Init DHT12 sensor
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-sensor = DHT12(i2c)
+# sensor = DHT12(i2c)  # 1st variant
+sensor = BME280(i2c)  # 2nd variant
 
 # Init OLED display
 display = SH1106_I2C(i2c)
@@ -41,12 +43,13 @@ print()
 try:
     while True:
         led.on()
-        temp, humid = sensor.read_values()
-        print(f"T={temp} °C, H={humid} %")
+        # temp, humid = sensor.read_values()  # 1st variant
+        temp, humid, P, A = sensor.read_values()  # 2nd variant
+        print(f"T={temp:.1f}°C, H={humid:.1f}%")
 
         display.fill_rect(85, 38, 120, 50, 0)
-        display.text(f"{temp}", 85, 40)
-        display.text(f"{humid}", 85, 52)
+        display.text(f"{temp:.1f}", 85, 40)
+        display.text(f"{humid:.1f}", 85, 52)
         display.show()
         led.off()
 

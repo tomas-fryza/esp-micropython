@@ -19,7 +19,7 @@ Author(s):
 - Tomas Fryza
 
 Creation date: 2023-06-18
-Last modified: 2026-05-08
+Last modified: 2026-05-11
 """
 
 # MicroPython builtin modules
@@ -29,21 +29,24 @@ from network import WLAN, STA_IF
 
 # External modules
 from dht12 import DHT12
+from bme280 import BME280
 import thingspeak
 import wifi_utils
 import config
 
-# API_KEY = "YOUR_THINGSPEAK_WRITE_API_KEY"
+API_KEY = "YOUR_THINGSPEAK_WRITE_API_KEY"
 
 i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
-sensor = DHT12(i2c)
+# sensor = DHT12(i2c)  # 1st variant
+sensor = BME280(i2c)  # 2nd variant
 wifi = WLAN(STA_IF)
 
 try:
     while True:
-        temp, humid = sensor.read_values()
+        # temp, humid = sensor.read_values()  # 1st variant
+        temp, humid, P, A = sensor.read_values()  # 2nd variant
         print()
-        print(f"T={temp} °C, H={humid} %")
+        print(f"T={temp:.1f}°C, H={humid:.1f}%")
 
         wifi_utils.connect(wifi, config.SSID, config.PSWD)
         thingspeak.send(temp, humid, API_KEY)
