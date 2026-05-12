@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BME280 sensor &mdash; MicroPython course 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Wi-Fi" href="wifi.html" />
+    <link rel="prev" title="DHT12 sensor driver" href="dht12.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MicroPython course
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="hw_config.html">Basic I/O components</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lcd.html">HD44780-based LCD driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oled.html">SH1106-based OLED driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dht12.html">DHT12 sensor driver</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">BME280 sensor</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#bme280.BME280"><code class="docutils literal notranslate"><span class="pre">BME280</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.altitude"><code class="docutils literal notranslate"><span class="pre">BME280.altitude()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.humidity"><code class="docutils literal notranslate"><span class="pre">BME280.humidity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.pressure"><code class="docutils literal notranslate"><span class="pre">BME280.pressure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.read_humidity"><code class="docutils literal notranslate"><span class="pre">BME280.read_humidity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.read_pressure"><code class="docutils literal notranslate"><span class="pre">BME280.read_pressure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.read_raw_humidity"><code class="docutils literal notranslate"><span class="pre">BME280.read_raw_humidity()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.read_raw_pressure"><code class="docutils literal notranslate"><span class="pre">BME280.read_raw_pressure()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.read_raw_temp"><code class="docutils literal notranslate"><span class="pre">BME280.read_raw_temp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.read_temperature"><code class="docutils literal notranslate"><span class="pre">BME280.read_temperature()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.read_values"><code class="docutils literal notranslate"><span class="pre">BME280.read_values()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.BME280.temperature"><code class="docutils literal notranslate"><span class="pre">BME280.temperature()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bme280.Device"><code class="docutils literal notranslate"><span class="pre">Device</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readRaw8"><code class="docutils literal notranslate"><span class="pre">Device.readRaw8()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readS16"><code class="docutils literal notranslate"><span class="pre">Device.readS16()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readS16BE"><code class="docutils literal notranslate"><span class="pre">Device.readS16BE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readS16LE"><code class="docutils literal notranslate"><span class="pre">Device.readS16LE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readS8"><code class="docutils literal notranslate"><span class="pre">Device.readS8()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readU16"><code class="docutils literal notranslate"><span class="pre">Device.readU16()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readU16BE"><code class="docutils literal notranslate"><span class="pre">Device.readU16BE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readU16LE"><code class="docutils literal notranslate"><span class="pre">Device.readU16LE()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.readU8"><code class="docutils literal notranslate"><span class="pre">Device.readU8()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.write16"><code class="docutils literal notranslate"><span class="pre">Device.write16()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.write8"><code class="docutils literal notranslate"><span class="pre">Device.write8()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#bme280.Device.writeRaw8"><code class="docutils literal notranslate"><span class="pre">Device.writeRaw8()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#bme280.demo"><code class="docutils literal notranslate"><span class="pre">demo()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="wifi.html">Wi-Fi</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MicroPython course</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">BME280 sensor</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/bme280.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-bme280">
+<span id="bme280-sensor"></span><h1>BME280 sensor<a class="headerlink" href="#module-bme280" title="Link to this heading"></a></h1>
+<dl class="py class">
+<dt class="sig sig-object py" id="bme280.BME280">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">bme280.</span></span><span class="sig-name descname"><span class="pre">BME280</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">i2c</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">mode</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">addr</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">118</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L139-L304"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.altitude">
+<span class="sig-name descname"><span class="pre">altitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sea_level_pressure_hpa</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1013.25</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L291-L297"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.altitude" title="Link to this definition"></a></dt>
+<dd><p>Return the approximative altitude in meters.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.humidity">
+<span class="sig-name descname"><span class="pre">humidity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L282-L289"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.humidity" title="Link to this definition"></a></dt>
+<dd><p>Return the humidity in percent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.pressure">
+<span class="sig-name descname"><span class="pre">pressure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L275-L279"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.pressure" title="Link to this definition"></a></dt>
+<dd><p>Return the pressure in hPa.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.read_humidity">
+<span class="sig-name descname"><span class="pre">read_humidity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L252-L262"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.read_humidity" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.read_pressure">
+<span class="sig-name descname"><span class="pre">read_pressure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L234-L250"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.read_pressure" title="Link to this definition"></a></dt>
+<dd><p>Gets the compensated pressure in Pascals.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.read_raw_humidity">
+<span class="sig-name descname"><span class="pre">read_raw_humidity</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L216-L222"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.read_raw_humidity" title="Link to this definition"></a></dt>
+<dd><p>Assumes that the temperature has already been read</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.read_raw_pressure">
+<span class="sig-name descname"><span class="pre">read_raw_pressure</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L206-L214"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.read_raw_pressure" title="Link to this definition"></a></dt>
+<dd><p>Reads the raw (uncompensated) pressure level from the sensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.read_raw_temp">
+<span class="sig-name descname"><span class="pre">read_raw_temp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L189-L204"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.read_raw_temp" title="Link to this definition"></a></dt>
+<dd><p>Reads the raw (uncompensated) temperature from the sensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.read_temperature">
+<span class="sig-name descname"><span class="pre">read_temperature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L224-L232"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.read_temperature" title="Link to this definition"></a></dt>
+<dd><p>Get the compensated temperature in 0.01 of a degree celsius.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.read_values">
+<span class="sig-name descname"><span class="pre">read_values</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L299-L304"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.read_values" title="Link to this definition"></a></dt>
+<dd><p>Read temperature, humidity, pressure, and altitude
+from the sensor.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.BME280.temperature">
+<span class="sig-name descname"><span class="pre">temperature</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L265-L272"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.BME280.temperature" title="Link to this definition"></a></dt>
+<dd><p>Return the temperature in degrees.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="bme280.Device">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">bme280.</span></span><span class="sig-name descname"><span class="pre">Device</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">address</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">i2c</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L51-L136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Class for communicating with an I2C device.</p>
+<p>Allows reading and writing 8-bit, 16-bit, and byte array values to
+registers on the device.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readRaw8">
+<span class="sig-name descname"><span class="pre">readRaw8</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L82-L85"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readRaw8" title="Link to this definition"></a></dt>
+<dd><p>Read an 8-bit value on the bus (without register).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readS16">
+<span class="sig-name descname"><span class="pre">readS16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">little_endian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L109-L116"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readS16" title="Link to this definition"></a></dt>
+<dd><p>Read a signed 16-bit value from the specified register, with the
+specified endianness (default little endian, or least significant byte
+first).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readS16BE">
+<span class="sig-name descname"><span class="pre">readS16BE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L133-L136"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readS16BE" title="Link to this definition"></a></dt>
+<dd><p>Read a signed 16-bit value from the specified register, in big
+endian byte order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readS16LE">
+<span class="sig-name descname"><span class="pre">readS16LE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L128-L131"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readS16LE" title="Link to this definition"></a></dt>
+<dd><p>Read a signed 16-bit value from the specified register, in little
+endian byte order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readS8">
+<span class="sig-name descname"><span class="pre">readS8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L92-L97"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readS8" title="Link to this definition"></a></dt>
+<dd><p>Read a signed byte from the specified register.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readU16">
+<span class="sig-name descname"><span class="pre">readU16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">little_endian</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L99-L107"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readU16" title="Link to this definition"></a></dt>
+<dd><p>Read an unsigned 16-bit value from the specified register, with the
+specified endianness (default little endian, or least significant byte
+first).</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readU16BE">
+<span class="sig-name descname"><span class="pre">readU16BE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L123-L126"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readU16BE" title="Link to this definition"></a></dt>
+<dd><p>Read an unsigned 16-bit value from the specified register, in big
+endian byte order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readU16LE">
+<span class="sig-name descname"><span class="pre">readU16LE</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L118-L121"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readU16LE" title="Link to this definition"></a></dt>
+<dd><p>Read an unsigned 16-bit value from the specified register, in little
+endian byte order.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.readU8">
+<span class="sig-name descname"><span class="pre">readU8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L87-L90"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.readU8" title="Link to this definition"></a></dt>
+<dd><p>Read an unsigned byte from the specified register.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.write16">
+<span class="sig-name descname"><span class="pre">write16</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L74-L80"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.write16" title="Link to this definition"></a></dt>
+<dd><p>Write a 16-bit value to the specified register.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.write8">
+<span class="sig-name descname"><span class="pre">write8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">register</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L68-L72"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.write8" title="Link to this definition"></a></dt>
+<dd><p>Write an 8-bit value to the specified register.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="bme280.Device.writeRaw8">
+<span class="sig-name descname"><span class="pre">writeRaw8</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L63-L66"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.Device.writeRaw8" title="Link to this definition"></a></dt>
+<dd><p>Write an 8-bit value on the bus (without register).</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="bme280.demo">
+<span class="sig-prename descclassname"><span class="pre">bme280.</span></span><span class="sig-name descname"><span class="pre">demo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/bme280.py#L307-L322"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#bme280.demo" title="Link to this definition"></a></dt>
+<dd><p>Demonstrates the usage of the <cite>BME280</cite> class by reading
+temperature, humidity, and pressure.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="dht12.html" class="btn btn-neutral float-left" title="DHT12 sensor driver" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="wifi.html" class="btn btn-neutral float-right" title="Wi-Fi" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2024, Tomas Fryza.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

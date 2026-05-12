@@ -1,0 +1,289 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Basic I/O components &mdash; MicroPython course 1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=9edc463e" />
+
+  
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=f2a433a1"></script>
+      <script src="../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="HD44780-based LCD driver" href="lcd.html" />
+    <link rel="prev" title="Installation" href="../installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            MicroPython course
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic I/O components</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#example">Example</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#author">Author</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#modification-history">Modification history</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#hw_config.Button"><code class="docutils literal notranslate"><span class="pre">Button</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hw_config.Button.is_pressed"><code class="docutils literal notranslate"><span class="pre">Button.is_pressed()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hw_config.Led"><code class="docutils literal notranslate"><span class="pre">Led</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hw_config.Led.blink"><code class="docutils literal notranslate"><span class="pre">Led.blink()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hw_config.Led.toggle"><code class="docutils literal notranslate"><span class="pre">Led.toggle()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hw_config.PwmLed"><code class="docutils literal notranslate"><span class="pre">PwmLed</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#hw_config.PwmLed.fade_in"><code class="docutils literal notranslate"><span class="pre">PwmLed.fade_in()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hw_config.PwmLed.fade_out"><code class="docutils literal notranslate"><span class="pre">PwmLed.fade_out()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hw_config.PwmLed.off"><code class="docutils literal notranslate"><span class="pre">PwmLed.off()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hw_config.PwmLed.on"><code class="docutils literal notranslate"><span class="pre">PwmLed.on()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="#hw_config.PwmLed.set_brightness"><code class="docutils literal notranslate"><span class="pre">PwmLed.set_brightness()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#hw_config.demo"><code class="docutils literal notranslate"><span class="pre">demo()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="lcd.html">HD44780-based LCD driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="oled.html">SH1106-based OLED driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="dht12.html">DHT12 sensor driver</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bme280.html">BME280 sensor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="wifi.html">Wi-Fi</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">MicroPython course</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Basic I/O components</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/modules/hw_config.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="module-hw_config">
+<span id="basic-i-o-components"></span><h1>Basic I/O components<a class="headerlink" href="#module-hw_config" title="Link to this heading"></a></h1>
+<p>This module provides classes to manage common input/output components, 
+such as buttons and LEDs, with support for PWM-based brightness control 
+for LEDs. The classes allow for checking button states, toggling LEDs, 
+blinking LEDs, and controlling brightness and fading effects using PWM.</p>
+<section id="example">
+<h2>Example<a class="headerlink" href="#example" title="Link to this heading"></a></h2>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">hw_config</span> <span class="kn">import</span> <span class="n">Led</span>
+
+<span class="n">led</span> <span class="o">=</span> <span class="n">Led</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LED blinking...&quot;</span><span class="p">)</span>
+<span class="n">led</span><span class="o">.</span><span class="n">blink</span><span class="p">(</span><span class="n">times</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Toggling LED...&quot;</span><span class="p">)</span>
+<span class="n">led</span><span class="o">.</span><span class="n">toggle</span><span class="p">()</span>
+
+<span class="c1"># Example of using the PwmLed class</span>
+<span class="n">led</span> <span class="o">=</span> <span class="n">PwmLed</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Fading in...&quot;</span><span class="p">)</span>
+<span class="n">led</span><span class="o">.</span><span class="n">fade_in</span><span class="p">(</span><span class="n">duration</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="author">
+<h2>Author<a class="headerlink" href="#author" title="Link to this heading"></a></h2>
+<p>Tomas Fryza</p>
+</section>
+<section id="modification-history">
+<h2>Modification history<a class="headerlink" href="#modification-history" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><strong>2025-10-15</strong> : Button redefined so that it inherits from Pin.</p></li>
+<li><p><strong>2024-11-11</strong> : Added Sphinx-style comments for documentation.</p></li>
+<li><p><strong>2024-10-26</strong> : Added <cite>demo</cite> method to demonstrate usage of the classes.</p></li>
+<li><p><strong>2024-09-28</strong> : File created, initial release.</p></li>
+</ul>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="hw_config.Button">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">hw_config.</span></span><span class="sig-name descname"><span class="pre">Button</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L44-L65"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.Button" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Pin</span></code></p>
+<p>A class to manage a button connected to a GPIO pin with a pull-up resistor.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hw_config.Button.is_pressed">
+<span class="sig-name descname"><span class="pre">is_pressed</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L57-L65"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.Button.is_pressed" title="Link to this definition"></a></dt>
+<dd><p>Check if the button is currently pressed using active-low logic.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p><cite>True</cite> if the button is pressed; <cite>False</cite> otherwise.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="hw_config.Led">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">hw_config.</span></span><span class="sig-name descname"><span class="pre">Led</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L68-L100"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.Led" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Pin</span></code></p>
+<p>A class to control an LED connected to a specified GPIO pin.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hw_config.Led.blink">
+<span class="sig-name descname"><span class="pre">blink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">times</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">5</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L88-L100"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.Led.blink" title="Link to this definition"></a></dt>
+<dd><p>Blink the LED a specified number of times.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>duration</strong> – Duration in seconds for each on/off cycle.
+Default is 0.5 seconds.</p></li>
+<li><p><strong>times</strong> – Number of times the LED should blink. Default is 5.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hw_config.Led.toggle">
+<span class="sig-name descname"><span class="pre">toggle</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L82-L86"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.Led.toggle" title="Link to this definition"></a></dt>
+<dd><p>Toggle the LED state between on and off.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="hw_config.PwmLed">
+<span class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></span><span class="sig-prename descclassname"><span class="pre">hw_config.</span></span><span class="sig-name descname"><span class="pre">PwmLed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L103-L168"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.PwmLed" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">PWM</span></code></p>
+<p>A class to control an LED using PWM, allowing for brightness
+adjustment, fading, and on/off control.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="hw_config.PwmLed.fade_in">
+<span class="sig-name descname"><span class="pre">fade_in</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L146-L156"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.PwmLed.fade_in" title="Link to this definition"></a></dt>
+<dd><p>Gradually increase the brightness to create a fade-in effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – Total duration of the fade-in effect, in seconds.
+Default is 1 second.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hw_config.PwmLed.fade_out">
+<span class="sig-name descname"><span class="pre">fade_out</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">duration</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L158-L168"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.PwmLed.fade_out" title="Link to this definition"></a></dt>
+<dd><p>Gradually decrease the brightness to create a fade-out effect.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>duration</strong> – Total duration of the fade-out effect, in seconds.
+Default is 1 second.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hw_config.PwmLed.off">
+<span class="sig-name descname"><span class="pre">off</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L140-L144"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.PwmLed.off" title="Link to this definition"></a></dt>
+<dd><p>Turn the LED off by setting the brightness to 0.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hw_config.PwmLed.on">
+<span class="sig-name descname"><span class="pre">on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brightness</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">100</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L131-L138"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.PwmLed.on" title="Link to this definition"></a></dt>
+<dd><p>Turn the LED on by setting it to a specified brightness level.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>brightness</strong> – Brightness level as a percentage (0 to 100).
+Default is 100%.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hw_config.PwmLed.set_brightness">
+<span class="sig-name descname"><span class="pre">set_brightness</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">brightness</span></span></em><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L122-L129"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.PwmLed.set_brightness" title="Link to this definition"></a></dt>
+<dd><p>Set the LED brightness using PWM.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>brightness</strong> – Brightness level as a percentage (0 to 100).</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="hw_config.demo">
+<span class="sig-prename descclassname"><span class="pre">hw_config.</span></span><span class="sig-name descname"><span class="pre">demo</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference external" href="https://github.com/tomas-fryza/esp-micropython/blob/main/modules/hw_config.py#L171-L227"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hw_config.demo" title="Link to this definition"></a></dt>
+<dd><p>Demonstrates usage of the <cite>Button</cite>, <cite>Led</cite>, and <cite>PwmLed</cite> classes.</p>
+</dd></dl>
+
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="lcd.html" class="btn btn-neutral float-right" title="HD44780-based LCD driver" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023-2024, Tomas Fryza.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
