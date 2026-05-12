@@ -1,4 +1,4 @@
-# TechDay FEKT VUT, Workshop "Měříme svět kolem nás"
+# TechDay FEKT VUT, Workshop IoT: "Měříme svět kolem nás"
 
 ## Hardware
 
@@ -89,12 +89,18 @@ try:
 
 Využití online platformy [ThingSpeak](https://thingspeak.mathworks.com/).
 
+   ![thingspeak](images/thingspeak-info.png)
+
 | Channel | API key | Public view |
 | :--:    | :--:    | :--         |
-| 1       | xxx     | xxx |
-| 2       | xxx     | xxx |
-| 3       | xxx     | xxx |
-| 4       | xxx     | xxx |
+| 1       | `QQH5QFCZI9HECVTN` | [https://thingspeak.mathworks.com/channels/3374206](https://thingspeak.mathworks.com/channels/3374206) |
+| 2       | `ASWU5V84ETQ45NST` | [https://thingspeak.mathworks.com/channels/3148863](https://thingspeak.mathworks.com/channels/3148863) |
+| 3       | `IL5UY2KVNASJBQMU` | [https://thingspeak.mathworks.com/channels/3365367](https://thingspeak.mathworks.com/channels/3365367) |
+| 4       | `41XVEIVU1SGJ87I3` | [https://thingspeak.mathworks.com/channels/3374211](https://thingspeak.mathworks.com/channels/3374211) |
+| 5       | `G7MZ57M0TX6O15ZA` | [https://thingspeak.mathworks.com/channels/3379384](https://thingspeak.mathworks.com/channels/3379384) |
+| 6       | `W4L5LBW63V0TD7SN` | [https://thingspeak.mathworks.com/channels/3379395](https://thingspeak.mathworks.com/channels/3379395) |
+| 7       | `ETNZCPCR26FQ9JDM` | [https://thingspeak.mathworks.com/channels/3379402](https://thingspeak.mathworks.com/channels/3379402) |
+| 8       | `JQT5X5ROPI5DU0A9` | [https://thingspeak.mathworks.com/channels/3379404](https://thingspeak.mathworks.com/channels/3379404) |
 
 [Řešení](03-iot.py)
 
