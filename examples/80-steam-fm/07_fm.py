@@ -1,23 +1,26 @@
-"""
-FM radio
-
-Key functionalities of this MicroPython script include controlling
-the FM radio's volume and frequency, and updating the OLED display
-with RDS data.
-
-Authors:
-- Tomas Fryza
-- Ondrej Kolar
-
-Creation date: 2025-01-23
-Last modified: 2026-05-10
-
-Inspired by:
-  * https://101-things.readthedocs.io/en/latest/fm_radio.html
-  * https://github.com/franckinux/python-rd5807m/tree/master
-  * https://github.com/wagiminator/ATtiny85-TinyFMRadio/blob/master/software/TinyFMRadio.ino
-  * https://github.com/pu2clr/RDA5807/tree/master/examples
-"""
+# ------------------------------------------------------------
+# ESP32 FM Radio Example (MicroPython)
+#
+# Features:
+# - RDA5807 FM radio
+# - SH1106 OLED display
+# - Rotary encoder volume control
+# - Button interrupts using event flags
+# - LEDs
+#
+# Authors:
+# - Tomas Fryza
+# - Ondrej Kolar
+#
+# Creation date: 2025-01-23
+# Last modified: 2026-05-12
+#
+# Inspired by:
+#   * https://101-things.readthedocs.io/en/latest/fm_radio.html
+#   * https://github.com/franckinux/python-rd5807m/tree/master
+#   * https://github.com/wagiminator/ATtiny85-TinyFMRadio/blob/master/software/TinyFMRadio.ino
+#   * https://github.com/pu2clr/RDA5807/tree/master/examples
+# ------------------------------------------------------------
 
 # Micropython builtin modules
 from machine import Pin, I2C
@@ -25,11 +28,12 @@ import time
 
 # External modules
 from sh1106 import SH1106_I2C
-from rotary_irq import RotaryIRQ  # Rotary encoder
-import rda5807                    # FM radio module
+from rotary_irq import RotaryIRQ
+import rda5807
 
-
-# --- Set your pins --------------------------
+# ------------------------------------------------------------
+# Pin configuration
+# ------------------------------------------------------------
 BTN_LEFT = 26
 BTN_RIGHT = 14
 
@@ -37,55 +41,125 @@ LED_0 = 19
 LED_1 = 18
 LED_2 = 5
 
-# Rotary encoder
 ROT_BTN = 33
-ROT_A = 35  # Warning: No internal pull-up on pin 35
+ROT_A = 35  # GPIO35 has NO internal pull-up
 ROT_B = 32
-# --------------------------------------------
 
+# ------------------------------------------------------------
+# Constants
+# ------------------------------------------------------------
+DISPLAY_REFRESH_MS = 500
+DEBOUNCE_MS = 200
 
+START_FREQUENCY = 88.3
+
+# ------------------------------------------------------------
+# Event flags
+# ------------------------------------------------------------
+seek_up_requested = False
+seek_down_requested = False
+mute_requested = False
+
+# ------------------------------------------------------------
+# Debounce timers
+# ------------------------------------------------------------
+last_left_press = 0
+last_right_press = 0
+last_rot_press = 0
+
+# ------------------------------------------------------------
+# Helper functions
+# ------------------------------------------------------------
 def init_display(i2c):
-    """Initialize the OLED display and show startup screen."""
+    """Initialize OLED display."""
     display = SH1106_I2C(i2c)
     display.fill(0)
+    display.show()
     return display
 
 
-# Interrupt callbacks
+def update_display(display, radio, volume, mute):
+    """Refresh OLED content."""
+
+    display.fill(0)
+
+    # Station name
+    radio_name = "".join(radio.station_name)
+    display.text(radio_name, 0, 0)
+
+    # Frequency
+    freq = radio.get_frequency_MHz()
+    display.text(f"{freq:.1f} MHz", 0, 12)
+
+    # Volume
+    display.text(f"Volume: {volume}", 0, 24)
+
+    # Signal strength
+    rssi = radio.get_signal_strength()
+    display.text(f"RSSI: {rssi} dBm", 0, 36)
+
+    # Mute status
+    if mute:
+        display.text("MUTED", 0, 48)
+
+    display.show()
+
+
+# ------------------------------------------------------------
+# Interrupt handlers
+#
+# IMPORTANT:
+# Interrupt handlers should stay SHORT.
+# Do not:
+# - print()
+# - sleep()
+# - use I2C
+# - allocate memory
+#
+# We only set event flags here.
+# ------------------------------------------------------------
 def btn_left_isr(pin):
-    led_down.on()
-    time.sleep_ms(20)  # Debounce delay
-    if pin.value() == 0:  # Button pressed (active-low)
-        print(f"Btn {pin} pressed: Seek down")
-        radio.seek_down()
-    led_down.off()
+    global seek_down_requested
+    global last_left_press
+
+    now = time.ticks_ms()
+
+    if time.ticks_diff(now, last_left_press) > DEBOUNCE_MS:
+        seek_down_requested = True
+        last_left_press = now
 
 
 def btn_right_isr(pin):
-    led_up.on()
-    time.sleep_ms(20)
-    if pin.value() == 0:
-        print(f"Btn {pin} pressed: Seek up")
-        radio.seek_up()
-    led_up.off()
+    global seek_up_requested
+    global last_right_press
+
+    now = time.ticks_ms()
+
+    if time.ticks_diff(now, last_right_press) > DEBOUNCE_MS:
+        seek_up_requested = True
+        last_right_press = now
 
 
 def btn_rot_isr(pin):
-    global mute
+    global mute_requested
+    global last_rot_press
 
-    time.sleep_ms(20)
-    if pin.value() == 0:
-        mute = not mute
-        radio.mute(mute)
-        print(f"Mute radio: {mute}")
-        led_mute.value(not led_mute.value())
+    now = time.ticks_ms()
 
+    if time.ticks_diff(now, last_rot_press) > DEBOUNCE_MS:
+        mute_requested = True
+        last_rot_press = now
 
+# ------------------------------------------------------------
+# Main program
+# ------------------------------------------------------------
 if __name__ == "__main__":
     i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
     display = init_display(i2c)
     radio = rda5807.Radio(i2c)
-    time.sleep_ms(100)  # Let the radio initialize !!! Otherwise the module does not work !!!
+    # IMPORTANT:
+    # Give radio chip time to initialize
+    time.sleep_ms(100)
 
     # Buttons
     btn_left = Pin(BTN_LEFT, Pin.IN, Pin.PULL_UP)
@@ -93,9 +167,18 @@ if __name__ == "__main__":
     btn_rot = Pin(ROT_BTN, Pin.IN, Pin.PULL_UP)
 
     # Attach buttons' interrupts
-    btn_left.irq(trigger=Pin.IRQ_FALLING, handler=btn_left_isr)
-    btn_right.irq(trigger=Pin.IRQ_FALLING, handler=btn_right_isr)
-    btn_rot.irq(trigger=Pin.IRQ_FALLING, handler=btn_rot_isr)
+    btn_left.irq(
+        trigger=Pin.IRQ_FALLING,
+        handler=btn_left_isr
+    )
+    btn_right.irq(
+        trigger=Pin.IRQ_FALLING,
+        handler=btn_right_isr
+    )
+    btn_rot.irq(
+        trigger=Pin.IRQ_FALLING,
+        handler=btn_rot_isr
+    )
 
     # LEDs
     led_up = Pin(LED_0, Pin.OUT)
@@ -103,66 +186,108 @@ if __name__ == "__main__":
     led_mute = Pin(LED_2, Pin.OUT)
 
     # Rotary encoder
-    rot = RotaryIRQ(pin_num_clk=ROT_A,
-                    pin_num_dt=ROT_B,
-                    min_val=0,
-                    max_val=15,
-                    range_mode=RotaryIRQ.RANGE_BOUNDED,  # Stops at min/max values
-                    pull_up=True)
-    prev_val = rot.value()
+    rot = RotaryIRQ(
+        pin_num_clk=ROT_A,
+        pin_num_dt=ROT_B,
+        min_val=0,
+        max_val=15,
+        range_mode=RotaryIRQ.RANGE_BOUNDED,  # Stops at min/max values
+        pull_up=True)
+
+    volume = 0
+    prev_volume = volume
 
     # Set FM module
-    radio.set_frequency_MHz(88.3)  # 88.3 - Kiss
-    radio.set_volume(prev_val)     # 0--15
+    radio.set_frequency_MHz(START_FREQUENCY)
+    radio.set_volume(volume)
+
     mute = False
     radio.mute(mute)
-    radio_text = ""
 
-    print("Press `Ctrl+C` to stop")
+    last_display_update = 0
+
+    print("FM radio running. Press Ctrl+C to stop.")
 
     try:
         while True:
-            # Clear display
-            display.fill(0)
+            # ------------------------------------------------
+            # Handle SEEK UP request
+            # ------------------------------------------------
+            if seek_up_requested:
+                seek_up_requested = False
+                print("Seek up")
+                led_up.on()
+                radio.seek_up()
+                led_up.off()
 
-            # Rotary
-            current_val = rot.value()
-            if current_val != prev_val:
-                print(f"Volume: {current_val}")
-                radio.set_volume(current_val)
-                prev_val = current_val
+            # ------------------------------------------------
+            # Handle SEEK DOWN request
+            # ------------------------------------------------
+            if seek_down_requested:
+                seek_down_requested = False
+                print("Seek down")
+                led_down.on()
+                radio.seek_down()
+                led_down.off()
 
-            # FM Radio
+            # ------------------------------------------------
+            # Handle MUTE request
+            # ------------------------------------------------
+            if mute_requested:
+                mute_requested = False
+                mute = not mute
+                radio.mute(mute)
+                led_mute.value(mute)
+                print(f"Mute: {mute}")
+
+            # ------------------------------------------------
+            # Rotary encoder volume
+            # ------------------------------------------------
+            volume = rot.value()
+            if volume != prev_volume:
+                prev_volume = volume
+                radio.set_volume(volume)
+                print(f"Volume: {volume}")
+
+            # ------------------------------------------------
+            # Update RDS information
+            # ------------------------------------------------
             radio.update_rds()
-            radio_name = "".join(map(str, radio.station_name))
-            display.text(str(radio_name), 0, 0, 1)
 
-            radio_text_new = "".join(map(str, radio.radio_text))
-            if radio_text != radio_text_new:
-                radio_text = radio_text_new
-                print(f"RDS text: {radio_text}")
+            # ------------------------------------------------
+            # Update display periodically
+            # ------------------------------------------------
+            now = time.ticks_ms()
+            if time.ticks_diff(now, last_display_update) > DISPLAY_REFRESH_MS:
+                update_display(
+                    display,
+                    radio,
+                    volume,
+                    mute
+                )
+                last_display_update = now
 
-            display.text(f"{str(radio.get_frequency_MHz())} MHz", 30, 8, 1)
-            display.text(f"volume: {str(prev_val)}", 0, 24, 1)
+            # Small delay reduces CPU usage
+            time.sleep_ms(20)
 
-            rssi = radio.get_signal_strength()
-            display.text(f"signal: {str(rssi)} dBm", 0, 32, 1)
-
-            display.show()
-            time.sleep(1)
-
+    # --------------------------------------------------------
+    # Exit program
+    # --------------------------------------------------------
     except KeyboardInterrupt:
-        # This part runs when Ctrl+C is pressed
-        print("\nProgram stopped. Exiting...")
+        print("\nStopping program...")
 
-        # Optional cleanup code
-        btn_left.irq(handler=None)  # Disables IRQ triggers
+        # Disable interrupts
+        btn_left.irq(handler=None)
         btn_right.irq(handler=None)
         btn_rot.irq(handler=None)
 
+        # Turn off LEDs
         led_up.off()
         led_down.off()
         led_mute.off()
 
+        # Shutdown peripherals
         display.poweroff()
         radio.mute(True)
+
+        print("Cleanup complete.")
