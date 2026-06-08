@@ -47,6 +47,7 @@ def i2c_scan(display):
     # 17   0x11 -- rda5807 (random access / RDA5807 mode)
     # 60   0x3c -- OLED
     # 96   0x60 -- rda5807 (TEA5767 compatible mode)
+    # 118  0x76 -- bmp280
     # 119  0x77 -- bmp180 (pressure/temperature)
     print(f"{len(addrs)} device(s) detected")
 
