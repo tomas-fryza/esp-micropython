@@ -75,6 +75,8 @@ i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
 print(i2c.scan())
 ```
 
+   ![i2c scan](images/i2c_logic--scan-0x76.png)
+
 Čtení dat ze senzoru.
 
 ```python
@@ -114,12 +116,35 @@ Naměřené hodnoty budeme odesílat do služby [ThingSpeak](https://thingspeak.
 
    ![thingspeak](images/thingspeak-info.png)
 
-Pro spuštění [programu](03-iot.py) stačí doplnit přihlašovací údaje k Wi-Fi síti v souboru `config.py` a přidělený API klíč pro zápis dat do vašeho kanálu na serveru ThingSpeak.
+Nové moduly/knihovny:
 
 ```python
-SSID = "xxx"
-PASSWORD = "xxx"
+from network import WLAN, STA_IF
+
+# External modules
+from bme280 import BME280
+import thingspeak
+import wifi_utils
+import config
+
+API_KEY = "YOUR_THINGSPEAK_WRITE_API_KEY"
 ```
+
+Objekt pro bezdrátovou komunikaci:
+
+```python
+wifi = WLAN(STA_IF)
+```
+
+Připojení k AP a odeslání dat:
+
+```python
+        wifi_utils.connect(wifi, config.SSID, config.PSWD)
+        thingspeak.send(temp, humid, API_KEY)
+        wifi_utils.disconnect(wifi)
+```
+
+Pro spuštění [programu](03-iot.py) pak stačí doplnit přihlašovací údaje k Wi-Fi síti v souboru `config.py` a přidělený API klíč pro zápis dat do vašeho kanálu na serveru ThingSpeak.
 
 | Channel | API key | Public view |
 | :--:    | :--:    | :--         |
