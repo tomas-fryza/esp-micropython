@@ -12,7 +12,6 @@ Instructions:
 - Create a new channel with two fields:
   - Field 1: Temperature
   - Field 2: Humidity
-  - Field 3: Pressure
 - Copy the `Write API Key` -- you will need it here
 - Store your Wi-Fi SSID and password to `config.py`
 
