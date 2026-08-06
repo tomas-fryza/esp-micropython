@@ -9,7 +9,7 @@ import neopixel
 # On-board LED
 led = Pin(7, Pin.OUT)
 # One on-board WS2812 LED at pin2
-neo = neopixel.NeoPixel(Pin(2), 1)
+neo = neopixel.NeoPixel(Pin(12), 1)
 
 print(f"Start color gradient {led}")
 print("Press `Ctrl+C` to stop")

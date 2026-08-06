@@ -146,6 +146,7 @@ Připojení k AP a odeslání dat:
 
 Pro spuštění [programu](03-iot.py) pak stačí doplnit přihlašovací údaje k Wi-Fi síti v souboru `config.py` a přidělený API klíč pro zápis dat do vašeho kanálu na serveru ThingSpeak.
 
+<!--
 | Channel | API key | Public view |
 | :--:    | :--:    | :--         |
 | 1       | `QQH5QFCZI9HECVTN` | [https://thingspeak.mathworks.com/channels/3374206](https://thingspeak.mathworks.com/channels/3374206) |
@@ -156,6 +157,7 @@ Pro spuštění [programu](03-iot.py) pak stačí doplnit přihlašovací údaje
 | 6       | `W4L5LBW63V0TD7SN` | [https://thingspeak.mathworks.com/channels/3379395](https://thingspeak.mathworks.com/channels/3379395) |
 | 7       | `ETNZCPCR26FQ9JDM` | [https://thingspeak.mathworks.com/channels/3379402](https://thingspeak.mathworks.com/channels/3379402) |
 | 8       | `JQT5X5ROPI5DU0A9` | [https://thingspeak.mathworks.com/channels/3379404](https://thingspeak.mathworks.com/channels/3379404) |
+-->
 
 ### Bonus: Skenování Wi-Fi
 

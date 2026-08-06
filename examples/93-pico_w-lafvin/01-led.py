@@ -1,15 +1,22 @@
 """
 Onboard LED blink
 
-See datasheet:
-https://admin.techshopbd.com/uploads/product_document/Raspberry_Pico_W_Datasheet.pdf
+Components:
+- Raspberry Pi Pico + LAFVIN board
+- LED: WL_GPIO0 (onboard)
 
+See:
+- Raspberry Pico W datasheet
+  https://admin.techshopbd.com/uploads/product_document/Raspberry_Pico_W_Datasheet.pdf
+
+- LAFVIN Pico Development Kit
+  https://github.com/lafvintech/LAFVIN-PICO-Development-Kit
 """
 
 from machine import Pin
 from time import sleep_ms
 
-led = Pin("LED", Pin.OUT)  # Or "WL_GPIO0"
+led = Pin("LED", Pin.OUT)  # Or "WL_GPIO0", "EXT_GPIO0"
 
 print("Press `Ctrl+C` to stop")
 
