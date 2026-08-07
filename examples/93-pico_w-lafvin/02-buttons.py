@@ -38,14 +38,14 @@ try:
             sleep_ms(10)
             led1.off()
             buzz.off()
-            sleep_ms(990)
+            sleep_ms(100)
     
         if btn2.value() == 0:
             led2.on()
             print("Button K1 pressed")
             sleep_ms(100)
             led2.off()
-            sleep_ms(900)
+            sleep_ms(100)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
