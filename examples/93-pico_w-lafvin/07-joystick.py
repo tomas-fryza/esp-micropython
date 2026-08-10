@@ -1,14 +1,18 @@
 """
-Joystick readout demo
+Read the X and Y positions of an analog joystick.
 
-MicroPython script for reading values from a two-axis joystick
-connected to ADC pins on a Raspberry Pi Pico W and printing
-the measured positions to the shell. The script uses the ADC
-and Pin modules from the machine library.
+Wiring:
+- VRx -> GPIO 26 / ADC0
+- VRy -> GPIO 27 / ADC1
+- VCC -> 3.3 V
+- GND -> GND
+
+The ADC readings range from 0 to 65535.
 
 Authors:
 - https://peppe8o.com/analog-joystick-with-raspberry-pi-pico-and-micropython/
 - Tomas Fryza
+- Codex (OpenAI)
 
 Creation date: 2026-08-07
 Last modified: 2026-08-07
@@ -17,10 +21,12 @@ Last modified: 2026-08-07
 from machine import ADC, Pin
 from time import sleep
 
-xAxis = ADC(Pin(26))
-yAxis = ADC(Pin(27))
+X_AXIS_PIN = 26
+Y_AXIS_PIN = 27
+READ_INTERVAL_S = 0.5
 
-readDelay = 0.5
+x_axis = ADC(Pin(X_AXIS_PIN))
+y_axis = ADC(Pin(Y_AXIS_PIN))
 
 print()
 print("Press `Ctrl+C` to stop")
@@ -28,12 +34,11 @@ print()
 
 try:
     while True:
-        xRef = xAxis.read_u16()
-        yRef = yAxis.read_u16()
+        x_value = x_axis.read_u16()
+        y_value = y_axis.read_u16()
 
-        print(f"x: {xRef} \ty: {yRef}")
-
-        sleep(readDelay)
+        print(f"X: {x_value:5d}  Y: {y_value:5d}")
+        sleep(READ_INTERVAL_S)
 
 except KeyboardInterrupt:
     print()

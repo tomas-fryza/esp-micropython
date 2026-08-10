@@ -14,7 +14,7 @@ from machine import Pin
 import neopixel
 import time
 
-np = neopixel.NeoPixel(Pin(12), 1, timing=1)
+np = neopixel.NeoPixel(Pin(12), 1)
 
 
 def show(color, delay_ms=500):

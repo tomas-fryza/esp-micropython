@@ -7,10 +7,10 @@ Ctrl+C.
 Author: Tomas Fryza
 
 Creation date: 2023-09-21
-Last modified: 2026-07-21
+Last modified: 2026-08-07
 """
 
-import time
+from time import sleep_ms
 
 print("Press `Ctrl+C` to stop")
 print()
@@ -18,7 +18,7 @@ print()
 try:
     # Forever loop
     while True:
-        time.sleep(0.5)
+        sleep_ms(500)
 
 except KeyboardInterrupt:
     # This part runs when Ctrl+C is pressed
