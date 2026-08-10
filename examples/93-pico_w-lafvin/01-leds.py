@@ -7,7 +7,8 @@ Components:
 - LED1: GPIO pin 16
 - LED2: GPIO pin 17
 
-Author: Tomas Fryza
+Authors:
+- Tomas Fryza
 
 Creation date: 2023-10-12
 Last modified: 2026-07-21

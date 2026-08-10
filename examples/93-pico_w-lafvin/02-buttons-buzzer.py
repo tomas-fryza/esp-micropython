@@ -3,16 +3,17 @@ Button state monitoring
 
 Components:
 - Raspberry Pi Pico + LAFVIN board
-- LED1: GPIO pin 16
-- LED2: GPIO pin 17
-- Button connected to GPIO pin 14
-- Button connected to GPIO pin 15
-- Buzzer connected to GPIO pin 13
+- LED1: GP16
+- LED2: GP17
+- Button K1: GP15
+- Button K2: GP14
+- Buzzer: GP13
 
-Author: Tomas Fryza
+Authors:
+- Tomas Fryza
 
 Creation date: 2023-10-12
-Last modified: 2026-07-21
+Last modified: 2026-08-10
 """
 
 from machine import Pin

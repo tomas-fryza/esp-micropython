@@ -5,7 +5,7 @@ Components:
 - Raspberry Pi Pico + LAFVIN board
 - LED: WL_GPIO0 (onboard)
 
-See:
+References:
 - Raspberry Pico W datasheet
   https://admin.techshopbd.com/uploads/product_document/Raspberry_Pico_W_Datasheet.pdf
 
