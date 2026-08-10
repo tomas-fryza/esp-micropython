@@ -15,7 +15,7 @@ Authors:
 - Codex (OpenAI)
 
 Creation date: 2026-08-07
-Last modified: 2026-08-07
+Last modified: 2026-08-10
 """
 
 from machine import ADC, Pin
@@ -23,7 +23,7 @@ from time import sleep
 
 X_AXIS_PIN = 26
 Y_AXIS_PIN = 27
-READ_INTERVAL_S = 0.5
+READ_INTERVAL_S = 0.25
 
 x_axis = ADC(Pin(X_AXIS_PIN))
 y_axis = ADC(Pin(Y_AXIS_PIN))
