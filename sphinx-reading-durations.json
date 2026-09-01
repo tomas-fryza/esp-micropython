@@ -1,0 +1,10 @@
+{
+    "index": 0.028,
+    "installation": 0.003,
+    "modules/bme280": 0.055,
+    "modules/dht12": 0.027,
+    "modules/hw_config": 0.069,
+    "modules/lcd": 0.026,
+    "modules/oled": 0.035,
+    "modules/wifi": 0.038
+}

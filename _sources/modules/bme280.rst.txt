@@ -1,0 +1,7 @@
+BME280 sensor
+=============
+
+.. automodule:: bme280
+   :members:
+   :undoc-members:
+   :show-inheritance:
