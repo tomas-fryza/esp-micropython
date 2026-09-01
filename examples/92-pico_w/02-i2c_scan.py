@@ -16,7 +16,7 @@ Last modified: 2026-06-08
 from machine import I2C, Pin
 
 # On Raspberry Pi Pico, I2C using pins GP21 & GP20 (default I2C0 pins)
-i2c = I2C(0, scl=Pin(21), sda=Pin(20), freq=100_000)
+i2c = I2C(0, scl=Pin(5), sda=Pin(4), freq=100_000)
 
 print("Scanning I2C... ", end="")
 addrs = i2c.scan()

@@ -11,7 +11,7 @@ Authors:
 - Tomas Fryza
 
 Creation date: 2023-10-27
-Last modified: 2026-05-07
+Last modified: 2026-09-01
 """
 
 # MicroPython builtin modules

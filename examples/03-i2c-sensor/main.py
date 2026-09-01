@@ -24,7 +24,7 @@ import time
 import sys
 
 # Create I2C peripheral at frequency of 100 kHz
-i2c = I2C(0, scl=Pin(22), sda=Pin(21), freq=100_000)
+i2c = I2C(0, sda=Pin(21), scl=Pin(22), freq=100_000)
 
 # Scan for peripherals, returning a list of 7-bit addresses
 # between 0x08 and 0x77 inclusive
