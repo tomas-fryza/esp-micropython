@@ -24,8 +24,8 @@ from bme280 import BME280
 
 # Init sensor
 i2c = I2C(0, sda=Pin(4), scl=Pin(5), freq=100_000)
-sensor = DHT12(i2c)  # 1st variant
-# sensor = BME280(i2c)  # 2nd variant
+# sensor = DHT12(i2c)  # 1st variant
+sensor = BME280(i2c)  # 2nd variant
 
 print()
 print("Press `Ctrl+C` to stop")
@@ -33,10 +33,11 @@ print()
 
 try:
     while True:
-        temp, humid = sensor.read_values()  # 1st variant
-        # temp, humid, P, A = sensor.read_values()  # 2nd variant
-        print(f"T={temp:.1f}°C, H={humid:.1f}%")
-        # print(P, A)
+        # temp, humid = sensor.read_values()  # 1st variant
+        # print(f"T={temp:.1f}°C, H={humid:.1f}%")
+
+        temp, humid, P, A = sensor.read_values()  # 2nd variant
+        print(f"T={temp:.1f}°C, H={humid:.1f}%, P={P:.0f}hPa, A={A:.0f}m")
 
         sleep(10)
 
